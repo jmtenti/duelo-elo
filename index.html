@@ -422,6 +422,13 @@ main{display:grid;grid-template-columns:1fr 360px;gap:18px;align-items:start}
           <div class="d">Baja un <code>math.json</code> con tu ELO actual y el de todos los problemas.</div>
         </div>
       </button>
+      <button class="op-card" id="opPush">
+        <div class="ic">⬆</div>
+        <div class="body">
+          <div class="t">Enviar ELOs al gist</div>
+          <div class="d">Sube los ELOs actuales de los problemas a GitHub. Los usuarios nuevos arrancarán con esta dificultad calibrada.</div>
+        </div>
+      </button>
       <label class="op-card" for="opUploadInput">
         <div class="ic">⬆</div>
         <div class="body">
@@ -462,6 +469,9 @@ main{display:grid;grid-template-columns:1fr 360px;gap:18px;align-items:start}
 
 const GIST_ID = "5367c035bcf515d11a9c1b14f60563dd";   // ← COMPLETAR CON TU GIST ID https://gist.github.com/jmtenti/5367c035bcf515d11a9c1b14f60563dd
 
+/* URL del Worker de Cloudflare que hace de puente con la API de GitHub. */
+const WORKER_URL = "https://dry-dawn-b655.jmtenti.workers.dev";
+	
 /* Fallback: solo se usa si GIST_ID está vacío. */
 let REMOTE_URL = "https://gist.githubusercontent.com/..../raw/math.json";
 
