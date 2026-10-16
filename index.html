@@ -872,6 +872,51 @@ function importProgress(file){
   reader.readAsText(file);
 }
 
+/* Sube los ELOs actuales de los problemas al gist de GitHub
+   a través del Worker de Cloudflare (que guarda el token de forma segura).
+   Solo envía `problemas`, no el `usuario`, para no pisar el progreso personal. */
+async function pushProgressToGist(){
+  if(!selectedFilename){
+    showToast('No hay un dataset seleccionado', true);
+    return;
+  }
+  if(!WORKER_URL || WORKER_URL.includes('TU-USUARIO')){
+    showToast('Configurá WORKER_URL primero', true);
+    return;
+  }
+
+  showToast('⬆ Enviando ELOs al gist…');
+
+  try{
+    const dataToSync = {
+      problemas: state.problemas
+    };
+
+    const response = await fetch(WORKER_URL + '/sync', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        gistId: GIST_ID,
+        filename: selectedFilename,
+        content: JSON.stringify(dataToSync, null, 2)
+      })
+    });
+
+    const result = await response.json();
+
+    if(!response.ok){
+      throw new Error(result.error || 'Error en el Worker');
+    }
+
+    showToast('✅ ELOs sincronizados con el gist');
+    console.log('Gist actualizado:', result.url);
+
+  }catch(error){
+    console.error('Error al sincronizar:', error);
+    showToast('❌ Error: ' + error.message, true);
+  }
+}
+
 
 /* ═══════════════════════════════════════════════════════════════
    SECCIÓN 11 · AUTOSAVE
@@ -938,6 +983,12 @@ document.getElementById('modalClose').addEventListener('click', closeModal);
 document.getElementById('fileModal').addEventListener('click', (e) => { if(e.target.id === 'fileModal') closeModal(); });
 
 document.getElementById('opDownload').addEventListener('click', () => { exportProgress(); closeModal(); });
+
+document.getElementById('opPush').addEventListener('click', () => {
+  pushProgressToGist();
+  closeModal();
+});
+
 document.getElementById('opUploadInput').addEventListener('change', (e) => {
   const f = e.target.files[0]; if(f) importProgress(f); e.target.value = '';
 });
