@@ -5,9 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Cargando…</title>
 
-<!-- ═══════════════════════════════════════════════════════════════
-     SECCIÓN 0 · CONFIGURACIÓN DE MATHJAX
-     ═══════════════════════════════════════════════════════════════ -->
 <script>
 window.MathJax = {
   tex: {
@@ -26,11 +23,6 @@ window.MathJax = {
         src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
 <style>
-/* ═══════════════════════════════════════════════════════════════
-   SECCIÓN 1 · ESTILOS
-   ═══════════════════════════════════════════════════════════════ */
-
-/* ── 1.1 Variables de tema ───────────────────────────────────── */
 :root{
   --border:rgba(120,170,255,.16);
   --border2:rgba(120,170,255,.35);
@@ -42,8 +34,6 @@ window.MathJax = {
   --bad:#f85149;
   --gold:#e3b341;
 }
-
-/* ── 1.2 Reset y fondo aurora ────────────────────────────────── */
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{min-height:100%}
 body{
@@ -80,7 +70,6 @@ body{
 @keyframes twinkle{0%,100%{opacity:.55}50%{opacity:1}}
 .app{max-width:1180px;margin:0 auto;position:relative;z-index:1}
 
-/* ── 1.3 HUD superior ────────────────────────────────────────── */
 .hud{
   display:grid;grid-template-columns:1.7fr 1fr 1fr 1fr;gap:10px;
   background:linear-gradient(180deg, rgba(28,36,50,.85), rgba(20,26,36,.72));
@@ -92,13 +81,7 @@ body{
 .hud-item{display:flex;flex-direction:column;gap:3px;position:relative}
 .hud-item .label{font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);font-weight:600}
 .hud-item .value{font-size:22px;font-weight:700;font-variant-numeric:tabular-nums}
-
-.hud-item.main .elo-row{
-  display:flex;
-  align-items:baseline;
-  gap:14px;
-  flex-wrap:wrap;
-}
+.hud-item.main .elo-row{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
 .hud-item.main .value{
   font-size:38px;line-height:1.05;
   background:linear-gradient(90deg,#7cc4ff,#c8a2ff 60%, #58a6ff);
@@ -108,42 +91,27 @@ body{
 .hud-item.main .sub{font-size:11px;color:var(--muted);letter-spacing:.04em;margin-top:2px}
 
 .delta{
-  font-size:22px;
-  font-weight:800;
-  font-variant-numeric:tabular-nums;
-  opacity:0;
-  transform:translateY(6px) scale(.9);
+  font-size:22px;font-weight:800;font-variant-numeric:tabular-nums;
+  opacity:0;transform:translateY(6px) scale(.9);
   transition:opacity .28s ease, transform .28s ease;
-  pointer-events:none;
-  white-space:nowrap;
+  pointer-events:none;white-space:nowrap;
 }
-.delta.show{
-  opacity:1;
-  transform:translateY(0) scale(1);
-  animation:pop .5s ease;
-}
-.delta.up{
-  color:var(--good);
-  text-shadow:0 0 16px rgba(63,185,80,.75), 0 0 4px rgba(63,185,80,.9);
-}
-.delta.down{
-  color:var(--bad);
-  text-shadow:0 0 16px rgba(248,81,73,.75), 0 0 4px rgba(248,81,73,.9);
-}
+.delta.show{opacity:1;transform:translateY(0) scale(1);animation:pop .5s ease}
+.delta.up{color:var(--good);text-shadow:0 0 16px rgba(63,185,80,.75)}
+.delta.down{color:var(--bad);text-shadow:0 0 16px rgba(248,81,73,.75)}
 @keyframes pop{
-  0%  {transform:translateY(10px) scale(.7); opacity:0}
-  60% {transform:translateY(-2px) scale(1.1); opacity:1}
-  100%{transform:translateY(0) scale(1); opacity:1}
+  0%{transform:translateY(10px) scale(.7);opacity:0}
+  60%{transform:translateY(-2px) scale(1.1);opacity:1}
+  100%{transform:translateY(0) scale(1);opacity:1}
 }
 
-/* ── 1.4 Barra de selección de dataset (gist files) ──────────── */
 .dataset-bar{
   display:flex;align-items:center;gap:10px;flex-wrap:wrap;
   padding:9px 14px;margin-bottom:10px;
   background:linear-gradient(90deg, rgba(163,113,247,.10), rgba(88,166,255,.06));
   border:1px solid var(--border);border-radius:12px;
   font-size:12.5px;color:var(--muted);
-  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  backdrop-filter:blur(10px);
 }
 .dataset-bar[hidden]{display:none}
 .dataset-label{
@@ -154,28 +122,24 @@ body{
 .dataset-chip{
   padding:5px 12px;border-radius:999px;cursor:pointer;font-size:12px;font-weight:700;
   background:rgba(10,16,26,.6);border:1px solid var(--border);
-  color:#c9d5e6;transition:.16s;font-family:inherit;letter-spacing:.02em;
+  color:#c9d5e6;transition:.16s;font-family:inherit;
 }
 .dataset-chip:hover:not(.active){border-color:var(--border2);background:rgba(88,166,255,.12);color:var(--text);transform:translateY(-1px)}
 .dataset-chip.active{
   background:linear-gradient(90deg, rgba(88,166,255,.25), rgba(163,113,247,.25));
   border-color:var(--border2);color:#fff;
-  box-shadow:0 0 18px rgba(88,166,255,.35), inset 0 0 0 1px rgba(255,255,255,.06);
+  box-shadow:0 0 18px rgba(88,166,255,.35);
 }
 .dataset-chip.loading{opacity:.5;cursor:wait}
-.dataset-hint{
-  font-size:11px;color:var(--muted);font-style:italic;
-  margin-left:auto;white-space:nowrap;
-}
+.dataset-hint{font-size:11px;color:var(--muted);font-style:italic;margin-left:auto;white-space:nowrap}
 
-/* ── 1.5 Barra de estado ────────────────────────────────────── */
 .status-bar{
   display:flex;align-items:center;gap:10px;flex-wrap:wrap;
   padding:8px 14px;margin-bottom:14px;
   background:rgba(10,16,26,.55);
   border:1px solid var(--border);border-radius:12px;
   font-size:12px;color:var(--muted);
-  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  backdrop-filter:blur(10px);
 }
 .status-bar .src{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
 .status-bar .src b{color:var(--text);font-weight:700}
@@ -183,27 +147,39 @@ body{
   padding:2px 9px;border-radius:999px;
   background:rgba(88,166,255,.14);color:var(--accent);
   border:1px solid rgba(88,166,255,.35);
-  font-size:11px;font-weight:700;letter-spacing:.04em;
+  font-size:11px;font-weight:700;
 }
 .status-bar .pill.warn{background:rgba(227,179,65,.14);color:var(--gold);border-color:rgba(227,179,65,.4)}
 .status-bar .pill.filter{background:rgba(63,185,80,.14);color:var(--good);border-color:rgba(63,185,80,.45);display:none}
 .status-bar .pill.filter.show{display:inline-block}
-.status-bar .actions{margin-left:auto;display:flex;gap:6px;flex-wrap:wrap}
+.status-bar .actions{margin-left:auto;display:flex;gap:6px;flex-wrap:wrap;align-items:center}
 .mini-btn{
   padding:6px 12px;border-radius:9px;cursor:pointer;font-size:11.5px;font-weight:700;
   background:rgba(88,166,255,.10);border:1px solid var(--border2);color:var(--accent);
-  transition:.16s;letter-spacing:.02em;display:inline-flex;align-items:center;gap:6px;
+  transition:.16s;font-family:inherit;display:inline-flex;align-items:center;gap:6px;
 }
 .mini-btn:hover{background:rgba(88,166,255,.22);transform:translateY(-1px)}
+.mini-btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
 
-/* ── 1.6 Layout principal ───────────────────────────────────── */
+.user-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:4px 6px 4px 12px;border-radius:999px;
+  background:rgba(88,166,255,.10);
+  border:1px solid rgba(88,166,255,.3);
+  font-size:11.5px;font-weight:700;color:var(--accent);
+}
+.user-badge .logout{
+  cursor:pointer;color:var(--muted);padding:2px 6px;border-radius:6px;
+  transition:.16s;font-size:12px;line-height:1;
+}
+.user-badge .logout:hover{color:var(--bad);background:rgba(248,81,73,.15)}
+
 main{display:grid;grid-template-columns:1fr 360px;gap:18px;align-items:start}
 @media(max-width:940px){main{grid-template-columns:1fr}.hud{grid-template-columns:1fr 1fr}.hud-item.main{grid-column:1 / -1}}
 
-/* ── 1.7 Arena (problema y respuestas) ──────────────────────── */
 .arena{
   background:linear-gradient(180deg, rgba(28,36,50,.72), rgba(20,26,36,.72));
-  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  backdrop-filter:blur(14px);
   border:1px solid var(--border);border-radius:20px;padding:22px 24px 24px;
   box-shadow:0 18px 60px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.04);
   position:relative;overflow:hidden;
@@ -236,16 +212,15 @@ main{display:grid;grid-template-columns:1fr 360px;gap:18px;align-items:start}
 .q{
   font-size:22px;line-height:1.7;margin-bottom:24px;
   font-family:'Cambria','Georgia','Times New Roman',serif;
-  letter-spacing:.005em;overflow-x:auto;overflow-y:hidden;
+  overflow-x:auto;overflow-y:hidden;
 }
 
-/* ── 1.8 Opciones de respuesta ──────────────────────────────── */
 .options{display:grid;gap:10px}
 .opt{
   display:flex;align-items:center;gap:13px;text-align:left;
   background:rgba(28,36,50,.7);border:1px solid var(--border);color:var(--text);
   padding:14px 17px;border-radius:13px;font-size:15.5px;cursor:pointer;
-  transition:.18s ease;font-family:'Cambria','Georgia',serif;position:relative;overflow:hidden;
+  transition:.18s ease;font-family:'Cambria','Georgia',serif;
   min-height:52px;
 }
 .opt:hover:not(:disabled){border-color:var(--border2);background:rgba(35,46,64,.9);transform:translateX(4px);box-shadow:0 6px 22px rgba(0,0,0,.35)}
@@ -253,7 +228,7 @@ main{display:grid;grid-template-columns:1fr 360px;gap:18px;align-items:start}
 .opt .letter{
   flex:none;width:28px;height:28px;border-radius:8px;display:grid;place-items:center;
   background:rgba(10,16,26,.7);border:1px solid var(--border);
-  font-size:12px;font-weight:800;color:var(--muted);font-family:'Segoe UI',sans-serif;transition:.18s;
+  font-size:12px;font-weight:800;color:var(--muted);font-family:'Segoe UI',sans-serif;
 }
 .opt .txt{flex:1;overflow-x:auto;overflow-y:hidden}
 .opt.correct{border-color:var(--good);background:linear-gradient(90deg, rgba(63,185,80,.20), rgba(63,185,80,.08));box-shadow:0 0 22px rgba(63,185,80,.15)}
@@ -262,7 +237,6 @@ main{display:grid;grid-template-columns:1fr 360px;gap:18px;align-items:start}
 .opt.wrong .letter{background:var(--bad);color:#1a0303;border-color:var(--bad)}
 .opt.dim{opacity:.42}
 
-/* ── 1.9 Feedback y teoría ──────────────────────────────────── */
 .feedback{
   margin-top:20px;font-size:14px;line-height:1.65;border-radius:14px;padding:0;
   max-height:0;overflow:hidden;transition:max-height .45s ease, padding .45s ease;
@@ -275,7 +249,6 @@ main{display:grid;grid-template-columns:1fr 360px;gap:18px;align-items:start}
 .feedback.win .title{color:var(--good)}
 .feedback.lose .title{color:var(--bad)}
 .feedback .sol{color:#b8c4d4}
-
 .teoria{
   margin-top:14px;padding:13px 15px;border-radius:11px;
   background:rgba(88,166,255,.07);border-left:3px solid var(--accent);
@@ -283,36 +256,34 @@ main{display:grid;grid-template-columns:1fr 360px;gap:18px;align-items:start}
 }
 .teoria-title{font-weight:800;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:7px}
 .teoria-body strong{color:#e9eff7;font-weight:700}
-
 .feedback .elo-line{
   margin-top:14px;font-size:12.5px;color:var(--muted);
-  font-variant-numeric:tabular-nums;display:flex;flex-wrap:wrap;gap:14px;align-items:center;
+  display:flex;flex-wrap:wrap;gap:14px;align-items:center;
 }
 .feedback .elo-line b.up{color:var(--good)}
 .feedback .elo-line b.down{color:var(--bad)}
 .tema-chip{
-  padding:3px 10px;border-radius:999px;font-weight:700;font-size:11px;letter-spacing:.05em;
+  padding:3px 10px;border-radius:999px;font-weight:700;font-size:11px;
   border:1px solid var(--border2);background:rgba(88,166,255,.10);color:var(--accent);
 }
-
 .next{
   margin-top:18px;width:100%;padding:15px;border-radius:13px;border:none;
   background:linear-gradient(90deg,#58a6ff,#a371f7);color:#05121f;
-  font-weight:800;font-size:15px;letter-spacing:.04em;cursor:pointer;transition:.2s;
+  font-weight:800;font-size:15px;cursor:pointer;transition:.2s;
   box-shadow:0 12px 30px rgba(88,166,255,.28);
+  font-family:inherit;
 }
 .next:hover{filter:brightness(1.12);transform:translateY(-2px)}
 
-/* ── 1.10 Panel de perfil (radar + leyenda) ─────────────────── */
 .perfil{
   background:linear-gradient(180deg, rgba(28,36,50,.72), rgba(20,26,36,.72));
-  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  backdrop-filter:blur(14px);
   border:1px solid var(--border);border-radius:20px;padding:20px 18px 18px;
-  box-shadow:0 18px 60px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.04);
+  box-shadow:0 18px 60px rgba(0,0,0,.5);
   position:sticky;top:18px;
 }
 .perfil h2{font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);font-weight:700;margin-bottom:4px}
-.perfil .sub{font-size:12px;color:var(--muted);margin-bottom:14px;min-height:16px;transition:.18s}
+.perfil .sub{font-size:12px;color:var(--muted);margin-bottom:14px;min-height:16px}
 .perfil .sub b{color:var(--accent);font-weight:700}
 .perfil .sub.filter-active b{color:var(--good)}
 .radar-wrap{position:relative;display:flex;justify-content:center;margin-bottom:16px}
@@ -330,153 +301,100 @@ main{display:grid;grid-template-columns:1fr 360px;gap:18px;align-items:start}
 .lg-item.active .lg-name{color:#8fdf9c;font-weight:700}
 .lg-item.active .lg-val{color:#a8f0b3}
 .lg-dot{width:10px;height:10px;border-radius:50%;box-shadow:0 0 10px currentColor;background:currentColor}
-.lg-name{color:#c9d5e6;transition:.15s}
+.lg-name{color:#c9d5e6}
 .lg-val{font-variant-numeric:tabular-nums;font-weight:700;color:var(--text)}
 .lg-val small{font-weight:600;font-size:10.5px;color:var(--muted);margin-left:4px}
 .lg-check{display:none;font-size:11px;color:var(--good);font-weight:800}
 .lg-item.active .lg-check{display:inline}
 
-/* ── 1.11 Loader y modal de archivo ─────────────────────────── */
 .loading{display:flex;align-items:center;justify-content:center;min-height:60vh;flex-direction:column;gap:14px;color:var(--muted)}
 .spinner{width:38px;height:38px;border-radius:50%;border:3px solid rgba(88,166,255,.2);border-top-color:var(--accent);animation:spin 1s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
 
-.modal-backdrop{
-  position:fixed;inset:0;z-index:900;background:rgba(5,7,15,.72);
-  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
-  display:flex;align-items:center;justify-content:center;padding:20px;
-  opacity:0;pointer-events:none;transition:opacity .25s ease;
+/* ── Login ──────────────────────────────────────────────────── */
+.login-screen{
+  min-height:80vh;display:flex;align-items:center;justify-content:center;padding:20px;
 }
-.modal-backdrop.open{opacity:1;pointer-events:auto}
-.modal{
-  width:100%;max-width:520px;
-  background:linear-gradient(180deg, rgba(28,36,50,.96), rgba(20,26,36,.96));
+.login-box{
+  width:100%;max-width:440px;
+  background:linear-gradient(180deg, rgba(28,36,50,.85), rgba(20,26,36,.85));
+  backdrop-filter:blur(14px);
   border:1px solid var(--border2);border-radius:22px;
-  padding:26px 26px 22px;
-  box-shadow:0 30px 90px rgba(0,0,0,.75), inset 0 1px 0 rgba(255,255,255,.06);
-  transform:translateY(14px) scale(.97);
-  transition:transform .3s cubic-bezier(.2,.8,.2,1);
-  position:relative;
+  padding:32px 28px;
+  box-shadow:0 24px 70px rgba(0,0,0,.55);
+  text-align:center;
 }
-.modal-backdrop.open .modal{transform:translateY(0) scale(1)}
-.modal h2{font-size:17px;font-weight:800;letter-spacing:.02em;margin-bottom:4px;color:var(--text)}
-.modal .modal-sub{font-size:12.5px;color:var(--muted);margin-bottom:20px;line-height:1.5}
-.modal-close{
-  position:absolute;top:16px;right:16px;width:32px;height:32px;border-radius:9px;
-  background:transparent;border:1px solid var(--border);color:var(--muted);
-  cursor:pointer;display:grid;place-items:center;font-size:14px;line-height:1;transition:.16s;
+.login-box h1{
+  font-size:26px;font-weight:800;letter-spacing:.01em;margin-bottom:6px;
+  background:linear-gradient(90deg,#7cc4ff,#c8a2ff 60%, #58a6ff);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
 }
-.modal-close:hover{color:var(--bad);border-color:var(--bad);background:rgba(248,81,73,.10)}
-.op-list{display:flex;flex-direction:column;gap:9px}
-.op-card{
-  display:flex;align-items:flex-start;gap:14px;padding:14px 15px;
-  background:rgba(10,16,26,.5);border:1px solid var(--border);border-radius:13px;
-  cursor:pointer;transition:.16s;text-align:left;color:var(--text);font-family:inherit;width:100%;
+.login-sub{font-size:13px;color:var(--muted);margin-bottom:22px;line-height:1.5}
+.login-input{
+  width:100%;padding:13px 16px;border-radius:12px;
+  border:1px solid var(--border);background:rgba(10,16,26,.6);color:var(--text);
+  font-size:16px;font-family:inherit;outline:none;transition:.16s;
+  margin-bottom:12px;text-align:center;
 }
-.op-card:hover:not(:disabled){border-color:var(--border2);background:rgba(88,166,255,.08);transform:translateX(3px)}
-.op-card:disabled{opacity:.5;cursor:not-allowed}
-.op-card .ic{flex:none;width:36px;height:36px;border-radius:10px;display:grid;place-items:center;font-size:18px;background:rgba(88,166,255,.12);border:1px solid rgba(88,166,255,.22)}
-.op-card.danger .ic{background:rgba(248,81,73,.12);border-color:rgba(248,81,73,.30)}
-.op-card .body{flex:1;min-width:0}
-.op-card .t{font-size:13.5px;font-weight:700;color:var(--text);margin-bottom:2px}
-.op-card .d{font-size:11.5px;color:var(--muted);line-height:1.45}
-.op-card input[type=file]{display:none}
-.modal-footer{
-  margin-top:18px;padding-top:14px;border-top:1px solid var(--border);
-  font-size:11px;color:var(--muted);line-height:1.55;
-  display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;
+.login-input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(88,166,255,.15)}
+.login-btn{
+  width:100%;padding:13px;border-radius:12px;border:none;
+  background:linear-gradient(90deg, #58a6ff, #a371f7);color:#05121f;
+  font-weight:800;font-size:14px;letter-spacing:.04em;cursor:pointer;
+  transition:.2s;font-family:inherit;
+  box-shadow:0 12px 30px rgba(88,166,255,.28);
 }
+.login-btn:hover{filter:brightness(1.12);transform:translateY(-1px)}
+.login-btn:disabled{opacity:.6;cursor:wait;transform:none}
+.login-error{color:var(--bad);font-size:12.5px;margin-top:12px;min-height:18px;font-weight:600}
+.token-display{
+  display:flex;align-items:center;gap:8px;
+  padding:14px 16px;background:rgba(10,16,26,.7);
+  border:1px solid var(--border2);border-radius:12px;
+  margin-bottom:14px;justify-content:space-between;
+}
+.token-display code{
+  font-family:'Consolas','Monaco',monospace;
+  font-size:17px;font-weight:700;color:var(--accent);
+  letter-spacing:.03em;user-select:all;word-break:break-all;
+}
+.copy-btn{
+  padding:6px 10px;border-radius:8px;border:1px solid var(--border2);
+  background:rgba(88,166,255,.1);color:var(--accent);cursor:pointer;
+  font-size:14px;transition:.16s;flex:none;
+}
+.copy-btn:hover{background:rgba(88,166,255,.2)}
+.login-hint{
+  font-size:12px;color:var(--muted);line-height:1.55;
+  margin-bottom:18px;text-align:left;padding:10px 12px;
+  background:rgba(227,179,65,.08);border-left:3px solid var(--gold);
+  border-radius:8px;
+}
+.login-hint b{color:var(--gold)}
 </style>
 </head>
 <body>
 <div class="bg"></div>
 
-<!-- ═══════════════════════════════════════════════════════════════
-     SECCIÓN 2 · ESTRUCTURA HTML
-     ═══════════════════════════════════════════════════════════════ -->
-
-<!-- ── 2.1 Contenedor principal de la app (render dinámico) ──── -->
 <div class="app" id="app">
   <div class="loading">
     <div class="spinner"></div>
-    <div>Cargando dataset…</div>
-  </div>
-</div>
-
-<!-- ── 2.2 Modal de archivo (descargar / cargar / reiniciar) ──── -->
-<div class="modal-backdrop" id="fileModal">
-  <div class="modal" role="dialog" aria-modal="true" aria-label="Archivo">
-    <button class="modal-close" id="modalClose" title="Cerrar">✕</button>
-    <h2>📁 Archivo</h2>
-    <div class="modal-sub">
-      Tu progreso se guarda automáticamente en este navegador. Acá podés hacer copias de seguridad o restaurarlas.
-    </div>
-
-    <div class="op-list">
-      <button class="op-card" id="opDownload">
-        <div class="ic">⬇</div>
-        <div class="body">
-          <div class="t">Descargar progreso</div>
-          <div class="d">Baja un <code>math.json</code> con tu ELO actual y el de todos los problemas.</div>
-        </div>
-      </button>
-      <button class="op-card" id="opPush">
-        <div class="ic">⬆</div>
-        <div class="body">
-          <div class="t">Enviar ELOs al gist</div>
-          <div class="d">Sube los ELOs actuales de los problemas a GitHub. Los usuarios nuevos arrancarán con esta dificultad calibrada.</div>
-        </div>
-      </button>
-      <label class="op-card" for="opUploadInput">
-        <div class="ic">⬆</div>
-        <div class="body">
-          <div class="t">Cargar progreso desde archivo</div>
-          <div class="d">Reemplaza tu progreso actual con el de un <code>math.json</code> que hayas descargado antes.</div>
-        </div>
-        <input type="file" id="opUploadInput" accept=".json,application/json">
-      </label>
-      <button class="op-card danger" id="opReset">
-        <div class="ic">↺</div>
-        <div class="body">
-          <div class="t">Reiniciar progreso</div>
-          <div class="d">Vuelve a los ELOs del gist. Tu récord personal y racha también se reinician.</div>
-        </div>
-      </button>
-    </div>
-
-    <div class="modal-footer">
-      <span id="modalSavedInfo">—</span>
-      <span>💾 Autoguardado local activo</span>
-    </div>
+    <div>Cargando…</div>
   </div>
 </div>
 
 <script>
 /* ═══════════════════════════════════════════════════════════════
    SECCIÓN 3 · CONFIGURACIÓN
-   ═══════════════════════════════════════════════════════════════
-   ┌──────────────────────────────────────────────────────────────┐
-   │  👉 Poné acá el ID de tu gist.                               │
-   │  Ejemplo: si tu gist es                                     │
-   │     https://gist.github.com/tu-usuario/a1b2c3d4e5f6a7b8c9   │
-   │  entonces GIST_ID = "a1b2c3d4e5f6a7b8c9".                   │
-   └──────────────────────────────────────────────────────────────┘ */
+   ═══════════════════════════════════════════════════════════════ */
 
-const GIST_ID = "5367c035bcf515d11a9c1b14f60563dd";   // ← TU GIST ID
-
-/* URL del Worker de Cloudflare que hace de puente con la API de GitHub. */
+const GIST_ID = "5367c035bcf515d11a9c1b14f60563dd";
 const WORKER_URL = "https://dry-dawn-b655.jmtenti.workers.dev";
 
-/* Fallback: solo se usa si GIST_ID está vacío. */
 let REMOTE_URL = "";
-
-/* Si GIST_ID está puesto, la URL se completa sola. */
 const GIST_API_URL = GIST_ID ? ("https://api.github.com/gists/" + GIST_ID) : null;
 
 const AUTOSAVE_MS = 20000;
-const EXPORT_FILENAME = 'math.json';   /* FIX 3: unificado con los textos del modal */
-
-/* Cuántos IDs recientes recordar para el anti-repetición. */
 const RECENT_HISTORY_MAX = 40;
 
 const DEFAULT_COLORS = [
@@ -484,7 +402,16 @@ const DEFAULT_COLORS = [
   '#d2a8ff','#7ee787','#ffa657','#ff9bce'
 ];
 
-/* fetch con timeout: si la red se cuelga, cortamos a los 8s. */
+/* Palabras para generar tokens tipo "martin_58_casa" */
+const PALABRAS_TOKEN = [
+  'casa','sol','luna','rio','mar','pan','flor','luz','viento','fuego',
+  'tierra','cielo','nube','piedra','hoja','arbol','libro','mesa','silla',
+  'puerta','ventana','camino','puente','monte','valle','campo','playa',
+  'isla','barco','tren','auto','moto','avion','globo','nave','ciudad',
+  'pueblo','torre','jardin','fuente','espejo','llave','reloj','copa',
+  'taza','plato','vaso','botella','caja','sobre','carta','nota','piedra'
+];
+
 async function fetchWithTimeout(url, opts = {}, ms = 8000){
   const ctrl = new AbortController();
   const to = setTimeout(() => ctrl.abort(), ms);
@@ -495,7 +422,6 @@ async function fetchWithTimeout(url, opts = {}, ms = 8000){
   }
 }
 
-/* ── Ajuste de convergencia tema ↔ global ─────────────────────── */
 const CONV_UMBRAL   = 100;
 const CONV_FACTOR   = 0.05;
 const K_BOOST_RANGO = 400;
@@ -533,8 +459,7 @@ function buildMeta(s){
   META.kProb = Number(m.kProb) || DEFAULT_META.kProb;
 
   const pct = (typeof m.eloStartPct === 'number' && m.eloStartPct >= 0 && m.eloStartPct <= 1)
-    ? m.eloStartPct
-    : DEFAULT_META.eloStartPct;
+    ? m.eloStartPct : DEFAULT_META.eloStartPct;
   META.eloStart = (typeof m.eloStart === 'number' && isFinite(m.eloStart))
     ? m.eloStart
     : Math.round(META.eloMin + pct * (META.eloMax - META.eloMin));
@@ -543,30 +468,15 @@ function buildMeta(s){
   document.title = META.titulo;
 }
 
-
 /* ═══════════════════════════════════════════════════════════════
-   SECCIÓN 5 · CLAVE DE LOCALSTORAGE (una por dataset)
+   SECCIÓN 5 · LOCALSTORAGE
    ═══════════════════════════════════════════════════════════════ */
 
-const LS_BASE = 'duelo_elo_v1';
+const LS_BASE = 'duelo_elo_v2';
+const USER_TOKEN_KEY = LS_BASE + '::user-token';
 const SELECTED_DATASET_KEY = LS_BASE + '::selected-dataset';
 
-let LS_KEY = LS_BASE + '::default';
 let selectedFilename = null;
-
-function computeLsKey(){
-  if(GIST_ID && selectedFilename){
-    return LS_BASE + '::gist-' + GIST_ID + '::' + selectedFilename;
-  }
-  if(META.id) return LS_BASE + '::' + META.id;
-  if(REMOTE_URL && !REMOTE_URL.includes('TU_GIST_ID')){
-    let h = 0;
-    for(let i = 0; i < REMOTE_URL.length; i++){ h = (h * 31 + REMOTE_URL.charCodeAt(i)) | 0; }
-    return LS_BASE + '::url-' + Math.abs(h).toString(36);
-  }
-  return LS_BASE + '::default';
-}
-
 
 /* ═══════════════════════════════════════════════════════════════
    SECCIÓN 6 · TEMAS Y COLORES
@@ -587,8 +497,7 @@ function buildTemasConfig(s){
       if(!nombre || seen.has(nombre)) return;
       seen.add(nombre);
       const color = (typeof t === 'object' && t && t.color)
-        ? t.color
-        : DEFAULT_COLORS[i % DEFAULT_COLORS.length];
+        ? t.color : DEFAULT_COLORS[i % DEFAULT_COLORS.length];
       result.push({ nombre, color });
     });
     for(const p of s.problemas || []){
@@ -641,7 +550,6 @@ function ensureTemaElos(){
       state.usuario.temaElo[t.nombre] = META.eloStart;
     }
   }
-
   if(typeof state.usuario.eloGlobal !== 'number' || !isFinite(state.usuario.eloGlobal)){
     const elos = temasConfig
       .map(t => state.usuario.temaElo[t.nombre])
@@ -651,7 +559,6 @@ function ensureTemaElos(){
       : META.eloStart;
   }
 }
-
 
 /* ═══════════════════════════════════════════════════════════════
    SECCIÓN 7 · MATHJAX
@@ -667,107 +574,90 @@ function typesetMath(el){
   if(mjRetries++ < 40) setTimeout(() => typesetMath(el), 250);
 }
 
-
 /* ═══════════════════════════════════════════════════════════════
-   SECCIÓN 8 · ESTADO GLOBAL DE LA APP
+   SECCIÓN 8 · ESTADO GLOBAL
    ═══════════════════════════════════════════════════════════════ */
 
 let state = null;
 let current = null;
 let answered = false;
-let dataSource = 'defaults';
 let temaForzado = null;
+let currentUser = null;  /* { token, data: { nombre, nombreCorto, createdAt, lastSeen, datasets } } */
+let gistFiles = [];
 
-function createDefaultState(){
-  const temaElo = {};
-  temasConfig.forEach(t => temaElo[t.nombre] = META.eloStart);
+function defaultUsuario(){
   return {
-    version: 1, savedAt: null, datasetId: META.id || null,
-    usuario: {
-      temaElo,
-      eloGlobal: META.eloStart,
-      wins:0, losses:0, streak:0, best:0, round:0, recent:[]
-    },
-    problemas: []
+    temaElo: {},
+    eloGlobal: META.eloStart,
+    wins: 0, losses: 0, streak: 0, best: 0, round: 0, recent: []
   };
 }
 
-function validateState(s){
-  if(!s || typeof s !== 'object') return false;
-  if(!Array.isArray(s.problemas) || s.problemas.length === 0) return false;
-  if(!s.usuario || typeof s.usuario !== 'object') return false;
-  if(typeof s.usuario.temaElo !== 'object') return false;
-  for(const p of s.problemas){
-    if(typeof p.id !== 'number' || typeof p.elo !== 'number') return false;
-    if(!Array.isArray(p.opts) || typeof p.a !== 'number') return false;
-    if(typeof p.q !== 'string' || typeof p.tema !== 'string') return false;
-  }
-  return true;
-}
-
-
 /* ═══════════════════════════════════════════════════════════════
-   SECCIÓN 9 · CARGA DEL DATASET
+   SECCIÓN 9 · TOKENS DE USUARIO
    ═══════════════════════════════════════════════════════════════ */
 
-async function loadState(){
-  const local = readLocalStorage();
-  const remote = await fetchRemote();
-
-  if(local){
-    dataSource = remote ? 'remote+local' : 'localStorage';
-    if(remote){
-      const idsLocal = new Set(local.problemas.map(p => p.id));
-      const nuevos = remote.problemas.filter(p => !idsLocal.has(p.id));
-      if(nuevos.length) local.problemas = local.problemas.concat(nuevos);
-      if(remote.temas) local.temas = remote.temas;
-      if(remote.meta) local.meta = remote.meta;
-    }
-    return local;
-  }
-
-  if(remote){
-    dataSource = 'remote';
-    saveLocalStorage(remote);
-    return remote;
-  }
-
-  dataSource = 'defaults';
-  return createDefaultState();
+function normalizarNombre(str){
+  return String(str || '')
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^a-z]/g, '')
+    .slice(0, 15);
 }
 
-function readLocalStorage(){
-  try{
-    const raw = localStorage.getItem(LS_KEY);
-    if(!raw) return null;
-    const data = JSON.parse(raw);
-    if(!validateState(data)) return null;
-    return data;
-  }catch(e){ return null; }
+function generarToken(nombreBruto){
+  const base = normalizarNombre(nombreBruto);
+  if(!base) throw new Error('Nombre inválido');
+  const num = String(Math.floor(Math.random() * 90) + 10);
+  const palabra = PALABRAS_TOKEN[Math.floor(Math.random() * PALABRAS_TOKEN.length)];
+  return `${base}_${num}_${palabra}`;
 }
 
-async function fetchRemote(){
-  /* FIX 6: chequeo más estricto del placeholder */
-  if(!REMOTE_URL) return null;
-  if(REMOTE_URL.includes('TU_GIST_ID')) return null;
-  if(REMOTE_URL.includes('....')) return null;
-  try{
-    const sep = REMOTE_URL.includes('?') ? '&' : '?';
-    const resp = await fetch(REMOTE_URL + sep + '_=' + Date.now(), {cache:'no-store'});
-    if(!resp.ok){ console.warn('Fuente remota respondió', resp.status); return null; }
-    const data = JSON.parse(await resp.text());
-    if(validateState(data)){ console.log('✓ Dataset cargado desde', REMOTE_URL); return data; }
-    console.warn('Dataset remoto inválido');
-  }catch(e){ console.warn('Falló fetch remoto:', e.message); }
-  return null;
+function parsearToken(str){
+  const m = String(str || '').trim().match(/^([a-z]+)_(\d{2})_([a-z]+)$/i);
+  if(!m) return null;
+  const nombre = m[1].toLowerCase();
+  const num = m[2];
+  const palabra = m[3].toLowerCase();
+  return {
+    nombre,
+    nombreCorto: `${nombre}_${num}`,
+    token: `${nombre}_${num}_${palabra}`
+  };
 }
-
 
 /* ═══════════════════════════════════════════════════════════════
-   SECCIÓN 9.5 · DESCUBRIMIENTO DE DATASETS EN EL GIST
+   SECCIÓN 10 · API DEL WORKER
    ═══════════════════════════════════════════════════════════════ */
 
-let gistFiles = [];
+async function workerLoadUser(token){
+  if(!WORKER_URL || !GIST_ID) return null;
+  const resp = await fetch(WORKER_URL + '/user/load', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ gistId: GIST_ID, token })
+  });
+  const data = await resp.json();
+  if(!resp.ok) throw new Error(data.error || ('HTTP ' + resp.status));
+  return data.user || null;
+}
+
+async function workerSaveUser(token, user){
+  if(!WORKER_URL || !GIST_ID) throw new Error('Worker no configurado');
+  const resp = await fetch(WORKER_URL + '/user/save', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ gistId: GIST_ID, token, user })
+  });
+  const data = await resp.json();
+  if(!resp.ok) throw new Error(data.error || ('HTTP ' + resp.status));
+  return data;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   SECCIÓN 11 · GIST FILES
+   ═══════════════════════════════════════════════════════════════ */
 
 async function listGistFiles(){
   if(!GIST_API_URL) return [];
@@ -775,24 +665,17 @@ async function listGistFiles(){
     const resp = await fetch(GIST_API_URL, {
       headers: { 'Accept': 'application/vnd.github+json' }
     });
-    if(!resp.ok){
-      console.warn('Gist API respondió', resp.status);
-      return [];
-    }
+    if(!resp.ok) return [];
     const data = await resp.json();
-    const files = Object.values(data.files || {});
-    return files
-      .filter(f => /\.json$/i.test(f.filename))
+    return Object.values(data.files || {})
+      .filter(f => /\.json$/i.test(f.filename) && f.filename !== 'users.json')
       .map(f => ({
         filename: f.filename,
         nombre: prettyName(f.filename),
         url: f.raw_url,
         size: f.size
       }));
-  }catch(e){
-    console.warn('Error listando gist:', e);
-    return [];
-  }
+  }catch(e){ return []; }
 }
 
 function prettyName(filename){
@@ -803,140 +686,101 @@ function prettyName(filename){
 }
 
 /* ═══════════════════════════════════════════════════════════════
-   SECCIÓN 10 · GUARDADO, EXPORTACIÓN E IMPORTACIÓN
+   SECCIÓN 12 · CARGA DE DATASET + APLICAR PROGRESO DEL USUARIO
    ═══════════════════════════════════════════════════════════════ */
 
-function saveLocalStorage(s = state){
-  try{
-    s.savedAt = new Date().toISOString();
-    s.datasetId = META.id || null;
-    localStorage.setItem(LS_KEY, JSON.stringify(s));
-  }catch(e){ console.warn('No se pudo guardar', e); }
-}
+async function cargarDataset(){
+  if(!REMOTE_URL){ throw new Error('Sin dataset remoto'); }
 
-function exportProgress(){
-  state.savedAt = new Date().toISOString();
-  const blob = new Blob([JSON.stringify(state, null, 2)], {type:'application/json;charset=utf-8'});
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url; a.download = EXPORT_FILENAME;
-  document.body.appendChild(a); a.click(); document.body.removeChild(a);
-  setTimeout(() => URL.revokeObjectURL(url), 1000);
-  saveLocalStorage();
-  updateSaveIndicator();
-  updateModalSavedInfo();
-  showToast('💾 ' + EXPORT_FILENAME + ' descargado');
-}
+  const sep = REMOTE_URL.includes('?') ? '&' : '?';
+  const resp = await fetchWithTimeout(REMOTE_URL + sep + '_=' + Date.now(), {cache:'no-store'}, 12000);
+  if(!resp.ok) throw new Error('HTTP ' + resp.status);
 
-function importProgress(file){
-  const reader = new FileReader();
-  reader.onload = (e) => {
-    try{
-      const data = JSON.parse(e.target.result);
-      if(!validateState(data)) throw new Error('El archivo no tiene la estructura esperada');
+  const dataset = JSON.parse(await resp.text());
+  if(!dataset || !Array.isArray(dataset.problemas) || dataset.problemas.length === 0){
+    throw new Error('Dataset vacío o inválido');
+  }
 
-      state = data;
-      buildMeta(state);
-      LS_KEY = computeLsKey();
-      temasConfig = buildTemasConfig(state);
-      ensureTemaElos();
+  const userDatasets = (currentUser?.data?.datasets) || {};
+  const saved = userDatasets[selectedFilename] || null;
 
-      saveLocalStorage();
-      lastSavedAt = new Date();
-      dataSource = 'localStorage';
-      temaForzado = null;
-      updateSaveIndicator();
-      closeModal();
-      buildUI();
-      showToast('📥 Progreso cargado desde archivo');
-    }catch(err){
-      alert('No se pudo importar: ' + err.message);
-    }
+  const usuario = saved?.usuario ? { ...saved.usuario } : defaultUsuario();
+  if(!usuario.temaElo) usuario.temaElo = {};
+  if(!Array.isArray(usuario.recent)) usuario.recent = [];
+
+  const problemaElo = saved?.problemaElo || {};
+  const problemas = dataset.problemas.map(p => ({
+    ...p,
+    elo: (problemaElo[p.id] != null) ? problemaElo[p.id] : p.elo
+  }));
+
+  state = {
+    version: 2,
+    savedAt: null,
+    datasetId: null,
+    usuario,
+    problemas,
+    meta: dataset.meta,
+    temas: dataset.temas
   };
-  reader.readAsText(file);
+
+  buildMeta(state);
+  temasConfig = buildTemasConfig(state);
+  ensureTemaElos();
 }
 
-/* Sube los ELOs actuales de los problemas al gist de GitHub. */
-async function pushProgressToGist(silent = false){
-  if(!selectedFilename){
-    if(!silent) showToast('No hay un dataset seleccionado', true);
-    return false;
+function extractUserDataset(){
+  const problemaElo = {};
+  for(const p of state.problemas){
+    problemaElo[p.id] = p.elo;
   }
-  if(!WORKER_URL || WORKER_URL.includes('TU-USUARIO')){
-    if(!silent) showToast('Configurá WORKER_URL primero', true);
-    return false;
-  }
+  return { usuario: state.usuario, problemaElo };
+}
 
-  if(!silent) showToast('⬆ Enviando ELOs al gist…');
+/* ═══════════════════════════════════════════════════════════════
+   SECCIÓN 13 · SINCRONIZACIÓN
+   ═══════════════════════════════════════════════════════════════ */
+
+async function saveUserProgress(silent = true){
+  if(!currentUser || !selectedFilename) return false;
+
+  if(!currentUser.data.datasets) currentUser.data.datasets = {};
+  currentUser.data.datasets[selectedFilename] = extractUserDataset();
+  currentUser.data.lastSeen = new Date().toISOString();
 
   try{
-    const dataToSync = {
-      problemas: state.problemas
-    };
-
-    const response = await fetch(WORKER_URL + '/sync', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        gistId: GIST_ID,
-        filename: selectedFilename,
-        content: JSON.stringify(dataToSync, null, 2)
-      })
-    });
-
-    const result = await response.json();
-
-    if(!response.ok){
-      throw new Error(result.error || 'Error en el Worker');
-    }
-
-    if(!silent) showToast('✅ ELOs sincronizados con el gist');
-    console.log('Gist actualizado:', result.url);
+    await workerSaveUser(currentUser.token, currentUser.data);
+    if(!silent) showToast('✅ Progreso guardado');
     return true;
-
-  }catch(error){
-    console.error('Error al sincronizar:', error);
-    showToast('❌ Error al sincronizar: ' + error.message, true);
+  }catch(e){
+    if(!silent) showToast('❌ Error: ' + e.message, true);
+    console.error('saveUserProgress:', e);
     return false;
   }
 }
-
-/* ── Autosync: cada 2 minutos si hay respuestas sin sincronizar ── */
-const SYNC_INTERVAL_MS = 2 * 60 * 1000;
 
 let respuestasSinSync = 0;
 let syncEnCurso = false;
+const SYNC_INTERVAL_MS = 2 * 60 * 1000;
 
 async function maybeAutoSync(){
   if(syncEnCurso) return;
   if(respuestasSinSync === 0) return;
-  if(!selectedFilename) return;
+  if(!selectedFilename || !currentUser) return;
 
   syncEnCurso = true;
-  const ok = await pushProgressToGist(true);
+  const ok = await saveUserProgress(true);
   syncEnCurso = false;
-
   if(ok) respuestasSinSync = 0;
 }
 
 setInterval(maybeAutoSync, SYNC_INTERVAL_MS);
 
-
 /* ═══════════════════════════════════════════════════════════════
-   SECCIÓN 11 · AUTOSAVE
+   SECCIÓN 14 · AUTOSAVE LOCAL
    ═══════════════════════════════════════════════════════════════ */
 
-let dirty = false;
 let lastSavedAt = null;
-
-function tickAutosave(force = false){
-  if(!dirty && !force) return;
-  dirty = false;
-  saveLocalStorage();
-  lastSavedAt = new Date();
-  updateSaveIndicator();
-  updateModalSavedInfo();
-}
 
 function updateSaveIndicator(){
   const el = document.getElementById('saveIndicator');
@@ -947,224 +791,214 @@ function updateSaveIndicator(){
     return;
   }
   const seg = Math.floor((Date.now() - lastSavedAt.getTime()) / 1000);
-  const txt = seg < 5    ? 'guardado ahora'
-            : seg < 60   ? 'guardado hace ' + seg + ' s'
+  const txt = seg < 5 ? 'guardado ahora'
+            : seg < 60 ? 'guardado hace ' + seg + ' s'
             : seg < 3600 ? 'guardado hace ' + Math.floor(seg/60) + ' min'
             : 'guardado hace ' + Math.floor(seg/3600) + ' h';
   el.textContent = '✓ ' + txt;
   el.style.color = 'var(--good)';
 }
 
-function updateModalSavedInfo(){
-  const el = document.getElementById('modalSavedInfo');
-  if(!el) return;
-  if(!lastSavedAt){ el.textContent = 'Última vez: nunca'; return; }
-  const fecha = lastSavedAt.toLocaleString('es-AR', {
-    day:'2-digit', month:'2-digit', year:'numeric',
-    hour:'2-digit', minute:'2-digit'
-  });
-  el.textContent = 'Última vez: ' + fecha;
-}
+setInterval(updateSaveIndicator, 5000);
 
-setInterval(() => tickAutosave(), AUTOSAVE_MS);
-setInterval(() => { updateSaveIndicator(); updateModalSavedInfo(); }, 5000);
-
-document.addEventListener('visibilitychange', () => {
-  if(document.visibilityState === 'hidden') tickAutosave();
-});
-
-/* FIX 5: al cerrar la pestaña, subir respuestas pendientes si las hay */
+/* Al cerrar pestaña, subimos lo pendiente */
 window.addEventListener('beforeunload', () => {
-  tickAutosave(true);
-
-  if(respuestasSinSync > 0 && selectedFilename && GIST_ID
-     && WORKER_URL && !WORKER_URL.includes('TU-USUARIO')){
+  if(respuestasSinSync > 0 && currentUser && selectedFilename){
     try{
-      fetch(WORKER_URL + '/sync', {
+      if(!currentUser.data.datasets) currentUser.data.datasets = {};
+      currentUser.data.datasets[selectedFilename] = extractUserDataset();
+      fetch(WORKER_URL + '/user/save', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           gistId: GIST_ID,
-          filename: selectedFilename,
-          content: JSON.stringify({ problemas: state.problemas }, null, 2)
+          token: currentUser.token,
+          user: currentUser.data
         }),
-        keepalive: true   /* deja que el pedido siga vivo aunque se cierre */
+        keepalive: true
       }).catch(()=>{});
-    }catch(e){ /* ignorar */ }
+    }catch(e){}
   }
 });
 
-
 /* ═══════════════════════════════════════════════════════════════
-   SECCIÓN 12 · MODAL DE ARCHIVO
+   SECCIÓN 15 · LOGIN
    ═══════════════════════════════════════════════════════════════ */
 
-function openModal(){ updateModalSavedInfo(); document.getElementById('fileModal').classList.add('open'); }
-function closeModal(){ document.getElementById('fileModal').classList.remove('open'); }
+function renderLogin(){
+  document.getElementById('app').innerHTML = `
+    <div class="login-screen">
+      <div class="login-box">
+        <h1>${META.titulo || 'Duelo ELO'}</h1>
+        <p class="login-sub">Ingresá tu nombre para crear un usuario nuevo,<br>
+        o tu token completo si ya tenés uno.</p>
+        <input type="text" id="loginInput" class="login-input"
+               placeholder="martin ó martin_58_casa"
+               autocomplete="off" autocapitalize="off" spellcheck="false">
+        <button id="loginBtn" class="login-btn">Entrar</button>
+        <div id="loginError" class="login-error"></div>
+      </div>
+    </div>
+  `;
+  const input = document.getElementById('loginInput');
+  const btn = document.getElementById('loginBtn');
+  input.addEventListener('keydown', (e) => { if(e.key === 'Enter') btn.click(); });
+  btn.addEventListener('click', () => handleLogin(input.value.trim()));
+  setTimeout(() => input.focus(), 50);
+}
 
-document.addEventListener('keydown', (e) => { if(e.key === 'Escape') closeModal(); });
-document.getElementById('modalClose').addEventListener('click', closeModal);
-document.getElementById('fileModal').addEventListener('click', (e) => { if(e.target.id === 'fileModal') closeModal(); });
+async function handleLogin(value){
+  const errorEl = document.getElementById('loginError');
+  errorEl.textContent = '';
 
-document.getElementById('opDownload').addEventListener('click', () => { exportProgress(); closeModal(); });
-
-document.getElementById('opPush').addEventListener('click', async () => {
-  const ok = await pushProgressToGist(false);
-  if(ok) respuestasSinSync = 0;
-  closeModal();
-});
-
-document.getElementById('opUploadInput').addEventListener('change', (e) => {
-  const f = e.target.files[0]; if(f) importProgress(f); e.target.value = '';
-});
-
-/* FIX 1: reset real, trae los ELOs originales del gist */
-document.getElementById('opReset').addEventListener('click', async () => {
-  if(!confirm('¿Reiniciar todo el progreso? Se borrarán tus ELOs y los de los problemas.\n\nTip: descargá una copia antes desde "Descargar progreso".')){
+  if(!value){
+    errorEl.textContent = 'Ingresá un nombre o token';
     return;
   }
 
-  const btn = document.getElementById('opReset');
-  const originalHTML = btn.innerHTML;
-  btn.disabled = true;
-  btn.querySelector('.t').textContent = 'Reiniciando…';
-
-  /* Traer problemas frescos del gist para restaurar sus ELOs originales */
-  let problemasReset = state.problemas;
-  try{
-    if(REMOTE_URL && !REMOTE_URL.includes('TU_GIST_ID') && !REMOTE_URL.includes('....')){
-      const sep = REMOTE_URL.includes('?') ? '&' : '?';
-      const resp = await fetchWithTimeout(REMOTE_URL + sep + '_=' + Date.now(), {cache:'no-store'}, 8000);
-      if(resp.ok){
-        const fresh = await resp.json();
-        if(validateState(fresh)) problemasReset = fresh.problemas;
+  const parsed = parsearToken(value);
+  if(parsed){
+    /* Parece token → intentar login */
+    errorEl.textContent = 'Buscando usuario…';
+    errorEl.style.color = 'var(--muted)';
+    try{
+      const userData = await workerLoadUser(parsed.token);
+      if(!userData){
+        errorEl.style.color = 'var(--bad)';
+        errorEl.textContent = 'No existe ese usuario. ¿Quisiste crear uno nuevo? Probá solo con tu nombre.';
+        return;
       }
+      currentUser = { token: parsed.token, data: userData };
+      try{ localStorage.setItem(USER_TOKEN_KEY, parsed.token); }catch(e){}
+      errorEl.textContent = '';
+      await entrarAlJuego();
+    }catch(e){
+      errorEl.style.color = 'var(--bad)';
+      errorEl.textContent = 'Error: ' + e.message;
     }
-  }catch(e){
-    console.warn('No se pudo traer el gist, mantengo los problemas actuales', e);
-    showToast('⚠ No se pudo traer el gist, se reinicia solo el usuario', true);
-  }
-
-  const temasReset = state.temas;
-  const metaReset = state.meta;
-  state = createDefaultState();
-  state.problemas = problemasReset;
-  if(temasReset) state.temas = temasReset;
-  if(metaReset) state.meta = metaReset;
-  temasConfig = buildTemasConfig(state);
-  ensureTemaElos();
-  dataSource = 'defaults';
-  temaForzado = null;
-  respuestasSinSync = 0;
-
-  saveLocalStorage();
-  lastSavedAt = new Date();
-  closeModal();
-  buildUI();
-  showToast('↺ Progreso reiniciado');
-
-  btn.disabled = false;
-  btn.innerHTML = originalHTML;
-});
-
-
-/* ═══════════════════════════════════════════════════════════════
-   SECCIÓN 13 · SELECTOR DE DATASETS (ARCHIVOS DEL GIST)
-   ═══════════════════════════════════════════════════════════════ */
-
-async function switchDataset(filename){
-  if(filename === selectedFilename) return;
-  if(!gistFiles.length) return;
-
-  /* FIX 2: subir pendientes del dataset actual ANTES de cambiar */
-  if(respuestasSinSync > 0){
-    try{ await pushProgressToGist(true); }catch(e){}
-  }
-  respuestasSinSync = 0;
-
-  tickAutosave(true);
-
-  selectedFilename = filename;
-  try{ localStorage.setItem(SELECTED_DATASET_KEY, filename); }catch(e){}
-
-  const file = gistFiles.find(f => f.filename === filename);
-  if(!file) return;
-  REMOTE_URL_OVERRIDE = file.url;
-  REMOTE_URL = file.url;
-  LS_KEY = computeLsKey();
-
-  setDatasetBarLoading(true);
-
-  try{
-    state = await loadState();
-    buildMeta(state);
-    temasConfig = buildTemasConfig(state);
-    ensureTemaElos();
-
-    dirty = false;
-    lastSavedAt = state.savedAt ? new Date(state.savedAt) : null;
-    dataSource = (dataSource === 'remote' || dataSource === 'remote+local')
-      ? dataSource
-      : 'localStorage';
-    temaForzado = null;
-
-    buildUI();
-    showToast('📚 ' + (META.titulo || file.nombre));
-  }catch(e){
-    console.warn('Error cambiando dataset:', e);
-    showToast('No se pudo cargar el dataset', true);
-  } finally {
-    setDatasetBarLoading(false);
-  }
-}
-
-function setDatasetBarLoading(on){
-  const bar = document.getElementById('datasetBar');
-  if(!bar) return;
-  bar.querySelectorAll('.dataset-chip').forEach(b => {
-    if(on) b.classList.add('loading');
-    else b.classList.remove('loading');
-  });
-}
-
-function renderDatasetBar(){
-  const bar = document.getElementById('datasetBar');
-  if(!bar) return;
-
-  if(!GIST_ID || gistFiles.length === 0){
-    bar.hidden = true;
     return;
   }
 
-  bar.hidden = false;
-  bar.innerHTML = '';
+  /* Parece nombre → generar token */
+  const nombre = normalizarNombre(value);
+  if(!nombre || nombre.length < 2){
+    errorEl.textContent = 'Nombre demasiado corto (mínimo 2 letras)';
+    return;
+  }
 
-  const label = document.createElement('span');
-  label.className = 'dataset-label';
-  label.textContent = '📚 Tema';
-  bar.appendChild(label);
+  let token;
+  try{
+    token = generarToken(value);
+  }catch(e){
+    errorEl.textContent = 'Nombre inválido';
+    return;
+  }
 
-  const chips = document.createElement('div');
-  chips.className = 'dataset-chips';
+  const parsedNew = parsearToken(token);
+  const userData = {
+    nombre,
+    nombreCorto: parsedNew.nombreCorto,
+    createdAt: new Date().toISOString(),
+    lastSeen: new Date().toISOString(),
+    datasets: {}
+  };
 
-  gistFiles.forEach(f => {
-    const b = document.createElement('button');
-    b.className = 'dataset-chip' + (f.filename === selectedFilename ? ' active' : '');
-    b.textContent = f.nombre;
-    b.title = f.filename;
-    b.addEventListener('click', () => switchDataset(f.filename));
-    chips.appendChild(b);
+  renderTokenConfirmacion(token, userData);
+}
+
+function renderTokenConfirmacion(token, userData){
+  document.getElementById('app').innerHTML = `
+    <div class="login-screen">
+      <div class="login-box">
+        <h1>Guardá tu token</h1>
+        <p class="login-sub">Esto es tu usuario y contraseña juntos.</p>
+        <div class="token-display">
+          <code id="tokenCode">${token}</code>
+          <button id="copyBtn" class="copy-btn" title="Copiar">📋</button>
+        </div>
+        <p class="login-hint">
+          <b>Anotalo bien.</b> Lo vas a necesitar para entrar desde otro
+          dispositivo o después de borrar el navegador. Si lo perdés,
+          perdés el acceso a tu progreso.
+        </p>
+        <button id="confirmBtn" class="login-btn">Ya lo anoté, entrar</button>
+        <div id="loginError" class="login-error"></div>
+      </div>
+    </div>
+  `;
+
+  document.getElementById('copyBtn').addEventListener('click', () => {
+    navigator.clipboard.writeText(token)
+      .then(() => showToast('📋 Token copiado'))
+      .catch(() => showToast('No se pudo copiar, anotalo a mano', true));
   });
-  bar.appendChild(chips);
 
-  const hint = document.createElement('span');
-  hint.className = 'dataset-hint';
-  hint.textContent = gistFiles.length + ' dataset' + (gistFiles.length === 1 ? '' : 's') + ' disponibles';
-  bar.appendChild(hint);
+  document.getElementById('confirmBtn').addEventListener('click', async () => {
+    const btn = document.getElementById('confirmBtn');
+    const errorEl = document.getElementById('loginError');
+    btn.disabled = true;
+    btn.textContent = 'Guardando…';
+    errorEl.textContent = '';
+
+    try{
+      await workerSaveUser(token, userData);
+      currentUser = { token, data: userData };
+      try{ localStorage.setItem(USER_TOKEN_KEY, token); }catch(e){}
+      await entrarAlJuego();
+    }catch(e){
+      btn.disabled = false;
+      btn.textContent = 'Ya lo anoté, entrar';
+      errorEl.textContent = 'Error guardando: ' + e.message;
+    }
+  });
+}
+
+async function entrarAlJuego(){
+  /* Cargar gist files */
+  gistFiles = await listGistFiles();
+  if(!gistFiles.length){
+    document.getElementById('app').innerHTML = `
+      <div class="loading">
+        <div style="color:var(--bad);font-size:18px;font-weight:800">⚠ No se pudo cargar el gist</div>
+        <div style="color:var(--muted);font-size:13px;text-align:center;max-width:460px;line-height:1.6">
+          Revisá tu conexión o el ID del gist.<br>
+          Gist ID: <code style="color:var(--accent)">${GIST_ID}</code>
+        </div>
+        <button class="mini-btn" onclick="location.reload()">🔄 Reintentar</button>
+      </div>
+    `;
+    return;
+  }
+
+  /* Elegir dataset (guardado, o primero) */
+  let savedFilename = null;
+  try{ savedFilename = localStorage.getItem(SELECTED_DATASET_KEY); }catch(e){}
+  const found = gistFiles.find(f => f.filename === savedFilename);
+  selectedFilename = found ? found.filename : gistFiles[0].filename;
+  REMOTE_URL = gistFiles.find(f => f.filename === selectedFilename).url;
+
+  await cargarDataset();
+
+  lastSavedAt = null;
+  respuestasSinSync = 0;
+  temaForzado = null;
+
+  buildUI();
+  updateSaveIndicator();
+}
+
+function logout(){
+  if(!confirm('¿Cerrar sesión? Vas a necesitar tu token para volver a entrar.')) return;
+  try{ localStorage.removeItem(USER_TOKEN_KEY); }catch(e){}
+  currentUser = null;
+  state = null;
+  selectedFilename = null;
+  respuestasSinSync = 0;
+  renderLogin();
 }
 
 /* ═══════════════════════════════════════════════════════════════
-   SECCIÓN 14 · CONSTRUCCIÓN DE LA UI
+   SECCIÓN 16 · CONSTRUCCIÓN DE UI
    ═══════════════════════════════════════════════════════════════ */
 
 function buildUI(){
@@ -1193,7 +1027,6 @@ function buildUI(){
     </header>
 
     <div class="dataset-bar" id="datasetBar" hidden></div>
-
     <div class="status-bar" id="statusBar"></div>
 
     <main>
@@ -1218,9 +1051,7 @@ function buildUI(){
       </aside>
     </main>
   `;
-
   document.getElementById('nextBtn').addEventListener('click', renderRound);
-
   renderDatasetBar();
   renderStatusBar();
   updateHUD();
@@ -1229,35 +1060,102 @@ function buildUI(){
 
 function renderStatusBar(){
   const el = document.getElementById('statusBar');
-  let srcTxt = '';
-  let pillCls = '';
-  if(dataSource === 'remote'){
-    srcTxt = 'Cargado desde <b>remoto</b>';
-  } else if(dataSource === 'remote+local'){
-    srcTxt = 'Remoto + <b>progreso local</b>';
-    pillCls = 'warn';
-  } else if(dataSource === 'localStorage'){
-    srcTxt = 'Progreso guardado en <b>memoria local</b>';
-    pillCls = 'warn';
-  } else {
-    srcTxt = 'Dataset por defecto';
-    pillCls = 'warn';
-  }
+  const userName = currentUser?.data?.nombreCorto || '—';
+  const srcTxt = `Dataset del gist · <span class="pill">${state.problemas.length} problemas</span>`;
 
   el.innerHTML = `
     <div class="src">
-      ${srcTxt} · <span class="pill ${pillCls}">${state.problemas.length} problemas</span>
+      ${srcTxt}
       <span class="pill filter ${temaForzado ? 'show' : ''}" id="filterPill">${temaForzado ? '🎯 ' + temaForzado : ''}</span>
       <span id="saveIndicator" style="margin-left:8px;font-size:11px;color:var(--muted)">• sin cambios aún</span>
     </div>
     <div class="actions">
-      <button class="mini-btn" id="reloadBtn" title="Traer la última versión del dataset desde el gist">🔄 Recargar</button>
-      <button class="mini-btn" id="fileBtn" title="Descargar / cargar / reiniciar">📁 Archivo</button>
+      <span class="user-badge">
+        👤 ${userName}
+        <span class="logout" id="logoutBtn" title="Cerrar sesión">✕</span>
+      </span>
+      <button class="mini-btn" id="reloadBtn" title="Traer la última versión del dataset">🔄 Recargar</button>
+      <button class="mini-btn" id="syncBtn" title="Forzar guardado ahora">⬆ Guardar</button>
     </div>
   `;
 
+  document.getElementById('logoutBtn').addEventListener('click', logout);
   document.getElementById('reloadBtn').addEventListener('click', reloadDataset);
-  document.getElementById('fileBtn').addEventListener('click', openModal);
+  document.getElementById('syncBtn').addEventListener('click', async () => {
+    const ok = await saveUserProgress(false);
+    if(ok) respuestasSinSync = 0;
+  });
+}
+
+function renderDatasetBar(){
+  const bar = document.getElementById('datasetBar');
+  if(!bar) return;
+  if(!GIST_ID || gistFiles.length === 0){ bar.hidden = true; return; }
+  bar.hidden = false;
+  bar.innerHTML = '';
+
+  const label = document.createElement('span');
+  label.className = 'dataset-label';
+  label.textContent = '📚 Tema';
+  bar.appendChild(label);
+
+  const chips = document.createElement('div');
+  chips.className = 'dataset-chips';
+  gistFiles.forEach(f => {
+    const b = document.createElement('button');
+    b.className = 'dataset-chip' + (f.filename === selectedFilename ? ' active' : '');
+    b.textContent = f.nombre;
+    b.title = f.filename;
+    b.addEventListener('click', () => switchDataset(f.filename));
+    chips.appendChild(b);
+  });
+  bar.appendChild(chips);
+
+  const hint = document.createElement('span');
+  hint.className = 'dataset-hint';
+  hint.textContent = gistFiles.length + ' dataset' + (gistFiles.length === 1 ? '' : 's');
+  bar.appendChild(hint);
+}
+
+async function switchDataset(filename){
+  if(filename === selectedFilename) return;
+  if(!gistFiles.length) return;
+
+  /* Guardar el dataset actual antes de cambiar */
+  if(respuestasSinSync > 0 && currentUser){
+    try{ await saveUserProgress(true); }catch(e){}
+  }
+  respuestasSinSync = 0;
+
+  selectedFilename = filename;
+  try{ localStorage.setItem(SELECTED_DATASET_KEY, filename); }catch(e){}
+
+  const file = gistFiles.find(f => f.filename === filename);
+  if(!file) return;
+  REMOTE_URL = file.url;
+
+  setDatasetBarLoading(true);
+  try{
+    await cargarDataset();
+    temaForzado = null;
+    lastSavedAt = null;
+    buildUI();
+    showToast('📚 ' + (META.titulo || file.nombre));
+  }catch(e){
+    console.warn('Error cambiando dataset:', e);
+    showToast('No se pudo cargar el dataset', true);
+  } finally {
+    setDatasetBarLoading(false);
+  }
+}
+
+function setDatasetBarLoading(on){
+  const bar = document.getElementById('datasetBar');
+  if(!bar) return;
+  bar.querySelectorAll('.dataset-chip').forEach(b => {
+    if(on) b.classList.add('loading');
+    else b.classList.remove('loading');
+  });
 }
 
 function updateFilterPill(){
@@ -1273,13 +1171,12 @@ function updateFilterPill(){
 }
 
 /* ═══════════════════════════════════════════════════════════════
-   SECCIÓN 15 · HUD Y ELO GLOBAL
+   SECCIÓN 17 · HUD Y ELO
    ═══════════════════════════════════════════════════════════════ */
 
 function eloGlobal(){
   return (typeof state.usuario.eloGlobal === 'number' && isFinite(state.usuario.eloGlobal))
-    ? state.usuario.eloGlobal
-    : META.eloStart;
+    ? state.usuario.eloGlobal : META.eloStart;
 }
 
 function expected(u, p){ return 1 / (1 + Math.pow(10, (p - u) / 400)); }
@@ -1315,27 +1212,19 @@ function updateHUD(){
   document.getElementById('round').textContent = state.usuario.round + 1;
 }
 
-
 /* ═══════════════════════════════════════════════════════════════
-   SECCIÓN 16 · MATCHMAKING
+   SECCIÓN 18 · MATCHMAKING
    ═══════════════════════════════════════════════════════════════ */
 
 function pickProblem(){
   let base = state.problemas;
-  if(temaForzado){
-    base = base.filter(p => temaDe(p) === temaForzado);
-  }
+  if(temaForzado) base = base.filter(p => temaDe(p) === temaForzado);
   if(base.length === 0) return state.problemas[0];
 
   const recent = state.usuario.recent || [];
   const recentSet = new Set(recent);
   const noVistos = base.filter(p => !recentSet.has(p.id));
-
-  const umbralDuro = Math.min(
-    base.length,
-    Math.max(4, Math.floor(base.length * 0.3))
-  );
-
+  const umbralDuro = Math.min(base.length, Math.max(4, Math.floor(base.length * 0.3)));
   const pool = noVistos.length >= umbralDuro ? noVistos : base;
 
   const posReciente = new Map();
@@ -1345,18 +1234,15 @@ function pickProblem(){
   const scored = pool.map(p => {
     const miElo = eloGlobal();
     const diffElo = Math.abs(p.elo - miElo);
-
     let repPenalty = 0;
     if(posReciente.has(p.id)){
       const pos = posReciente.get(p.id);
       repPenalty = 500 * (1 - pos / N);
     }
-
     return { p, score: diffElo + repPenalty };
   });
 
   scored.sort((a,b) => a.score - b.score);
-
   const candidatos = scored.slice(0, Math.min(4, scored.length));
   return candidatos[Math.floor(Math.random() * candidatos.length)].p;
 }
@@ -1373,9 +1259,8 @@ function toggleTema(tema){
   renderRound();
 }
 
-
 /* ═══════════════════════════════════════════════════════════════
-   SECCIÓN 17 · RONDA
+   SECCIÓN 19 · RONDA
    ═══════════════════════════════════════════════════════════════ */
 
 function renderRound(){
@@ -1396,7 +1281,6 @@ function renderRound(){
     ' · tema ' + temaActual;
 
   const color = colorDe(temaActual);
-
   const pText = document.getElementById('problemText');
   pText.innerHTML =
     '<div class="tag"><span class="dot" style="color:' + color + '"></span>' +
@@ -1413,10 +1297,8 @@ function renderRound(){
     cont.appendChild(b);
   });
 
-  const fb = document.getElementById('feedback');
-  fb.className = 'feedback';
-  fb.innerHTML = '';
-
+  document.getElementById('feedback').className = 'feedback';
+  document.getElementById('feedback').innerHTML = '';
   document.getElementById('nextBtn').hidden = true;
 
   updateHUD();
@@ -1426,10 +1308,6 @@ function renderRound(){
   typesetMath(pText);
   typesetMath(cont);
 }
-
-/* ═══════════════════════════════════════════════════════════════
-   SECCIÓN 18 · RESPUESTA
-   ═══════════════════════════════════════════════════════════════ */
 
 function responder(indice){
   if(answered) return;
@@ -1448,7 +1326,6 @@ function responder(indice){
 
   const brecha    = gAntes - uTemaAntes;
   const absBrecha = Math.abs(brecha);
-
   const boost = 1 + Math.min(K_BOOST_MAX, absBrecha / K_BOOST_RANGO);
   const kTema = META.kUser * boost;
 
@@ -1459,9 +1336,7 @@ function responder(indice){
   }
 
   const E = expected(uTemaAntes, pEloAntes);
-  const dUserBase = kTema * (S - E);
-  const dUser = dUserBase + dConv;
-
+  const dUser = kTema * (S - E) + dConv;
   const uTemaDespues = uTemaAntes + dUser;
   state.usuario.temaElo[temaActual] = uTemaDespues;
   current.elo = pEloAntes + META.kProb * ((1 - S) - (1 - E));
@@ -1471,23 +1346,19 @@ function responder(indice){
     state.usuario.wins++;
     state.usuario.streak++;
     state.usuario.best = Math.max(state.usuario.best, state.usuario.streak);
-  }else{
+  } else {
     state.usuario.losses++;
     state.usuario.streak = 0;
   }
 
   if(!state.usuario.recent) state.usuario.recent = [];
   state.usuario.recent.unshift(current.id);
-  const maxRecent = Math.min(
-    RECENT_HISTORY_MAX,
-    Math.max(8, Math.floor(state.problemas.length * 0.7))
-  );
+  const maxRecent = Math.min(RECENT_HISTORY_MAX, Math.max(8, Math.floor(state.problemas.length * 0.7)));
   if(state.usuario.recent.length > maxRecent){
     state.usuario.recent.length = maxRecent;
   }
 
-  dirty = true;
-  tickAutosave(true);
+  lastSavedAt = new Date();
   respuestasSinSync++;
 
   const botones = [...document.querySelectorAll('.opt')];
@@ -1504,7 +1375,6 @@ function responder(indice){
   fb.className = 'feedback show ' + (acierto ? 'win' : 'lose');
 
   const color = colorDe(temaActual);
-
   let html =
     '<div class="title">' +
       (acierto ? '✅ ¡Victoria! Le ganaste al problema.' : '❌ Derrota. El problema te ganó.') +
@@ -1513,8 +1383,7 @@ function responder(indice){
 
   if(!acierto && current.teoria){
     const t = (typeof current.teoria === 'string')
-      ? { titulo: 'Teoría', texto: current.teoria }
-      : current.teoria;
+      ? { titulo: 'Teoría', texto: current.teoria } : current.teoria;
     html +=
       '<div class="teoria">' +
         '<div class="teoria-title">' + t.titulo + '</div>' +
@@ -1547,32 +1416,23 @@ function responder(indice){
   document.getElementById('nextBtn').focus();
 }
 
-
 /* ═══════════════════════════════════════════════════════════════
-   SECCIÓN 19 · RANGO DINÁMICO DEL RADAR
+   SECCIÓN 20 · RADAR
    ═══════════════════════════════════════════════════════════════ */
 
 function getRadarRange(){
   const elos = temasConfig
     .map(t => state.usuario.temaElo[t.nombre])
     .filter(v => typeof v === 'number' && isFinite(v));
-
-  if(elos.length === 0){
-    return { min: META.eloMin, max: META.eloMax };
-  }
+  if(elos.length === 0) return { min: META.eloMin, max: META.eloMax };
 
   const dataMin = Math.min(...elos);
   const dataMax = Math.max(...elos);
   const dataSpan = dataMax - dataMin;
-
   const margin = Math.max(30, dataSpan * 0.15);
-
-  const rawMin = dataMin - margin;
-  const rawMax = dataMax + margin;
-
   return {
-    min: Math.floor(rawMin / 10) * 10,
-    max: Math.ceil(rawMax / 10) * 10
+    min: Math.floor((dataMin - margin) / 10) * 10,
+    max: Math.ceil((dataMax + margin) / 10) * 10
   };
 }
 
@@ -1582,20 +1442,12 @@ function wrapText(ctx, text, maxWidth){
   let cur = '';
   for(const w of words){
     const test = cur ? cur + ' ' + w : w;
-    if(ctx.measureText(test).width <= maxWidth || !cur){
-      cur = test;
-    } else {
-      lines.push(cur);
-      cur = w;
-    }
+    if(ctx.measureText(test).width <= maxWidth || !cur) cur = test;
+    else { lines.push(cur); cur = w; }
   }
   if(cur) lines.push(cur);
   return lines.length ? lines : [String(text)];
 }
-
-/* ═══════════════════════════════════════════════════════════════
-   SECCIÓN 20 · DIBUJO DEL RADAR
-   ═══════════════════════════════════════════════════════════════ */
 
 function drawRadar(highlightTema = null){
   const canvas = document.getElementById('radar');
@@ -1604,7 +1456,7 @@ function drawRadar(highlightTema = null){
   if(!size) return;
 
   const dpr = window.devicePixelRatio || 1;
-  canvas.width  = Math.round(size * dpr);
+  canvas.width = Math.round(size * dpr);
   canvas.height = Math.round(size * dpr);
   canvas.style.height = size + 'px';
 
@@ -1698,51 +1550,46 @@ function drawRadar(highlightTema = null){
     ctx.stroke();
   });
 
-	ctx.font = '700 11px "Segoe UI", system-ui, sans-serif';
-	ctx.textBaseline = 'middle';
-	const LINE_H = 13;
-	const LABEL_GAP = 16;
+  ctx.font = '700 11px "Segoe UI", system-ui, sans-serif';
+  ctx.textBaseline = 'middle';
+  const LINE_H = 13;
+  const LABEL_GAP = 16;
 
-	temasConfig.forEach((t, i) => {
-	  const a = angles[i];
-	  const ca = Math.cos(a);
-	  const lx = cx + Math.cos(a) * (maxR + LABEL_GAP);
-	  const ly = cy + Math.sin(a) * (maxR + LABEL_GAP);
+  temasConfig.forEach((t, i) => {
+    const a = angles[i];
+    const ca = Math.cos(a);
+    const lx = cx + Math.cos(a) * (maxR + LABEL_GAP);
+    const ly = cy + Math.sin(a) * (maxR + LABEL_GAP);
 
-	  let align = 'center';
-	  if(ca > 0.35) align = 'left';
-	  else if(ca < -0.35) align = 'right';
-	  ctx.textAlign = align;
+    let align = 'center';
+    if(ca > 0.35) align = 'left';
+    else if(ca < -0.35) align = 'right';
+    ctx.textAlign = align;
 
-	  let maxW;
-	  if(align === 'left')       maxW = size - lx - 4;
-	  else if(align === 'right') maxW = lx - 4;
-	  else                       maxW = 2 * Math.min(lx, size - lx) - 8;
-	  if(maxW < 40) maxW = 40;
+    let maxW;
+    if(align === 'left')       maxW = size - lx - 4;
+    else if(align === 'right') maxW = lx - 4;
+    else                       maxW = 2 * Math.min(lx, size - lx) - 8;
+    if(maxW < 40) maxW = 40;
 
-	  let lines = wrapText(ctx, t.nombre, maxW);
+    let lines = wrapText(ctx, t.nombre, maxW);
+    lines = lines.map(line => {
+      if(ctx.measureText(line).width <= maxW) return line;
+      let s = line;
+      while(s.length > 1 && ctx.measureText(s + '…').width > maxW) s = s.slice(0, -1);
+      return s + '…';
+    });
 
-	  lines = lines.map(line => {
-		if(ctx.measureText(line).width <= maxW) return line;
-		let s = line;
-		while(s.length > 1 && ctx.measureText(s + '…').width > maxW){
-		  s = s.slice(0, -1);
-		}
-		return s + '…';
-	  });
+    const isHi = highlightTema === t.nombre;
+    const isForced = temaForzado === t.nombre;
+    ctx.fillStyle = isForced ? '#8fdf9c' : isHi ? t.color : 'rgba(233,239,247,.82)';
 
-	  const isHi = highlightTema === t.nombre;
-	  const isForced = temaForzado === t.nombre;
-	  ctx.fillStyle = isForced ? '#8fdf9c'
-				   : isHi     ? t.color
-				   : 'rgba(233,239,247,.82)';
-
-	  const totalH = lines.length * LINE_H;
-	  const startY = ly - (totalH - LINE_H) / 2;
-	  lines.forEach((line, li) => {
-		ctx.fillText(line, lx, startY + li * LINE_H);
-	  });
-	});
+    const totalH = lines.length * LINE_H;
+    const startY = ly - (totalH - LINE_H) / 2;
+    lines.forEach((line, li) => {
+      ctx.fillText(line, lx, startY + li * LINE_H);
+    });
+  });
 
   ctx.font = '700 10px "Segoe UI", system-ui, sans-serif';
   ctx.textBaseline = 'middle';
@@ -1766,9 +1613,8 @@ function drawRadar(highlightTema = null){
   ctx.fillText(txt, labelX, labelY);
 }
 
-
 /* ═══════════════════════════════════════════════════════════════
-   SECCIÓN 21 · LEYENDA POR TEMA
+   SECCIÓN 21 · LEYENDA
    ═══════════════════════════════════════════════════════════════ */
 
 function renderLegend(highlightTema = null){
@@ -1787,7 +1633,7 @@ function renderLegend(highlightTema = null){
     if(temaForzado === t.nombre) cls += ' active';
     div.className = cls;
     div.title = temaForzado === t.nombre
-      ? 'Click para quitar el filtro y volver a aleatorio'
+      ? 'Click para quitar el filtro'
       : 'Click para practicar solo ' + t.nombre;
 
     div.innerHTML =
@@ -1814,7 +1660,6 @@ function renderLegend(highlightTema = null){
   }
 }
 
-
 /* ═══════════════════════════════════════════════════════════════
    SECCIÓN 22 · TOAST
    ═══════════════════════════════════════════════════════════════ */
@@ -1840,18 +1685,18 @@ function showToast(msg, isError = false){
   }, isError ? 4200 : 2600);
 }
 
-
 /* ═══════════════════════════════════════════════════════════════
-   SECCIÓN 23 · EVENTOS GLOBALES
+   SECCIÓN 23 · EVENTOS
    ═══════════════════════════════════════════════════════════════ */
 
 document.addEventListener('keydown', (e) => {
-  if(document.getElementById('fileModal').classList.contains('open')) return;
+  /* Si no hay app (login screen), no procesar teclas de juego */
+  if(!state || !current) return;
   if(!answered && ['1','2','3','4'].includes(e.key)){
     const i = parseInt(e.key) - 1;
     const botones = [...document.querySelectorAll('.opt')];
     if(botones[i]) botones[i].click();
-  }else if(answered && (e.key === 'Enter' || e.key === ' ')){
+  } else if(answered && (e.key === 'Enter' || e.key === ' ')){
     e.preventDefault();
     const nb = document.getElementById('nextBtn');
     if(nb && !nb.hidden) nb.click();
@@ -1862,119 +1707,70 @@ let resizeTO = null;
 window.addEventListener('resize', () => {
   clearTimeout(resizeTO);
   resizeTO = setTimeout(() => {
+    if(!state) return;
     if(current) drawRadar(temaDe(current));
     else drawRadar();
   }, 100);
 });
 
-
 /* ═══════════════════════════════════════════════════════════════
    SECCIÓN 24 · INICIALIZACIÓN
    ═══════════════════════════════════════════════════════════════ */
 
-let REMOTE_URL_OVERRIDE = null;
-
 (async function init(){
-  if(GIST_ID){
-    gistFiles = await listGistFiles();
-    if(gistFiles.length > 0){
-      let saved = null;
-      try{ saved = localStorage.getItem(SELECTED_DATASET_KEY); }catch(e){}
-      const found = gistFiles.find(f => f.filename === saved);
-      selectedFilename = found ? found.filename : gistFiles[0].filename;
-      const file = gistFiles.find(f => f.filename === selectedFilename);
-      REMOTE_URL_OVERRIDE = file.url;
-      REMOTE_URL = file.url;
-    } else {
-      /* FIX 4: pantalla de error si el gist no carga */
-      console.warn('Gist sin archivos .json o API no disponible');
-      document.getElementById('app').innerHTML = `
-        <div class="loading">
-          <div style="color:var(--bad);font-size:18px;font-weight:800">⚠ No se pudo cargar el gist</div>
-          <div style="color:var(--muted);font-size:13px;text-align:center;max-width:460px;line-height:1.6">
-            Puede ser un problema de conexión, rate limit de GitHub,
-            o que el gist no tenga archivos <code>.json</code>.
-            <br><br>
-            Gist ID: <code style="color:var(--accent)">${GIST_ID}</code>
-          </div>
-          <button class="mini-btn" onclick="location.reload()" style="margin-top:8px">🔄 Reintentar</button>
-        </div>
-      `;
-      return;
+  /* Intentar auto-login con token guardado */
+  let savedToken = null;
+  try{ savedToken = localStorage.getItem(USER_TOKEN_KEY); }catch(e){}
+
+  if(savedToken){
+    try{
+      const userData = await workerLoadUser(savedToken);
+      if(userData){
+        currentUser = { token: savedToken, data: userData };
+        await entrarAlJuego();
+        return;
+      } else {
+        /* Token guardado ya no existe → limpiar */
+        try{ localStorage.removeItem(USER_TOKEN_KEY); }catch(e){}
+      }
+    }catch(e){
+      console.warn('Auto-login falló:', e);
+      /* No limpiamos el token: puede ser un error de red */
     }
   }
 
-  LS_KEY = computeLsKey();
-
-  state = await loadState();
-
-  buildMeta(state);
-  temasConfig = buildTemasConfig(state);
-  ensureTemaElos();
-
-  if(state.usuario.recent && !Array.isArray(state.usuario.recent)){
-    state.usuario.recent = [];
-  }
-
-  buildUI();
-  lastSavedAt = state.savedAt ? new Date(state.savedAt) : null;
-  updateSaveIndicator();
-  updateModalSavedInfo();
+  /* Sin sesión → mostrar login */
+  renderLogin();
 })();
 
 /* ═══════════════════════════════════════════════════════════════
-   SECCIÓN 25 · RECARGA MANUAL DEL DATASET
+   SECCIÓN 25 · RECARGA DEL DATASET
    ═══════════════════════════════════════════════════════════════ */
 
 async function reloadDataset(){
-  if(!selectedFilename && !REMOTE_URL){
-    showToast('No hay dataset remoto configurado', true);
-    return;
-  }
+  if(!selectedFilename){ showToast('No hay dataset configurado', true); return; }
 
-  tickAutosave(true);
+  /* Primero guardamos pendientes */
+  if(respuestasSinSync > 0 && currentUser){
+    try{ await saveUserProgress(true); }catch(e){}
+  }
+  respuestasSinSync = 0;
+
   const btn = document.getElementById('reloadBtn');
   if(btn){ btn.disabled = true; btn.textContent = '⏳ Recargando…'; }
 
   try{
-    const url = REMOTE_URL;
-    const sep = url.includes('?') ? '&' : '?';
-    const resp = await fetchWithTimeout(url + sep + '_=' + Date.now(), {cache:'no-store'}, 10000);
-    if(!resp.ok) throw new Error('HTTP ' + resp.status);
-    const fresh = JSON.parse(await resp.text());
-    if(!validateState(fresh)) throw new Error('El dataset remoto no es válido');
-
-    const eloPorId = new Map();
-    for(const p of state.problemas){
-      eloPorId.set(p.id, p.elo);
-    }
-
-    const nuevos = fresh.problemas.map(p => ({
-      ...p,
-      elo: eloPorId.has(p.id) ? eloPorId.get(p.id) : p.elo
-    }));
-
-    state.problemas = nuevos;
-    if(fresh.meta) state.meta = fresh.meta;
-    if(fresh.temas) state.temas = fresh.temas;
-
-    buildMeta(state);
-    temasConfig = buildTemasConfig(state);
-    ensureTemaElos();
-
-    saveLocalStorage();
-    lastSavedAt = new Date();
+    await cargarDataset();
     buildUI();
-    showToast('🔄 Dataset recargado · ' + nuevos.length + ' problemas');
+    showToast('🔄 Dataset recargado · ' + state.problemas.length + ' problemas');
   }catch(e){
-    console.warn('Error recargando dataset:', e);
+    console.warn('Error recargando:', e);
     showToast('No se pudo recargar: ' + (e.message || e), true);
   } finally {
     const b = document.getElementById('reloadBtn');
     if(b){ b.disabled = false; b.textContent = '🔄 Recargar'; }
   }
 }
-
 </script>
 </body>
 </html>
