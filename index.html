@@ -873,19 +873,19 @@ function importProgress(file){
 }
 
 /* Sube los ELOs actuales de los problemas al gist de GitHub
-   a través del Worker de Cloudflare (que guarda el token de forma segura).
-   Solo envía `problemas`, no el `usuario`, para no pisar el progreso personal. */
-async function pushProgressToGist(){
+   a través del Worker de Cloudflare.
+   `silent = true` evita los toasts "Enviando…" cuando corre en automático. */
+async function pushProgressToGist(silent = false){
   if(!selectedFilename){
-    showToast('No hay un dataset seleccionado', true);
-    return;
+    if(!silent) showToast('No hay un dataset seleccionado', true);
+    return false;
   }
   if(!WORKER_URL || WORKER_URL.includes('TU-USUARIO')){
-    showToast('Configurá WORKER_URL primero', true);
-    return;
+    if(!silent) showToast('Configurá WORKER_URL primero', true);
+    return false;
   }
 
-  showToast('⬆ Enviando ELOs al gist…');
+  if(!silent) showToast('⬆ Enviando ELOs al gist…');
 
   try{
     const dataToSync = {
@@ -908,14 +908,42 @@ async function pushProgressToGist(){
       throw new Error(result.error || 'Error en el Worker');
     }
 
-    showToast('✅ ELOs sincronizados con el gist');
+    if(!silent) showToast('✅ ELOs sincronizados con el gist');
     console.log('Gist actualizado:', result.url);
+    return true;
 
   }catch(error){
     console.error('Error al sincronizar:', error);
-    showToast('❌ Error: ' + error.message, true);
+    showToast('❌ Error al sincronizar: ' + error.message, true);
+    return false;
   }
 }
+
+/* ── Autosync de ELOs al gist ──────────────────────────────────
+   Cada 2 minutos chequea si hubo respuestas nuevas sin sincronizar.
+   Si las hay, sube. Si no, no hace nada.
+   ──────────────────────────────────────────────────────────── */
+
+const SYNC_INTERVAL_MS = 2 * 60 * 1000;   /* cada 2 minutos */
+
+let respuestasSinSync = 0;
+let syncEnCurso = false;
+
+async function maybeAutoSync(){
+  if(syncEnCurso) return;                    /* ya hay un sync corriendo */
+  if(respuestasSinSync === 0) return;        /* nada nuevo que subir */
+  if(!selectedFilename) return;              /* dataset aún no cargado */
+
+  syncEnCurso = true;
+  const ok = await pushProgressToGist(true); /* silencioso */
+  syncEnCurso = false;
+
+  if(ok) respuestasSinSync = 0;
+  /* Si falló, dejamos el contador como está para reintentar en 2 min */
+}
+
+setInterval(maybeAutoSync, SYNC_INTERVAL_MS);	
+	
 
 
 /* ═══════════════════════════════════════════════════════════════
@@ -984,8 +1012,9 @@ document.getElementById('fileModal').addEventListener('click', (e) => { if(e.tar
 
 document.getElementById('opDownload').addEventListener('click', () => { exportProgress(); closeModal(); });
 
-document.getElementById('opPush').addEventListener('click', () => {
-  pushProgressToGist();
+document.getElementById('opPush').addEventListener('click', async () => {
+  const ok = await pushProgressToGist(false);
+  if(ok) respuestasSinSync = 0;
   closeModal();
 });
 
@@ -1443,7 +1472,7 @@ function responder(indice){
 
   dirty = true;
   tickAutosave(true);
-
+  respuestasSinSync++;
   const botones = [...document.querySelectorAll('.opt')];
   botones.forEach((b, i) => {
     b.disabled = true;
