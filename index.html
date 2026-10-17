@@ -580,6 +580,7 @@ function typesetMath(el){
 
 let state = null;
 let current = null;
+let currentShuffled = null;
 let answered = false;
 let temaForzado = null;
 let currentUser = null;  /* { token, data: { nombre, nombreCorto, createdAt, lastSeen, datasets } } */
@@ -592,6 +593,24 @@ function defaultUsuario(){
     wins: 0, losses: 0, streak: 0, best: 0, round: 0, recent: []
   };
 }
+  
+/* ═══════════════════════════════════════════════════════════════
+   SECCIÓN 8b · SHUFFLE DE OPCIONES
+   Baraja en el cliente. El gist mantiene el orden fijo original.
+   ═══════════════════════════════════════════════════════════════ */
+function shuffleOptionsWithAnswer(opts, correctIdx){
+  const indices = opts.map((_, i) => i);
+  /* Fisher–Yates */
+  for(let i = indices.length - 1; i > 0; i--){
+    const j = Math.floor(Math.random() * (i + 1));
+    [indices[i], indices[j]] = [indices[j], indices[i]];
+  }
+  return {
+    opts: indices.map(i => opts[i]),
+    a: Math.max(0, indices.indexOf(correctIdx))
+  };
+}
+  
 
 /* ═══════════════════════════════════════════════════════════════
    SECCIÓN 9 · TOKENS DE USUARIO
@@ -1287,15 +1306,16 @@ function renderRound(){
     nombreProblema(current) + ' · Dificultad ' + Math.round(pElo) + '</div>' +
     '<div class="q">' + current.q + '</div>';
 
-  const cont = document.getElementById('options');
-  cont.innerHTML = '';
-  current.opts.forEach((op, i) => {
-    const b = document.createElement('button');
-    b.className = 'opt';
-    b.innerHTML = '<span class="letter">' + 'ABCD'[i] + '</span><span class="txt">' + op + '</span>';
-    b.addEventListener('click', () => responder(i));
-    cont.appendChild(b);
-  });
+const cont = document.getElementById('options');
+cont.innerHTML = '';
+currentShuffled = shuffleOptionsWithAnswer(current.opts, current.a);
+currentShuffled.opts.forEach((op, i) => {
+  const b = document.createElement('button');
+  b.className = 'opt';
+  b.innerHTML = '<span class="letter">' + 'ABCDEFGH'[i] + '</span><span class="txt">' + op + '</span>';
+  b.addEventListener('click', () => responder(i));
+  cont.appendChild(b);
+});
 
   document.getElementById('feedback').className = 'feedback';
   document.getElementById('feedback').innerHTML = '';
@@ -1314,7 +1334,7 @@ function responder(indice){
   answered = true;
 
   const temaActual = temaDe(current);
-  const acierto = (indice === current.a);
+  const acierto = (indice === currentShuffled.a);
   const pEloAntes = current.elo;
   const uTemaAntes = state.usuario.temaElo[temaActual] ?? META.eloStart;
   const S = acierto ? 1 : 0;
@@ -1364,7 +1384,7 @@ function responder(indice){
   const botones = [...document.querySelectorAll('.opt')];
   botones.forEach((b, i) => {
     b.disabled = true;
-    if(i === current.a) b.classList.add('correct');
+    if(i === currentShuffled.a) b.classList.add('correct');
     else if(i === indice) b.classList.add('wrong');
     else b.classList.add('dim');
   });
@@ -1692,7 +1712,7 @@ function showToast(msg, isError = false){
 document.addEventListener('keydown', (e) => {
   /* Si no hay app (login screen), no procesar teclas de juego */
   if(!state || !current) return;
-  if(!answered && ['1','2','3','4'].includes(e.key)){
+  if(!answered && ['1','2','3','4','5','6','7','8'].includes(e.key)){
     const i = parseInt(e.key) - 1;
     const botones = [...document.querySelectorAll('.opt')];
     if(botones[i]) botones[i].click();
