@@ -390,7 +390,8 @@ main{display:grid;grid-template-columns:1fr 360px;gap:18px;align-items:start}
 
 const GIST_ID = "5367c035bcf515d11a9c1b14f60563dd";
 const WORKER_URL = "https://dry-dawn-b655.jmtenti.workers.dev";
-
+const PROBLEM_ELO_FILE = '_problem-elo.json';
+  
 let REMOTE_URL = "";
 const GIST_API_URL = GIST_ID ? ("https://api.github.com/gists/" + GIST_ID) : null;
 
@@ -674,6 +675,39 @@ async function workerSaveUser(token, user){
   return data;
 }
 
+async function workerLoadProblemElos(dataset){
+  if(!WORKER_URL || !GIST_ID || !dataset) return {};
+  try{
+    const resp = await fetchWithTimeout(WORKER_URL + '/problems/load', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ gistId: GIST_ID, dataset })
+    }, 8000);
+    if(!resp.ok) return {};
+    const data = await resp.json();
+    return data.elos || {};
+  }catch(e){
+    console.warn('No se pudieron cargar ELOs globales:', e);
+    return {};
+  }
+}
+
+async function workerSendProblemElo(dataset, problemId, elo){
+  if(!WORKER_URL || !GIST_ID || !dataset) return;
+  try{
+    await fetch(WORKER_URL + '/problems/set', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        gistId: GIST_ID, dataset, problemId, elo
+      }),
+      keepalive: true
+    });
+  }catch(e){
+    console.warn('ELO global no guardado:', e);
+  }
+}  
+  
 /* ═══════════════════════════════════════════════════════════════
    SECCIÓN 11 · GIST FILES
    ═══════════════════════════════════════════════════════════════ */
@@ -727,10 +761,10 @@ async function cargarDataset(){
   if(!usuario.temaElo) usuario.temaElo = {};
   if(!Array.isArray(usuario.recent)) usuario.recent = [];
 
-  const problemaElo = saved?.problemaElo || {};
+  const globalElos = await workerLoadProblemElos(selectedFilename);
   const problemas = dataset.problemas.map(p => ({
     ...p,
-    elo: (problemaElo[p.id] != null) ? problemaElo[p.id] : p.elo
+    elo: (typeof globalElos[p.id] === 'number') ? globalElos[p.id] : p.elo
   }));
 
   state = {
@@ -749,11 +783,7 @@ async function cargarDataset(){
 }
 
 function extractUserDataset(){
-  const problemaElo = {};
-  for(const p of state.problemas){
-    problemaElo[p.id] = p.elo;
-  }
-  return { usuario: state.usuario, problemaElo };
+  return { usuario: state.usuario };
 }
 
 /* ═══════════════════════════════════════════════════════════════
@@ -1359,7 +1389,10 @@ function responder(indice){
   const dUser = kTema * (S - E) + dConv;
   const uTemaDespues = uTemaAntes + dUser;
   state.usuario.temaElo[temaActual] = uTemaDespues;
+
+  /* ─── ELO global del problema ─── */
   current.elo = pEloAntes + META.kProb * ((1 - S) - (1 - E));
+  workerSendProblemElo(selectedFilename, current.id, current.elo);
 
   state.usuario.round += 1;
   if(acierto){
@@ -1416,7 +1449,7 @@ function responder(indice){
       '<span class="tema-chip" style="border-color:' + color + '55; color:' + color + '">' + temaActual + '</span>' +
       '<span>Tema: <b>' + Math.round(uTemaAntes) + '</b> → <b>' + Math.round(uTemaDespues) + '</b> ' +
       '(<b class="' + (dUser >= 0 ? 'up' : 'down') + '">' + signoU + dUser.toFixed(1) + '</b>)</span>' +
-      '<span>Rival: ' + Math.round(pEloAntes) + ' → ' + Math.round(current.elo) +
+      '<span>Rival (global): ' + Math.round(pEloAntes) + ' → ' + Math.round(current.elo) +
       ' (<b class="' + ((current.elo - pEloAntes) >= 0 ? 'up' : 'down') + '">' + signoP + (current.elo - pEloAntes).toFixed(1) + '</b>)</span>' +
     '</div>';
 
@@ -1770,7 +1803,6 @@ window.addEventListener('resize', () => {
 async function reloadDataset(){
   if(!selectedFilename){ showToast('No hay dataset configurado', true); return; }
 
-  /* Primero guardamos pendientes */
   if(respuestasSinSync > 0 && currentUser){
     try{ await saveUserProgress(true); }catch(e){}
   }
@@ -1782,7 +1814,7 @@ async function reloadDataset(){
   try{
     await cargarDataset();
     buildUI();
-    showToast('🔄 Dataset recargado · ' + state.problemas.length + ' problemas');
+    showToast('🔄 Recargado · ' + state.problemas.length + ' problemas (ELOs globales al día)');
   }catch(e){
     console.warn('Error recargando:', e);
     showToast('No se pudo recargar: ' + (e.message || e), true);
