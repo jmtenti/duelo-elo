@@ -93,7 +93,6 @@ body{
 .hud-item .label{font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);font-weight:600}
 .hud-item .value{font-size:22px;font-weight:700;font-variant-numeric:tabular-nums}
 
-/* El número grande y el delta viven en la misma fila */
 .hud-item.main .elo-row{
   display:flex;
   align-items:baseline;
@@ -108,7 +107,6 @@ body{
 }
 .hud-item.main .sub{font-size:11px;color:var(--muted);letter-spacing:.04em;margin-top:2px}
 
-/* Delta al lado del ELO: aparece, sube y se desvanece */
 .delta{
   font-size:22px;
   font-weight:800;
@@ -441,7 +439,7 @@ main{display:grid;grid-template-columns:1fr 360px;gap:18px;align-items:start}
         <div class="ic">↺</div>
         <div class="body">
           <div class="t">Reiniciar progreso</div>
-          <div class="d">Vuelve a los ELOs iniciales. Los problemas se mantienen.</div>
+          <div class="d">Vuelve a los ELOs del gist. Tu récord personal y racha también se reinician.</div>
         </div>
       </button>
     </div>
@@ -462,24 +460,21 @@ main{display:grid;grid-template-columns:1fr 360px;gap:18px;align-items:start}
    │  Ejemplo: si tu gist es                                     │
    │     https://gist.github.com/tu-usuario/a1b2c3d4e5f6a7b8c9   │
    │  entonces GIST_ID = "a1b2c3d4e5f6a7b8c9".                   │
-   │                                                              │
-   │  Si lo dejás vacío (""), la app usa REMOTE_URL o el dataset  │
-   │  por defecto (comportamiento viejo).                         │
    └──────────────────────────────────────────────────────────────┘ */
 
-const GIST_ID = "5367c035bcf515d11a9c1b14f60563dd";   // ← COMPLETAR CON TU GIST ID https://gist.github.com/jmtenti/5367c035bcf515d11a9c1b14f60563dd
+const GIST_ID = "5367c035bcf515d11a9c1b14f60563dd";   // ← TU GIST ID
 
 /* URL del Worker de Cloudflare que hace de puente con la API de GitHub. */
 const WORKER_URL = "https://dry-dawn-b655.jmtenti.workers.dev";
-	
+
 /* Fallback: solo se usa si GIST_ID está vacío. */
-let REMOTE_URL = "https://gist.githubusercontent.com/..../raw/math.json";
+let REMOTE_URL = "";
 
 /* Si GIST_ID está puesto, la URL se completa sola. */
 const GIST_API_URL = GIST_ID ? ("https://api.github.com/gists/" + GIST_ID) : null;
 
 const AUTOSAVE_MS = 20000;
-const EXPORT_FILENAME = 'dataset.json';
+const EXPORT_FILENAME = 'math.json';   /* FIX 3: unificado con los textos del modal */
 
 /* Cuántos IDs recientes recordar para el anti-repetición. */
 const RECENT_HISTORY_MAX = 40;
@@ -489,8 +484,7 @@ const DEFAULT_COLORS = [
   '#d2a8ff','#7ee787','#ffa657','#ff9bce'
 ];
 
-/* fetch con timeout: si la red se cuelga, cortamos a los 8s.
-   Devuelve la Response, o lanza AbortError si se pasa del tiempo. */
+/* fetch con timeout: si la red se cuelga, cortamos a los 8s. */
 async function fetchWithTimeout(url, opts = {}, ms = 8000){
   const ctrl = new AbortController();
   const to = setTimeout(() => ctrl.abort(), ms);
@@ -502,12 +496,10 @@ async function fetchWithTimeout(url, opts = {}, ms = 8000){
 }
 
 /* ── Ajuste de convergencia tema ↔ global ─────────────────────── */
-/* Si el ELO de un tema se aleja mucho del global, queremos que se
-   acerque más rápido. Dos mecanismos: boost del K y término extra. */
-const CONV_UMBRAL   = 100;   /* brecha mínima para activar la convergencia */
-const CONV_FACTOR   = 0.05;  /* fracción del exceso que se cierra por ronda */
-const K_BOOST_RANGO = 400;   /* brecha que duplica el K */
-const K_BOOST_MAX   = 2;     /* multiplicador máximo del boost (K hasta 3x) */
+const CONV_UMBRAL   = 100;
+const CONV_FACTOR   = 0.05;
+const K_BOOST_RANGO = 400;
+const K_BOOST_MAX   = 2;
 
 /* ═══════════════════════════════════════════════════════════════
    SECCIÓN 4 · META DEL DATASET
@@ -560,19 +552,13 @@ const LS_BASE = 'duelo_elo_v1';
 const SELECTED_DATASET_KEY = LS_BASE + '::selected-dataset';
 
 let LS_KEY = LS_BASE + '::default';
-
-/* Necesitamos saber qué archivo del gist está seleccionado para
-   que cada dataset tenga su propio progreso. */
 let selectedFilename = null;
 
 function computeLsKey(){
-  /* Prioridad 1: gist + archivo seleccionado */
   if(GIST_ID && selectedFilename){
     return LS_BASE + '::gist-' + GIST_ID + '::' + selectedFilename;
   }
-  /* Prioridad 2: id del dataset */
   if(META.id) return LS_BASE + '::' + META.id;
-  /* Prioridad 3: hash de REMOTE_URL */
   if(REMOTE_URL && !REMOTE_URL.includes('TU_GIST_ID')){
     let h = 0;
     for(let i = 0; i < REMOTE_URL.length; i++){ h = (h * 31 + REMOTE_URL.charCodeAt(i)) | 0; }
@@ -644,7 +630,6 @@ function colorDe(tema){
   return t ? t.color : DEFAULT_COLORS[0];
 }
 
-/* Garantiza ELOs por tema y ELO global. */
 function ensureTemaElos(){
   if(!state.usuario.temaElo) state.usuario.temaElo = {};
   const validos = new Set(temasConfig.map(t => t.nombre));
@@ -657,7 +642,6 @@ function ensureTemaElos(){
     }
   }
 
-  /* ELO global: migración desde el modelo viejo (promedio). */
   if(typeof state.usuario.eloGlobal !== 'number' || !isFinite(state.usuario.eloGlobal)){
     const elos = temasConfig
       .map(t => state.usuario.temaElo[t.nombre])
@@ -670,7 +654,7 @@ function ensureTemaElos(){
 
 
 /* ═══════════════════════════════════════════════════════════════
-   SECCIÓN 7 · MATHJAX (typeset diferido con reintentos)
+   SECCIÓN 7 · MATHJAX
    ═══════════════════════════════════════════════════════════════ */
 
 let mjRetries = 0;
@@ -763,7 +747,10 @@ function readLocalStorage(){
 }
 
 async function fetchRemote(){
-  if(!REMOTE_URL || REMOTE_URL.includes('TU_GIST_ID')) return null;
+  /* FIX 6: chequeo más estricto del placeholder */
+  if(!REMOTE_URL) return null;
+  if(REMOTE_URL.includes('TU_GIST_ID')) return null;
+  if(REMOTE_URL.includes('....')) return null;
   try{
     const sep = REMOTE_URL.includes('?') ? '&' : '?';
     const resp = await fetch(REMOTE_URL + sep + '_=' + Date.now(), {cache:'no-store'});
@@ -780,7 +767,7 @@ async function fetchRemote(){
    SECCIÓN 9.5 · DESCUBRIMIENTO DE DATASETS EN EL GIST
    ═══════════════════════════════════════════════════════════════ */
 
-let gistFiles = [];   /* [{ filename, nombre, url, size }] */
+let gistFiles = [];
 
 async function listGistFiles(){
   if(!GIST_API_URL) return [];
@@ -809,9 +796,6 @@ async function listGistFiles(){
 }
 
 function prettyName(filename){
-  /* "fisica_estadistica.json"   → "Fisica Estadistica"
-     "física_estadística.json"   → "Física Estadística"
-     "límites_al_infinito.json"  → "Límites Al Infinito" */
   return filename
     .replace(/\.json$/i, '')
     .replace(/[_-]+/g, ' ')
@@ -872,9 +856,7 @@ function importProgress(file){
   reader.readAsText(file);
 }
 
-/* Sube los ELOs actuales de los problemas al gist de GitHub
-   a través del Worker de Cloudflare.
-   `silent = true` evita los toasts "Enviando…" cuando corre en automático. */
+/* Sube los ELOs actuales de los problemas al gist de GitHub. */
 async function pushProgressToGist(silent = false){
   if(!selectedFilename){
     if(!silent) showToast('No hay un dataset seleccionado', true);
@@ -919,31 +901,25 @@ async function pushProgressToGist(silent = false){
   }
 }
 
-/* ── Autosync de ELOs al gist ──────────────────────────────────
-   Cada 2 minutos chequea si hubo respuestas nuevas sin sincronizar.
-   Si las hay, sube. Si no, no hace nada.
-   ──────────────────────────────────────────────────────────── */
-
-const SYNC_INTERVAL_MS = 2 * 60 * 1000;   /* cada 2 minutos */
+/* ── Autosync: cada 2 minutos si hay respuestas sin sincronizar ── */
+const SYNC_INTERVAL_MS = 2 * 60 * 1000;
 
 let respuestasSinSync = 0;
 let syncEnCurso = false;
 
 async function maybeAutoSync(){
-  if(syncEnCurso) return;                    /* ya hay un sync corriendo */
-  if(respuestasSinSync === 0) return;        /* nada nuevo que subir */
-  if(!selectedFilename) return;              /* dataset aún no cargado */
+  if(syncEnCurso) return;
+  if(respuestasSinSync === 0) return;
+  if(!selectedFilename) return;
 
   syncEnCurso = true;
-  const ok = await pushProgressToGist(true); /* silencioso */
+  const ok = await pushProgressToGist(true);
   syncEnCurso = false;
 
   if(ok) respuestasSinSync = 0;
-  /* Si falló, dejamos el contador como está para reintentar en 2 min */
 }
 
-setInterval(maybeAutoSync, SYNC_INTERVAL_MS);	
-	
+setInterval(maybeAutoSync, SYNC_INTERVAL_MS);
 
 
 /* ═══════════════════════════════════════════════════════════════
@@ -996,7 +972,27 @@ setInterval(() => { updateSaveIndicator(); updateModalSavedInfo(); }, 5000);
 document.addEventListener('visibilitychange', () => {
   if(document.visibilityState === 'hidden') tickAutosave();
 });
-window.addEventListener('beforeunload', () => tickAutosave(true));
+
+/* FIX 5: al cerrar la pestaña, subir respuestas pendientes si las hay */
+window.addEventListener('beforeunload', () => {
+  tickAutosave(true);
+
+  if(respuestasSinSync > 0 && selectedFilename && GIST_ID
+     && WORKER_URL && !WORKER_URL.includes('TU-USUARIO')){
+    try{
+      fetch(WORKER_URL + '/sync', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          gistId: GIST_ID,
+          filename: selectedFilename,
+          content: JSON.stringify({ problemas: state.problemas }, null, 2)
+        }),
+        keepalive: true   /* deja que el pedido siga vivo aunque se cierre */
+      }).catch(()=>{});
+    }catch(e){ /* ignorar */ }
+  }
+});
 
 
 /* ═══════════════════════════════════════════════════════════════
@@ -1022,25 +1018,53 @@ document.getElementById('opUploadInput').addEventListener('change', (e) => {
   const f = e.target.files[0]; if(f) importProgress(f); e.target.value = '';
 });
 
-document.getElementById('opReset').addEventListener('click', () => {
-  if(confirm('¿Reiniciar todo el progreso? Se borrarán tus ELOs y los de los problemas.\n\nTip: descargá una copia antes desde "Descargar progreso".')){
-    const problemasReset = state.problemas.map(p => ({...p, elo: p.eloOriginal ?? p.elo}));
-    const temasReset = state.temas;
-    const metaReset = state.meta;
-    state = createDefaultState();
-    state.problemas = problemasReset;
-    if(temasReset) state.temas = temasReset;
-    if(metaReset) state.meta = metaReset;
-    temasConfig = buildTemasConfig(state);
-    ensureTemaElos();
-    dataSource = 'defaults';
-    temaForzado = null;
-    saveLocalStorage();
-    lastSavedAt = new Date();
-    closeModal();
-    buildUI();
-    showToast('↺ Progreso reiniciado');
+/* FIX 1: reset real, trae los ELOs originales del gist */
+document.getElementById('opReset').addEventListener('click', async () => {
+  if(!confirm('¿Reiniciar todo el progreso? Se borrarán tus ELOs y los de los problemas.\n\nTip: descargá una copia antes desde "Descargar progreso".')){
+    return;
   }
+
+  const btn = document.getElementById('opReset');
+  const originalHTML = btn.innerHTML;
+  btn.disabled = true;
+  btn.querySelector('.t').textContent = 'Reiniciando…';
+
+  /* Traer problemas frescos del gist para restaurar sus ELOs originales */
+  let problemasReset = state.problemas;
+  try{
+    if(REMOTE_URL && !REMOTE_URL.includes('TU_GIST_ID') && !REMOTE_URL.includes('....')){
+      const sep = REMOTE_URL.includes('?') ? '&' : '?';
+      const resp = await fetchWithTimeout(REMOTE_URL + sep + '_=' + Date.now(), {cache:'no-store'}, 8000);
+      if(resp.ok){
+        const fresh = await resp.json();
+        if(validateState(fresh)) problemasReset = fresh.problemas;
+      }
+    }
+  }catch(e){
+    console.warn('No se pudo traer el gist, mantengo los problemas actuales', e);
+    showToast('⚠ No se pudo traer el gist, se reinicia solo el usuario', true);
+  }
+
+  const temasReset = state.temas;
+  const metaReset = state.meta;
+  state = createDefaultState();
+  state.problemas = problemasReset;
+  if(temasReset) state.temas = temasReset;
+  if(metaReset) state.meta = metaReset;
+  temasConfig = buildTemasConfig(state);
+  ensureTemaElos();
+  dataSource = 'defaults';
+  temaForzado = null;
+  respuestasSinSync = 0;
+
+  saveLocalStorage();
+  lastSavedAt = new Date();
+  closeModal();
+  buildUI();
+  showToast('↺ Progreso reiniciado');
+
+  btn.disabled = false;
+  btn.innerHTML = originalHTML;
 });
 
 
@@ -1048,29 +1072,29 @@ document.getElementById('opReset').addEventListener('click', () => {
    SECCIÓN 13 · SELECTOR DE DATASETS (ARCHIVOS DEL GIST)
    ═══════════════════════════════════════════════════════════════ */
 
-/* Cambia de dataset sin recargar la página. */
 async function switchDataset(filename){
   if(filename === selectedFilename) return;
   if(!gistFiles.length) return;
 
-  /* 1) Guardar progreso del dataset actual */
+  /* FIX 2: subir pendientes del dataset actual ANTES de cambiar */
+  if(respuestasSinSync > 0){
+    try{ await pushProgressToGist(true); }catch(e){}
+  }
+  respuestasSinSync = 0;
+
   tickAutosave(true);
 
-  /* 2) Actualizar selección y persistirla */
   selectedFilename = filename;
   try{ localStorage.setItem(SELECTED_DATASET_KEY, filename); }catch(e){}
 
-  /* 3) Apuntar REMOTE_URL al archivo elegido y recalcular LS_KEY */
   const file = gistFiles.find(f => f.filename === filename);
   if(!file) return;
-  REMOTE_URL_OVERRIDE = file.url;   /* ver Sección 9 (fetchRemote) */
+  REMOTE_URL_OVERRIDE = file.url;
   REMOTE_URL = file.url;
   LS_KEY = computeLsKey();
 
-  /* 4) Mostrar feedback visual */
   setDatasetBarLoading(true);
 
-  /* 5) Cargar estado del nuevo dataset */
   try{
     state = await loadState();
     buildMeta(state);
@@ -1103,7 +1127,6 @@ function setDatasetBarLoading(on){
   });
 }
 
-/* Se llama desde buildUI() para poblar los chips. */
 function renderDatasetBar(){
   const bar = document.getElementById('datasetBar');
   if(!bar) return;
@@ -1294,7 +1317,7 @@ function updateHUD(){
 
 
 /* ═══════════════════════════════════════════════════════════════
-   SECCIÓN 16 · MATCHMAKING (anti-repetición con peso)
+   SECCIÓN 16 · MATCHMAKING
    ═══════════════════════════════════════════════════════════════ */
 
 function pickProblem(){
@@ -1320,8 +1343,6 @@ function pickProblem(){
   const N = Math.max(1, recent.length);
 
   const scored = pool.map(p => {
-    /* El rival se elige siempre contra tu ELO global, no el del tema.
-       Así, si filtrás por un tema, igual te da problemas de tu nivel. */
     const miElo = eloGlobal();
     const diffElo = Math.abs(p.elo - miElo);
 
@@ -1354,7 +1375,7 @@ function toggleTema(tema){
 
 
 /* ═══════════════════════════════════════════════════════════════
-   SECCIÓN 17 · RONDA (render del problema actual)
+   SECCIÓN 17 · RONDA
    ═══════════════════════════════════════════════════════════════ */
 
 function renderRound(){
@@ -1405,8 +1426,9 @@ function renderRound(){
   typesetMath(pText);
   typesetMath(cont);
 }
+
 /* ═══════════════════════════════════════════════════════════════
-   SECCIÓN 18 · RESPUESTA (actualización de ELOs y feedback)
+   SECCIÓN 18 · RESPUESTA
    ═══════════════════════════════════════════════════════════════ */
 
 function responder(indice){
@@ -1419,22 +1441,17 @@ function responder(indice){
   const uTemaAntes = state.usuario.temaElo[temaActual] ?? META.eloStart;
   const S = acierto ? 1 : 0;
 
-  /* ── 1) ELO GLOBAL: evoluciona como si no hubiera temas ───── */
   const gAntes  = eloGlobal();
   const E_g     = expected(gAntes, pEloAntes);
   const dGlobal = META.kUser * (S - E_g);
   state.usuario.eloGlobal = gAntes + dGlobal;
-  /* ─────────────────────────────────────────────────────────── */
 
-  /* ── 2) ELO DEL TEMA: con boost y convergencia hacia el global */
-  const brecha    = gAntes - uTemaAntes;     /* >0 si el global está arriba */
+  const brecha    = gAntes - uTemaAntes;
   const absBrecha = Math.abs(brecha);
 
-  /* Boost del K: cuanto más lejos está el tema del global, más rápido se mueve */
   const boost = 1 + Math.min(K_BOOST_MAX, absBrecha / K_BOOST_RANGO);
   const kTema = META.kUser * boost;
 
-  /* Término de convergencia: cierra un % del exceso de brecha por ronda */
   let dConv = 0;
   if(absBrecha > CONV_UMBRAL){
     const exceso = absBrecha - CONV_UMBRAL;
@@ -1448,7 +1465,6 @@ function responder(indice){
   const uTemaDespues = uTemaAntes + dUser;
   state.usuario.temaElo[temaActual] = uTemaDespues;
   current.elo = pEloAntes + META.kProb * ((1 - S) - (1 - E));
-  /* ─────────────────────────────────────────────────────────── */
 
   state.usuario.round += 1;
   if(acierto){
@@ -1473,6 +1489,7 @@ function responder(indice){
   dirty = true;
   tickAutosave(true);
   respuestasSinSync++;
+
   const botones = [...document.querySelectorAll('.opt')];
   botones.forEach((b, i) => {
     b.disabled = true;
@@ -1517,13 +1534,11 @@ function responder(indice){
   fb.innerHTML = html;
   typesetMath(fb);
 
-  /* ── Delta al lado del ELO global ─────────────────────────── */
   const dEl = document.getElementById('userDelta');
   dEl.textContent = (dGlobal >= 0 ? '+' : '') + dGlobal.toFixed(0);
   dEl.className = 'delta show ' + (dGlobal >= 0 ? 'up' : 'down');
   clearTimeout(dEl.__to);
   dEl.__to = setTimeout(() => { dEl.className = 'delta'; }, 2500);
-  /* ─────────────────────────────────────────────────────────── */
 
   updateHUD();
   drawRadar(temaActual);
@@ -1561,7 +1576,6 @@ function getRadarRange(){
   };
 }
 
-/* Corta un texto en varias líneas según el ancho disponible en el canvas. */
 function wrapText(ctx, text, maxWidth){
   const words = String(text).split(/\s+/).filter(Boolean);
   const lines = [];
@@ -1684,7 +1698,6 @@ function drawRadar(highlightTema = null){
     ctx.stroke();
   });
 
-	/* ── Etiquetas de temas (con wrap y truncado) ─────────────── */
 	ctx.font = '700 11px "Segoe UI", system-ui, sans-serif';
 	ctx.textBaseline = 'middle';
 	const LINE_H = 13;
@@ -1701,17 +1714,14 @@ function drawRadar(highlightTema = null){
 	  else if(ca < -0.35) align = 'right';
 	  ctx.textAlign = align;
 
-	  /* Ancho disponible según dónde cae la etiqueta */
 	  let maxW;
 	  if(align === 'left')       maxW = size - lx - 4;
 	  else if(align === 'right') maxW = lx - 4;
 	  else                       maxW = 2 * Math.min(lx, size - lx) - 8;
-	  if(maxW < 40) maxW = 40;   /* piso mínimo */
+	  if(maxW < 40) maxW = 40;
 
-	  /* Envolver palabra por palabra */
 	  let lines = wrapText(ctx, t.nombre, maxW);
 
-	  /* Si una sola palabra no entra, truncar con "…" */
 	  lines = lines.map(line => {
 		if(ctx.measureText(line).width <= maxW) return line;
 		let s = line;
@@ -1727,7 +1737,6 @@ function drawRadar(highlightTema = null){
 				   : isHi     ? t.color
 				   : 'rgba(233,239,247,.82)';
 
-	  /* Dibujar las líneas centradas verticalmente alrededor de ly */
 	  const totalH = lines.length * LINE_H;
 	  const startY = ly - (totalH - LINE_H) / 2;
 	  lines.forEach((line, li) => {
@@ -1807,7 +1816,7 @@ function renderLegend(highlightTema = null){
 
 
 /* ═══════════════════════════════════════════════════════════════
-   SECCIÓN 22 · TOAST (notificaciones efímeras)
+   SECCIÓN 22 · TOAST
    ═══════════════════════════════════════════════════════════════ */
 
 function showToast(msg, isError = false){
@@ -1833,7 +1842,7 @@ function showToast(msg, isError = false){
 
 
 /* ═══════════════════════════════════════════════════════════════
-   SECCIÓN 23 · EVENTOS GLOBALES (teclado y resize)
+   SECCIÓN 23 · EVENTOS GLOBALES
    ═══════════════════════════════════════════════════════════════ */
 
 document.addEventListener('keydown', (e) => {
@@ -1863,16 +1872,12 @@ window.addEventListener('resize', () => {
    SECCIÓN 24 · INICIALIZACIÓN
    ═══════════════════════════════════════════════════════════════ */
 
-/* Variable auxiliar que usa fetchRemote (Sección 9) para leer la
-   URL del archivo elegido en el gist. */
 let REMOTE_URL_OVERRIDE = null;
 
 (async function init(){
-  /* ── 24.1 Listar los archivos del gist (si hay GIST_ID) ───── */
   if(GIST_ID){
     gistFiles = await listGistFiles();
     if(gistFiles.length > 0){
-      /* ¿Cuál cargar? El guardado, o el primero. */
       let saved = null;
       try{ saved = localStorage.getItem(SELECTED_DATASET_KEY); }catch(e){}
       const found = gistFiles.find(f => f.filename === saved);
@@ -1881,14 +1886,26 @@ let REMOTE_URL_OVERRIDE = null;
       REMOTE_URL_OVERRIDE = file.url;
       REMOTE_URL = file.url;
     } else {
+      /* FIX 4: pantalla de error si el gist no carga */
       console.warn('Gist sin archivos .json o API no disponible');
+      document.getElementById('app').innerHTML = `
+        <div class="loading">
+          <div style="color:var(--bad);font-size:18px;font-weight:800">⚠ No se pudo cargar el gist</div>
+          <div style="color:var(--muted);font-size:13px;text-align:center;max-width:460px;line-height:1.6">
+            Puede ser un problema de conexión, rate limit de GitHub,
+            o que el gist no tenga archivos <code>.json</code>.
+            <br><br>
+            Gist ID: <code style="color:var(--accent)">${GIST_ID}</code>
+          </div>
+          <button class="mini-btn" onclick="location.reload()" style="margin-top:8px">🔄 Reintentar</button>
+        </div>
+      `;
+      return;
     }
   }
 
-  /* ── 24.2 LS_KEY depende del archivo seleccionado ─────────── */
   LS_KEY = computeLsKey();
 
-  /* ── 24.3 Cargar dataset (local + remoto) ─────────────────── */
   state = await loadState();
 
   buildMeta(state);
@@ -1920,7 +1937,6 @@ async function reloadDataset(){
   if(btn){ btn.disabled = true; btn.textContent = '⏳ Recargando…'; }
 
   try{
-    /* 1) Traer el archivo fresco del gist */
     const url = REMOTE_URL;
     const sep = url.includes('?') ? '&' : '?';
     const resp = await fetchWithTimeout(url + sep + '_=' + Date.now(), {cache:'no-store'}, 10000);
@@ -1928,19 +1944,16 @@ async function reloadDataset(){
     const fresh = JSON.parse(await resp.text());
     if(!validateState(fresh)) throw new Error('El dataset remoto no es válido');
 
-    /* 2) Guardar ELOs actuales por id para no perder progreso */
     const eloPorId = new Map();
     for(const p of state.problemas){
       eloPorId.set(p.id, p.elo);
     }
 
-    /* 3) Reemplazar problemas; conservar elo si el id ya existía */
     const nuevos = fresh.problemas.map(p => ({
       ...p,
       elo: eloPorId.has(p.id) ? eloPorId.get(p.id) : p.elo
     }));
 
-    /* 4) Actualizar el state conservando usuario y meta */
     state.problemas = nuevos;
     if(fresh.meta) state.meta = fresh.meta;
     if(fresh.temas) state.temas = fresh.temas;
@@ -1949,7 +1962,6 @@ async function reloadDataset(){
     temasConfig = buildTemasConfig(state);
     ensureTemaElos();
 
-    /* 5) Guardar y reconstruir UI */
     saveLocalStorage();
     lastSavedAt = new Date();
     buildUI();
