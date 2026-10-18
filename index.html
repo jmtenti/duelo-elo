@@ -371,6 +371,44 @@ main{display:grid;grid-template-columns:1fr 360px;gap:18px;align-items:start}
   border-radius:8px;
 }
 .login-hint b{color:var(--gold)}
+/* ── Teoría / solución: render de mini-markdown ───────────── */
+.teoria-body,
+.sol { white-space: normal; }
+
+.teoria-body ul,
+.teoria-body ol,
+.sol ul,
+.sol ol { margin: 8px 0 8px 22px; padding: 0; }
+
+.teoria-body li,
+.sol li { margin: 4px 0; line-height: 1.65; }
+
+.teoria-body h4,
+.teoria-body h5,
+.teoria-body h6 {
+  margin: 14px 0 6px;
+  color: #ffffff;
+  font-size: 13.5px;
+  font-weight: 800;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.teoria-body strong,
+.sol strong { color: #ffffff; font-weight: 800; }
+
+.teoria-body em,
+.sol em { color: #dbe6f5; font-style: italic; }
+
+.teoria-body code,
+.sol code {
+  background: rgba(10,16,26,.65);
+  padding: 1px 6px;
+  border-radius: 4px;
+  font-family: 'Consolas', 'Monaco', monospace;
+  font-size: 12.5px;
+  color: #a9d5ff;
+}  
 </style>
 </head>
 <body>
@@ -1311,7 +1349,72 @@ function toggleTema(tema){
   updateFilterPill();
   renderRound();
 }
+/* ═══════════════════════════════════════════════════════════════
+   SECCIÓN 18b · MINI MARKDOWN (para teoría / solución)
+   Soporta: encabezados #, **negrita**, listas - * + y 1.
+   Protege segmentos LaTeX ($…$, $$…$$, \(…\), \[…\]) para
+   que MathJax los procese luego.
+   ═══════════════════════════════════════════════════════════════ */
+function mdLite(src){
+  if(src == null) return '';
+  let s = String(src);
 
+  /* 1) Proteger LaTeX */
+  const mathSegs = [];
+  s = s.replace(
+    /\$\$[\s\S]*?\$\$|\$[^$\n]+?\$|\\\([\s\S]*?\\\)|\\\[[\s\S]*?\\\]/g,
+    m => { mathSegs.push(m); return `\u0000M${mathSegs.length - 1}\u0000`; }
+  );
+
+  /* 2) Encabezados */
+  s = s.replace(/^[ \t]*######[ \t]+(.+)$/gm, '<h6>$1</h6>');
+  s = s.replace(/^[ \t]*#####[ \t]+(.+)$/gm,  '<h5>$1</h5>');
+  s = s.replace(/^[ \t]*####[ \t]+(.+)$/gm,   '<h4>$1</h4>');
+  s = s.replace(/^[ \t]*###[ \t]+(.+)$/gm,    '<h4>$1</h4>');
+  s = s.replace(/^[ \t]*##[ \t]+(.+)$/gm,     '<h4>$1</h4>');
+  s = s.replace(/^[ \t]*#[ \t]+(.+)$/gm,      '<h4>$1</h4>');
+
+  /* 3) **negrita**  y  *itálica*  y  `código` */
+  s = s.replace(/\*\*([^*\n]+?)\*\*/g, '<strong>$1</strong>');
+  s = s.replace(/(^|[\s(])\*([^*\n]+?)\*(?=[\s.,;:!?)]|$)/g, '$1<em>$2</em>');
+  s = s.replace(/`([^`\n]+?)`/g, '<code>$1</code>');
+
+  /* 4) Listas y párrafos */
+  const lines = s.split(/\r?\n/);
+  const out = [];
+  let listType = null;
+  const closeList = () => { if(listType){ out.push(`</${listType}>`); listType = null; } };
+
+  for(const line of lines){
+    const t = line.trim();
+    if(!t){ closeList(); continue; }
+    if(/^<h[1-6][ >]/i.test(t)){ closeList(); out.push(t); continue; }
+
+    let m;
+    if((m = t.match(/^[-*+]\s+(.+)$/))){
+      if(listType !== 'ul'){ closeList(); out.push('<ul>'); listType = 'ul'; }
+      out.push('<li>' + m[1] + '</li>');
+    } else if((m = t.match(/^\d+\.\s+(.+)$/))){
+      if(listType !== 'ol'){ closeList(); out.push('<ol>'); listType = 'ol'; }
+      out.push('<li>' + m[1] + '</li>');
+    } else {
+      closeList();
+      out.push(t + '<br>');
+    }
+  }
+  closeList();
+
+  let html = out.join('\n');
+  /* 5) Limpieza de <br> redundantes */
+  html = html.replace(/<br>\s*(<h[1-6][ >])/gi, '$1');
+  html = html.replace(/<br>\s*(<ul>|<ol>)/gi, '$1');
+  html = html.replace(/(<\/(?:ul|ol|h[1-6])>)\s*<br>/gi, '$1');
+  html = html.replace(/(<br>\s*)+$/gi, '');
+
+  /* 6) Restaurar LaTeX */
+  html = html.replace(/\u0000M(\d+)\u0000/g, (_, i) => mathSegs[+i]);
+  return html;
+}
 /* ═══════════════════════════════════════════════════════════════
    SECCIÓN 19 · RONDA
    ═══════════════════════════════════════════════════════════════ */
@@ -1436,15 +1539,15 @@ function responder(indice){
     '<div class="title">' +
       (acierto ? '✅ ¡Victoria! Le ganaste al problema.' : '❌ Derrota. El problema te ganó.') +
     '</div>' +
-    '<div class="sol">' + current.sol + '</div>';
+    '<div class="sol">' + mdLite(current.sol) + '</div>';
 
   if(!acierto && current.teoria){
     const t = (typeof current.teoria === 'string')
       ? { titulo: 'Teoría', texto: current.teoria } : current.teoria;
     html +=
       '<div class="teoria">' +
-        '<div class="teoria-title">' + t.titulo + '</div>' +
-        '<div class="teoria-body">' + t.texto + '</div>' +
+        '<div class="teoria-title">' + mdLite(t.titulo) + '</div>' +
+        '<div class="teoria-body">' + mdLite(t.texto) + '</div>' +
       '</div>';
   }
 
@@ -1721,6 +1824,127 @@ function renderLegend(highlightTema = null){
    SECCIÓN 22 · TOAST
    ═══════════════════════════════════════════════════════════════ */
 
+/* Mini Markdown: encabezados, **negrita**, listas -/*/+ y 1.,
+   respeta $...$ y $$...$$ de MathJax. */
+function mdLite(src){
+  if(src == null) return '';
+  let s = String(src);
+
+  /* Proteger LaTeX */
+  const mathSegs = [];
+  s = s.replace(
+    /\$\$[\s\S]*?\$\$|\$[^$\n]+?\$|\\\([\s\S]*?\\\)|\\\[[\s\S]*?\\\]/g,
+    m => { mathSegs.push(m); return `\u0000M${mathSegs.length - 1}\u0000`; }
+  );
+
+  /* Encabezados */
+  s = s.replace(/^[ \t]*######[ \t]+(.+)$/gm, '<h6>$1</h6>');
+  s = s.replace(/^[ \t]*#####[ \t]+(.+)$/gm,  '<h5>$1</h5>');
+  s = s.replace(/^[ \t]*####[ \t]+(.+)$/gm,   '<h4>$1</h4>');
+  s = s.replace(/^[ \t]*###[ \t]+(.+)$/gm,    '<h4>$1</h4>');
+  s = s.replace(/^[ \t]*##[ \t]+(.+)$/gm,     '<h4>$1</h4>');
+  s = s.replace(/^[ \t]*#[ \t]+(.+)$/gm,      '<h4>$1</h4>');
+
+  /* Negrita **texto** */
+  s = s.replace(/\*\*([^*\n]+?)\*\*/g, '<strong>$1</strong>');
+
+  /* Listas + saltos de línea */
+  const lines = s.split(/\r?\n/);
+  const out = [];
+  let listType = null;
+  const closeList = () => { if(listType){ out.push(`</${listType}>`); listType = null; } };
+
+  for(const line of lines){
+    const t = line.trim();
+    if(!t){ closeList(); continue; }
+    if(/^<h[1-6][ >]/i.test(t)){ closeList(); out.push(t); continue; }
+
+    let m;
+    if((m = t.match(/^[-*+]\s+(.+)$/))){
+      if(listType !== 'ul'){ closeList(); out.push('<ul>'); listType = 'ul'; }
+      out.push('<li>' + m[1] + '</li>');
+    } else if((m = t.match(/^\d+\.\s+(.+)$/))){
+      if(listType !== 'ol'){ closeList(); out.push('<ol>'); listType = 'ol'; }
+      out.push('<li>' + m[1] + '</li>');
+    } else {
+      closeList();
+      out.push(t + '<br>');
+    }
+  }
+  closeList();
+
+  let html = out.join('\n');
+  /* Quitar <br> redundantes junto a bloques */
+  html = html.replace(/<br>\s*(<h[1-6][ >])/gi, '$1');
+  html = html.replace(/<br>\s*(<ul>|<ol>)/gi, '$1');
+  html = html.replace(/(<\/(?:ul|ol|h[1-6])>)\s*<br>/gi, '$1');
+  html = html.replace(/(<br>\s*)+$/gi, '');
+
+  /* Restaurar LaTeX */
+  html = html.replace(/\u0000M(\d+)\u0000/g, (_, i) => mathSegs[+i]);
+  return html;
+}
+  
+/* Mini Markdown: encabezados, **negrita**, listas -/*/+ y 1.,
+   respeta $...$ y $$...$$ de MathJax. */
+function mdLite(src){
+  if(src == null) return '';
+  let s = String(src);
+
+  /* Proteger LaTeX */
+  const mathSegs = [];
+  s = s.replace(
+    /\$\$[\s\S]*?\$\$|\$[^$\n]+?\$|\\\([\s\S]*?\\\)|\\\[[\s\S]*?\\\]/g,
+    m => { mathSegs.push(m); return `\u0000M${mathSegs.length - 1}\u0000`; }
+  );
+
+  /* Encabezados */
+  s = s.replace(/^[ \t]*######[ \t]+(.+)$/gm, '<h6>$1</h6>');
+  s = s.replace(/^[ \t]*#####[ \t]+(.+)$/gm,  '<h5>$1</h5>');
+  s = s.replace(/^[ \t]*####[ \t]+(.+)$/gm,   '<h4>$1</h4>');
+  s = s.replace(/^[ \t]*###[ \t]+(.+)$/gm,    '<h4>$1</h4>');
+  s = s.replace(/^[ \t]*##[ \t]+(.+)$/gm,     '<h4>$1</h4>');
+  s = s.replace(/^[ \t]*#[ \t]+(.+)$/gm,      '<h4>$1</h4>');
+
+  /* Negrita **texto** */
+  s = s.replace(/\*\*([^*\n]+?)\*\*/g, '<strong>$1</strong>');
+
+  /* Listas + saltos de línea */
+  const lines = s.split(/\r?\n/);
+  const out = [];
+  let listType = null;
+  const closeList = () => { if(listType){ out.push(`</${listType}>`); listType = null; } };
+
+  for(const line of lines){
+    const t = line.trim();
+    if(!t){ closeList(); continue; }
+    if(/^<h[1-6][ >]/i.test(t)){ closeList(); out.push(t); continue; }
+
+    let m;
+    if((m = t.match(/^[-*+]\s+(.+)$/))){
+      if(listType !== 'ul'){ closeList(); out.push('<ul>'); listType = 'ul'; }
+      out.push('<li>' + m[1] + '</li>');
+    } else if((m = t.match(/^\d+\.\s+(.+)$/))){
+      if(listType !== 'ol'){ closeList(); out.push('<ol>'); listType = 'ol'; }
+      out.push('<li>' + m[1] + '</li>');
+    } else {
+      closeList();
+      out.push(t + '<br>');
+    }
+  }
+  closeList();
+
+  let html = out.join('\n');
+  /* Quitar <br> redundantes junto a bloques */
+  html = html.replace(/<br>\s*(<h[1-6][ >])/gi, '$1');
+  html = html.replace(/<br>\s*(<ul>|<ol>)/gi, '$1');
+  html = html.replace(/(<\/(?:ul|ol|h[1-6])>)\s*<br>/gi, '$1');
+  html = html.replace(/(<br>\s*)+$/gi, '');
+
+  /* Restaurar LaTeX */
+  html = html.replace(/\u0000M(\d+)\u0000/g, (_, i) => mathSegs[+i]);
+  return html;
+}
 function showToast(msg, isError = false){
   let t = document.getElementById('__toast');
   if(!t){ t = document.createElement('div'); t.id = '__toast'; document.body.appendChild(t); }
