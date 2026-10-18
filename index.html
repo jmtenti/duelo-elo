@@ -720,8 +720,12 @@ async function listGistFiles(){
     });
     if(!resp.ok) return [];
     const data = await resp.json();
-    return Object.values(data.files || {})
-      .filter(f => /\.json$/i.test(f.filename) && f.filename !== 'users.json')
+    return Object.values(data.files || [])
+      .filter(f =>
+        /\.json$/i.test(f.filename) &&
+        f.filename !== 'users.json' &&
+        !f.filename.startsWith('_')       // ← excluye _problem-elo.json
+      )
       .map(f => ({
         filename: f.filename,
         nombre: prettyName(f.filename),
