@@ -435,8 +435,8 @@ const K_BOOST_MAX   = 2;
 const DEFAULT_META = {
   titulo: 'Duelo ELO',
   subtitulo: '',
-  eloMin: 800,
-  eloMax: 1800,
+  eloMin: 200,
+  eloMax: 2500,
   eloStart: null,
   eloStartPct: 0.2,
   nRings: 5,
@@ -1464,7 +1464,7 @@ function responder(indice){
   dEl.textContent = (dGlobal >= 0 ? '+' : '') + dGlobal.toFixed(0);
   dEl.className = 'delta show ' + (dGlobal >= 0 ? 'up' : 'down');
   clearTimeout(dEl.__to);
-  dEl.__to = setTimeout(() => { dEl.className = 'delta'; }, 2500);
+  dEl.__to = setTimeout(() => { dEl.className = 'delta'; }, 25000);
 
   updateHUD();
   drawRadar(temaActual);
