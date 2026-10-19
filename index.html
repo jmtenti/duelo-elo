@@ -1307,28 +1307,20 @@ function updateHUD(){
    SECCIÓN 18 · MATCHMAKING
    ═══════════════════════════════════════════════════════════════ */
 
-/* Intensidad del sesgo hacia el tema más flojo, en "puntos ELO" equivalentes.
-   Más alto = el tema débil aparece más seguido. 0 = desactivado. */
-const WEAK_THEME_BONUS_MAX = 200;
+/* Intensidad del sesgo hacia el tema más flojo.
+   0    = desactivado (comportamiento original)
+   0.5  = muy sutil   (el más flojo ~1.2× el más fuerte)
+   1.0  = notable     (el más flojo ~1.7× el más fuerte)  ← recomendado
+   2.0  = fuerte      (el más flojo ~3× el más fuerte) */
+const WEAK_THEME_BIAS = 1.0;
 
 function pickProblem(){
   let base = state.problemas;
   if(temaForzado) base = base.filter(p => temaDe(p) === temaForzado);
   if(base.length === 0) return state.problemas[0];
 
-  const recent = state.usuario.recent || [];
-  const recentSet = new Set(recent);
-  const noVistos = base.filter(p => !recentSet.has(p.id));
-  const umbralDuro = Math.min(base.length, Math.max(4, Math.floor(base.length * 0.3)));
-  const pool = noVistos.length >= umbralDuro ? noVistos : base;
-
-  const posReciente = new Map();
-  recent.forEach((id, i) => posReciente.set(id, i));
-  const N = Math.max(1, recent.length);
-
-  /* ── Sesgo hacia el tema con menor ELO (solo si no hay filtro manual) ── */
-  let temaBonusMap = null;
-  if(!temaForzado && WEAK_THEME_BONUS_MAX > 0){
+  /* ── Paso 1: elegir tema con probabilidad ponderada ── */
+  if(!temaForzado && WEAK_THEME_BIAS > 0 && temasConfig.length > 1){
     const elosPorTema = {};
     temasConfig.forEach(t => {
       const e = state.usuario.temaElo[t.nombre];
@@ -1340,16 +1332,36 @@ function pickProblem(){
       const minE = Math.min(...elos);
       const maxE = Math.max(...elos);
       const span = maxE - minE;
-      if(span > 20){                       // solo si hay diferencia real
-        temaBonusMap = {};
-        nombres.forEach(n => {
-          const gap = elosPorTema[n] - minE; // 0 para el más flojo
-          // Lineal: más flojo = WEAK_THEME_BONUS_MAX, más fuerte = 0
-          temaBonusMap[n] = WEAK_THEME_BONUS_MAX * (1 - gap / span);
-        });
+      if(span > 20){
+        // El más flojo recibe 1+BIAS, el más fuerte 1.0. Lineal en el medio.
+        const pesos = nombres.map(n =>
+          1 + WEAK_THEME_BIAS * (1 - (elosPorTema[n] - minE) / span)
+        );
+        const total = pesos.reduce((a, b) => a + b, 0);
+        let r = Math.random() * total;
+        let elegido = nombres[0];
+        for(let i = 0; i < nombres.length; i++){
+          r -= pesos[i];
+          if(r <= 0){ elegido = nombres[i]; break; }
+        }
+        const delTema = base.filter(p => temaDe(p) === elegido);
+        if(delTema.length > 0) base = delTema;
+        // si el tema elegido no tiene problemas en el pool actual,
+        // se cae al pool completo (raro, pero seguro)
       }
     }
   }
+
+  /* ── Paso 2: dentro del tema, elegir por ELO + no repetir ── */
+  const recent = state.usuario.recent || [];
+  const recentSet = new Set(recent);
+  const noVistos = base.filter(p => !recentSet.has(p.id));
+  const umbralDuro = Math.min(base.length, Math.max(4, Math.floor(base.length * 0.3)));
+  const pool = noVistos.length >= umbralDuro ? noVistos : base;
+
+  const posReciente = new Map();
+  recent.forEach((id, i) => posReciente.set(id, i));
+  const N = Math.max(1, recent.length);
 
   const scored = pool.map(p => {
     const miElo = eloGlobal();
@@ -1359,15 +1371,10 @@ function pickProblem(){
       const pos = posReciente.get(p.id);
       repPenalty = 500 * (1 - pos / N);
     }
-    let temaBonus = 0;
-    if(temaBonusMap){
-      const t = temaDe(p);
-      if(typeof temaBonusMap[t] === 'number') temaBonus = temaBonusMap[t];
-    }
-    return { p, score: diffElo + repPenalty - temaBonus };
+    return { p, score: diffElo + repPenalty };
   });
 
-  scored.sort((a,b) => a.score - b.score);
+  scored.sort((a, b) => a.score - b.score);
   const candidatos = scored.slice(0, Math.min(4, scored.length));
   return candidatos[Math.floor(Math.random() * candidatos.length)].p;
 }
