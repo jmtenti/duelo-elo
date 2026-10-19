@@ -1307,6 +1307,10 @@ function updateHUD(){
    SECCIÓN 18 · MATCHMAKING
    ═══════════════════════════════════════════════════════════════ */
 
+/* Intensidad del sesgo hacia el tema más flojo, en "puntos ELO" equivalentes.
+   Más alto = el tema débil aparece más seguido. 0 = desactivado. */
+const WEAK_THEME_BONUS_MAX = 100;
+
 function pickProblem(){
   let base = state.problemas;
   if(temaForzado) base = base.filter(p => temaDe(p) === temaForzado);
@@ -1322,6 +1326,31 @@ function pickProblem(){
   recent.forEach((id, i) => posReciente.set(id, i));
   const N = Math.max(1, recent.length);
 
+  /* ── Sesgo hacia el tema con menor ELO (solo si no hay filtro manual) ── */
+  let temaBonusMap = null;
+  if(!temaForzado && WEAK_THEME_BONUS_MAX > 0){
+    const elosPorTema = {};
+    temasConfig.forEach(t => {
+      const e = state.usuario.temaElo[t.nombre];
+      if(typeof e === 'number' && isFinite(e)) elosPorTema[t.nombre] = e;
+    });
+    const nombres = Object.keys(elosPorTema);
+    if(nombres.length > 1){
+      const elos = nombres.map(n => elosPorTema[n]);
+      const minE = Math.min(...elos);
+      const maxE = Math.max(...elos);
+      const span = maxE - minE;
+      if(span > 20){                       // solo si hay diferencia real
+        temaBonusMap = {};
+        nombres.forEach(n => {
+          const gap = elosPorTema[n] - minE; // 0 para el más flojo
+          // Lineal: más flojo = WEAK_THEME_BONUS_MAX, más fuerte = 0
+          temaBonusMap[n] = WEAK_THEME_BONUS_MAX * (1 - gap / span);
+        });
+      }
+    }
+  }
+
   const scored = pool.map(p => {
     const miElo = eloGlobal();
     const diffElo = Math.abs(p.elo - miElo);
@@ -1330,7 +1359,12 @@ function pickProblem(){
       const pos = posReciente.get(p.id);
       repPenalty = 500 * (1 - pos / N);
     }
-    return { p, score: diffElo + repPenalty };
+    let temaBonus = 0;
+    if(temaBonusMap){
+      const t = temaDe(p);
+      if(typeof temaBonusMap[t] === 'number') temaBonus = temaBonusMap[t];
+    }
+    return { p, score: diffElo + repPenalty - temaBonus };
   });
 
   scored.sort((a,b) => a.score - b.score);
