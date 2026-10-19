@@ -1517,11 +1517,20 @@ function responder(indice){
   const uTemaAntes = state.usuario.temaElo[temaActual] ?? META.eloStart;
   const S = acierto ? 1 : 0;
 
-  const gAntes  = eloGlobal();
-  const E_g     = expected(gAntes, pEloAntes);
+  /* ─── Corrección por adivinanza en MCQ ───
+     Con N opciones, incluso sin saber nada acertás q = 1/N.
+     El ELO de ajedrez asume q = 0, así que comprimimos E. */
+  const N_OPTS = (currentShuffled.opts && currentShuffled.opts.length) || 4;
+  const q = 1 / N_OPTS;
+  const adjE = (E_raw) => q + (1 - q) * E_raw;
+
+  /* ─── ELO global ─── */
+  const gAntes = eloGlobal();
+  const E_g = adjE(expected(gAntes, pEloAntes));
   const dGlobal = META.kUser * (S - E_g);
   state.usuario.eloGlobal = gAntes + dGlobal;
 
+  /* ─── ELO del tema (boost + convergencia, igual que antes) ─── */
   const brecha    = gAntes - uTemaAntes;
   const absBrecha = Math.abs(brecha);
   const boost = 1 + Math.min(K_BOOST_MAX, absBrecha / K_BOOST_RANGO);
@@ -1533,15 +1542,19 @@ function responder(indice){
     dConv = Math.sign(brecha) * CONV_FACTOR * exceso;
   }
 
-  const E = expected(uTemaAntes, pEloAntes);
+  const E = adjE(expected(uTemaAntes, pEloAntes));
   const dUser = kTema * (S - E) + dConv;
   const uTemaDespues = uTemaAntes + dUser;
   state.usuario.temaElo[temaActual] = uTemaDespues;
 
-  /* ─── ELO global del problema ─── */
-  current.elo = pEloAntes + META.kProb * ((1 - S) - (1 - E));
+  /* ─── ELO global del problema ───
+     Nota: (1-S)-(1-E) simplifica a (E-S). Antes usaba E_raw.
+     Ahora usa E_adj — el problema baja/cae menos bruscamente porque
+     "el jugador pudo haber acertado por azar". */
+  current.elo = pEloAntes + META.kProb * (E - S);
   workerSendProblemElo(selectedFilename, current.id, current.elo);
 
+  /* ─── Registro de la respuesta ─── */
   state.usuario.round += 1;
   if(acierto){
     state.usuario.wins++;
@@ -1562,6 +1575,7 @@ function responder(indice){
   lastSavedAt = new Date();
   respuestasSinSync++;
 
+  /* ─── UI de la ronda ─── */
   const botones = [...document.querySelectorAll('.opt')];
   botones.forEach((b, i) => {
     b.disabled = true;
