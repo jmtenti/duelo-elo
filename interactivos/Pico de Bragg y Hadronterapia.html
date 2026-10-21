@@ -1,0 +1,1352 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Estudio Interactivo: Pico de Bragg y Hadronterapia</title>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']], displayMath: [['$$','$$'], ['\\[','\\]']]},
+    messageStyle: "none"
+  });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script src="https://cdn.plot.ly/plotly-2.24.1.min.js"></script>
+
+<style>
+  :root {
+    --primary-color: #1a252f;
+    --secondary-color: #2c3e50;
+    --accent-color: #c0392b;
+    --link-color: #2980b9;
+    --bg-color: #f8f9fa;
+    --sm-color: #16a085;
+    --ex-color: #8e44ad;
+    --hist-color: #b7791f;
+    --we-color: #6c3483;
+    --intuition-color: #d35400;
+    --warning-color: #c0392b;
+  }
+  body {
+    font-family: 'Georgia', serif;
+    background: var(--bg-color);
+    color: #333;
+    line-height: 1.8;
+    margin: 0; padding: 40px 0;
+    font-size: 16px;
+  }
+  .container {
+    max-width: 1000px;
+    margin: auto;
+    background: white;
+    padding: 50px 80px;
+    border-radius: 12px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.06);
+  }
+  h1 { color: var(--primary-color); text-align: center; font-size: 2.1em; font-family: 'Segoe UI', sans-serif; margin-bottom: 10px;}
+  .subtitle { text-align: center; color: #7f8c8d; font-style: italic; margin-bottom: 40px; }
+  h2 { color: var(--secondary-color); margin-top: 55px; border-bottom: 2px solid #ecf0f1; padding-bottom: 5px; font-family: 'Segoe UI', sans-serif;}
+  h3 { color: var(--secondary-color); margin-top: 35px; font-family: 'Segoe UI', sans-serif; font-size: 1.18em;}
+  h4 { color: var(--sm-color); margin-top: 25px; font-family: 'Segoe UI', sans-serif; font-size: 1.02em; font-style: italic;}
+  p { text-align: justify; margin-bottom: 20px; }
+  ul, ol { text-align: justify; }
+  li { margin-bottom: 8px; }
+  .math-box {
+    background: #fdfefe;
+    border-left: 4px solid var(--link-color);
+    padding: 15px 25px;
+    margin: 25px 0;
+    overflow-x: auto;
+    font-size: 1.1em;
+  }
+  .note-box {
+    background: #fef9e7;
+    border-left: 4px solid #f39c12;
+    padding: 12px 20px;
+    margin: 20px 0;
+    font-size: 0.98em;
+  }
+  .sm-box {
+    background: #eafaf1;
+    border-left: 4px solid var(--sm-color);
+    padding: 14px 22px;
+    margin: 22px 0;
+    font-size: 0.97em;
+  }
+  .sm-box strong:first-child { color: var(--sm-color); }
+  .intuition-box {
+    background: #fdf2e9;
+    border-left: 4px solid var(--intuition-color);
+    padding: 14px 22px;
+    margin: 22px 0;
+    font-size: 0.97em;
+  }
+  .intuition-box strong:first-child { color: var(--intuition-color); }
+  .warning-box {
+    background: #fdedec;
+    border-left: 4px solid var(--warning-color);
+    padding: 14px 22px;
+    margin: 22px 0;
+    font-size: 0.97em;
+  }
+  .warning-box strong:first-child { color: var(--warning-color); }
+  .guide-box {
+    background: #eef6fc;
+    border-left: 4px solid var(--link-color);
+    padding: 14px 22px;
+    margin: 22px 0;
+    font-size: 0.96em;
+  }
+  .guide-box strong:first-child { color: var(--link-color); }
+  .guide-box ol { margin: 8px 0 0 0; padding-left: 22px; }
+  .history-box {
+    background: #fbf6e9;
+    border-left: 4px solid var(--hist-color);
+    padding: 14px 22px;
+    margin: 22px 0;
+    font-size: 0.95em;
+    font-style: italic;
+    color: #5b4a1e;
+  }
+  .history-box strong { font-style: normal; }
+  .worked-example {
+    background: #faf7fd;
+    border: 1px solid #d5c8e8;
+    border-left: 5px solid var(--we-color);
+    border-radius: 8px;
+    padding: 22px 30px 24px;
+    margin: 35px 0;
+    font-size: 0.98em;
+  }
+  .worked-example .we-header {
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 0.78em;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--we-color);
+    font-weight: bold;
+    margin-bottom: 6px;
+  }
+  .worked-example .we-title {
+    font-family: 'Segoe UI', sans-serif;
+    color: var(--we-color);
+    font-size: 1.08em;
+    font-weight: 600;
+    margin: 0 0 16px 0;
+    line-height: 1.4;
+  }
+  .worked-example .step {
+    margin: 18px 0;
+    padding-left: 18px;
+    border-left: 2px solid #e3d4f0;
+  }
+  .worked-example .step-label {
+    font-family: 'Segoe UI', sans-serif;
+    font-weight: bold;
+    color: var(--we-color);
+    font-size: 0.86em;
+    display: block;
+    margin-bottom: 4px;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+  }
+  .worked-example .result {
+    background: #efe9f7;
+    border-radius: 5px;
+    padding: 10px 16px;
+    margin-top: 8px;
+    font-weight: 500;
+  }
+  .worked-example .verify {
+    background: #eafaf1;
+    border-left: 3px solid var(--sm-color);
+    padding: 8px 14px;
+    border-radius: 0 5px 5px 0;
+    margin-top: 8px;
+    font-size: 0.95em;
+  }
+  .exercise-box {
+    background: #fdf2f2;
+    border: 1px solid #f5c6c6;
+    border-radius: 8px;
+    padding: 22px 28px;
+    margin: 35px 0;
+  }
+  .exercise-box h4 {
+    color: var(--accent-color);
+    margin-top: 0;
+    font-style: normal;
+    font-size: 1.05em;
+  }
+  .hint {
+    background: #fff8e1;
+    border-radius: 4px;
+    padding: 8px 14px;
+    margin: 10px 0;
+    font-size: 0.92em;
+    color: #6d4c00;
+    border-left: 3px solid #f39c12;
+  }
+  .solution-toggle {
+    background: var(--accent-color);
+    color: white;
+    border: none;
+    padding: 8px 18px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 0.92em;
+    margin-top: 12px;
+    transition: background 0.2s;
+  }
+  .solution-toggle:hover { background: #a02828; }
+  .solution-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s ease, margin 0.3s ease;
+    margin-top: 0;
+  }
+  .solution-content.open {
+    max-height: 6000px;
+    margin-top: 18px;
+  }
+  .interactive-figure {
+    background: #fafafa;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    padding: 25px;
+    margin: 40px 0;
+    font-family: 'Segoe UI', sans-serif;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+  }
+  .figure-title { text-align: center; color: var(--secondary-color); font-weight: bold; font-size: 1.2em; margin-top: 0; }
+  .plot-area { width: 100%; height: 460px; margin-bottom: 15px; }
+  .controls {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    padding: 18px 20px;
+    background: #fff;
+    border-radius: 8px;
+    border: 1px solid #eee;
+    margin-bottom: 15px;
+  }
+  .control-panel h4 {
+    margin-top: 0;
+    color: var(--secondary-color);
+    font-size: 0.9em;
+    font-family: 'Segoe UI', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-style: normal;
+  }
+  .checkbox-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 6px 0;
+    font-size: 0.93em;
+    color: #444;
+    cursor: pointer;
+  }
+  .checkbox-row input[type=checkbox] {
+    width: 16px; height: 16px;
+    accent-color: var(--link-color);
+    cursor: pointer;
+  }
+  .slider-row {
+    display: block;
+    margin: 12px 0;
+    font-size: 0.93em;
+    color: #333;
+  }
+  .slider-row input[type=range] {
+    width: 100%;
+    accent-color: var(--accent-color);
+    cursor: pointer;
+  }
+  .slider-val {
+    font-family: Consolas, monospace;
+    color: var(--accent-color);
+    font-weight: bold;
+  }
+  .select-row {
+    margin: 10px 0;
+    font-size: 0.93em;
+    color: #333;
+  }
+  .select-row select {
+    display: block;
+    width: 100%;
+    margin-top: 6px;
+    padding: 8px 12px;
+    border-radius: 6px;
+    border: 1.5px solid #ccc;
+    font-size: 0.95em;
+    background: white;
+    cursor: pointer;
+  }
+  .select-row select:hover { border-color: var(--link-color); }
+  .stats {
+    margin-top: 12px;
+    padding: 12px 16px;
+    background: #f4f6f7;
+    border-radius: 6px;
+    font-family: Consolas, monospace;
+    font-size: 0.86em;
+    line-height: 1.7;
+    text-align: center;
+  }
+  .stats .stat-item {
+    display: inline-block;
+    margin: 3px 6px;
+    padding: 3px 10px;
+    background: white;
+    border-radius: 4px;
+    border: 1px solid #e0e0e0;
+  }
+  .stats .stat-item .lbl { color: #888; }
+  .stats .stat-item .val { color: var(--accent-color); font-weight: bold; }
+  .caption {
+    font-size: 0.95em; color: #555; text-align: justify;
+    padding: 10px 20px; border-left: 3px solid var(--accent-color);
+    background: #fff;
+  }
+  .legend-swatch {
+    display: inline-block; width: 14px; height: 14px;
+    border-radius: 3px; margin-right: 6px; vertical-align: middle;
+  }
+  .term-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 0.94em;
+  }
+  .term-table th, .term-table td {
+    border: 1px solid #e0e0e0;
+    padding: 10px 14px;
+    text-align: left;
+    vertical-align: top;
+  }
+  .term-table th { background: #ecf0f1; font-family: 'Segoe UI', sans-serif; }
+  .term-table td.symbol { font-family: 'Cambria Math', 'Times New Roman', serif; font-size: 1.08em; text-align: center; width: 90px; background: #fafafa;}
+  table.generic { border-collapse: collapse; width: 100%; margin: 20px 0; font-size: 0.95em;}
+  table.generic th, table.generic td { border: 1px solid #e0e0e0; padding: 8px 12px; text-align: left; vertical-align: top;}
+  table.generic th { background: #ecf0f1; }
+  .toc {
+    background: #f4f6f7;
+    border-radius: 8px;
+    padding: 20px 30px;
+    margin: 30px 0;
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 0.95em;
+  }
+  .toc h3 { margin-top: 0; color: var(--secondary-color); font-size: 1.05em;}
+  .toc ol { margin: 0; padding-left: 22px;}
+  .toc li { margin: 4px 0;}
+  .toc a { color: var(--link-color); text-decoration: none;}
+  .toc a:hover { text-decoration: underline;}
+  .step-by-step {
+    counter-reset: step-counter;
+    list-style: none;
+    padding-left: 0;
+    margin: 25px 0;
+  }
+  .step-by-step li {
+    position: relative;
+    padding: 12px 18px 12px 60px;
+    margin: 10px 0;
+    background: #f8f9fa;
+    border-radius: 6px;
+    border-left: 3px solid var(--link-color);
+  }
+  .step-by-step li::before {
+    counter-increment: step-counter;
+    content: counter(step-counter);
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 32px;
+    height: 32px;
+    background: var(--link-color);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Segoe UI', sans-serif;
+    font-weight: bold;
+    font-size: 0.95em;
+  }
+  @media (max-width: 800px) {
+    .container { padding: 30px 20px; }
+    .controls { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h1>El Pico de Bragg</h1>
+  <div class="subtitle">Cómo una partícula cargada pesada se frena en la materia, por qué lo hace de forma tan peculiar y cómo esa rareza se convierte en medicina</div>
+
+  <div class="note-box">
+    <strong>Notación.</strong> $S = -dE/dx$: poder de frenado (MeV/cm). $S/\rho$: poder de frenado másico (MeV·cm²/g). $\beta = v/c$. $z$: carga de la partícula. $A$: número másico. $I$: energía media de excitación (MeV). $R$: alcance. $Z/A$: cociente del material. $E/A$: energía por nucleón (MeV/u). $z_{\rm eff}$: carga efectiva. $K = 0.307075$ MeV·mol⁻¹·cm².
+  </div>
+
+  <div class="intuition-box">
+    <strong>La idea en una frase.</strong> Una partícula cargada pesada que atraviesa la materia es como una bala que atraviesa agua: pierde velocidad poco a poco al empujar las moléculas que encuentra, y <em>cuanto más lenta va, más tiempo pasa cerca de cada molécula</em> y más energía le arranca. Ese efecto, que se retroalimenta, produce una pérdida de energía que crece sin parar hasta que la partícula se detiene. El punto donde la pérdida de energía por unidad de longitud es máxima, justo antes de frenarse del todo, es el <strong>pico de Bragg</strong>.
+  </div>
+
+  <div class="toc">
+    <h3>Contenido</h3>
+    <ol>
+      <li><a href="#s1">¿Qué es el poder de frenado?</a></li>
+      <li><a href="#s2">La fórmula de Bethe-Bloch, término a término</a></li>
+      <li><a href="#s3">La curva de Bragg paso a paso</a></li>
+      <li><a href="#s4">Por qué el pico está al final del recorrido</a></li>
+      <li><a href="#s5">Comparación entre partículas</a></li>
+      <li><a href="#s6">Hadronterapia y el SOBP</a></li>
+      <li><a href="#s7">Ejemplos resueltos</a></li>
+      <li><a href="#s8">Ejercicios propuestos</a></li>
+      <li><a href="#s9">Conclusiones</a></li>
+    </ol>
+  </div>
+
+  <!-- ============================================ -->
+  <h2 id="s1">1. ¿Qué es el poder de frenado?</h2>
+
+  <p>Cuando una partícula cargada pesada —un protón, una partícula alfa, un ion de carbono— entra en un material, interactúa fundamentalmente con los <strong>electrones atómicos</strong> de ese material. Al pasar cerca de un átomo, su campo eléctrico empuja o frena a los electrones, excitándolos o arrancándolos del átomo (ionización). Cada uno de esos procesos le cuesta a la partícula una pequeña cantidad de energía. La suma de todas esas pérdidas a lo largo de un recorrido es lo que llamamos <strong>poder de frenado</strong>:</p>
+
+  <div class="math-box">
+    $$ S(E) \;\equiv\; -\frac{dE}{dx} $$
+  </div>
+
+  <p>$S$ se mide en MeV/cm y depende tanto de la partícula (su carga $z$ y su velocidad $v$) como del material (cuántos electrones tiene por unidad de volumen y cuán fuertemente están ligados). Es importante distinguir dos magnitudes:</p>
+
+  <ul>
+    <li><strong>Poder de frenado lineal</strong> $S = -dE/dx$ (MeV/cm): depende del material concreto.</li>
+    <li><strong>Poder de frenado másico</strong> $S/\rho = -\frac{1}{\rho}dE/dx$ (MeV·cm²/g): depende solo de la composición química, no de la densidad. Es la magnitud universal que se tabula.</li>
+  </ul>
+
+  <div class="intuition-box">
+    <strong>Analogía: la bala y el agua.</strong> Imagina una bala disparada dentro de una piscina. Al principio va muy rápido y el agua casi no la frena: apenas toca cada molécula. Pero a medida que pierde velocidad, cada molécula de agua tarda más tiempo en quedar "empujada" por la bala, y la bala le transfiere más energía. La desaceleración crece, la bala se frena más rápido y el proceso se retroalimenta hasta que se detiene. El poder de frenado es análogo a cuánta energía cede la bala al agua <em>por centímetro recorrido</em>: pequeño al principio, enorme al final.
+  </div>
+
+  <h3>1.1 ¿Por qué las partículas pesadas y no los electrones?</h3>
+
+  <p>Este mismo efecto existe para electrones y positrones, pero es mucho menos pronunciado porque son muy ligeros: al chocar con los electrones atómicos pierden energía en grandes cantidades y se dispersan mucho, de modo que su trayectoria se vuelve errática y su curva de dosis en profundidad no muestra un pico nítido. Las partículas cargadas <strong>pesadas</strong> ($m \gg m_e$) apenas se desvían y dejan una traza casi recta con una pérdida de energía muy regular. Esa regularidad es lo que permite construir la curva de Bragg y explotarla en medicina.</p>
+
+  <div class="warning-box">
+    <strong>Error común.</strong> "El pico de Bragg se debe a que las partículas se van acumulando al final de su recorrido." Falso. Las partículas no se acumulan: cada una se detiene y desaparece. Lo que tiene forma de pico es el <em>poder de frenado</em> (o la dosis, que es proporcional a él), es decir, cuánta energía se deposita <em>por unidad de longitud</em> a cada profundidad. El máximo aparece porque $S(E)$ explota cuando $E \to 0$, no porque haya más partículas.
+  </div>
+
+  <!-- ============================================ -->
+  <h2 id="s2">2. La fórmula de Bethe-Bloch, término a término</h2>
+
+  <p>La expresión cuantitativa del poder de frenado másico es la <strong>fórmula de Bethe-Bloch</strong> (Hans Bethe, 1930; Felix Bloch, 1933), uno de los resultados más importantes de la física atómica del siglo XX:</p>
+
+  <div class="math-box">
+    $$ -\frac{1}{\rho}\frac{dE}{dx} = K\,\frac{Z}{A}\,\frac{z_{\rm eff}^2}{\beta^2}\left[\ln\!\left(\frac{2m_e c^2\beta^2\gamma^2}{I}\right)-\beta^2\right] $$
+  </div>
+
+  <p>Vamos a leerla término a término. Entender <em>qué papel juega cada factor</em> es lo que permite predecir el comportamiento de cualquier partícula en cualquier material.</p>
+
+  <table class="term-table">
+    <thead>
+      <tr><th>Símbolo</th><th>Qué es</th><th>Qué controla en la fórmula</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="symbol">$K$</td>
+        <td>Constante $4\pi N_A r_e^2 m_e c^2 \approx 0.307$ MeV·mol⁻¹·cm².</td>
+        <td>Fija la escala absoluta del poder de frenado. No depende de la partícula ni del material.</td>
+      </tr>
+      <tr>
+        <td class="symbol">$Z/A$</td>
+        <td>Cociente entre número atómico y número másico del material.</td>
+        <td>Indica cuántos electrones hay por nucleón. Casi todos los materiales tienen $Z/A \approx 0.4\text{–}0.5$; por eso $S/\rho$ es similar en sustancias distintas.</td>
+      </tr>
+      <tr>
+        <td class="symbol">$z_{\rm eff}^2$</td>
+        <td>Carga efectiva al cuadrado de la partícula incidente.</td>
+        <td>Fija la <strong>altura</strong> del poder de frenado: una partícula alfa ($z=2$) pierde energía $\approx 4$ veces más rápido que un protón a la misma velocidad. Un ion C¹² ($z=6$), unas 36 veces más rápido.</td>
+      </tr>
+      <tr>
+        <td class="symbol">$1/\beta^2$</td>
+        <td>Inverso del cuadrado de la velocidad relativa.</td>
+        <td>Es el factor más importante para el pico de Bragg: cuando la partícula se frena, $\beta$ baja y $1/\beta^2$ crece, aumentando la pérdida de energía. Es el motor de la retroalimentación.</td>
+      </tr>
+      <tr>
+        <td class="symbol">$\ln(\cdots) - \beta^2$</td>
+        <td>Término logarítmico (colisiones con electrones atómicos) menos una corrección relativista pequeña.</td>
+        <td>Modula la dependencia con la velocidad. A energías muy altas crece lentamente, produciendo la "subida relativista". A bajas energías es un factor casi constante.</td>
+      </tr>
+      <tr>
+        <td class="symbol">$I$</td>
+        <td>Energía media de excitación del material (eV).</td>
+        <td>Depende del material: en agua $I \approx 75$ eV, en plomo $I \approx 823$ eV. Aparece dentro del logaritmo, así que su efecto es suave.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="intuition-box">
+    <strong>La lectura física de $1/\beta^2$.</strong> El tiempo que la partícula pasa cerca de un electrón atómico es proporcional a $1/v$. El impulso eléctrico que le transfiere también depende de ese tiempo. Al final, la energía transferida por unidad de longitud escala como $1/v^2 = 1/\beta^2$. Es una ley sencilla con consecuencias enormes: <em>cuanto más lenta va la partícula, más energía deposita por centímetro</em>.
+  </div>
+
+  <h3>2.1 La carga efectiva $z_{\rm eff}$</h3>
+
+  <p>A velocidades muy bajas, la partícula captura electrones del medio y deja de estar completamente ionizada. Su carga neta disminuye, y con ella su capacidad de arrancar más electrones. La fórmula de Barkas modela esto:</p>
+
+  <div class="math-box">
+    $$ z_{\rm eff} = z\left(1 - e^{-\beta/(v_0 z^{2/3})}\right), \qquad v_0 = \frac{c}{137} $$
+  </div>
+
+  <p>A velocidades altas, $z_{\rm eff} \to z$. A velocidades bajas, $z_{\rm eff} \to 0$: la partícula se neutraliza y deja de frenarse. Este es el mecanismo físico que hace que la curva de Bragg <strong>caiga abruptamente después del pico</strong>: si $z_{\rm eff}$ se anula, el poder de frenado también se anula.</p>
+
+  <div class="warning-box">
+    <strong>Error común.</strong> "La carga de la partícula es siempre $z$." Solo a alta velocidad. A velocidades bajas ($\beta \lesssim 0.05$) la partícula captura electrones y su carga efectiva se reduce notablemente. Este detalle es imprescindible para reproducir la caída distal del pico de Bragg.
+  </div>
+
+  <!-- FIGURA 1: BETHE-BLOCH -->
+  <div class="interactive-figure">
+    <div class="figure-title">Figura 1: Bethe-Bloch interactivo — compara las tres partículas</div>
+    <div id="plot_BB" class="plot-area"></div>
+    <div class="controls">
+      <div class="control-panel">
+        <h4>Partículas visibles</h4>
+        <label class="checkbox-row">
+          <input type="checkbox" id="cb_BB_proton" checked>
+          <span><span class="legend-swatch" style="background:#2980b9;"></span>Protón (z = 1, A = 1)</span>
+        </label>
+        <label class="checkbox-row">
+          <input type="checkbox" id="cb_BB_alpha" checked>
+          <span><span class="legend-swatch" style="background:#c0392b;"></span>Partícula α (z = 2, A = 4)</span>
+        </label>
+        <label class="checkbox-row">
+          <input type="checkbox" id="cb_BB_carbon" checked>
+          <span><span class="legend-swatch" style="background:#16a085;"></span>Ion C¹² (z = 6, A = 12)</span>
+        </label>
+      </div>
+      <div class="control-panel">
+        <h4>Material</h4>
+        <div class="select-row">
+          <select id="sel_BB_material">
+            <option value="water">Agua (H₂O)</option>
+            <option value="tissue">Tejido blando</option>
+            <option value="bone">Hueso compacto</option>
+            <option value="lead">Plomo (Pb)</option>
+          </select>
+        </div>
+        <div id="stats_BB" class="stats" style="margin-top: 14px;"></div>
+      </div>
+    </div>
+
+    <div class="guide-box">
+      <strong>Qué observar en la Figura 1.</strong>
+      <ol>
+        <li>Localiza el <strong>rombo de cada color</strong>: es el mínimo ionizante de esa partícula. Comprueba que los tres están a la <em>misma</em> $E/A$ (misma velocidad), pero a alturas distintas.</li>
+        <li>Desmarca todas las partículas y marca solo una. ¿Qué parte de la curva se parece más a una recta en log-log? ¿Qué parte tiene pendiente fuerte hacia la izquierda?</li>
+        <li>Compara la altura del C¹² y la del protón a $E/A = 10$ MeV/u. ¿Se acerca al factor $z^2 = 36$? ¿Por qué no lo alcanza exactamente?</li>
+        <li>Cambia el material a plomo. ¿Se mueve el mínimo ionizante? ¿Se mueve la curva entera?</li>
+        <li>Presta atención al extremo izquierdo ($E/A < 0.1$ MeV/u): la curva <strong>cae</strong>. Ese descenso es la firma de $z_{\rm eff}$.</li>
+      </ol>
+    </div>
+
+    <div class="caption">
+      <strong>Epígrafe:</strong> Poder de frenado másico $S/\rho$ frente a la energía por nucleón, en escala log-log con ejes fijos. A la izquierda del mínimo, $S$ crece como $1/\beta^2$; a la derecha, el término logarítmico aplana la curva. El mínimo ionizante aparece a $E/A \approx 1\text{–}2$ MeV/u (donde $\beta\gamma \approx 3$) para todas las partículas, porque a igual $E/A$ todas tienen la misma velocidad.
+    </div>
+  </div>
+
+  <div class="sm-box">
+    <strong>El mínimo ionizante.</strong> La partícula que cruza el material justo con la energía del mínimo ionizante es la que <em>menos</em> energía pierde por centímetro. En física de partículas se la usa como referencia ("partícula mínimamente ionizante", MIP) para calibrar detectores. Para un protón en agua, ese mínimo está alrededor de $E \approx 2$ GeV, muy por encima de las energías terapéuticas: los protones clínicos están siempre en la zona donde $S$ crece al frenarse.
+  </div>
+
+  <!-- ============================================ -->
+  <h2 id="s3">3. La curva de Bragg paso a paso</h2>
+
+  <p>El error conceptual más frecuente al estudiar el pico de Bragg es pensar que la Figura 1 <em>es</em> la curva de Bragg. No lo es. La Figura 1 muestra $S$ en función de la <strong>energía</strong>; la curva de Bragg muestra $S$ en función de la <strong>profundidad</strong>. Pasar de una a otra es el paso más importante —y el menos intuitivo— de todo el tema.</p>
+
+  <p>Para entenderlo, sigamos a una partícula concreta, paso a paso, desde que entra en el material hasta que se detiene:</p>
+
+  <ol class="step-by-step">
+    <li><strong>Entra con energía $E_0$.</strong> En la superficie, la partícula es rápida. Su $\beta$ es grande y $S(E_0)$ es bajo. Deposita poca energía por centímetro.</li>
+    <li><strong>Avanza y se frena.</strong> Cada centímetro recorrido le cuesta una energía $\Delta E = S(x)\Delta x$. Como $S$ aún es pequeño, en los primeros centímetros pierde poca energía y su velocidad apenas cambia.</li>
+    <li><strong>La desaceleración se acelera.</strong> A medida que $E$ baja, $S(E)$ crece (Figura 1, rama izquierda). La partícula pierde más energía por centímetro, se frena más rápido, y $S$ vuelve a crecer. La retroalimentación es evidente.</li>
+    <li><strong>Se acerca al final.</strong> Cerca del final del recorrido, $S$ es enorme. La partícula deposita casi toda su energía restante en una fracción de milímetro. Ahí está el pico.</li>
+    <li><strong>Se detiene.</strong> Al llegar a energía nula, $z_{\rm eff} \to 0$ y $S \to 0$. La partícula se neutraliza, se convierte en un átomo extraño y deja de frenarse. La dosis cae abruptamente.</li>
+  </ol>
+
+  <h3>3.1 Cómo se calcula la curva de Bragg</h3>
+
+  <p>Matemáticamente, el paso de $S(E)$ a $S(x)$ se hace con dos operaciones encadenadas. Primero se calcula el <strong>alcance</strong> $R(E)$, que es la distancia total que recorre una partícula de energía inicial $E$ hasta detenerse:</p>
+
+  <div class="math-box">
+    $$ R(E) = \int_0^E \frac{dE'}{S(E')} $$
+  </div>
+
+  <p>La integral "suma" todos los pequeños tramos $dE'/S(E')$; cuanto mayor es $S$, más corto es cada tramo y menos aporta al alcance total. Como $S$ es pequeño a energías altas, la mayor parte de $R$ se acumula en los primeros tramos (la partícula viaja mucho mientras es rápida) y muy poco al final (cuando $S$ es enorme).</p>
+
+  <p>Después se invierte: la energía que tiene la partícula a profundidad $x$ es aquella cuyo alcance restante es $R(E) - x$:</p>
+
+  <div class="math-box">
+    $$ E(x) \;=\; R^{-1}\!\big(R(E_0) - x\big), \qquad S(x) = S\big(E(x)\big) $$
+  </div>
+
+  <p>Esta inversión es exactamente lo que calcula numéricamente la Figura 2: integra Bethe-Bloch en 3000 pasos, construye $R(E)$ por acumulación, y luego invierte la tabla por interpolación. El resultado es la curva de Bragg correcta, con el pico en la posición física correcta.</p>
+
+  <div class="intuition-box">
+    <strong>Analogía: el coche que frena.</strong> Imagina un coche que circula por una carretera y cuyo freno se hace más y más fuerte cuanto más lento va (es lo que pasa cuando $S \propto 1/v^2$). Al principio, a gran velocidad, el freno es suave y el coche avanza mucho. A medida que se frena, el freno se intensifica, y al final el coche se detiene casi instantáneamente. La distancia total recorrida es el alcance; el punto donde el freno es máximo es el pico de Bragg.
+  </div>
+
+  <!-- FIGURA 2: CURVA DE BRAGG -->
+  <div class="interactive-figure">
+    <div class="figure-title">Figura 2: Curva de Bragg — p, α y C¹² en el mismo gráfico</div>
+    <div id="plot_Bragg" class="plot-area"></div>
+    <div class="controls">
+      <div class="control-panel">
+        <h4>Partículas visibles</h4>
+        <label class="checkbox-row">
+          <input type="checkbox" id="cb_B_proton" checked>
+          <span><span class="legend-swatch" style="background:#2980b9;"></span>Protón</span>
+        </label>
+        <label class="checkbox-row">
+          <input type="checkbox" id="cb_B_alpha" checked>
+          <span><span class="legend-swatch" style="background:#c0392b;"></span>Partícula α</span>
+        </label>
+        <label class="checkbox-row">
+          <input type="checkbox" id="cb_B_carbon" checked>
+          <span><span class="legend-swatch" style="background:#16a085;"></span>Ion C¹²</span>
+        </label>
+        <label class="checkbox-row" style="margin-top: 12px;">
+          <input type="checkbox" id="cb_B_log" checked>
+          <span>Escala logarítmica vertical</span>
+        </label>
+      </div>
+      <div class="control-panel">
+        <h4>Material y energía</h4>
+        <div class="select-row">
+          <select id="sel_B_material">
+            <option value="water">Agua</option>
+            <option value="tissue">Tejido blando</option>
+            <option value="bone">Hueso</option>
+          </select>
+        </div>
+        <label class="slider-row" style="margin-top: 14px;">
+          $E_0/A$: <span id="v_E0_B" class="slider-val">150 MeV/u</span>
+          <input type="range" id="s_E0_B" min="50" max="250" step="5" value="150">
+        </label>
+      </div>
+    </div>
+    <div id="stats_Bragg" class="stats"></div>
+
+    <div class="guide-box">
+      <strong>Qué observar en la Figura 2.</strong>
+      <ol>
+        <li>Mira la curva del protón (azul). Al principio sube despacio; al final del recorrido hay una <strong>subida casi vertical</strong> seguida de una <strong>caída abrupta a cero</strong>. Esa es la firma del pico de Bragg.</li>
+        <li>Desmarca el C¹² y la α para ver solo el protón. Compara la <em>forma</em> con la Figura 1: no se parecen. La Figura 1 estaba en función de $E$; esta está en función de $x$. El "pico" es consecuencia de haber invertido el alcance.</li>
+        <li>Marca solo el C¹². Observa que su alcance es <strong>unas tres veces menor</strong> que el del protón (misma $E/A$, pero $R \propto A/z^2 = 12/36 = 1/3$), mientras su pico es mucho más alto.</li>
+        <li>Cambia la energía inicial al mínimo (50 MeV/u) y luego al máximo (250 MeV/u). ¿Cuánto se ha desplazado el pico del protón? Compáralo con la regla $R \propto E_0^{1.75}$.</li>
+        <li>Desactiva la escala logarítmica: verás el pico del protón con toda su altura. Marca el C¹²: la diferencia de altura es mucho más dramática.</li>
+        <li>Cambia el material a hueso. ¿Qué pasa con el alcance de las tres partículas? ¿Por qué?</li>
+      </ol>
+    </div>
+
+    <div class="caption">
+      <strong>Epígrafe:</strong> Poder de frenado lineal $-dE/dx$ (MeV/cm) frente a la profundidad, con ejes fijos. El rombo de cada color marca el pico de Bragg: máximo de energía depositada por centímetro, justo antes de que la partícula se detenga. La caída distal (después del pico) es abrupta, firma que aprovecha la hadronterapia. La escala logarítmica permite ver simultáneamente la región de entrada (valores pequeños) y el pico (valores grandes).
+    </div>
+  </div>
+
+  <!-- ============================================ -->
+  <h2 id="s4">4. Por qué el pico está al final del recorrido</h2>
+
+  <p>La Figura 2 confirma que el máximo de $S(x)$ está <strong>esencialmente pegado al alcance</strong> $R$. No está en el centro, ni en el primer tercio: está en el último milímetro. Esto sorprende a mucha gente, así que conviene entender <em>por qué</em>.</p>
+
+  <p>La clave es la forma de $S(E)$ cerca de $E \to 0$:</p>
+
+  <div class="math-box">
+    $$ S(E) \;\sim\; \frac{z_{\rm eff}^2}{\beta^2} \;\propto\; \frac{1}{E} \quad\text{(a energías muy bajas, si } z_{\rm eff}\approx z\text{)} $$
+  </div>
+
+  <p>Cuando $E$ baja, $S$ crece como $1/E$. Es decir, <em>cada tramo infinitesimal de energía requiere una distancia infinitesimalmente corta</em>. Pongámoslo numéricamente:</p>
+
+  <ul>
+    <li>Si la partícula pasa de $E=10$ MeV a $E=1$ MeV, gasta una cierta distancia $\Delta x_1$.</li>
+    <li>Para pasar de $E=1$ MeV a $E=0.1$ MeV, $S$ es 10 veces mayor y gasta solo $\Delta x_1/10$.</li>
+    <li>Para bajar de $E=0.1$ MeV a $0.01$ MeV, otra diez veces menos.</li>
+  </ul>
+
+  <p>La serie geométrica converge a una distancia finita. Por eso el pico aparece al final, "comprimido" contra el alcance: la partícula deposita la mitad de la energía restante en los últimos micrómetros. La caída después del pico es aún más abrupta porque $z_{\rm eff}$ empieza a anularse.</p>
+
+  <div class="intuition-box">
+    <strong>Analogía: la espiral.</strong> Imagina un caminante que recorre una espiral que se enrolla cada vez más apretada hacia el centro. Las primeras vueltas son largas y aburridas; las últimas están tan juntas que el caminante parece detenerse en el centro. El centro de la espiral es el pico de Bragg: la partícula "se enrolla" sobre sí misma cuando la energía restante es muy poca.
+  </div>
+
+  <div class="warning-box">
+    <strong>Error común.</strong> "El pico de Bragg es simétrico." No. Tiene una <strong>subida gradual</strong> (desde la entrada hasta el máximo) y una <strong>caída abrupta</strong> (después del máximo). La asimetría es fundamental: es lo que permite irradiar el tumor sin dañar el tejido detrás. Un pico simétrico no tendría la ventaja clínica de la protonterapia.
+  </div>
+
+  <!-- ============================================ -->
+  <h2 id="s5">5. Comparación entre partículas: p, α y C¹²</h2>
+
+  <p>Una de las preguntas más naturales al ver la Figura 2 es: <em>¿por qué el C¹² se detiene antes pero su pico es más alto?</em> La respuesta está en cómo escalan las magnitudes con $z$ y $A$ a igual velocidad inicial (es decir, a igual $E/A$):</p>
+
+  <table class="generic">
+    <thead>
+      <tr><th>Magnitud</th><th>Escalado</th><th>Protón vs C¹²</th><th>Por qué</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Poder de frenado $S$</td>
+        <td>$\propto z_{\rm eff}^2$</td>
+        <td>$\approx 1 : 20\text{–}36$</td>
+        <td>La fórmula de Bethe-Bloch tiene $z_{\rm eff}^2$ en el prefactor. El factor $36$ ideal se reduce porque $z_{\rm eff} < 6$ a velocidades bajas.</td>
+      </tr>
+      <tr>
+        <td>Alcance $R$</td>
+        <td>$\propto A / z^2$</td>
+        <td>$\approx 1 : 1/3$</td>
+        <td>El C¹² pesa 12 veces más pero frena 36 veces más rápido; el balance neto es recorrer un tercio de la distancia.</td>
+      </tr>
+      <tr>
+        <td>Anchura del pico</td>
+        <td>$\propto \sqrt{A}/z$</td>
+        <td>$\approx 1 : 0.6$</td>
+        <td>La dispersión múltiple y el <em>straggling</em> energético son proporcionalmente menores para iones pesados: el pico es más estrecho.</td>
+      </tr>
+      <tr>
+        <td>LET (daño biológico)</td>
+        <td>$\propto z^2$</td>
+        <td>$\approx 1 : 36$</td>
+        <td>El C¹² deposita mucha más energía por micrómetro, lo que produce daños al ADN más difíciles de reparar (ventaja del "haz de iones").</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="intuition-box">
+    <strong>Lectura clínica.</strong> Los protones son más versátiles para tratar tumores profundos (llegan más lejos); los iones de carbono son más eficaces contra tumores radiorresistentes, porque su LET es mucho mayor y el daño al ADN es más denso e irreparable. La elección depende del tipo y la localización del tumor.
+  </div>
+
+  <!-- ============================================ -->
+  <h2 id="s6">6. Hadronterapia y el SOBP</h2>
+
+  <p>El pico de Bragg es una herramienta dosimétrica ideal, pero un pico monoenergético es <strong>demasiado estrecho</strong>: en agua, para un protón de 150 MeV, el pico mide del orden de 5 mm. Un tumor real, en cambio, mide varios centímetros. Si irradiáramos con un solo pico, la mayor parte del tumor no recibiría dosis.</p>
+
+  <p>La solución clínica es <strong>superponer varios picos de Bragg</strong> de energías ligeramente distintas con pesos ajustados, formando un <strong>SOBP</strong> (<em>Spread-Out Bragg Peak</em>):</p>
+
+  <div class="math-box">
+    $$ D_{\rm SOBP}(x) = \sum_i w_i \, S_i(x; E_i) $$
+  </div>
+
+  <p>Aquí $S_i(x; E_i)$ es la curva de Bragg del haz $i$-ésimo (calculada con Bethe-Bloch, como en la Figura 2), y $w_i$ es el peso con que se aporta ese haz. Ajustando los pesos se consigue una <strong>meseta de dosis aproximadamente constante</strong> sobre el intervalo de profundidades que cubre el tumor, manteniendo la caída distal abrupta.</p>
+
+  <div class="intuition-box">
+    <strong>Analogía: los bloques de Lego.</strong> Cada pico de Bragg es un bloque triangular. Un solo bloque cubre un punto. Al colocar varios bloques de diferentes alturas y anchuras y con la punta a distintas profundidades, se construye una meseta rectangular que cubre todo el tumor. Los pesos $w_i$ son los "tamaños" de cada bloque; la dosis total es la suma.
+  </div>
+
+  <!-- FIGURA 3: SOBP -->
+  <div class="interactive-figure">
+    <div class="figure-title">Figura 3: Construcción del SOBP con picos de Bragg reales</div>
+    <div id="plot_SOBP" class="plot-area" style="height: 440px;"></div>
+    <div class="controls">
+      <div class="control-panel">
+        <h4>Número de picos superpuestos</h4>
+        <label class="slider-row">
+          $N$: <span id="v_N_sobp" class="slider-val">5</span>
+          <input type="range" id="s_N_sobp" min="1" max="12" step="1" value="5">
+        </label>
+      </div>
+      <div class="control-panel">
+        <h4>Lectura</h4>
+        <div id="stats_SOBP" class="stats"></div>
+      </div>
+    </div>
+
+    <div class="guide-box">
+      <strong>Qué observar en la Figura 3.</strong>
+      <ol>
+        <li>Con $N=1$ hay un solo pico: la curva total coincide con un pico de Bragg individual. Observa lo estrecho que es.</li>
+        <li>Sube a $N=2$ o $N=3$: aparecen dos o tres "jorobas" en la dosis total. La meseta aún no es plana.</li>
+        <li>Sube a $N=8$ o más: la meseta se aplana y se ensancha. El precio es que la altura máxima baja, porque la misma dosis total se reparte entre más picos.</li>
+        <li>Fíjate en la <strong>caída distal</strong> (el borde derecho de la meseta). Siempre es abrupta: eso es lo que distingue el SOBP de una curva de fotones.</li>
+        <li>Compara el ancho de la meseta con el valor que aparece en el panel de estadísticas: es el intervalo donde la dosis supera el 95 % del máximo.</li>
+      </ol>
+    </div>
+
+    <div class="caption">
+      <strong>Epígrafe:</strong> Cada curva naranja punteada es un pico de Bragg real (calculado con Bethe-Bloch) para un protón de energía $E_i$ elegida para cubrir un punto de la meseta entre 8 y 16 cm. La curva negra es la suma ponderada: la dosis clínica que recibe el tumor. Al aumentar $N$, la meseta se aplana y se ensancha, pero la dosis máxima disminuye porque se reparte entre más picos.
+    </div>
+  </div>
+
+  <h3>6.1 Fotones vs protones: la comparación que justifica todo</h3>
+
+  <p>Para terminar de entender <em>por qué</em> la hadronterapia existe, conviene compararla con la radioterapia convencional. Un haz de fotones (rayos X de alta energía) deposita su dosis de forma aproximadamente exponencial decreciente desde la superficie:</p>
+
+  <div class="math-box">
+    $$ D_\gamma(x) \approx D_0 \, e^{-\mu x} $$
+  </div>
+
+  <p>Es decir, la dosis máxima se entrega <strong>en la piel</strong> (o a pocos milímetros), no en el tumor. Para entregar dosis suficiente al tumor, hay que irradiar también mucho tejido sano proximal. Los protones, en cambio, entregan una dosis baja en la entrada y máxima en el tumor, con cero detrás:</p>
+
+  <table class="generic">
+    <thead>
+      <tr><th>Profundidad</th><th>Fotones (dosis relativa)</th><th>Protones (dosis relativa)</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Piel (0 cm)</td><td>100 %</td><td>25–30 %</td></tr>
+      <tr><td>Tejido sano proximal (5 cm)</td><td>~78 %</td><td>~50 %</td></tr>
+      <tr><td>Tumor (10 cm)</td><td>~61 %</td><td>100 %</td></tr>
+      <tr><td>Tejido detrás del tumor (12 cm)</td><td>~55 %</td><td>~0 %</td></tr>
+    </tbody>
+  </table>
+
+  <div class="sm-box">
+    <strong>La ventaja dosimétrica.</strong> Los protones concentran la dosis en el tumor con una <strong>caída distal abrupta</strong>, mientras los fotones no pueden evitar irradiar el tejido detrás. Esa es la base física de la hadronterapia: no es una moda tecnológica, es una consecuencia directa de la forma del pico de Bragg.
+  </div>
+
+  <!-- ============================================ -->
+  <h2 id="s7">7. Ejemplos resueltos</h2>
+
+  <div class="worked-example">
+    <div class="we-header">Ejemplo desarrollado 7.1</div>
+    <div class="we-title">Alcance de un protón de 150 MeV en agua (regla de Bragg-Kleeman)</div>
+    <p>Usando $R \approx A\,E_0^{p}$ con $A = 0.0023\ \mathrm{g\,cm^{-2}\,MeV^{-p}}$ y $p = 1.75$, calcula el alcance y compáralo con el que da la integración numérica de Bethe-Bloch.</p>
+    <div class="step">
+      <span class="step-label">Paso 1 — Regla empírica</span>
+      <div class="step-body">
+        $$ R \approx 0.0023 \times 150^{1.75} \approx 15.3\ \mathrm{g\,cm^{-2}} \;\Rightarrow\; R_{\text{agua}} \approx 15.3\ \mathrm{cm} $$
+        <p>La regla de Bragg-Kleeman es una aproximación sencilla y muy útil para estimaciones rápidas. Solo depende de la energía inicial.</p>
+      </div>
+    </div>
+    <div class="step">
+      <span class="step-label">Paso 2 — Integración numérica</span>
+      <div class="step-body">
+        <p>Integrando $R = \int_0^{150} dE / S(E)$ con Bethe-Bloch y $z_{\rm eff}$ se obtiene $R \approx 15\text{–}16$ cm. La coincidencia es excelente y confirma que el pico de la Figura 2 está en el sitio correcto.</p>
+        <div class="result">El pico de Bragg de un protón de 150 MeV en agua se sitúa a $\approx 15$ cm de profundidad.</div>
+      </div>
+    </div>
+    <div class="verify">
+      Comprobación: NIST PSTAR da $R_{\rm CSDA}(150\text{ MeV p en agua}) = 15.77$ cm. La pequeña diferencia se debe a que la regla de Bragg-Kleeman es una aproximación.
+    </div>
+  </div>
+
+  <div class="worked-example">
+    <div class="we-header">Ejemplo desarrollado 7.2</div>
+    <div class="we-title">Dosis en tejido sano proximal: protones vs fotones</div>
+    <p>Compara la dosis relativa en la piel ($x=0$) y en el tumor ($x=10$ cm) para protones con pico a 10 cm y para fotones con $\mu = 0.05\ \mathrm{cm^{-1}}$.</p>
+    <div class="step">
+      <span class="step-label">Paso 1 — Protones</span>
+      <div class="step-body">
+        <p>En la zona de entrada $S$ es pequeño. Numéricamente se obtiene $D_p(0)/D_p(x_{\rm pico}) \approx 0.25\text{–}0.30$.</p>
+        <p>La dosis máxima está en el tumor (por definición, porque el pico está allí). La piel recibe solo ~25–30 %.</p>
+      </div>
+    </div>
+    <div class="step">
+      <span class="step-label">Paso 2 — Fotones</span>
+      <div class="step-body">
+        $$ D_\gamma(0) = D_0, \quad D_\gamma(10) = D_0 e^{-0.5} \approx 0.61 D_0 $$
+        <p>La dosis máxima está en la piel. El tumor recibe el 61 % del máximo, y el tejido detrás también recibe dosis significativa.</p>
+      </div>
+    </div>
+    <div class="step">
+      <span class="step-label">Paso 3 — Comparación</span>
+      <div class="step-body">
+        <div class="result">La piel recibe el 100 % (fotones) frente a ~25 % (protones). El tumor recibe 61 % (fotones) frente a 100 % (protones). El tejido detrás del tumor recibe ~55 % (fotones) frente a ~0 % (protones).</div>
+        <p>Los protones ganan en los tres frentes: menos dosis en la piel, más dosis en el tumor, cero detrás.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="worked-example">
+    <div class="we-header">Ejemplo desarrollado 7.3</div>
+    <div class="we-title">¿Cuántos picos de Bragg hacen falta para un tumor de 5 cm?</div>
+    <p>Un pico individual en agua tiene una anchura efectiva (FWHM) de ~5 mm para un protón de 150 MeV. Estima cuántos picos hay que superponer para cubrir un tumor de 5 cm con una meseta razonablemente plana.</p>
+    <div class="step">
+      <span class="step-label">Paso 1 — Ancho útil por pico</span>
+      <div class="step-body">
+        <p>Un pico de 5 mm de FWHM contribuye significativamente a la dosis en un intervalo de ~5 mm. Para que la superposición sea suave, conviene solapar picos cada ~FWHM/2, es decir, cada ~2.5 mm.</p>
+      </div>
+    </div>
+    <div class="step">
+      <span class="step-label">Paso 2 — Número de picos</span>
+      <div class="step-body">
+        $$ N \approx \frac{50\ \mathrm{mm}}{2.5\ \mathrm{mm}} + 1 \approx 21 $$
+        <div class="result">Hacen falta del orden de 20 picos de Bragg para cubrir un tumor de 5 cm con una meseta plana.</div>
+      </div>
+    </div>
+    <div class="verify">
+      En la práctica clínica, los sistemas de protonterapia usan entre 10 y 30 energías por campo, con pesos optimizados por un algoritmo de planificación.
+    </div>
+  </div>
+
+  <!-- ============================================ -->
+  <h2 id="s8">8. Ejercicios propuestos</h2>
+
+  <div class="exercise-box">
+    <h4>Ejercicio 1 — Alcance y regla de Bragg-Kleeman</h4>
+    <p>Estima con la regla de Bragg-Kleeman el alcance de un protón de $200\ \mathrm{MeV}$ en agua. Comprueba el resultado en la Figura 2 (protón, agua, $E_0/A = 200$ MeV/u).</p>
+    <div class="hint"><strong>Pista:</strong> usa $R \approx 0.0023 \, E_0^{1.75}$ con $E_0$ en MeV. El resultado está en g/cm²; como el agua tiene $\rho = 1\ \mathrm{g/cm^3}$, el valor numérico en cm coincide.</div>
+    <button class="solution-toggle" onclick="toggleSolution(this)">Mostrar solución</button>
+    <div class="solution-content">
+      <p>$R \approx 0.0023 \times 200^{1.75} \approx 0.0023 \times 10690 \approx 24.6\ \mathrm{cm}$.</p>
+      <p>En la Figura 2, con protón, agua y $E_0/A = 200$ MeV/u, el rombo azul del pico aparece aproximadamente a esa profundidad.</p>
+    </div>
+  </div>
+
+  <div class="exercise-box">
+    <h4>Ejercicio 2 — El mínimo ionizante</h4>
+    <p>Explica por qué el mínimo ionizante de la Figura 1 está a la misma $E/A$ para todas las partículas. ¿Cambiaría si el material fuera plomo?</p>
+    <div class="hint"><strong>Pista:</strong> $E/A = (\gamma - 1)Mc^2/A \approx (\gamma - 1)m_u c^2$. ¿De qué depende el mínimo de $S(E)$? ¿Depende del material a través de $I$ o solo de la partícula?</div>
+    <button class="solution-toggle" onclick="toggleSolution(this)">Mostrar solución</button>
+    <div class="solution-content">
+      <p>A igual $E/A$, todas las partículas tienen el mismo $\beta$ (misma velocidad), porque la masa por nucleón es prácticamente la misma para todas. El mínimo de $S(E)$ está controlado por el balance entre $1/\beta^2$ y $\ln(\beta^2\gamma^2)$, que depende solo de $\beta$, no de la partícula. Por eso ocurre a la misma $E/A$.</p>
+      <p>Al cambiar de material, el mínimo se desplaza <em>muy ligeramente</em> porque $I$ aparece dentro del logaritmo, pero en la práctica está prácticamente en el mismo sitio. Lo que cambia al cambiar el material es la <em>altura</em> de la curva (a través de $Z/A$), no la posición del mínimo.</p>
+    </div>
+  </div>
+
+  <div class="exercise-box">
+    <h4>Ejercicio 3 — Cociente de alcances p vs C¹²</h4>
+    <p>¿Cuánto vale aproximadamente el cociente entre los alcances de un protón y un ion C¹² a la misma $E/A$? Compruébalo con la Figura 2 (con $E_0/A = 150$ MeV/u).</p>
+    <div class="hint"><strong>Pista:</strong> $R \propto A/z^2$ a igual velocidad. Sustituye $A=12$, $z=6$ para el C¹² y $A=1$, $z=1$ para el protón.</div>
+    <button class="solution-toggle" onclick="toggleSolution(this)">Mostrar solución</button>
+    <div class="solution-content">
+      <p>$R_C/R_p \approx (12/1)/(6^2/1^2) = 12/36 = 1/3$. El C¹² recorre un tercio de la distancia del protón.</p>
+      <p>En la Figura 2 con $E_0/A = 150$ MeV/u, el protón llega a ~15 cm y el C¹² a ~5 cm. El cociente es efectivamente ≈ 1/3.</p>
+    </div>
+  </div>
+
+  <div class="exercise-box">
+    <h4>Ejercicio 4 — La caída distal</h4>
+    <p>¿Por qué la caída distal del pico de Bragg es tan abrupta? Nombra los dos mecanismos físicos que la producen.</p>
+    <div class="hint"><strong>Pista:</strong> uno tiene que ver con la forma de $S(E)$ a baja energía; el otro, con lo que le pasa a la carga de la partícula cuando va muy despacio.</div>
+    <button class="solution-toggle" onclick="toggleSolution(this)">Mostrar solución</button>
+    <div class="solution-content">
+      <p><strong>Mecanismo 1:</strong> la partícula se detiene en una distancia muy corta porque $S(E) \propto 1/\beta^2$ diverge a baja energía. Toda la energía restante se deposita en el último milímetro.</p>
+      <p><strong>Mecanismo 2:</strong> al capturar electrones orbitales, la carga efectiva $z_{\rm eff}$ cae, y con ella el poder de frenado. La partícula se neutraliza y deja de depositar energía de forma abrupta.</p>
+    </div>
+  </div>
+
+  <div class="exercise-box">
+    <h4>Ejercicio 5 — SOBP y anchura de meseta</h4>
+    <p>¿Qué es el SOBP y por qué es necesario en hadronterapia? Con la Figura 3, estima cuántos picos hacen falta para una meseta de ~8 cm.</p>
+    <div class="hint"><strong>Pista:</strong> en la Figura 3 la meseta va de 8 a 16 cm. Prueba distintos valores de $N$ y observa el panel de estadísticas: te da el ancho de meseta al 95 %.</div>
+    <button class="solution-toggle" onclick="toggleSolution(this)">Mostrar solución</button>
+    <div class="solution-content">
+      <p>El SOBP es la superposición de varios picos de Bragg de energías distintas. Es necesario porque un pico individual mide apenas milímetros, insuficiente para cubrir un tumor de varios centímetros. Superponiendo picos con pesos adecuados se obtiene una meseta uniforme.</p>
+      <p>Para una meseta de 8 cm hacen falta del orden de 20–30 picos; en la Figura 3, con $N=12$ ya se ve una meseta razonable, aunque no perfectamente plana. Los sistemas clínicos usan optimización numérica de los pesos para conseguir mesetas más planas con menos haces.</p>
+    </div>
+  </div>
+
+  <!-- ============================================ -->
+  <h2 id="s9">9. Conclusiones</h2>
+
+  <ol>
+    <li><strong>El poder de frenado</strong> $S = -dE/dx$ mide cuánta energía pierde una partícula cargada por unidad de longitud. Depende de la partícula ($z$, $v$) y del material ($Z/A$, $I$).</li>
+    <li><strong>La fórmula de Bethe-Bloch</strong> es la expresión cuantitativa de $S$. Su dependencia dominante es $S \propto z_{\rm eff}^2/\beta^2$: cuanto más lenta la partícula, mayor es su poder de frenado.</li>
+    <li><strong>La carga efectiva</strong> $z_{\rm eff}$ corrige el comportamiento a baja velocidad (captura electrónica). Es responsable de que $S$ caiga a cero y de la forma abrupta de la caída distal del pico.</li>
+    <li><strong>La curva de Bragg</strong> no es la gráfica de $S(E)$: es la gráfica de $S(x)$, obtenida integrando e invirtiendo el alcance. El pico aparece justo antes de $R$, no en el centro del recorrido.</li>
+    <li><strong>A igual $E/A$</strong>, las tres partículas tienen el mismo mínimo ionizante (misma velocidad), pero picos de altura $\propto z_{\rm eff}^2$ y alcances $\propto A/z^2$.</li>
+    <li><strong>La hadronterapia</strong> explota la geometría del pico de Bragg: dosis baja en la entrada, dosis máxima en el tumor, dosis nula detrás. Esta ventaja dosimétrica no existe con fotones.</li>
+    <li><strong>El SOBP</strong> es la herramienta clínica para cubrir tumores extensos: superpone picos reales con pesos ajustados para producir una meseta de dosis uniforme.</li>
+  </ol>
+
+  <p>El pico de Bragg es una de esas raras situaciones en las que la física fundamental (una fórmula de 1930) se traduce directamente en una ventaja clínica medible. Entenderlo bien exige manejar simultáneamente la dependencia $1/\beta^2$, la carga efectiva, la inversión del alcance y la superposición de haces. Las tres figuras interactivas de esta página permiten explorar cada uno de esos ingredientes por separado, con escalas fijas para que la comparación entre partículas y materiales sea directa.</p>
+
+</div>
+
+<script>
+  // ============================================================
+  // CONSTANTES FÍSICAS
+  // ============================================================
+  const CONST = {
+    m_e: 0.51099895, // MeV/c²
+    K: 0.307075,     // MeV·mol⁻¹·cm²
+    v0: 1/137.036
+  };
+
+  const PARTICLES = {
+    proton: { label: 'Protón',      z: 1, A: 1,  mass: 938.272,  color: '#2980b9' },
+    alpha:  { label: 'Partícula α', z: 2, A: 4,  mass: 3727.379, color: '#c0392b' },
+    carbon: { label: 'Ion C¹²',     z: 6, A: 12, mass: 11174.862, color: '#16a085' }
+  };
+
+  const MATERIALS = {
+    water:  { label: 'Agua',   Z: 10.0, A: 18.015, rho: 1.00,  I: 75.0e-6 },
+    tissue: { label: 'Tejido', Z: 7.42, A: 14.74,  rho: 1.06,  I: 75.4e-6 },
+    bone:   { label: 'Hueso',  Z: 13.5, A: 26.5,   rho: 1.85,  I: 91.9e-6 },
+    lead:   { label: 'Plomo',  Z: 82.0, A: 207.2,  rho: 11.35, I: 823e-6 }
+  };
+
+  // ============================================================
+  // ESCALAS FIJAS
+  // ============================================================
+  const AXIS_BB = {
+    xLogMin: Math.log10(0.01),
+    xLogMax: Math.log10(5000),
+    yLogMin: Math.log10(0.1),
+    yLogMax: Math.log10(20000)
+  };
+
+  const AXIS_BRAGG = {
+    xMin: 0,
+    xMax: 60,
+    yLogMin: Math.log10(0.3),
+    yLogMax: Math.log10(30000),
+    yLinMax: 12000
+  };
+
+  const AXIS_SOBP = {
+    xMin: 0,
+    xMax: 30,
+    yMin: 0,
+    yMax: 1.1
+  };
+
+  // ============================================================
+  // BETHE-BLOCH
+  // ============================================================
+  function betheBloch(E_per_u, particle, material) {
+    const E_total = E_per_u * particle.A;
+    if (E_total <= 0) return 0;
+
+    const gamma = 1 + E_total / particle.mass;
+    const beta2 = 1 - 1 / (gamma * gamma);
+    if (beta2 <= 0) return 0;
+    const beta = Math.sqrt(beta2);
+
+    const zEff = particle.z * (1 - Math.exp(-beta / (CONST.v0 * Math.cbrt(particle.z * particle.z))));
+
+    const arg = 2 * CONST.m_e * beta2 * gamma * gamma / material.I;
+    if (arg <= 1) return 0;
+
+    const term2 = Math.log(arg) - beta2;
+    if (term2 <= 0) return 0;
+
+    const S = CONST.K * (material.Z / material.A) * (zEff * zEff / beta2) * term2;
+    return Math.max(0, S);
+  }
+
+  // ============================================================
+  // CURVA DE BRAGG
+  // ============================================================
+  function computeBragg(E0_per_u, particle, material, nOut) {
+    nOut = nOut || 500;
+    const N = 3000;
+    const E_min = 0.005;
+    const dE = (E0_per_u - E_min) / N;
+    if (dE <= 0) return { x: [0], S: [0], R: 0, peak_x: 0, peak_S: 0 };
+
+    const Es = [], Ss = [];
+    for (let i = 0; i <= N; i++) {
+      const E = E_min + i * dE;
+      Es.push(E);
+      Ss.push(betheBloch(E, particle, material) * material.rho);
+    }
+
+    const Rs = [0];
+    for (let i = 1; i <= N; i++) {
+      const Savg = 0.5 * (Ss[i] + Ss[i - 1]);
+      if (Savg > 1e-9) Rs.push(Rs[i - 1] + dE / Savg);
+      else             Rs.push(Rs[i - 1]);
+    }
+    const R_total = Rs[N];
+
+    const x = [], S = [];
+    for (let j = 0; j <= nOut; j++) {
+      const xx = R_total * j / nOut;
+      x.push(xx);
+      const R_res = R_total - xx;
+
+      let lo = 0, hi = N;
+      while (hi - lo > 1) {
+        const mid = Math.floor((lo + hi) / 2);
+        if (Rs[mid] < R_res) lo = mid;
+        else hi = mid;
+      }
+      let E_interp;
+      if (Rs[hi] > Rs[lo]) {
+        const frac = (R_res - Rs[lo]) / (Rs[hi] - Rs[lo]);
+        E_interp = Es[lo] + frac * (Es[hi] - Es[lo]);
+      } else {
+        E_interp = Es[lo];
+      }
+      S.push(betheBloch(E_interp, particle, material) * material.rho);
+    }
+
+    let peak_S = 0, peak_x = 0;
+    for (let i = 0; i < S.length; i++) {
+      if (S[i] > peak_S) { peak_S = S[i]; peak_x = x[i]; }
+    }
+    return { x, S, R: R_total, peak_x, peak_S };
+  }
+
+  // ============================================================
+  // FIGURA 1: BETHE-BLOCH
+  // ============================================================
+  function drawBetheBloch() {
+    const material = MATERIALS[document.getElementById('sel_BB_material').value];
+
+    const traces = [];
+    const stats = [];
+
+    Object.keys(PARTICLES).forEach(key => {
+      if (!document.getElementById('cb_BB_' + key).checked) return;
+      const particle = PARTICLES[key];
+
+      const E_min = 0.01, E_max = 5000;
+      const N = 500;
+      const Es = [], Ss = [];
+      let minS = Infinity, minE = 0;
+      for (let i = 0; i <= N; i++) {
+        const logE = Math.log10(E_min) + (Math.log10(E_max) - Math.log10(E_min)) * i / N;
+        const E = Math.pow(10, logE);
+        const S = betheBloch(E, particle, material);
+        if (S > 0.01) {
+          Es.push(E); Ss.push(S);
+          if (S < minS) { minS = S; minE = E; }
+        }
+      }
+
+      traces.push({
+        x: Es, y: Ss, type: 'scatter', mode: 'lines',
+        line: { color: particle.color, width: 3 },
+        name: particle.label
+      });
+      traces.push({
+        x: [minE], y: [minS], type: 'scatter', mode: 'markers',
+        marker: { color: particle.color, size: 12, symbol: 'diamond',
+                  line: { color: 'white', width: 1.5 } },
+        name: particle.label + ' — mín. ioniz.',
+        showlegend: false
+      });
+      stats.push(
+        `<span class="stat-item"><span class="lbl" style="color:${particle.color};">${particle.label}:</span> ` +
+        `<span class="val">${minS.toFixed(2)}</span> ` +
+        `<span class="lbl">@</span> <span class="val">${minE.toFixed(0)} MeV/u</span></span>`
+      );
+    });
+
+    Plotly.react('plot_BB', traces, {
+      xaxis: {
+        title: 'Energía por nucleón E/A (MeV/u)',
+        type: 'log',
+        range: [AXIS_BB.xLogMin, AXIS_BB.xLogMax],
+        fixedrange: false
+      },
+      yaxis: {
+        title: 'Poder de frenado másico S/ρ (MeV·cm²/g)',
+        type: 'log',
+        range: [AXIS_BB.yLogMin, AXIS_BB.yLogMax],
+        fixedrange: false
+      },
+      margin: { l: 80, r: 20, t: 15, b: 55 },
+      legend: {
+        x: 0.02, y: 0.98,
+        bgcolor: 'rgba(255,255,255,0.92)',
+        bordercolor: '#ccc', borderwidth: 1,
+        font: { size: 11 }
+      }
+    });
+
+    document.getElementById('stats_BB').innerHTML =
+      `<span class="stat-item"><span class="lbl">Material:</span> <span class="val">${material.label}</span></span>` +
+      '<br>' + stats.join('');
+  }
+
+  // ============================================================
+  // FIGURA 2: CURVA DE BRAGG
+  // ============================================================
+  function drawBragg() {
+    const material = MATERIALS[document.getElementById('sel_B_material').value];
+    const E0 = parseFloat(document.getElementById('s_E0_B').value);
+    document.getElementById('v_E0_B').innerText = E0.toFixed(0) + ' MeV/u';
+
+    const useLog = document.getElementById('cb_B_log').checked;
+
+    const traces = [];
+    const stats = [];
+
+    Object.keys(PARTICLES).forEach(key => {
+      if (!document.getElementById('cb_B_' + key).checked) return;
+      const particle = PARTICLES[key];
+      const res = computeBragg(E0, particle, material, 500);
+
+      traces.push({
+        x: res.x, y: res.S, type: 'scatter', mode: 'lines',
+        line: { color: particle.color, width: 3 },
+        name: particle.label
+      });
+      traces.push({
+        x: [res.peak_x], y: [res.peak_S],
+        type: 'scatter', mode: 'markers',
+        marker: { color: particle.color, size: 11, symbol: 'diamond',
+                  line: { color: 'white', width: 1.5 } },
+        name: particle.label + ' — pico',
+        showlegend: false
+      });
+      stats.push(
+        `<span class="stat-item"><span class="lbl" style="color:${particle.color};">${particle.label}:</span> ` +
+        `<span class="val">R=${res.R.toFixed(1)} cm</span>, ` +
+        `<span class="val">S_max=${res.peak_S.toFixed(0)}</span></span>`
+      );
+    });
+
+    const yaxis = useLog
+      ? { title: 'Poder de frenado -dE/dx (MeV/cm)', type: 'log',
+          range: [AXIS_BRAGG.yLogMin, AXIS_BRAGG.yLogMax], fixedrange: false }
+      : { title: 'Poder de frenado -dE/dx (MeV/cm)',
+          range: [0, AXIS_BRAGG.yLinMax], fixedrange: false };
+
+    Plotly.react('plot_Bragg', traces, {
+      xaxis: {
+        title: 'Profundidad (cm)',
+        range: [AXIS_BRAGG.xMin, AXIS_BRAGG.xMax],
+        fixedrange: false
+      },
+      yaxis: yaxis,
+      margin: { l: 80, r: 20, t: 15, b: 55 },
+      legend: {
+        x: 0.55, y: 0.98,
+        bgcolor: 'rgba(255,255,255,0.92)',
+        bordercolor: '#ccc', borderwidth: 1,
+        font: { size: 11 }
+      }
+    });
+
+    document.getElementById('stats_Bragg').innerHTML =
+      `<span class="stat-item"><span class="lbl">Material:</span> <span class="val">${material.label}</span></span>` +
+      `<span class="stat-item"><span class="lbl">E₀/A:</span> <span class="val">${E0} MeV/u</span></span>` +
+      `<span class="stat-item"><span class="lbl">Escala:</span> <span class="val">${useLog ? 'log' : 'lineal'}</span></span>` +
+      '<br>' + stats.join('');
+  }
+
+  // ============================================================
+  // FIGURA 3: SOBP
+  // ============================================================
+  function drawSOBP() {
+    const N = parseInt(document.getElementById('s_N_sobp').value);
+    document.getElementById('v_N_sobp').innerText = N;
+
+    const particle = PARTICLES.proton;
+    const material = MATERIALS.water;
+    const Rmin = 8, Rmax = 16;
+
+    const energies = [];
+    for (let k = 0; k < N; k++) {
+      const Rk = (N === 1) ? (Rmin + Rmax) / 2 : Rmin + (Rmax - Rmin) * k / (N - 1);
+      const Ek = Math.pow(Rk / 0.0023, 1 / 1.75);
+      energies.push(Ek);
+    }
+
+    const curves = energies.map(E0 => computeBragg(E0, particle, material, 350));
+
+    const Npts = 500;
+    const xGrid = [];
+    for (let i = 0; i <= Npts; i++) {
+      xGrid.push(AXIS_SOBP.xMin + (AXIS_SOBP.xMax - AXIS_SOBP.xMin) * i / Npts);
+    }
+
+    const total = new Array(Npts + 1).fill(0);
+    const individualGrid = curves.map(curve => {
+      const grid = xGrid.map(x => {
+        if (x >= curve.R) return 0;
+        let lo = 0, hi = curve.x.length - 1;
+        while (hi - lo > 1) {
+          const mid = Math.floor((lo + hi) / 2);
+          if (curve.x[mid] < x) lo = mid;
+          else hi = mid;
+        }
+        if (curve.x[hi] === curve.x[lo]) return curve.S[lo];
+        const frac = (x - curve.x[lo]) / (curve.x[hi] - curve.x[lo]);
+        return curve.S[lo] + frac * (curve.S[hi] - curve.S[lo]);
+      });
+      for (let i = 0; i < grid.length; i++) total[i] += grid[i];
+      return grid;
+    });
+
+    const maxTotal = Math.max(...total) || 1;
+    const totalNorm = total.map(v => v / maxTotal);
+
+    const traces = [];
+    individualGrid.forEach(grid => {
+      traces.push({
+        x: xGrid, y: grid.map(v => v / maxTotal),
+        type: 'scatter', mode: 'lines',
+        line: { color: '#e67e22', width: 1, dash: 'dot' },
+        opacity: 0.55, showlegend: false, hoverinfo: 'skip'
+      });
+    });
+    traces.push({
+      x: xGrid, y: totalNorm, type: 'scatter', mode: 'lines',
+      line: { color: '#111', width: 3.5 },
+      name: 'Dosis total (SOBP)'
+    });
+
+    Plotly.react('plot_SOBP', traces, {
+      xaxis: {
+        title: 'Profundidad en agua (cm)',
+        range: [AXIS_SOBP.xMin, AXIS_SOBP.xMax],
+        fixedrange: false
+      },
+      yaxis: {
+        title: 'Dosis relativa',
+        range: [AXIS_SOBP.yMin, AXIS_SOBP.yMax],
+        fixedrange: false
+      },
+      margin: { l: 65, r: 20, t: 15, b: 55 },
+      showlegend: true,
+      legend: {
+        x: 0.55, y: 0.98,
+        bgcolor: 'rgba(255,255,255,0.92)',
+        bordercolor: '#ccc', borderwidth: 1,
+        font: { size: 11 }
+      }
+    });
+
+    let inicio = 0, fin = Npts;
+    for (let i = 0; i <= Npts; i++) if (totalNorm[i] >= 0.95) { inicio = i; break; }
+    for (let i = Npts; i >= 0; i--) if (totalNorm[i] >= 0.95) { fin = i; break; }
+    const ancho = xGrid[fin] - xGrid[inicio];
+
+    document.getElementById('stats_SOBP').innerHTML =
+      `<span class="stat-item"><span class="lbl">N.º de picos:</span> <span class="val">${N}</span></span>` +
+      `<span class="stat-item"><span class="lbl">Meseta &gt;95 %:</span> <span class="val">${xGrid[inicio].toFixed(1)}–${xGrid[fin].toFixed(1)} cm</span></span>` +
+      `<span class="stat-item"><span class="lbl">Ancho:</span> <span class="val">${ancho.toFixed(1)} cm</span></span>`;
+  }
+
+  // ============================================================
+  // SOLUCIONES
+  // ============================================================
+  function toggleSolution(btn) {
+    const content = btn.nextElementSibling;
+    content.classList.toggle('open');
+    btn.innerText = content.classList.contains('open') ? 'Ocultar solución' : 'Mostrar solución';
+    if (window.MathJax && window.MathJax.Hub) {
+      window.MathJax.Hub.Queue(["Typeset", window.MathJax.Hub, content]);
+    }
+  }
+  window.toggleSolution = toggleSolution;
+
+  // ============================================================
+  // EVENTOS
+  // ============================================================
+  ['proton','alpha','carbon'].forEach(k => {
+    document.getElementById('cb_BB_' + k).addEventListener('change', drawBetheBloch);
+    document.getElementById('cb_B_' + k).addEventListener('change', drawBragg);
+  });
+  document.getElementById('sel_BB_material').addEventListener('change', drawBetheBloch);
+  document.getElementById('sel_B_material').addEventListener('change', drawBragg);
+  document.getElementById('s_E0_B').addEventListener('input', drawBragg);
+  document.getElementById('cb_B_log').addEventListener('change', drawBragg);
+  document.getElementById('s_N_sobp').addEventListener('input', drawSOBP);
+
+  // ============================================================
+  // INICIALIZACIÓN
+  // ============================================================
+  drawBetheBloch();
+  drawBragg();
+  drawSOBP();
+</script>
+</body>
+</html>
