@@ -1637,6 +1637,294 @@
         "titulo": "Factores de ponderación tisular (w_T)",
         "texto": "Los **factores de ponderación tisular** $w_T$ son números adimensionales que reflejan la **radiosensibilidad relativa de cada tejido u órgano** en el cálculo de la dosis efectiva:\n\n$$E = \\sum_T w_T \\cdot H_T$$\n\ndonde $H_T$ es la dosis equivalente en el tejido $T$ (que ya incluye el factor de ponderación de la radiación $w_R$). La suma de los $w_T$ de todos los tejidos es **1**.\n\n**Valores recomendados por la ICRP 103 (2007)**:\n\n| Tejido / órgano | $w_T$ |\n|---|---|\n| Gónadas | 0,08 |\n| Médula ósea (roja) | 0,12 |\n| Colon | 0,12 |\n| Pulmón | 0,12 |\n| Estómago | 0,12 |\n| Mama | 0,12 |\n| Vejiga | 0,04 |\n| Esófago | 0,04 |\n| Hígado | 0,04 |\n| Tiroides | 0,04 |\n| Piel | 0,01 |\n| Superficie ósea | 0,01 |\n| Encéfalo | 0,01 |\n| Glándulas salivales | 0,01 |\n| Resto de tejidos | 0,12 (total) |\n\n**Lógica**:\n\n- Los tejidos con $w_T$ mayor son los más **radiosensibles** y los que más contribuyen al riesgo estocástico (cáncer, efectos hereditarios).\n- Las gónadas tienen $w_T = 0,08$ por el riesgo de efectos hereditarios.\n- La médula ósea, el colon, el pulmón, el estómago y la mama tienen $w_T = 0,12$ porque son los tejidos donde se ha observado mayor incidencia de cáncer radioinducido.\n- La piel y la superficie ósea tienen $w_T = 0,01$ porque el riesgo es bajo.\n- El resto de tejidos se agrupa con $w_T = 0,12$ total, repartido entre varios órganos pequeños.\n\n**Aplicación**:\n\n- Se usa para calcular la **dosis efectiva** en exposiciones no uniformes.\n- Es la magnitud que se compara con los **límites de dosis** en protección radiológica.\n- Se aplica tanto en exposición ocupacional como en pública, y en la evaluación de dosis en medicina (aunque no en las decisiones clínicas individuales de radioterapia, donde la dosis absorbida y la dosis biológica efectiva son las magnitudes relevantes).\n\nLos $w_T$ son revisados periódicamente por la ICRP con nuevos datos epidemiológicos y radiobiológicos, y pueden cambiar entre publicaciones (ICRP 60 vs ICRP 103)."
       }
+    },
+    {
+      "id": 91,
+      "elo": 1050,
+      "tema": "Regulación, protocolos y práctica profesional",
+      "q": "La función principal de la ICRP (Comisión Internacional de Protección Radiológica) es:",
+      "opts": [
+        "Otorgar licencias y autorizaciones a las instalaciones radiactivas",
+        "Certificar la competencia profesional de los físicos médicos",
+        "Emitir recomendaciones sobre protección radiológica que los países adoptan",
+        "Publicar los protocolos técnicos de dosimetría de referencia"
+      ],
+      "a": 2,
+      "sol": "La ICRP es un organismo científico independiente que emite recomendaciones sobre protección radiológica (ICRP 26, 60, 103). No son vinculantes por sí mismas, pero los países las incorporan en sus legislaciones. No emite licencias, no certifica y no publica protocolos de dosimetría.",
+      "teoria": {
+        "titulo": "ICRP: Comisión Internacional de Protección Radiológica",
+        "texto": "La **ICRP** es un organismo científico independiente fundado en 1928 (como IXRPC) y reorganizado en 1950. Su misión es **avanzar en la ciencia de la protección radiológica y emitir recomendaciones** sobre la protección contra las radiaciones ionizantes.\n\n**Naturaleza de sus recomendaciones**: no son vinculantes por sí mismas, pero los países las incorporan en sus legislaciones (directivas europeas, normas nacionales). Son la base de la mayoría de los sistemas regulatorios del mundo.\n\n**Publicaciones clave**: ICRP 26 (1977), ICRP 60 (1990), ICRP 103 (2007, vigente en lo esencial), ICRP 135 (DRL), ICRP 137 (protección del cristalino).\n\n**Tres principios fundamentales**:\n\n1. **Justificación**: toda exposición debe estar justificada por un beneficio neto.\n2. **Optimización (ALARA)**: las dosis deben mantenerse tan bajas como sea razonablemente posible.\n3. **Aplicación de límites**: las dosis individuales no deben superar los límites.\n\nNo debe confundirse con la ICRU (que publica informes sobre magnitudes y unidades), la IAEA (que publica protocolos y estándares de seguridad) ni los reguladores nacionales (que otorgan licencias)."
+      }
+    },
+    {
+      "id": 92,
+      "elo": 1100,
+      "tema": "Regulación, protocolos y práctica profesional",
+      "q": "La ICRU (Comisión Internacional de Unidades y Medidas de Radiación) publica:",
+      "opts": [
+        "Informes sobre magnitudes, unidades y conceptos dosimétricos",
+        "Recomendaciones de protección radiológica para trabajadores",
+        "Protocolos de garantía de calidad para aceleradores lineales",
+        "Normas internacionales de transporte de material radiactivo"
+      ],
+      "a": 0,
+      "sol": "La ICRU publica informes sobre magnitudes, unidades y conceptos dosimétricos (ICRU 33, 50, 62, 83, 91), que complementan a la ICRP. La ICRP hace recomendaciones de protección; la ICRU define las magnitudes y procedimientos de medida.",
+      "teoria": {
+        "titulo": "ICRU: Comisión Internacional de Unidades y Medidas de Radiación",
+        "texto": "La **ICRU** es un organismo científico fundado en 1925, cuya misión es **desarrollar y recomendar magnitudes, unidades y procedimientos de medida** para las radiaciones ionizantes, y proporcionar datos de referencia internacionalmente aceptados.\n\n**Diferencia con la ICRP**: la ICRP hace recomendaciones de **protección radiológica**; la ICRU se ocupa de las **magnitudes y su medida** (dosimetría, unidades, conceptos físicos).\n\n**Informes clave en física médica**:\n\n- **ICRU 33** (1980): especificación de dosis en radioterapia.\n- **ICRU 50** (1993): prescripción, registro y reporte de dosis en radioterapia con haces externos; introduce los conceptos de GTV, CTV, PTV, ICRU reference point.\n- **ICRU 62** (1999): suplemento al 50, con márgenes y DVH.\n- **ICRU 83** (2010): prescripción y reporte en IMRT.\n- **ICRU 91** (2017): prescripción y reporte en tratamientos estereotácticos (SRS/SBRT).\n- **ICRU 90** (2016): clave para haces pequeños.\n\nLos informes de la ICRU son referencia obligada en la planificación y el reporte dosimétrico modernos."
+      }
+    },
+    {
+      "id": 93,
+      "elo": 1200,
+      "tema": "Regulación, protocolos y práctica profesional",
+      "q": "El protocolo TRS-398 de dosimetría de referencia en radioterapia es publicado por:",
+      "opts": [
+        "La AAPM (Asociación Americana de Físicos en Medicina)",
+        "El OIEA (Organismo Internacional de Energía Atómica)",
+        "La ICRP (Comisión Internacional de Protección Radiológica)",
+        "La ICRU (Comisión Internacional de Unidades y Medidas)"
+      ],
+      "a": 1,
+      "sol": "El TRS-398 es un Technical Report Series del OIEA (2000, revisado 2006). Establece un código internacional de práctica para dosimetría de haces externos basado en N_D,w. Es el estándar en Europa y en países con apoyo del OIEA.",
+      "teoria": {
+        "titulo": "TRS-398 del OIEA",
+        "texto": "El **TRS-398** (IAEA Technical Report Series No. 398, 2000, revisado 2006) es un **código internacional de práctica para la dosimetría de haces externos de radioterapia** basado en patrones de dosis absorbida en agua. Es el protocolo de referencia en Europa y en muchos países con apoyo del OIEA.\n\n**Fundamento**: la dosis absorbida en agua se calcula como:\n\n$$D_{w,Q} = M_Q \\cdot N_{D,w,Q_0} \\cdot k_{Q,Q_0}$$\n\ndonde $M_Q$ es la lectura del electrómetro corregida, $N_{D,w,Q_0}$ es el factor de calibración en la calidad de referencia (habitualmente ⁶⁰Co) y $k_{Q,Q_0}$ es el factor de corrección por calidad del haz.\n\n**Especificadores de calidad del haz**:\n\n- **Fotones**: TPR$_{20,10}$ (cociente entre dosis a 20 cm y 10 cm en un maniquí de agua, campo 10×10 cm²).\n- **Electrones**: $R_{50}$ (profundidad al 50% de la dosis máxima).\n\n**Documentos complementarios**:\n\n- TRS-277 (basado en kerma en aire, precursor).\n- TRS-483 (haces pequeños, con AAPM).\n- TRS-430 (QA en radioterapia).\n- TRS-469 (auditorías dosimétricas).\n\nSu trazabilidad se apoya en laboratorios de metrología y en comparaciones internacionales (COOMET, EURAMET)."
+      }
+    },
+    {
+      "id": 94,
+      "elo": 1300,
+      "tema": "Regulación, protocolos y práctica profesional",
+      "q": "El protocolo TG-51 del AAPM se distingue del TRS-398 del OIEA principalmente porque:",
+      "opts": [
+        "Usa una fórmula de calibración completamente distinta, sin N_D,w",
+        "Se aplica exclusivamente a haces de electrones de alta energía",
+        "Requiere cámaras de pozo como detector de referencia obligatorio",
+        "Usa tablas de k_Q y criterios de calidad del haz ligeramente distintos, con el mismo fundamento"
+      ],
+      "a": 3,
+      "sol": "TG-51 (1999, addendum 2014) y TRS-398 (2000) comparten el mismo fundamento: D_w = M·N_D,w·k_Q. Difieren en el especificador de calidad del haz (%dd(10)_x vs TPR_20,10), en las tablas de k_Q y en detalles de referencia. Las diferencias dosimétricas son < 1%.",
+      "teoria": {
+        "titulo": "TG-51 del AAPM",
+        "texto": "El **TG-51** (Task Group 51 de la AAPM, 1999; con addendum en 2014) es el **protocolo de dosimetría de referencia para fotones y electrones de alta energía** en Estados Unidos, y el más difundido junto al TRS-398.\n\n**Fundamento**: mismo que TRS-398:\n\n$$D_{w,Q} = M_Q \\cdot N_{D,w,Q_0} \\cdot k_{Q,Q_0}$$\n\n**Especificadores de calidad del haz**:\n\n- **Fotones**: %dd(10)$_x$, el porcentaje de dosis en profundidad a 10 cm de un haz de 10×10 cm² filtrado a 10 cm de profundidad.\n- **Electrones**: $R_{50}$, igual que TRS-398.\n\n**Diferencias con TRS-398**:\n\n- Las tablas de $k_Q$ provienen de cálculos de Monte Carlo independientes y difieren ligeramente (típicamente < 0,5%).\n- El especificador de calidad del haz para fotones (%dd(10)$_x$ vs TPR$_{20,10}$) es diferente.\n- Los criterios de referencia para cámaras de placas paralelas y para haces de electrones de baja energía son ligeramente distintos.\n- TG-51 no incluye correcciones por recombinación iónica pulsada tan detalladas como TRS-398.\n\nEn la práctica, ambos protocolos producen dosis que coinciden dentro de ~1%, y la elección depende del país y de las guías nacionales."
+      }
+    },
+    {
+      "id": 95,
+      "elo": 1400,
+      "tema": "Regulación, protocolos y práctica profesional",
+      "q": "Un nivel de referencia para diagnóstico (DRL) es:",
+      "opts": [
+        "Un límite legal de dosis que nunca debe superarse en un paciente",
+        "La dosis absorbida promedio en la población por radiación natural",
+        "Un nivel orientativo de dosis para optimizar las prácticas, no un límite legal",
+        "El umbral de dosis por debajo del cual no hay efectos estocásticos"
+      ],
+      "a": 2,
+      "sol": "Los DRL (ICRP 73, 135) son niveles orientativos, típicamente el percentil 75 de la distribución de dosis de una práctica, para detectar protocolos que se desvían y optimizar. No son límites legales: superarlos no es ilegal, sino una señal para revisar la práctica. La exposición médica de pacientes no tiene límite de dosis.",
+      "teoria": {
+        "titulo": "Niveles de referencia para diagnóstico (DRL)",
+        "texto": "Los **DRL** (Diagnostic Reference Levels) son **niveles orientativos de dosis** para exploraciones diagnósticas, definidos típicamente como el **percentil 75** de la distribución de dosis observada en una muestra representativa de centros. No son límites legales, sino una **herramienta de optimización** (ICRP 73, 1996; ICRP 135, 2017).\n\n**Aplicación**:\n\n- Se comparan las dosis de la propia instalación con los DRL nacionales o regionales.\n- Si la dosis está por encima del DRL, se debe revisar el protocolo.\n- Si está muy por debajo, se debe verificar que la calidad de imagen sea suficiente.\n\n**Ejemplos de magnitudes usadas en DRL**:\n\n- **TC**: CTDI$_{\\text{vol}}$ (mGy) y DLP (mGy·cm).\n- **Mamografía**: DGM (dosis glandular media, mGy).\n- **Radiología intervencionista**: $K_{a,e}$ (kerma en aire en la entrada) o P$_{KA}$ (producto kerma-área).\n- **Radiografía convencional**: DAP o kerma en superficie.\n\n**Diferencia con los límites de dosis**: la exposición médica de pacientes **no tiene límites legales** (el beneficio clínico justifica la exposición). Los DRL son la herramienta regulatoria para optimizar la protección del paciente. Los límites de dosis se aplican a trabajadores y público, no a pacientes."
+      }
+    },
+    {
+      "id": 96,
+      "elo": 1500,
+      "tema": "Regulación, protocolos y práctica profesional",
+      "q": "El Responsable de Protección Radiológica (RPR) o Radiation Safety Officer (RSO) de una instalación tiene como función principal:",
+      "opts": [
+        "Supervisar el cumplimiento del programa de protección radiológica de la instalación",
+        "Firmar las prescripciones clínicas de los tratamientos de radioterapia",
+        "Calibrar personalmente todos los equipos de medida de la instalación",
+        "Sustituir al titular de la instalación en caso de ausencia temporal"
+      ],
+      "a": 0,
+      "sol": "El RPR/RSO es la persona designada por el titular para supervisar el cumplimiento del programa de protección radiológica: formación, dosimetría, registros, gestión de fuentes, respuesta a incidentes. No firma prescripciones clínicas, no calibra todos los equipos (eso es del físico médico) ni sustituye al titular.",
+      "teoria": {
+        "titulo": "Responsable de Protección Radiológica (RPR/RSO)",
+        "texto": "El **RPR** (Responsable de Protección Radiológica) o **RSO** (Radiation Safety Officer) es la persona designada por el titular de una instalación radiactiva para supervisar el cumplimiento del programa de protección radiológica. Es una figura clave en la estructura regulatoria.\n\n**Funciones principales**:\n\n- Desarrollar y supervisar el programa de protección radiológica.\n- Garantizar el cumplimiento de la normativa y de las condiciones de la licencia.\n- Supervisar el programa de dosimetría personal y el registro de dosis.\n- Gestionar el inventario y el control de fuentes radiactivas.\n- Organizar la formación del personal expuesto.\n- Investigar incidentes y sobreexposiciones, y notificar a la autoridad reguladora.\n- Coordinar el comité de protección radiológica.\n- Supervisar el diseño y el mantenimiento de los blindajes.\n- Promover la cultura ALARA.\n\n**Requisitos**: formación específica, certificación o habilitación por la autoridad reguladora, y dedicación suficiente. No se debe confundir con el **físico médico** (que se ocupa de la dosimetría clínica y la planificación) ni con el **titular** (responsable legal de la instalación)."
+      }
+    },
+    {
+      "id": 97,
+      "elo": 1600,
+      "tema": "Regulación, protocolos y práctica profesional",
+      "q": "El Comité de Protección Radiológica de un hospital:",
+      "opts": [
+        "Es el órgano que otorga las licencias a los físicos médicos",
+        "Es un órgano colegiado que asesora y supervisa el programa de protección radiológica",
+        "Solo existe en instalaciones industriales, no en hospitales",
+        "Es un organismo internacional que publica recomendaciones"
+      ],
+      "a": 1,
+      "sol": "El Comité de Protección Radiológica es un órgano colegiado multidisciplinar (titular, RPR, físicos médicos, técnicos, representantes de trabajadores) que asesora, revisa y supervisa el programa de protección radiológica: dosis ocupacionales, incidentes, formación, ALARA. No sustituye al regulador ni a la ICRP.",
+      "teoria": {
+        "titulo": "Comité de Protección Radiológica",
+        "texto": "El **Comité de Protección Radiológica** es un órgano colegiado multidisciplinar que asesora y supervisa el programa de protección radiológica de una instalación. Es un requisito regulatorio en muchos países y una buena práctica en todos.\n\n**Composición típica**:\n\n- Titular o representante de la dirección.\n- Responsable de Protección Radiológica (RPR/RSO).\n- Físicos médicos y radiofísicos.\n- Radioterapeutas, radiólogos, médicos nucleares según el servicio.\n- Técnicos (TER, TSID).\n- Representantes de los trabajadores.\n- Servicio de prevención de riesgos laborales.\n\n**Funciones**:\n\n- Revisar y aprobar el programa de protección radiológica.\n- Evaluar los resultados dosimétricos del personal y las tendencias.\n- Analizar incidentes y proponer acciones correctivas.\n- Revisar los protocolos y los procedimientos.\n- Promover la formación y la cultura ALARA.\n- Coordinar las auditorías internas y externas.\n- Asesorar al titular en la toma de decisiones sobre protección radiológica.\n\nNo sustituye al regulador (que otorga licencias) ni a la ICRP (que emite recomendaciones internacionales). Su ámbito es la instalación concreta."
+      }
+    },
+    {
+      "id": 98,
+      "elo": 1700,
+      "tema": "Regulación, protocolos y práctica profesional",
+      "q": "Los niveles de investigación de dosis ocupacional:",
+      "opts": [
+        "Son los límites máximos de dosis que puede recibir un trabajador",
+        "Coinciden exactamente con los límites de dosis efectiva de la ICRP",
+        "Solo se aplican a la exposición médica de pacientes",
+        "Son umbrales a partir de los cuales se debe investigar la causa de la dosis, sin ser límites legales"
+      ],
+      "a": 3,
+      "sol": "Los niveles de investigación son umbrales (típicamente fracciones del límite, como 1/10) que activan un proceso de investigación de la causa de la dosis: revisión de procedimientos, detectar errores o tendencias. No son límites legales y no sustituyen a los de la ICRP. Su objetivo es aplicar ALARA de forma proactiva.",
+      "teoria": {
+        "titulo": "Niveles de investigación de dosis",
+        "texto": "Los **niveles de investigación** son **umbrales de dosis** (típicamente una fracción del límite legal, como 1/10) que activan un proceso interno de investigación cuando se superan. **No son límites legales**: son herramientas de gestión que permiten aplicar ALARA de forma proactiva.\n\n**Lógica**:\n\n- Si un trabajador recibe una dosis superior al nivel de investigación, se revisa la causa: ¿error de procedimiento? ¿cambio de carga de trabajo? ¿mal funcionamiento de un equipo? ¿dosímetro mal colocado?\n- Si la causa es puntual, se corrige y se documenta.\n- Si la causa es sistemática, se ajustan procedimientos, formación o blindajes.\n- Si la dosis supera el límite legal, se activa el protocolo de sobreexposición y la notificación al regulador.\n\n**Valores típicos**: 1/10 del límite (por ejemplo, 2 mSv/año para dosis efectiva de trabajadores, 50 mSv/año para extremidades, 2 mSv/año para cristalino). Varían según el país y el regulador.\n\n**Diferencia con los DRL**: los DRL son para exposición de pacientes y son orientativos; los niveles de investigación son para exposición ocupacional y desencadenan una investigación formal. Ambos son herramientas de optimización, no límites."
+      }
+    },
+    {
+      "id": 99,
+      "elo": 1800,
+      "tema": "Regulación, protocolos y práctica profesional",
+      "q": "Un programa de dosimetría personal en un servicio de radioterapia debe incluir:",
+      "opts": [
+        "Únicamente dosímetros de anillo para el personal expuesto",
+        "Solo monitoreo ambiental con detectores de área sin dosímetros individuales",
+        "Dosímetros individuales, lectura periódica, registro histórico y verificación con dosímetros de área",
+        "Dosímetros de neutrones para todo el personal, independientemente de su puesto"
+      ],
+      "a": 2,
+      "sol": "El programa de dosimetría personal incluye: selección del dosímetro (cuerpo entero, anillo, cristalino), asignación a cada trabajador, lectura periódica (mensual/trimestral), registro histórico, investigación de lecturas anómalas, comparación con monitoreo de área y reporte al regulador.",
+      "teoria": {
+        "titulo": "Programa de dosimetría personal",
+        "texto": "Un **programa de dosimetría personal** es el conjunto de procedimientos y recursos para medir y registrar la dosis recibida por cada trabajador expuesto. Es obligatorio en zonas controladas y una pieza central del programa de protección radiológica.\n\n**Elementos**:\n\n1. **Selección del dosímetro**: TLD, OSL o dosímetro electrónico, según el tipo de radiación y las condiciones.\n2. **Asignación individual**: cada trabajador tiene su dosímetro, con identificación unívoca.\n3. **Ubicación**: cuerpo entero (tronco), anillo (extremidades), cristalino (cabeza/cuello) cuando corresponda. El dosímetro de cuerpo entero va **fuera** del delantal plomado.\n4. **Lectura periódica**: mensual o trimestral según la carga de trabajo y la normativa.\n5. **Registro histórico**: cada lectura se registra en el historial dosimétrico del trabajador, que se conserva durante décadas (obligación legal).\n6. **Investigación de anomalías**: lecturas inesperadamente altas, dosímetros perdidos o dañados.\n7. **Comparación con monitoreo de área**: los dosímetros de área complementan la información individual.\n8. **Reporte al regulador**: notificación de sobreexposiciones.\n9. **Auditorías**: verificación periódica de la calidad del programa.\n\n**Buenas prácticas**: formación del personal en el uso del dosímetro, no compartirlo, no exponerlo a fuentes ambientales, devolverlo a tiempo para su lectura. Los datos se usan para verificar el cumplimiento de los límites y para la optimización ALARA."
+      }
+    },
+    {
+      "id": 100,
+      "elo": 1900,
+      "tema": "Regulación, protocolos y práctica profesional",
+      "q": "Al diseñar el blindaje estructural de una sala de radioterapia se debe considerar principalmente:",
+      "opts": [
+        "La energía y carga de trabajo del haz, la ocupación de zonas vecinas y los límites aplicables",
+        "Únicamente el espesor de plomo necesario para atenuar el haz primario",
+        "Solo el número de pacientes tratados por día en el servicio",
+        "Solo la normativa internacional, sin considerar el uso real de la instalación"
+      ],
+      "a": 0,
+      "sol": "El diseño de blindaje (NCRP 151, IAEA SRS-47) integra: barreras primaria y secundaria, carga de trabajo W (Gy/semana), factor de uso U, factor de ocupación T, distancia, límites de dosis para zonas controladas y no controladas, energía y tipo de radiación (incluidos neutrones en alta energía). Usa HVL/TVL de hormigón, plomo, acero.",
+      "teoria": {
+        "titulo": "Diseño de blindaje estructural",
+        "texto": "El **diseño del blindaje estructural** de una instalación de radioterapia (o de diagnóstico) garantiza que las dosis en zonas ocupadas y en el exterior cumplan los límites regulatorios. Se documenta en un **cálculo de blindaje** que forma parte de la licencia.\n\n**Parámetros de diseño**:\n\n- **Carga de trabajo W**: dosis absorbida (o kerma) semanal a 1 m de la fuente, en Gy/semana. Depende del número de pacientes y de la técnica.\n- **Factor de uso U**: fracción del tiempo que el haz apunta hacia una barrera determinada.\n- **Factor de ocupación T**: fracción del tiempo que una zona adyacente está ocupada.\n- **Distancia d**: desde la fuente al punto de interés.\n- **Límites de dosis**: 20 mSv/año para zonas controladas, 1 mSv/año para zonas no controladas (público).\n- **Energía y tipo de radiación**: fotones, electrones, neutrones (en aceleradores de alta energía), y activación del material.\n\n**Cálculo**:\n\n$$B = \\frac{W \\cdot U \\cdot T}{d^2 \\cdot P} \\quad \\text{(factor de atenuación)}$$\n\ndonde $P$ es el límite de dosis semanal. Con $B$ se busca el espesor de material (hormigón, plomo, acero) que da esa atenuación, usando HVL y TVL.\n\n**Barreras**:\n\n- **Primaria**: atenúa el haz primario (requiere más espesor).\n- **Secundaria**: atenúa la radiación dispersa y la fuga del cabezal.\n\n**Documentos de referencia**: NCRP 151 (EE.UU.), IAEA Safety Reports Series 47, y las normativas nacionales. El cálculo debe verificar el cumplimiento en todas las condiciones de uso y considerar escenarios de emergencia. Se puede verificar in situ con medidas al comisionar."
+      }
+    },
+    {
+      "id": 101,
+      "elo": 2000,
+      "tema": "Regulación, protocolos y práctica profesional",
+      "q": "Un programa de garantía de calidad (QA) en radioterapia tiene como objetivo principal:",
+      "opts": [
+        "Reducir el número de sesiones por paciente para acortar listas de espera",
+        "Asegurar que equipos, procesos y tratamientos cumplen las especificaciones de forma consistente",
+        "Sustituir la verificación dosimétrica por una revisión visual del equipo",
+        "Aumentar la dosis al tumor sin considerar la toxicidad en tejidos sanos"
+      ],
+      "a": 1,
+      "sol": "El QA asegura que todos los elementos del proceso (equipos, procedimientos, personal) cumplen consistentemente las especificaciones. Incluye pruebas periódicas con tolerancias definidas (TG-142, TRS-430), documentación, acciones correctivas y auditorías. Es la base de la seguridad y la calidad del tratamiento.",
+      "teoria": {
+        "titulo": "Programa de garantía de calidad (QA)",
+        "texto": "Un **programa de garantía de calidad** (QA, Quality Assurance) en radioterapia asegura que todos los elementos del proceso —equipos, procedimientos, personal— cumplen **consistentemente** las especificaciones y los estándares de calidad.\n\n**Estructura**:\n\n1. **Pruebas de aceptación**: al instalar el equipo, se verifica que cumple las especificaciones del fabricante y del comprador.\n2. **Comisionado**: se caracteriza el haz y el sistema (PDD, perfiles, factores de campo, etc.) para el TPS.\n3. **Control de calidad periódico**: pruebas diarias, semanales, mensuales, anuales, con tolerancias definidas.\n4. **Documentación**: cada prueba se registra con fecha, resultado, tolerancia y acción correctiva si procede.\n5. **Acciones correctivas**: si una prueba está fuera de tolerancia, se investiga y se corrige antes de tratar pacientes.\n6. **Auditorías internas y externas**: revisión periódica del programa.\n\n**Guías de referencia**:\n\n- **AAPM TG-142** (linac QA).\n- **AAPM TG-198** (SRS/SBRT).\n- **AAPM TG-218** (tolerancias en IMRT).\n- **IAEA TRS-430** (QA en radioterapia).\n- **IAEA TRS-483** (haces pequeños).\n- **NCRP 151** (blindaje).\n\n**Objetivo**: minimizar errores, detectar derivas a tiempo, garantizar que cada paciente recibe la dosis prescrita con la precisión requerida. Es la base de la seguridad y la calidad en radioterapia."
+      }
+    },
+    {
+      "id": 102,
+      "elo": 2100,
+      "tema": "Regulación, protocolos y práctica profesional",
+      "q": "La acreditación de un servicio de radioterapia por una entidad externa:",
+      "opts": [
+        "Es un trámite interno del hospital sin valor externo",
+        "Solo se aplica a servicios de diagnóstico, no a radioterapia",
+        "Sustituye a la licencia de funcionamiento de la instalación",
+        "Es una evaluación que certifica el cumplimiento de estándares de calidad"
+      ],
+      "a": 3,
+      "sol": "La acreditación es una evaluación externa contra estándares de calidad (JACIE, OECI, ACS, SEPRO, etc.). Es voluntaria o regulatoria según el país, y complementa (no sustituye) la licencia de funcionamiento, el QA interno y las auditorías dosimétricas externas (IAEA QUATRO, IROA).",
+      "teoria": {
+        "titulo": "Acreditación de servicios de radioterapia",
+        "texto": "La **acreditación** es una **evaluación externa** de un servicio sanitario contra estándares de calidad predefinidos, realizada por una entidad acreditadora independiente (JACIE, OECI, ACS, SEPRO, ISO, etc.).\n\n**Diferencia con otros procesos**:\n\n- **Licencia**: la otorga el regulador nacional para operar. Es obligatoria.\n- **Certificación**: reconoce la competencia de una persona (físico médico, técnico). Es individual.\n- **Auditoría dosimétrica**: verifica la dosis administrada comparándola con un patrón (TLD, alanina, cámara). Es técnica.\n- **Acreditación**: evalúa el conjunto del servicio (estructura, procesos, resultados, seguridad, calidad). Es organizativa.\n\n**Ejemplos**:\n\n- **JACIE**: acreditación de programas de trasplante de progenitores hematopoyéticos, con radioterapia asociada.\n- **OECI**: acreditación de centros oncológicos integrales.\n- **ACS (American College of Surgeons)**: acreditación de programas de cáncer.\n- **SEPRO**: acreditación de servicios de radioterapia en España.\n- **ISO 9001**: sistema de gestión de calidad.\n\n**Beneficios**: garantiza estándares, promueve la mejora continua, facilita la comparación entre centros, tranquiliza a pacientes y financiadores.\n\n**Limitación**: no sustituye la licencia, el QA interno ni las auditorías técnicas; los complementa. Algunos reguladores la usan como parte de su sistema de habilitación."
+      }
+    },
+    {
+      "id": 103,
+      "elo": 2200,
+      "tema": "Regulación, protocolos y práctica profesional",
+      "q": "La certificación de un físico médico para ejercer en radioterapia:",
+      "opts": [
+        "Es un título universitario que se obtiene al terminar el grado en física",
+        "Es un requisito legal que solo aplica a los médicos radioterapeutas",
+        "Acredita, mediante formación reglada y examen, la competencia profesional en el área",
+        "Solo la expiden los organismos reguladores nucleares"
+      ],
+      "a": 2,
+      "sol": "La certificación (ABR, CCPM, EFOMP/EBMP, etc.) acredita la competencia profesional del físico médico tras completar formación especializada (residencia) y superar un examen. Es distinta del título universitario y de la licencia de la instalación. En muchos países es requisito para ejercer como físico médico cualificado en radioterapia.",
+      "teoria": {
+        "titulo": "Certificación del físico médico",
+        "texto": "La **certificación del físico médico** es el reconocimiento formal de la competencia profesional para ejercer en un área específica (radioterapia, diagnóstico, medicina nuclear, protección radiológica). La expide una **junta o colegio certificador** independiente, tras un proceso reglado.\n\n**Requisitos típicos**:\n\n1. **Formación especializada**: un programa de residencia o formación reglada de 2-4 años, en un centro acreditado.\n2. **Examen**: prueba escrita y oral sobre física médica aplicada, dosimetría, radiobiología, protección radiológica y práctica clínica.\n3. **Experiencia clínica**: número mínimo de procedimientos supervisados.\n4. **Formación continua**: mantenimiento de la certificación con créditos (CME/CPD) periódicos.\n\n**Ejemplos**:\n\n- **ABR** (American Board of Radiology): certifica a físicos médicos en EE.UU.\n- **CCPM** (Canadian College of Physicists in Medicine).\n- **EFOMP/EBMP**: marco europeo de certificación.\n- **SEFM** y **AEFM** en España.\n- **ABMP**, **SBFM**, etc. en Latinoamérica.\n\n**Diferencia con otros reconocimientos**:\n\n- **Título universitario**: grado o máster, no acredita competencia clínica.\n- **Licencia de la instalación**: es para el centro, no para la persona.\n- **Certificación profesional**: es individual, acredita competencia específica y se renueva periódicamente.\n\nEn la mayoría de los países, la certificación es **requisito legal** para ejercer como físico médico cualificado en radioterapia, y está armonizada a nivel internacional (IAEA, EFOMP, IOMP)."
+      }
+    },
+    {
+      "id": 104,
+      "elo": 2300,
+      "tema": "Regulación, protocolos y práctica profesional",
+      "q": "Un plan de emergencia radiológica en un servicio de radioterapia debe incluir:",
+      "opts": [
+        "Procedimientos de actuación, responsables, comunicación y entrenamiento periódico",
+        "Únicamente el listado de teléfonos de los bomberos y la policía",
+        "Solo la descripción de los equipos de medida disponibles",
+        "Exclusivamente las dosis máximas permitidas a los trabajadores"
+      ],
+      "a": 0,
+      "sol": "El plan de emergencia (IAEA GSR Part 7, normativa nacional) cubre: escenarios (fuente atascada, pérdida de blindaje, incendio, sobreexposición, fallo del equipo), cadena de notificación, procedimientos, evaluación de dosis, comunicación con autoridades y público, entrenamiento y simulacros, documentación y revisión tras incidentes.",
+      "teoria": {
+        "titulo": "Plan de emergencia radiológica",
+        "texto": "Un **plan de emergencia radiológica** es un documento que describe cómo actuar ante una situación que pueda producir una exposición no controlada. Es obligatorio en instalaciones radiactivas y se revisa periódicamente.\n\n**Escenarios típicos**:\n\n- Fuente atascada fuera de su blindaje (especialmente en HDR).\n- Pérdida o robo de una fuente.\n- Derrame de material radiactivo.\n- Incendio, inundación o sismo en la instalación.\n- Fallo del sistema de seguridad del acelerador.\n- Sobreexposición de un paciente por error dosimétrico.\n- Exposición accidental de un trabajador.\n\n**Contenido del plan**:\n\n- **Identificación de escenarios** y evaluación de riesgos.\n- **Responsables**: quién activa el plan, quién coordina, quién comunica.\n- **Procedimientos**: qué hacer paso a paso en cada escenario.\n- **Evaluación de dosis**: cómo estimar la dosis recibida por las personas afectadas.\n- **Comunicación**: con la autoridad reguladora, servicios de emergencia, público.\n- **Evacuación** y confinamiento si es necesario.\n- **Entrenamiento y simulacros** periódicos.\n- **Documentación** e informe post-incidente.\n- **Revisión** tras cada simulacro o incidente real.\n\n**Referencias**: IAEA GSR Part 7 (Preparedness and Response for a Nuclear or Radiological Emergency), normativa nacional, guías del regulador.\n\nEl plan se activa por el RPR con apoyo del titular, y se coordina con los servicios de emergencia externos. En HDR, el plan incluye el uso del equipo de recuperación de fuentes."
+      }
+    },
+    {
+      "id": 105,
+      "elo": 2400,
+      "tema": "Regulación, protocolos y práctica profesional",
+      "q": "La licencia o autorización de una instalación radiactiva:",
+      "opts": [
+        "Es el contrato entre el hospital y el proveedor del acelerador",
+        "Es el permiso administrativo que otorga la autoridad reguladora para operar la instalación",
+        "Es un certificado interno que emite el propio servicio de física médica",
+        "Es un documento que solo se exige en instalaciones industriales, no sanitarias"
+      ],
+      "a": 1,
+      "sol": "La licencia o autorización es el permiso de la autoridad reguladora nacional (CSN, NRC, ONR, ARN, CNSNS, etc.) para operar una instalación radiactiva. Fija condiciones: tipos y actividades de fuentes, usos permitidos, requisitos de seguridad, cualificación del personal, designación del RPR, garantías financieras y gestión de residuos. Operar sin licencia es ilegal.",
+      "teoria": {
+        "titulo": "Licencia o autorización de instalaciones radiactivas",
+        "texto": "La **licencia** (o autorización) de una instalación radiactiva es el **permiso administrativo** que otorga la autoridad reguladora nacional para operarla. Es el instrumento jurídico que vincula al titular con las obligaciones de seguridad y protección radiológica.\n\n**Autoridades reguladoras**:\n\n- **España**: Consejo de Seguridad Nuclear (CSN).\n- **EE.UU.**: Nuclear Regulatory Commission (NRC), con Agreement States.\n- **Reino Unido**: Office for Nuclear Regulation (ONR) y Environment Agency.\n- **Argentina**: Autoridad Regulatoria Nuclear (ARN).\n- **México**: Comisión Nacional de Seguridad Nuclear y Salvaguardias (CNSNS).\n- **Brasil**: Comissão Nacional de Energia Nuclear (CNEN).\n- **Internacional**: IAEA (estándares de seguridad, no licencias).\n\n**Contenido de la licencia**:\n\n- Titular y responsable de protección radiológica.\n- Tipos y actividades de las fuentes radiactivas o equipos generadores.\n- Usos autorizados.\n- Requisitos de seguridad (blindajes, señalización, procedimientos).\n- Cualificación del personal.\n- Programa de dosimetría y formación.\n- Garantías financieras para el desmantelamiento y la gestión de residuos.\n- Condiciones de modificación y renovación.\n\n**Marco de referencia**: IAEA GSR Part 3 (Radiation Protection and Safety of Radiation Sources), directivas europeas (2013/59/Euratom), normativa nacional.\n\n**Consecuencias del incumplimiento**: sanciones administrativas, suspensión o revocación de la licencia, responsabilidad civil y penal. Operar sin licencia es un delito."
+      }
+    },
+    {
+      "id": 106,
+      "elo": 2500,
+      "tema": "Regulación, protocolos y práctica profesional",
+      "q": "El reglamento de transporte de material radiactivo del OIEA (SSR-6) se aplica a:",
+      "opts": [
+        "Solo al combustible nuclear gastado de centrales de potencia",
+        "Solo al transporte marítimo internacional de grandes fuentes",
+        "Solo a las fuentes de alta actividad, no a radiofármacos",
+        "Cualquier envío de material radiactivo, incluyendo radiofármacos y fuentes de calibración"
+      ],
+      "a": 3,
+      "sol": "El SSR-6 (Regulations for the Safe Transport of Radioactive Material) se aplica a cualquier envío de material radiactivo, incorporado en las regulaciones modales (ADR, IATA, IMDG, RID). Cubre clasificación de bultos, límites de tasa de dosis y contaminación, marcado, etiquetado, documentación, formación y respuesta a emergencias. Afecta a radiofármacos, fuentes de calibración y residuos.",
+      "teoria": {
+        "titulo": "Transporte de material radiactivo (SSR-6)",
+        "texto": "El **transporte de material radiactivo** está regulado internacionalmente por las **Regulaciones para el Transporte Seguro de Material Radiactivo del OIEA (SSR-6)**, que se incorporan a las reglamentaciones modales:\n\n- **ADR**: carretera (Europa).\n- **RID**: ferrocarril.\n- **IATA DGR**: aviación.\n- **IMDG**: marítimo.\n\n**Clasificación de bultos**:\n\n- **Exceptuados**: cantidades muy pequeñas de actividad.\n- **Industriales (IP-1, IP-2, IP-3)**: materiales de baja actividad específica.\n- **Tipo A**: actividades moderadas, con requisitos de contención y blindaje.\n- **Tipo B(U), B(M)**: actividades altas, con requisitos de resistencia a accidentes.\n- **Tipo C**: transporte aéreo de alta actividad.\n\n**Requisitos**:\n\n- **Límites de tasa de dosis** en la superficie del bulto y a 1 m (0,005 a 2 mSv/h según categoría).\n- **Límites de contaminación superficial** (Bq/cm²).\n- **Marcado y etiquetado** (I-BLANCA, II-AMARILLA, III-AMARILLA, III-AMARILLA con índice de transporte).\n- **Documentación** (declaración del expedidor, ficha de emergencia).\n- **Formación del personal** (expedidor, transportista, receptor).\n- **Plan de emergencia** y respuesta a incidentes.\n\n**Aplicación en física médica**:\n\n- Envío de **radiofármacos** desde el productor al hospital (dosis de FDG, Lu-177, I-131).\n- Envío de **fuentes de calibración** entre laboratorios.\n- Envío de **fuentes de braquiterapia** y su devolución al fabricante.\n- Gestión de **residuos radiactivos** desde el hospital al gestor autorizado.\n\nEl cumplimiento del SSR-6 es obligatorio y auditado. Un envío mal clasificado o documentado puede ser rechazado, sancionado o constituir un incidente radiológico."
+      }
     }
   ],
   "datasetId": null,
