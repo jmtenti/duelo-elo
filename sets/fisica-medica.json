@@ -19,7 +19,7 @@
   },
   "problemas": [
     {
-      "id": 0,
+      "id": 1,
       "elo": 620,
       "tema": "Fundamentos y radiobiología",
       "q": "La dosis absorbida en un tejido se define como:",
@@ -37,7 +37,7 @@
       }
     },
     {
-      "id": 1,
+      "id": 2,
       "elo": 640,
       "tema": "Fundamentos y radiobiología",
       "q": "La semivida $T_{1/2}$ de un radionúclido se relaciona con su constante de decaimiento $\\lambda$ mediante:",
@@ -55,7 +55,7 @@
       }
     },
     {
-      "id": 2,
+      "id": 3,
       "elo": 680,
       "tema": "Fundamentos y radiobiología",
       "q": "El modelo lineal-cuadrático (LQ) de supervivencia celular predice que la fracción de células que sobreviven a una dosis $D$ es:",
@@ -73,7 +73,7 @@
       }
     },
     {
-      "id": 3,
+      "id": 4,
       "elo": 720,
       "tema": "Fundamentos y radiobiología",
       "q": "El cociente $\\alpha/\\beta$ de un tejido con respuesta aguda (tumor, mucosa) es típicamente:",
@@ -91,7 +91,7 @@
       }
     },
     {
-      "id": 4,
+      "id": 5,
       "elo": 780,
       "tema": "Fundamentos y radiobiología",
       "q": "La fraccionación de la dosis en radioterapia aprovecha principalmente:",
@@ -109,7 +109,7 @@
       }
     },
     {
-      "id": 5,
+      "id": 6,
       "elo": 850,
       "tema": "Fundamentos y radiobiología",
       "q": "El efecto oxígeno en radiobiología establece que:",
@@ -127,7 +127,7 @@
       }
     },
     {
-      "id": 6,
+      "id": 7,
       "elo": 950,
       "tema": "Fundamentos y radiobiología",
       "q": "El concepto de RBE (eficacia biológica relativa) compara:",
@@ -145,7 +145,7 @@
       }
     },
     {
-      "id": 7,
+      "id": 8,
       "elo": 1000,
       "tema": "Fundamentos y radiobiología",
       "q": "En la curva de supervivencia celular, el 'hombro' a bajas dosis se debe a:",
@@ -163,7 +163,7 @@
       }
     },
     {
-      "id": 8,
+      "id": 9,
       "elo": 750,
       "tema": "Interacción radiación-materia",
       "q": "Para fotones de 6 MV en agua, el mecanismo de interacción dominante es:",
@@ -181,7 +181,7 @@
       }
     },
     {
-      "id": 9,
+      "id": 10,
       "elo": 800,
       "tema": "Interacción radiación-materia",
       "q": "El kerma ($K$) y la dosis absorbida ($D$) se relacionan de forma que:",
@@ -199,7 +199,7 @@
       }
     },
     {
-      "id": 10,
+      "id": 11,
       "elo": 900,
       "tema": "Interacción radiación-materia",
       "q": "El equilibrio electrónico en un maniquí irradiado con fotones se alcanza cuando:",
@@ -217,7 +217,7 @@
       }
     },
     {
-      "id": 11,
+      "id": 12,
       "elo": 1000,
       "tema": "Interacción radiación-materia",
       "q": "El poder de frenado de partículas cargadas pesadas en agua, según Bethe-Bloch:",
@@ -235,7 +235,7 @@
       }
     },
     {
-      "id": 12,
+      "id": 13,
       "elo": 1200,
       "tema": "Interacción radiación-materia",
       "q": "El alcance de protones en agua es aproximadamente proporcional a:",
@@ -253,7 +253,7 @@
       }
     },
     {
-      "id": 13,
+      "id": 14,
       "elo": 1400,
       "tema": "Interacción radiación-materia",
       "q": "El pico de Bragg de protones en agua se debe a que:",
@@ -271,7 +271,7 @@
       }
     },
     {
-      "id": 14,
+      "id": 15,
       "elo": 1600,
       "tema": "Interacción radiación-materia",
       "q": "La producción de pares requiere un fotón de energía mínima de:",
@@ -289,7 +289,7 @@
       }
     },
     {
-      "id": 15,
+      "id": 16,
       "elo": 850,
       "tema": "Dosimetría y detectores",
       "q": "Una cámara de ionización opera en la región de la curva de respuesta donde:",
@@ -307,7 +307,7 @@
       }
     },
     {
-      "id": 16,
+      "id": 17,
       "elo": 950,
       "tema": "Dosimetría y detectores",
       "q": "El factor de corrección por temperatura y presión ($k_{TP}$) de una cámara ventilada vale:",
@@ -325,7 +325,7 @@
       }
     },
     {
-      "id": 17,
+      "id": 18,
       "elo": 1050,
       "tema": "Dosimetría y detectores",
       "q": "Un dosímetro TLD (LiF:Mg,Ti) mide la dosis porque:",
@@ -343,7 +343,7 @@
       }
     },
     {
-      "id": 18,
+      "id": 19,
       "elo": 1150,
       "tema": "Dosimetría y detectores",
       "q": "Los dosímetros OSL se leen estimulando el material con:",
@@ -361,7 +361,7 @@
       }
     },
     {
-      "id": 19,
+      "id": 20,
       "elo": 1300,
       "tema": "Dosimetría y detectores",
       "q": "El factor de calibración $N_{D,w}$ de una cámara de ionización en radioterapia se define como:",
@@ -379,7 +379,7 @@
       }
     },
     {
-      "id": 20,
+      "id": 21,
       "elo": 1450,
       "tema": "Dosimetría y detectores",
       "q": "La cámara Farmer se construye con paredes de grafito o plástico conductor porque:",
@@ -397,7 +397,7 @@
       }
     },
     {
-      "id": 21,
+      "id": 22,
       "elo": 1700,
       "tema": "Dosimetría y detectores",
       "q": "Las películas radiocrómicas son preferidas sobre las radiográficas para dosimetría 2D porque:",
@@ -415,7 +415,7 @@
       }
     },
     {
-      "id": 22,
+      "id": 23,
       "elo": 1900,
       "tema": "Dosimetría y detectores",
       "q": "El HPGe (germanio hiperpuro) requiere enfriamiento con nitrógeno líquido porque:",
@@ -433,7 +433,7 @@
       }
     },
     {
-      "id": 23,
+      "id": 24,
       "elo": 2100,
       "tema": "Dosimetría y detectores",
       "q": "La calibración de fuentes de braquiterapia se realiza típicamente con una cámara de pozo porque:",
@@ -451,7 +451,7 @@
       }
     },
     {
-      "id": 24,
+      "id": 25,
       "elo": 1050,
       "tema": "Radioterapia",
       "q": "El porcentaje de dosis en profundidad (PDD) se define con una distancia fuente-superficie (SSD) de:",
@@ -469,7 +469,7 @@
       }
     },
     {
-      "id": 25,
+      "id": 26,
       "elo": 1200,
       "tema": "Radioterapia",
       "q": "El TMR (tissue maximum ratio) se define con una distancia fuente-punto fija y:",
@@ -487,7 +487,7 @@
       }
     },
     {
-      "id": 26,
+      "id": 27,
       "elo": 1400,
       "tema": "Radioterapia",
       "q": "Al aumentar el tamaño de campo en un haz de fotones, el PDD en el punto de interés:",
@@ -505,7 +505,7 @@
       }
     },
     {
-      "id": 27,
+      "id": 28,
       "elo": 1550,
       "tema": "Radioterapia",
       "q": "Las unidades monitor (UM) para entregar 200 cGy con un factor de calibración de 1 cGy/UM, PDD = 65% y factor de cuña = 0,80, son aproximadamente:",
@@ -523,7 +523,7 @@
       }
     },
     {
-      "id": 28,
+      "id": 29,
       "elo": 1700,
       "tema": "Radioterapia",
       "q": "La regla del inverso del cuadrado establece que la dosis varía con:",
@@ -541,7 +541,7 @@
       }
     },
     {
-      "id": 29,
+      "id": 30,
       "elo": 1850,
       "tema": "Radioterapia",
       "q": "En comparación con la IMRT, la técnica VMAT (arcoterapia volumétrica modulada) se caracteriza por:",
@@ -559,7 +559,7 @@
       }
     },
     {
-      "id": 30,
+      "id": 31,
       "elo": 2000,
       "tema": "Radioterapia",
       "q": "La técnica SBRT (radioterapia estereotáctica corporal) se caracteriza por:",
@@ -573,11 +573,11 @@
       "sol": "SBRT entrega dosis muy altas por fracción (típicamente 7-30 Gy) en 1-8 sesiones, con precisión sub-milimétrica. Se usa en lesiones pulmonares, hepáticas, prostáticas, óseas, etc.",
       "teoria": {
         "titulo": "SBRT y SRS",
-        "texto": "La SBRT (radioterapia estereotáctica corporal) y su análoga craneal SRS (radiocirugía estereotáctica) entregan dosis muy altas por fracción (típicamente 7-30 Gy) en pocas sesiones (1-8), con precisión sub-milimétrica. Se usan en lesiones pequeñas y bien delimitadas (tumores pulmonares, hepáticos, prostáticos, metástasis óseas, meningiomas). Requieren inmovilización rígida del paciente, imágenes de verificación en tiempo real (IGRT) y sistemas de planificación avanzados. Su base radiobiológica es diferente a la de la radioterapia convencional: al usar fracciones grandes, el efecto es más "ablative" (destrucción directa del tejido tumoral) y la respuesta puede explicarse por modelos como el LQ con correcciones o por el modelo de la dosis biológica efectiva (BED). Efectos secundarios más pronunciados, por lo que se reservan para tumores pequeños."
+        "texto": "La SBRT (radioterapia estereotáctica corporal) y su análoga craneal SRS (radiocirugía estereotáctica) entregan dosis muy altas por fracción (típicamente 7-30 Gy) en pocas sesiones (1-8), con precisión sub-milimétrica. Se usan en lesiones pequeñas y bien delimitadas (tumores pulmonares, hepáticos, prostáticos, metástasis óseas, meningiomas). Requieren inmovilización rígida del paciente, imágenes de verificación en tiempo real (IGRT) y sistemas de planificación avanzados. Su base radiobiológica es diferente a la de la radioterapia convencional: al usar fracciones grandes, el efecto es más \"ablative\" (destrucción directa del tejido tumoral) y la respuesta puede explicarse por modelos como el LQ con correcciones o por el modelo de la dosis biológica efectiva (BED). Efectos secundarios más pronunciados, por lo que se reservan para tumores pequeños."
       }
     },
     {
-      "id": 31,
+      "id": 32,
       "elo": 2200,
       "tema": "Radioterapia",
       "q": "En braquiterapia HDR con Ir-192 ($T_{1/2} = 74$ días), la semivida corta es ventajosa porque:",
@@ -595,7 +595,7 @@
       }
     },
     {
-      "id": 32,
+      "id": 33,
       "elo": 2350,
       "tema": "Radioterapia",
       "q": "El formalismo TG-43 del AAPM describe:",
@@ -613,7 +613,7 @@
       }
     },
     {
-      "id": 33,
+      "id": 34,
       "elo": 2450,
       "tema": "Radioterapia",
       "q": "El SOBP (Spread-Out Bragg Peak) en hadronterapia se construye:",
@@ -631,7 +631,7 @@
       }
     },
     {
-      "id": 34,
+      "id": 35,
       "elo": 950,
       "tema": "Imagen médica",
       "q": "El índice CTDI_vol (CT dose index volumétrico) en tomografía computarizada:",
@@ -649,7 +649,7 @@
       }
     },
     {
-      "id": 35,
+      "id": 36,
       "elo": 1100,
       "tema": "Imagen médica",
       "q": "El DLP (dose length product) en TC se calcula como:",
@@ -667,7 +667,7 @@
       }
     },
     {
-      "id": 36,
+      "id": 37,
       "elo": 1400,
       "tema": "Imagen médica",
       "q": "En mamografía, los haces de rayos X utilizan típicamente energías de fotones de:",
@@ -685,7 +685,7 @@
       }
     },
     {
-      "id": 37,
+      "id": 38,
       "elo": 1700,
       "tema": "Imagen médica",
       "q": "En PET, el radiofármaco emite positrones que, tras aniquilarse con electrones, producen:",
@@ -703,7 +703,7 @@
       }
     },
     {
-      "id": 38,
+      "id": 39,
       "elo": 2100,
       "tema": "Imagen médica",
       "q": "La función de transferencia de modulación (MTF) de un sistema de imagen cuantifica:",
@@ -721,7 +721,7 @@
       }
     },
     {
-      "id": 39,
+      "id": 40,
       "elo": 850,
       "tema": "Radioprotección",
       "q": "El principio ALARA establece que las dosis deben mantenerse:",
