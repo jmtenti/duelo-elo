@@ -312,10 +312,10 @@
       "tema": "Física nuclear",
       "q": "La sección eficaz de una reacción nuclear se mide típicamente en:",
       "opts": [
-        "Metros cuadrados, sin usar múltiplos especiales",
-        "Becquerels, que miden desintegraciones por segundo",
-        "Sieverts, que miden dosis equivalente",
-        "Barns, con 1 barn igual a $10^{-28}\\ \\text{m}^2$"
+        "Metros cuadrados sin múltiplos especiales, aunque en la práctica se usan prefijos como el femtobarn para secciones muy pequeñas",
+        "Becquerels, que miden las desintegraciones por segundo",
+        "Sieverts, que miden la dosis equivalente en tejidos",
+        "Barns, con 1 barn igual a $10^{-28}\\ \\text{m}^2$ y definido como el área transversal eficaz para una reacción nuclear"
       ],
       "a": 3,
       "sol": "La sección eficaz se mide en barns: $1\\,$barn $= 10^{-28}\\,$m$^2$. Representa el área efectiva que presenta un núcleo blanco a un proyectil para que ocurra una reacción dada. Es una medida de la probabilidad de interacción.",
@@ -384,10 +384,10 @@
       "tema": "Física nuclear",
       "q": "El defecto de masa de un núcleo es:",
       "opts": [
-        "Diferencia entre la masa de los nucleones libres y la del núcleo",
-        "Diferencia entre la masa del núcleo y la masa atómica",
-        "Diferencia entre la masa del núcleo y la de los electrones",
-        "Diferencia entre la masa de protones y la de neutrones"
+        "Diferencia entre la masa de los nucleones libres y la del núcleo ligado",
+        "Diferencia entre la masa del núcleo y la masa atómica, que incluye la masa de los electrones y su energía de ligadura",
+        "Diferencia entre la masa del núcleo y la de los electrones, que se debe a la energía de ionización de las capas internas",
+        "Diferencia entre la masa de protones y neutrones"
       ],
       "a": 0,
       "sol": "El defecto de masa es $\\Delta m = Zm_p + Nm_n - M_{núcleo}$. Multiplicado por $c^2$ da la energía de enlace: $B = \\Delta m\\,c^2$. Es consecuencia de la equivalencia masa-energía: la energía de enlace se manifiesta como una disminución de la masa del núcleo respecto a la suma de sus constituyentes libres.",
@@ -402,10 +402,10 @@
       "tema": "Física nuclear",
       "q": "La energía de enlace por nucleón de la mayoría de los núcleos es:",
       "opts": [
-        "Constante para todos los núcleos, con unos 1 MeV por nucleón",
-        "Máxima cerca del hierro-56, con unos 8,8 MeV por nucleón",
-        "Crece sin límite al aumentar el número másico A",
-        "Máxima en el hidrógeno, con unos 13,6 MeV por nucleón"
+        "Constante para todos los núcleos con unos 1 MeV por nucleón, porque la fuerza nuclear satura a distancias cortas y no depende del tamaño",
+        "Máxima cerca del hierro-56, con unos 8,8 MeV por nucleón, porque allí se equilibran la fuerza nuclear y la repulsión de Coulomb",
+        "Crece sin límite al aumentar A, porque la repulsión de Coulomb añade energía de enlace",
+        "Máxima en el hidrógeno con 13,6 MeV por nucleón"
       ],
       "a": 1,
       "sol": "La energía de enlace por nucleón $B/A$ crece rápidamente para núcleos ligeros, alcanza un máximo de $\\sim 8{,}8\\,$MeV cerca de $^{56}$Fe, y luego decrece lentamente para núcleos pesados. Este comportamiento explica por qué la fusión de núcleos ligeros y la fisión de núcleos pesados liberan energía.",
@@ -587,8 +587,8 @@
       "q": "En una reacción nuclear, ¿qué cantidades se conservan siempre?",
       "opts": [
         "Carga eléctrica, número bariónico, energía total y momento",
-        "Solo el momento lineal y el número de electrones",
-        "Solo la energía total y el número de protones",
+        "Solo el momento lineal y el número de electrones, porque la carga eléctrica no se conserva en las reacciones débiles",
+        "Solo la energía total y el número de protones, porque los neutrones pueden transformarse en protones por decaimiento beta",
         "Solo la carga eléctrica y el número de neutrones"
       ],
       "a": 0,
@@ -1852,10 +1852,10 @@
       "tema": "Detección y dosimetría",
       "q": "En la curva característica corriente-voltaje de un detector gaseoso, la región de ionización (o saturación) se caracteriza porque:",
       "opts": [
-        "La corriente es aproximadamente independiente del voltaje y proporcional a la ionización primaria",
-        "La corriente crece exponencialmente con el voltaje por multiplicación de avalancha",
-        "La corriente decrece al aumentar el voltaje por recombinación",
-        "La corriente es cero porque todos los iones se recombinan"
+        "La corriente es aproximadamente independiente del voltaje y proporcional a la ionización primaria en la meseta de saturación",
+        "La corriente crece exponencialmente con el voltaje, porque cada electrón produce una avalancha",
+        "La corriente decrece al aumentar el voltaje, porque los iones positivos se recombinan",
+        "La corriente es cero porque todos los iones se recombinan en el gas"
       ],
       "a": 0,
       "sol": "En la región de ionización o saturación, el campo eléctrico es suficientemente intenso para separar todos los pares ión-electrón antes de que se recombinen, pero no tanto como para producir avalanchas. La corriente alcanza una meseta independiente del voltaje y proporcional a la tasa de ionización primaria. Es la región donde operan las cámaras de ionización, la base de la dosimetría.",
@@ -1874,10 +1874,10 @@
       "tema": "Detección y dosimetría",
       "q": "El contador proporcional se diferencia de la cámara de ionización en que:",
       "opts": [
-        "Opera en una región donde hay multiplicación gaseosa, pero la carga colectada sigue siendo proporcional a la energía depositada",
-        "No requiere voltaje de polarización",
-        "Solo detecta neutrones, mientras que la cámara detecta todo",
-        "Trabaja exclusivamente con gases nobles"
+        "Opera con multiplicación gaseosa y carga proporcional a la energía",
+        "No requiere voltaje de polarización porque la multiplicación gaseosa se produce por la energía térmica del gas a temperatura ambiente",
+        "Solo detecta neutrones porque los electrones se multiplican por colisión con los núcleos del gas y no con los electrones atómicos",
+        "Trabaja exclusivamente con gases nobles porque necesitan un potencial de ionización alto que permita la avalancha sin recombinación"
       ],
       "a": 0,
       "sol": "El contador proporcional opera en la región III de la curva de respuesta: el campo eléctrico es tan intenso que los electrones producen ionizaciones secundarias (multiplicación por avalancha). Sin embargo, la carga total colectada sigue siendo proporcional a la energía depositada por la radiación primaria, lo que permite medir la energía de la radiación (espectroscopía).",
@@ -1896,10 +1896,10 @@
       "tema": "Detección y dosimetría",
       "q": "El tiempo muerto de un contador Geiger-Müller es:",
       "opts": [
-        "El intervalo de tiempo tras cada pulso durante el cual el detector no puede registrar nuevos eventos",
-        "La vida media del gas utilizado en el detector",
-        "El tiempo que tarda el pulso en ser amplificado",
-        "El tiempo entre calibraciones sucesivas"
+        "El intervalo tras cada pulso en el que el detector no puede registrar nuevos eventos",
+        "La vida media del gas del detector, que determina cuántos pulsos puede detectar antes de degradarse por la irradiación acumulada",
+        "El tiempo que tarda el pulso en ser amplificado por el ánodo",
+        "El tiempo entre calibraciones sucesivas del dosímetro"
       ],
       "a": 0,
       "sol": "El tiempo muerto es el intervalo de tiempo que sigue a cada descarga durante el cual el contador no puede detectar nueva radiación, porque los iones positivos aún no han llegado al cátodo y el campo eléctrico no se ha restablecido. Se necesitan correcciones por tiempo muerto cuando la tasa de cuentas es alta.",
@@ -1914,10 +1914,10 @@
       "tema": "Detección y dosimetría",
       "q": "La eficiencia intrínseca de un detector de radiación se define como:",
       "opts": [
-        "El cociente entre el número de eventos registrados y el número de partículas o fotones que inciden sobre el volumen sensible",
-        "El cociente entre el número de partículas emitidas por la fuente y las que inciden sobre el detector",
-        "La fracción del volumen del detector ocupada por el gas",
-        "El cociente entre la energía depositada y la energía total de la partícula"
+        "El cociente entre eventos registrados y partículas que inciden sobre el volumen sensible",
+        "El cociente entre el número de partículas emitidas por la fuente y las que inciden sobre el detector, que depende solo del ángulo sólido",
+        "La fracción del volumen del detector ocupada por el gas activo",
+        "La energía depositada dividida por la energía total de la partícula"
       ],
       "a": 0,
       "sol": "La eficiencia intrínseca (o absoluta) es la probabilidad de que una partícula o fotón que incide sobre el volumen sensible del detector produzca una señal registrable. Depende del tipo y energía de la radiación, del material y del espesor del detector. La eficiencia geométrica, en cambio, es la fracción de la radiación emitida por la fuente que llega al detector.",
@@ -1932,10 +1932,10 @@
       "tema": "Detección y dosimetría",
       "q": "Los dosímetros termoluminiscentes (TLD) se basan en el hecho de que el material:",
       "opts": [
-        "Almacena energía de la radiación en trampas metaestables y la libera como luz al calentarlo",
-        "Emite luz continuamente durante la irradiación",
-        "Cambia permanentemente de color al irradiarse",
-        "Conduce electricidad cuando se irradia"
+        "Almacena energía de la radiación en trampas metaestables y la libera como luz al calentarlo en un lector programado",
+        "Emite luz continuamente durante la irradiación, con intensidad proporcional a la tasa de dosis",
+        "Cambia permanentemente de color al irradiarse, y la dosis se lee por densitometría óptica",
+        "Conduce electricidad cuando se irradia, y la dosis se determina por la conductividad del material"
       ],
       "a": 0,
       "sol": "Los TLD son materiales (como LiF:Mg,Ti) que, al irradiarse, atrapan electrones en niveles metaestables creados por impurezas. Al calentar el material, los electrones escapan de las trampas y, al recombinarse, emiten luz cuya intensidad es proporcional a la dosis recibida. La lectura es acumulativa y destructiva (el dosímetro se borra al leerlo).",
@@ -1950,10 +1950,10 @@
       "tema": "Detección y dosimetría",
       "q": "Una cámara de ionización de aire libre (free-air chamber) se utiliza principalmente para:",
       "opts": [
-        "Realizar mediciones primarias de exposición o kerma en aire para rayos X de baja energía",
-        "Detectar neutrones térmicos en reactores nucleares",
-        "Medir dosis en profundidad en maniquíes de agua",
-        "Contar partículas alfa emitidas por fuentes radiactivas"
+        "Realizar mediciones primarias de exposición o kerma en aire para rayos X",
+        "Detectar neutrones térmicos en reactores nucleares, aprovechando la reacción de captura en el aire de la cavidad",
+        "Medir dosis en profundidad en maniquíes de agua, corrigiendo por atenuación del haz en el maniquí",
+        "Contar partículas alfa emitidas por fuentes radiactivas, aprovechando la gran eficiencia geométrica de la cavidad"
       ],
       "a": 0,
       "sol": "La cámara de aire libre es un patrón primario para la medición de exposición (o kerma en aire) de rayos X de baja energía (hasta ~300 keV). Define un volumen de aire conocido, en el que la radiación produce ionización, y mide la carga total colectada corrigiendo por efectos de borde, dispersión y atenuación. Su uso está restringido a laboratorios de metrología.",
@@ -1968,10 +1968,10 @@
       "tema": "Detección y dosimetría",
       "q": "El kerma (K, kinetic energy released per unit mass) se define como:",
       "opts": [
-        "La suma de las energías cinéticas iniciales de todas las partículas cargadas liberadas por la radiación indirecta en un elemento de masa",
-        "La energía total depositada por la radiación en un elemento de masa",
-        "El número de ionizaciones producidas por unidad de masa",
-        "La actividad de una fuente radiactiva por unidad de masa"
+        "La suma de energías cinéticas iniciales de todas las partículas cargadas liberadas por la radiación indirecta por unidad de masa",
+        "La energía total depositada por la radiación en un elemento de masa, incluyendo la energía perdida por radiación de frenado y por escape de electrones del volumen",
+        "El número de ionizaciones producidas por unidad de masa en el aire",
+        "La actividad de la fuente dividida por la masa del material irradiado"
       ],
       "a": 0,
       "sol": "El kerma es la energía cinética transferida a las partículas cargadas por la radiación indirecta (fotones, neutrones) por unidad de masa, en el punto de interacción. Es distinto de la dosis absorbida, que es la energía realmente depositada en el medio. En condiciones de equilibrio electrónico, kerma y dosis absorbida coinciden aproximadamente en materiales de bajo Z.",
@@ -1986,10 +1986,10 @@
       "tema": "Detección y dosimetría",
       "q": "La dosis efectiva E se define como:",
       "opts": [
-        "La suma ponderada de las dosis equivalentes en los distintos tejidos y órganos, con factores $w_T$ que reflejan la radiosensibilidad relativa",
-        "La dosis absorbida promedio en todo el cuerpo dividida por la masa corporal",
-        "La dosis equivalente multiplicada por el factor de calidad de la radiación",
-        "La dosis absorbida en la piel en el punto de entrada"
+        "La suma ponderada de las dosis equivalentes en los tejidos con factores w_T de radiosensibilidad",
+        "La dosis absorbida promedio en todo el cuerpo dividida por la masa corporal, que refleja el riesgo de efectos estocásticos en la población",
+        "La dosis equivalente multiplicada por el factor de calidad de la radiación, promediada sobre todos los tejidos del cuerpo humano",
+        "La dosis en la piel en el punto de entrada del haz"
       ],
       "a": 0,
       "sol": "La dosis efectiva E es la suma de las dosis equivalentes en cada órgano o tejido, ponderadas por factores $w_T$ que reflejan la radiosensibilidad relativa (por ejemplo, gónadas, médula ósea y pulmones tienen $w_T$ mayores que la piel o los huesos). Es la magnitud utilizada en protección radiológica para estimar el riesgo estocástico de irradiación no uniforme del cuerpo.",
@@ -2004,10 +2004,10 @@
       "tema": "Detección y dosimetría",
       "q": "Un contador proporcional de BF₃ se utiliza para detectar neutrones porque:",
       "opts": [
-        "El ¹⁰B captura neutrones mediante la reacción ¹⁰B(n,α)⁷Li, y las partículas cargadas resultantes ionizan el gas",
-        "El boro ioniza directamente el gas al ser atravesado por neutrones",
-        "El flúor emite fotones gamma al capturar neutrones",
-        "El BF₃ es un centelleador que emite luz al ser irradiado por neutrones"
+        "El ¹⁰B captura neutrones mediante la reacción ¹⁰B(n,α)⁷Li, y las partículas cargadas resultantes ionizan el gas del detector",
+        "El boro ioniza directamente el gas al ser atravesado por neutrones, porque su sección eficaz es muy alta",
+        "El flúor emite fotones gamma al capturar neutrones, y estos fotones se detectan por efecto fotoeléctrico",
+        "El BF₃ es un centelleador que emite luz al ser irradiado por neutrones, y la luz se mide con un fotomultiplicador"
       ],
       "a": 0,
       "sol": "Los neutrones no ionizan directamente el gas porque no tienen carga. En un contador de BF₃, se aprovecha la reacción nuclear ¹⁰B(n,α)⁷Li (Q = 2,79 MeV), cuyos productos (partículas alfa y núcleos de litio) son cargados y producen ionización. La sección eficaz es grande para neutrones térmicos, por lo que es un detector eficiente para neutrones lentos.",
@@ -2022,10 +2022,10 @@
       "tema": "Detección y dosimetría",
       "q": "El dosímetro de Fricke es un dosímetro químico basado en:",
       "opts": [
-        "La oxidación de iones Fe²⁺ a Fe³⁺ producida por los radicales libres generados en la radiólisis del agua",
-        "La reducción de iones Fe³⁺ a Fe²⁺ por la radiación",
-        "La precipitación de sales de hierro en disolución acuosa",
-        "La formación de complejos coloreados de hierro con ligandos orgánicos"
+        "La oxidación de iones Fe²⁺ a Fe³⁺ por radicales libres de la radiólisis del agua",
+        "La reducción de iones Fe³⁺ a Fe²⁺ por la radiación, que cambia el color de la disolución de amarillo a verde y permite la lectura óptica",
+        "La precipitación de sales de hierro en disolución acuosa, que forma un precipitado cuya masa es proporcional a la dosis absorbida",
+        "La formación de complejos coloreados de hierro con ligandos orgánicos, que se cuantifican por espectrofotometría visible"
       ],
       "a": 0,
       "sol": "El dosímetro de Fricke es una disolución ácida de sulfato ferroso (Fe²⁺) que, al irradiarse, se oxida a Fe³⁺ por los radicales libres (OH·, HO₂·) producidos en la radiólisis del agua. La concentración de Fe³⁺ se mide espectrofotométricamente y es proporcional a la dosis. Es un dosímetro de referencia en radioterapia y procesado de alimentos.",
@@ -2040,9 +2040,9 @@
       "tema": "Detección y dosimetría",
       "q": "Una cámara de extrapolación es un instrumento que permite:",
       "opts": [
-        "Variar el espesor de la cavidad (o la distancia entre electrodos) y extrapolar a espesor cero para medir la dosis superficial absoluta",
-        "Medir la actividad de fuentes de baja energía sin calibración",
-        "Detectar neutrones rápidos mediante reacciones nucleares",
+        "Variar el espesor de la cavidad y extrapolar a espesor cero para medir la dosis superficial absoluta",
+        "Medir la actividad de fuentes de baja energía sin calibración previa, usando la respuesta del gas a distintas presiones y temperaturas",
+        "Detectar neutrones rápidos mediante reacciones nucleares en el gas",
         "Contar partículas alfa con alta eficiencia geométrica"
       ],
       "a": 0,
@@ -2059,9 +2059,9 @@
       "q": "El dosímetro de alanina se lee mediante:",
       "opts": [
         "Resonancia paramagnética electrónica (EPR), que mide los radicales libres estables formados por la radiación",
-        "Termoluminiscencia, calentando el dosímetro",
-        "Centelleo en un fotomultiplicador",
-        "Electrómetro de ionización gaseosa"
+        "Termoluminiscencia, calentando el dosímetro hasta que emite luz proporcional a la dosis absorbida durante la irradiación previa",
+        "Centelleo en un fotomultiplicador, que detecta los fotones emitidos por los radicales libres al recombinarse en la matriz",
+        "Electrómetro de ionización gaseosa convencional"
       ],
       "a": 0,
       "sol": "El dosímetro de alanina se basa en la formación de radicales libres estables (radicales alanina) al irradiar el aminoácido alanina. La concentración de radicales se mide mediante espectroscopía EPR (resonancia paramagnética electrónica), y es proporcional a la dosis. Es un dosímetro de referencia para dosis altas y para haces de partículas.",
@@ -2076,10 +2076,10 @@
       "tema": "Detección y dosimetría",
       "q": "Los detectores de trazas nucleares (como CR-39) funcionan porque:",
       "opts": [
-        "Las partículas cargadas pesadas producen daño latente en el material, que se revela como trazas mediante ataque químico",
-        "La radiación ioniza un gas y produce una avalancha",
-        "El material centellea al ser atravesado por la radiación",
-        "Se producen pares electrón-hueco que se colectan con un campo eléctrico"
+        "Las partículas cargadas pesadas producen daño latente en el material, que se revela como trazas mediante ataque químico controlado",
+        "La radiación ioniza un gas y produce una avalancha, que se registra como una traza en la emulsión fotográfica",
+        "El material centellea al ser atravesado por la radiación, y las trazas se leen con un fotomultiplicador acoplado",
+        "Se producen pares electrón-hueco que se colectan con un campo eléctrico, formando una imagen latente de la traza"
       ],
       "a": 0,
       "sol": "Los detectores de trazas nucleares son materiales dieléctricos (plásticos como CR-39, o vidrios) en los que las partículas cargadas pesadas dejan un daño latente a lo largo de su trayectoria. Al someter el material a un ataque químico controlado, el daño se revela como un poro o traza visible al microscopio. Se usan para dosimetría de radón, detectores de partículas y datación.",
@@ -2095,9 +2095,9 @@
       "q": "Una cámara de ionización de pozo se utiliza para:",
       "opts": [
         "Calibrar fuentes de braquiterapia, colocándolas en la cavidad central del pozo",
-        "Medir haces de protones en radioterapia externa",
-        "Dosimetría de neutrones en reactores",
-        "Detección de contaminación superficial en laboratorios"
+        "Medir haces de protones en radioterapia externa, aprovechando la simetría 4π para promediar la dosis en todo el volumen",
+        "Realizar dosimetría de neutrones en reactores, porque la cavidad central permite moderar los neutrones rápidos antes de detectarlos",
+        "Detectar contaminación superficial en laboratorios, por la gran eficiencia geométrica que proporciona el pozo al detector"
       ],
       "a": 0,
       "sol": "La cámara de pozo es una cámara de ionización con una cavidad central cilíndrica donde se inserta la fuente radiactiva (típicamente una fuente de braquiterapia de ¹⁹²Ir o ¹²⁵I). Su geometría casi 4π le da una eficiencia muy alta y una respuesta estable, y se usa para calibrar fuentes de braquiterapia en términos de kerma en aire o dosis absorbida en agua.",
@@ -2112,10 +2112,10 @@
       "tema": "Detección y dosimetría",
       "q": "El límite de dosis efectiva anual recomendado por la ICRP para trabajadores ocupacionalmente expuestos es:",
       "opts": [
-        "20 mSv/año promediado en 5 años (sin superar 50 mSv en un año)",
-        "1 mSv/año",
-        "100 mSv/año",
-        "500 mSv/año"
+        "20 mSv por año promediado en 5 años, con un máximo de 50 mSv en cualquier año individual",
+        "1 mSv por año promediado en 5 años, con un máximo de 5 mSv en cualquier año individual, aplicable a trabajadores y público general",
+        "100 mSv por año sin promedio, aplicable solo a emergencias radiológicas",
+        "500 mSv por año con dosímetro personal obligatorio"
       ],
       "a": 0,
       "sol": "La ICRP recomienda un límite de dosis efectiva de 20 mSv/año promediado en 5 años (100 mSv en 5 años) para trabajadores ocupacionalmente expuestos, sin superar 50 mSv en un solo año. Para el público general, el límite es de 1 mSv/año. Estos límites están diseñados para mantener el riesgo de efectos estocásticos en niveles aceptables.",
@@ -2130,9 +2130,9 @@
       "tema": "Detección y dosimetría",
       "q": "El factor de calibración $N_{D,w}$ de una cámara de ionización de referencia en radioterapia representa:",
       "opts": [
-        "La dosis absorbida en agua por unidad de lectura del electrómetro, calibrada en un laboratorio de metrología con trazabilidad al patrón primario",
-        "El número de electrones producidos por gray en el gas de la cámara",
-        "La energía media de ionización del aire en condiciones de referencia",
+        "La dosis absorbida en agua por unidad de lectura, calibrada con trazabilidad al patrón primario",
+        "El número de electrones producidos por gray en el gas de la cámara, que depende del poder de frenado del aire y de la geometría",
+        "La energía media de ionización del aire en condiciones de referencia, que se usa para calibrar el electrómetro del laboratorio",
         "El tiempo muerto de la cámara en condiciones de saturación"
       ],
       "a": 0,
