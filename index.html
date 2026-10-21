@@ -747,9 +747,7 @@ async function workerSendProblemElo(dataset, problemId, elo){
   }
 }
   
-/* ═══════════════════════════════════════════════════════════════
-   SECCIÓN 11 · GIST FILES
-   ═══════════════════════════════════════════════════════════════ */
+ 
 /* ═══════════════════════════════════════════════════════════════
    SECCIÓN 11 · LISTA DE DATASETS (desde GitHub)
    ═══════════════════════════════════════════════════════════════ */
@@ -776,6 +774,13 @@ async function listGistFiles(){
     console.warn('Error listando datasets:', e);
     return [];
   }
+}
+
+function prettyName(filename){
+  return filename
+    .replace(/\.json$/i, '')
+    .replace(/[_-]+/g, ' ')
+    .replace(/(^|\s)(\p{L})/gu, (_, sep, c) => sep + c.toUpperCase());
 }
 
 /* ═══════════════════════════════════════════════════════════════
