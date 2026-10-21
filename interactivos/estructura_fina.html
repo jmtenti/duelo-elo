@@ -199,10 +199,6 @@
     padding: 10px 20px; border-left: 3px solid var(--accent-color);
     background: #fff;
   }
-  .legend-swatch {
-    display: inline-block; width: 14px; height: 14px;
-    border-radius: 3px; margin-right: 6px; vertical-align: middle;
-  }
   table.generic { border-collapse: collapse; width: 100%; margin: 20px 0; font-size: 0.95em;}
   table.generic th, table.generic td {
     border: 1px solid #e0e0e0; padding: 8px 12px;
@@ -595,7 +591,7 @@
       <span class="step-label">Paso 2 — Sustituir</span>
       <div class="step-body">
         $$ j(j+1) = \tfrac{3}{2}\cdot\tfrac{5}{2} = \tfrac{15}{4}, \quad s(s+1) = \tfrac{1}{2}\cdot\tfrac{3}{2} = \tfrac{3}{4}, \quad l(l+1) = 1\cdot2 = 2. $$
-        $$ g_j = 1 + \frac{15/4 + 3/4 - 2}{2\cdot 15/4} = 1 + \frac{18/4 - 8/4}{15/2} = 1 + \frac{10/4}{15/2} = 1 + \frac{1/3}{1} = \frac{4}{3}. $$
+        $$ g_j = 1 + \frac{15/4 + 3/4 - 2}{2\cdot 15/4} = 1 + \frac{18/4 - 8/4}{15/2} = 1 + \frac{10/4}{15/2} = 1 + \frac{1}{3} = \frac{4}{3}. $$
         <div class="result">$g_j(2p_{3/2}) = 4/3$.</div>
       </div>
     </div>
@@ -664,7 +660,7 @@
     <div class="hint"><strong>Pista:</strong> la regla de selección dipolar eléctrica exige $\Delta l = \pm 1$.</div>
     <button class="solution-toggle" onclick="toggleSolution(this)">Mostrar solución</button>
     <div class="solution-content">
-      <p>Para $2s_{1/2} \to 1s_{1/2}$ se tiene $\Delta l = 0 - 0 = 0$. La regla de selección dipolar eléctrica exige $\Delta l = \pm 1$ (y $\Delta j = 0, \pm 1$, pero $j=1/2 \to j=1/2$ también cumple). Como $\Delta l = 0$, la transición es dipolar prohibida. El estado $2s_{1/2}$ decae por emisión de dos fotones, con una vida media de ~0.12 s, mucho más larga que la de $2p$ (~1.6 ns).</p>
+      <p>Para $2s_{1/2} \to 1s_{1/2}$ se tiene $\Delta l = 0 - 0 = 0$. La regla de selección dipolar eléctrica exige $\Delta l = \pm 1$. Como $\Delta l = 0$, la transición es dipolar prohibida. El estado $2s_{1/2}$ decae por emisión de dos fotones, con una vida media de ~0.12 s, mucho más larga que la de $2p$ (~1.6 ns).</p>
     </div>
   </div>
 
@@ -692,27 +688,24 @@
     E0: 13.6,               // eV
     alpha: 1/137.036,
     muB: 5.788e-5,          // eV/T
-    h_eV_s: 4.135667696e-15,// eV·s
     h_GHz: 4.135667696e-6   // eV/GHz
   };
 
   // ============================================================
   // FUNCIONES DE ENERGÍA
   // ============================================================
-  // Energía de Bohr: -13.6 / n^2 (eV)
   function EBohr(n) {
     return -PHYS.E0 / (n * n);
   }
 
-  // Corrección de estructura fina (eV, valor absoluto pequeño)
-  // E(n,j) = -13.6/n^2 * [1 + (α²/n²)(n/(j+1/2) - 3/4)]
+  // Corrección de estructura fina (fórmula de Dirac expandida)
   function EFS(n, j) {
     const alpha2 = PHYS.alpha * PHYS.alpha;
     const corr = 1 + (alpha2 / (n * n)) * (n / (j + 0.5) - 0.75);
     return -PHYS.E0 / (n * n) * corr;
   }
 
-  // Desplazamiento de Lamb (eV) para estado s: ≈ 4.4e-6 / n^3
+  // Desplazamiento de Lamb (eV) para estado s: ≈ 4.37e-6 / n^3
   function ELamb(n) {
     return 4.37e-6 / (n * n * n);
   }
@@ -738,7 +731,6 @@
     { n: 3, l: 2, j: 2.5, label: '3d₅/₂' }
   ];
 
-  const LETRA = ['s', 'p', 'd', 'f'];
   const COLOR = ['#2980b9', '#c0392b', '#16a085', '#8e44ad'];
 
   function drawFS() {
@@ -746,29 +738,20 @@
     const zoom = document.getElementById('cb_zoom_FS').checked;
     const factor = zoom ? 1e4 : 1;
 
-    // Calcular energías (eV) y referenciarlas a la de Bohr para visualizar
     const data = LEVELS.map(lv => {
       const E_bohr = EBohr(lv.n);
-      const E_fs = EFS(lv.n, lv.j);
-      let E = E_fs;
+      let E = EFS(lv.n, lv.j);
       if (useLamb && lv.l === 0 && lv.n > 1) {
         E += ELamb(lv.n);
       }
-      // Diferencia respecto a Bohr, escalada
       const dE = (E - E_bohr) * factor;
       return {
-        n: lv.n,
-        l: lv.l,
-        j: lv.j,
-        label: lv.label,
-        E_bohr: E_bohr,
-        dE: dE,
-        E_total: E
+        n: lv.n, l: lv.l, j: lv.j, label: lv.label,
+        E_bohr: E_bohr, dE: dE, E_total: E
       };
     });
 
     const traces = [];
-    // Agrupar por nivel n para dibujar líneas horizontales
     const byN = {};
     data.forEach(d => {
       if (!byN[d.n]) byN[d.n] = [];
@@ -778,9 +761,7 @@
     Object.keys(byN).forEach(nStr => {
       const n = parseInt(nStr);
       const grupo = byN[n];
-      // Ordenar por dE para dibujar línea vertical que los conecta
       grupo.sort((a, b) => a.dE - b.dE);
-      // Línea horizontal para cada estado (cada uno a su dE)
       grupo.forEach((d, idx) => {
         const x0 = n * 1.0 - 0.45;
         const x1 = n * 1.0 + 0.45;
@@ -793,7 +774,6 @@
           legendgroup: 'n' + n + '_' + d.l,
           hovertemplate: `${d.label}<br>E = ${d.E_total.toFixed(6)} eV<br>ΔE vs Bohr = ${(d.dE/factor).toExponential(3)} eV<extra></extra>`
         });
-        // Etiqueta
         traces.push({
           x: [n * 1.0 + 0.48], y: [d.dE],
           type: 'scatter', mode: 'text',
@@ -805,11 +785,8 @@
       });
     });
 
-    // Eje X: n = 1, 2, 3
     const xTicks = [1, 2, 3];
     const xLabels = ['n = 1', 'n = 2', 'n = 3'];
-
-    // Determinar rango Y
     const allDE = data.map(d => d.dE);
     const yMin = Math.min(...allDE) * 1.2 - 1;
     const yMax = Math.max(...allDE) * 1.2 + 1;
@@ -817,10 +794,8 @@
     Plotly.react('plot_FS', traces, {
       xaxis: {
         title: 'Nivel principal',
-        tickvals: xTicks,
-        ticktext: xLabels,
-        range: [0.5, 3.6],
-        zeroline: false, fixedrange: false
+        tickvals: xTicks, ticktext: xLabels,
+        range: [0.5, 3.6], zeroline: false, fixedrange: false
       },
       yaxis: {
         title: zoom
@@ -832,20 +807,14 @@
       },
       margin: { l: 80, r: 20, t: 15, b: 55 },
       showlegend: true,
-      legend: {
-        x: 0.02, y: 0.98,
-        bgcolor: 'rgba(255,255,255,0.92)',
-        font: { size: 10 }
-      }
+      legend: { x: 0.02, y: 0.98, bgcolor: 'rgba(255,255,255,0.92)', font: { size: 10 } }
     });
 
-    // Stats
-    const sep2 = Math.abs((EFS(2, 1.5) - EFS(2, 0.5)) * 1000); // meV
     const sep2GHz = Math.abs((EFS(2, 1.5) - EFS(2, 0.5)) / PHYS.h_GHz);
     const lambGHz = ELamb(2) / PHYS.h_GHz;
     document.getElementById('stats_FS').innerHTML =
       `<span class="stat-item"><span class="lbl">2p₃/₂ − 2p₁/₂:</span> <span class="val">${sep2GHz.toFixed(2)} GHz</span></span>` +
-      `<span class="stat-item"><span class="lbl">Lamb (n=2):</span> <span class="val">${lambGHz.toFixed(0)} MHz</span></span>` +
+      `<span class="stat-item"><span class="lbl">Lamb (n=2):</span> <span class="val">${(lambGHz*1000).toFixed(0)} MHz</span></span>` +
       `<span class="stat-item"><span class="lbl">Zoom:</span> <span class="val">${zoom ? '×10⁴' : '×1'}</span></span>`;
   }
 
@@ -863,7 +832,6 @@
     document.getElementById('v_B_Zee').innerText = B.toFixed(1) + ' T';
     const useLamb = document.getElementById('cb_lamb_Zee').checked;
 
-    // Energía de referencia: Bohr n=2 (para comparar)
     const E_ref = EBohr(2);
     const traces = [];
     const statsList = [];
@@ -874,27 +842,19 @@
       let E_base = E_fs;
       if (useLamb && lv.l === 0) E_base += ELamb(lv.n);
 
-      // Subniveles m_j
       const mjValues = [];
       for (let m = -lv.j; m <= lv.j + 0.001; m += 1) {
         mjValues.push(m);
       }
 
-      const x = [];
-      const y = [];
       mjValues.forEach(mj => {
-        const dE = E_base + gj * PHYS.muB * B * mj - E_ref; // eV
+        const dE = E_base + gj * PHYS.muB * B * mj - E_ref;
         const dEGHz = dE / PHYS.h_GHz;
-        x.push(B);
-        y.push(dEGHz);
-        // Añadir punto
         traces.push({
           x: [B], y: [dEGHz],
           type: 'scatter', mode: 'markers',
           marker: {
-            color: COLOR[lv.l],
-            size: 10,
-            symbol: 'circle',
+            color: COLOR[lv.l], size: 10, symbol: 'circle',
             line: { color: 'white', width: 1 }
           },
           name: `${lv.label} m_j=${mj}`,
@@ -904,12 +864,11 @@
         });
       });
 
-      // Conectar subniveles con línea recta (para mostrar la pendiente)
+      // Líneas de pendiente
       mjValues.forEach(mj => {
-        const gj_ = gj;
         const Bmax = 5;
         const dE0 = E_base - E_ref;
-        const dEmax = dE0 + gj_ * PHYS.muB * Bmax * mj - E_ref;
+        const dEmax = E_base + gj * PHYS.muB * Bmax * mj - E_ref;
         traces.push({
           x: [0, Bmax],
           y: [dE0 / PHYS.h_GHz, dEmax / PHYS.h_GHz],
@@ -927,7 +886,7 @@
       );
     });
 
-    // Añadir leyenda manual: una traza por nivel (sin puntos, solo para leyenda)
+    // Entradas de leyenda
     ZEEMAN_LEVELS.forEach(lv => {
       traces.push({
         x: [null], y: [null],
@@ -935,29 +894,16 @@
         line: { color: COLOR[lv.l], width: 3 },
         name: lv.label,
         legendgroup: 'n' + lv.n + '_' + lv.l + '_' + lv.j,
-        showlegend: true,
-        hoverinfo: 'skip'
+        showlegend: true, hoverinfo: 'skip'
       });
     });
 
     Plotly.react('plot_Zeeman', traces, {
-      xaxis: {
-        title: 'Campo magnético B (T)',
-        range: [0, 5.5],
-        fixedrange: false
-      },
-      yaxis: {
-        title: 'ΔE respecto a E_Bohr(n=2) (GHz)',
-        zeroline: true, zerolinecolor: '#aaa',
-        zerolinewidth: 1, fixedrange: false
-      },
+      xaxis: { title: 'Campo magnético B (T)', range: [0, 5.5], fixedrange: false },
+      yaxis: { title: 'ΔE respecto a E_Bohr(n=2) (GHz)', zeroline: true, zerolinecolor: '#aaa', zerolinewidth: 1, fixedrange: false },
       margin: { l: 75, r: 20, t: 15, b: 55 },
       showlegend: true,
-      legend: {
-        x: 0.02, y: 0.98,
-        bgcolor: 'rgba(255,255,255,0.92)',
-        font: { size: 10 }
-      }
+      legend: { x: 0.02, y: 0.98, bgcolor: 'rgba(255,255,255,0.92)', font: { size: 10 } }
     });
 
     document.getElementById('stats_Zeeman').innerHTML =
@@ -969,43 +915,23 @@
   // FIGURA 3: DOBLETE DE LYMAN-α
   // ============================================================
   function drawLyman() {
-    const width = parseFloat(document.getElementById('s_width').value); // GHz
+    const width = parseFloat(document.getElementById('s_width').value);
     document.getElementById('v_width').innerText = width.toFixed(2) + ' GHz';
-    const useLamb = document.getElementById('cb_lamb_Lya').checked;
-
-    // Transiciones: 2p_3/2 -> 1s_1/2 y 2p_1/2 -> 1s_1/2
-    // Energía del estado inicial:
-    // 2p_3/2: EFS(2, 1.5)
-    // 2p_1/2: EFS(2, 0.5)
-    // 1s_1/2: EFS(1, 0.5)
-    // (Lamb no afecta 1s_1/2 ni 2p_1/2, pero recordemos: Lamb afecta solo a s
-    //  en n>=2. El 1s tiene Lamb también pero es muy pequeño y constante.)
-    // Para el doblete, la separación de Lamb del 2s no participa (regla de selección
-    // prohíbe 2s -> 1s dipolar). Pero el 1s tiene un Lamb pequeño que desplaza
-    // ambas transiciones por igual, así que la separación NO cambia.
 
     const E_2p32 = EFS(2, 1.5);
     const E_2p12 = EFS(2, 0.5);
     const E_1s12 = EFS(1, 0.5);
 
-    // Frecuencias en GHz (usamos eV/h_GHz)
     const f_32 = (E_2p32 - E_1s12) / PHYS.h_GHz;
     const f_12 = (E_2p12 - E_1s12) / PHYS.h_GHz;
 
-    // Si Lamb activado, el 2s1/2 se desplaza, pero no participa.
-    // El 1s también tiene Lamb pero igual para ambas transiciones, no cambia la separación.
-    // Sin embargo, mostramos el efecto de forma educativa: si el usuario quiere ver
-    // que el Lamb del 1s no afecta la separación, lo dejamos constante.
-
-    // Rango del eje X: centrado en f_32, con margen
     const fCenter = (f_32 + f_12) / 2;
     const sep = Math.abs(f_32 - f_12);
-    const span = Math.max(sep * 5, 30); // GHz
+    const span = Math.max(sep * 5, 30);
 
     const xMin = fCenter - span / 2;
     const xMax = fCenter + span / 2;
 
-    // Generar curvas gaussianas
     const N = 600;
     const x = [], y = [];
     for (let i = 0; i <= N; i++) {
@@ -1015,14 +941,12 @@
       x.push(xx);
       y.push(g1 + g2);
     }
-    // Normalizar
     const yMax = Math.max(...y);
     const yNorm = y.map(v => v / yMax);
 
     const traces = [
       {
-        x: x, y: yNorm,
-        type: 'scatter', mode: 'lines',
+        x: x, y: yNorm, type: 'scatter', mode: 'lines',
         line: { color: '#2c3e50', width: 2.5 },
         name: 'Espectro',
         hovertemplate: 'ν = %{x:.2f} GHz<br>I = %{y:.3f}<extra></extra>'
@@ -1031,36 +955,22 @@
         x: [f_32, f_32], y: [0, 1.05],
         type: 'scatter', mode: 'lines',
         line: { color: '#c0392b', width: 1, dash: 'dash' },
-        name: '2p₃/₂ → 1s₁/₂',
-        hoverinfo: 'skip'
+        name: '2p₃/₂ → 1s₁/₂', hoverinfo: 'skip'
       },
       {
         x: [f_12, f_12], y: [0, 1.05],
         type: 'scatter', mode: 'lines',
         line: { color: '#2980b9', width: 1, dash: 'dash' },
-        name: '2p₁/₂ → 1s₁/₂',
-        hoverinfo: 'skip'
+        name: '2p₁/₂ → 1s₁/₂', hoverinfo: 'skip'
       }
     ];
 
     Plotly.react('plot_Lyman', traces, {
-      xaxis: {
-        title: 'Frecuencia relativa (GHz)',
-        range: [xMin, xMax],
-        fixedrange: false
-      },
-      yaxis: {
-        title: 'Intensidad (normalizada)',
-        range: [-0.05, 1.15],
-        fixedrange: false
-      },
+      xaxis: { title: 'Frecuencia relativa (GHz)', range: [xMin, xMax], fixedrange: false },
+      yaxis: { title: 'Intensidad (normalizada)', range: [-0.05, 1.15], fixedrange: false },
       margin: { l: 65, r: 20, t: 15, b: 55 },
       showlegend: true,
-      legend: {
-        x: 0.02, y: 0.98,
-        bgcolor: 'rgba(255,255,255,0.92)',
-        font: { size: 10 }
-      }
+      legend: { x: 0.02, y: 0.98, bgcolor: 'rgba(255,255,255,0.92)', font: { size: 10 } }
     });
 
     document.getElementById('stats_Lya').innerHTML =
@@ -1093,7 +1003,6 @@
   document.getElementById('s_width').addEventListener('input', drawLyman);
   document.getElementById('cb_lamb_Lya').addEventListener('change', drawLyman);
 
-  // Esperar a que Plotly esté cargado
   function init() {
     if (typeof Plotly === 'undefined') {
       setTimeout(init, 100);
