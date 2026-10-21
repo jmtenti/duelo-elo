@@ -151,8 +151,8 @@
       "q": "La unidad SI de actividad radiactiva es el becquerel (Bq). Un Bq equivale a:",
       "opts": [
         "Una desintegración por minuto",
-        "Tres coma siete por diez a la diez desintegraciones por segundo",
-        "Tres coma siete por diez a la menos diez desintegraciones por segundo",
+        "$3{,}7 \\times 10^{10}$ desintegraciones por segundo",
+        "$3{,}7 \\times 10^{-10}$ desintegraciones por segundo",
         "Una desintegración por segundo"
       ],
       "a": 3,
@@ -168,10 +168,10 @@
       "tema": "Física nuclear",
       "q": "La ley de decaimiento radiactivo establece que el número de núcleos que quedan sin desintegrar al tiempo $t$ es:",
       "opts": [
-        "N(t)=N0 e elevado a menos λt",
-        "N(t)=N0 menos λt",
-        "N(t)=N0 e elevado a λt",
-        "N(t)=N0(1 menos λt)"
+        "$N(t) = N_0\\, e^{-\\lambda t}$",
+        "$N(t) = N_0 - \\lambda t$",
+        "$N(t) = N_0\\, e^{\\lambda t}$",
+        "$N(t) = N_0(1 - \\lambda t)$"
       ],
       "a": 0,
       "sol": "El decaimiento radiactivo sigue una ley exponencial: $N(t) = N_0 e^{-\\lambda t}$, donde $\\lambda$ es la constante de decaimiento. Esta ley se deduce de la hipótesis de que la probabilidad de decaimiento por unidad de tiempo es constante e independiente de la historia del núcleo.",
@@ -186,10 +186,10 @@
       "tema": "Física nuclear",
       "q": "La semivida (o período de semidesintegración) $T_{1/2}$ se relaciona con la constante de decaimiento $\\lambda$ mediante:",
       "opts": [
-        "T1/2 = ln 2 multiplicado por λ",
-        "T1/2 = λ dividido por ln 2",
-        "T1/2 = ln 2 dividido por λ",
-        "T1/2 = 1 dividido por λ"
+        "$T_{1/2} = \\ln 2 \\cdot \\lambda$",
+        "$T_{1/2} = \\lambda / \\ln 2$",
+        "$T_{1/2} = \\ln 2 / \\lambda$",
+        "$T_{1/2} = 1 / \\lambda$"
       ],
       "a": 2,
       "sol": "La semivida es el tiempo necesario para que el número de núcleos se reduzca a la mitad: $N(T_{1/2}) = N_0/2$. De $N_0/2 = N_0 e^{-\\lambda T_{1/2}}$ se obtiene $T_{1/2} = \\ln 2/\\lambda$.",
@@ -315,7 +315,7 @@
         "Metros cuadrados, sin usar múltiplos especiales",
         "Becquerels, que miden desintegraciones por segundo",
         "Sieverts, que miden dosis equivalente",
-        "Barns, con 1 barn igual a 10 menos 28 metros cuadrados"
+        "Barns, con 1 barn igual a $10^{-28}\\ \\text{m}^2$"
       ],
       "a": 3,
       "sol": "La sección eficaz se mide en barns: $1\\,$barn $= 10^{-28}\\,$m$^2$. Representa el área efectiva que presenta un núcleo blanco a un proyectil para que ocurra una reacción dada. Es una medida de la probabilidad de interacción.",
@@ -420,10 +420,10 @@
       "tema": "Física nuclear",
       "q": "El radio de un núcleo con número másico $A$ se estima mediante:",
       "opts": [
-        "R = R0 por A elevado a 1/3, con R0 cercano a 1,2 fm",
-        "R = R0 dividido por A elevado a 1/3, con R0 cercano a 1,2 fm",
-        "R = R0 por A elevado a 1/2, con R0 cercano a 1,2 fm",
-        "R = R0 por A, con R0 cercano a 1,2 fm"
+        "$R = R_0\\, A^{1/3}$, con $R_0$ cercano a 1,2 fm",
+        "$R = R_0 / A^{1/3}$, con $R_0$ cercano a 1,2 fm",
+        "$R = R_0\\, A^{1/2}$, con $R_0$ cercano a 1,2 fm",
+        "$R = R_0\\, A$, con $R_0$ cercano a 1,2 fm"
       ],
       "a": 0,
       "sol": "El radio nuclear se estima como $R = R_0 A^{1/3}$ con $R_0 \\approx 1{,}2\\,$fm. Esta dependencia refleja que la densidad nuclear es aproximadamente constante: el volumen es proporcional a $A$, y el radio a $A^{1/3}$.",
@@ -492,10 +492,10 @@
       "tema": "Interacción radiación-materia",
       "q": "La atenuación de un haz de fotones al atravesar un material sigue la ley:",
       "opts": [
-        "I = I0 e elevado a μx",
-        "I = I0 dividido por x",
-        "I = I0(1 menos μx)",
-        "I = I0 e elevado a menos μx"
+        "$I = I_0\\, e^{\\mu x}$",
+        "$I = I_0 / x$",
+        "$I = I_0(1 - \\mu x)$",
+        "$I = I_0\\, e^{-\\mu x}$"
       ],
       "a": 3,
       "sol": "La atenuación de fotones sigue una ley exponencial: $I = I_0 e^{-\\mu x}$, donde $\\mu$ es el coeficiente de atenuación lineal (que depende de la energía del fotón y del material) y $x$ es el espesor atravesado. $\\mu$ incluye las contribuciones del efecto fotoeléctrico, Compton y producción de pares.",
@@ -512,7 +512,7 @@
       "opts": [
         "Energía total perdida por la partícula en todo el material",
         "Velocidad de la partícula dividida por su carga",
-        "Energía perdida por unidad de longitud: menos dE/dx",
+        "Energía perdida por unidad de longitud: $-dE/dx$",
         "Número de colisiones por unidad de longitud"
       ],
       "a": 2,
@@ -676,10 +676,10 @@
       "tema": "Física nuclear",
       "q": "En la fórmula semiempírica de Weizsäcker, el término de asimetría es proporcional a:",
       "opts": [
-        "Proporcional a A elevado a 2/3",
-        "Proporcional a Z al cuadrado dividido por A elevado a 1/3",
-        "Proporcional a (A menos 2Z) al cuadrado dividido por A",
-        "Proporcional a un término de apareamiento δ(A)"
+        "Proporcional a $A^{2/3}$",
+        "Proporcional a $Z^2/A^{1/3}$",
+        "Proporcional a $(A - 2Z)^2/A$",
+        "Proporcional a un término de apareamiento $\\delta(A)$"
       ],
       "a": 2,
       "sol": "El término de asimetría en la fórmula de Weizsäcker es $-a_a (A-2Z)^2/A$. Refleja el hecho de que los núcleos estables tienden a tener $N \\approx Z$ (excepto en núcleos pesados donde la repulsión de Coulomb favorece $N > Z$). El término de superficie va como $A^{2/3}$, el de Coulomb como $Z^2/A^{1/3}$ y el de apareamiento es $\\delta(A)$.",
@@ -928,10 +928,10 @@
       "tema": "Física atómica",
       "q": "Según el modelo de Bohr del átomo de hidrógeno, el radio de la órbita $n$ está dado por:",
       "opts": [
-        "r sub n = n al cuadrado por a0, con a0 cercano a 0,529 Å",
-        "r sub n = n por a0, con a0 cercano a 0,529 Å",
-        "r sub n = raíz de n por a0, con a0 cercano a 0,529 Å",
-        "r sub n = a0 dividido por n al cuadrado"
+        "$r_n = n^2 a_0$, con $a_0$ cercano a 0,529 Å",
+        "$r_n = n\\, a_0$, con $a_0$ cercano a 0,529 Å",
+        "$r_n = \\sqrt{n}\\, a_0$, con $a_0$ cercano a 0,529 Å",
+        "$r_n = a_0 / n^2$"
       ],
       "a": 0,
       "sol": "En el modelo de Bohr, el radio de la órbita $n$ es $r_n = n^2 a_0$, donde $a_0 = 4\\pi\\epsilon_0\\hbar^2/(m_e e^2) \\approx 0{,}529\\,$Å es el radio de Bohr. Las órbitas crecen cuadráticamente con $n$.",
@@ -982,10 +982,10 @@
       "tema": "Física atómica",
       "q": "El número cuántico azimutal $l$ puede tomar los valores:",
       "opts": [
-        "menos l, ..., 0, ..., más l",
-        "0, 1, 2, ..., n menos 1",
-        "1, 2, 3, ..., n",
-        "más 1/2 y menos 1/2"
+        "$-l, \\ldots, 0, \\ldots, +l$",
+        "$0, 1, 2, \\ldots, n-1$",
+        "$1, 2, 3, \\ldots, n$",
+        "$+1/2$ y $-1/2$"
       ],
       "a": 1,
       "sol": "Para un $n$ dado, $l$ toma los valores enteros $0, 1, 2, \\ldots, n-1$. Estos corresponden a los orbitales $s, p, d, f, \\ldots$ respectivamente. El número cuántico magnético $m_l$ toma los valores $-l, \\ldots, +l$, y el de espín $m_s = \\pm 1/2$.",
@@ -1018,7 +1018,7 @@
       "tema": "Física atómica",
       "q": "El número cuántico de espín $m_s$ puede tomar los valores:",
       "opts": [
-        "más 1/2 y menos 1/2",
+        "$+1/2$ y $-1/2$",
         "menos 1, 0 y más 1",
         "0 y 1",
         "1, 2 y 3"
@@ -1180,10 +1180,10 @@
       "tema": "Física atómica",
       "q": "En el modelo de Bohr, la energía del nivel $n$ del hidrógeno es:",
       "opts": [
-        "E sub n = menos 13,6 eV dividido por n",
-        "E sub n = menos 13,6 eV multiplicado por n al cuadrado",
-        "E sub n = más 13,6 eV dividido por n al cuadrado",
-        "E sub n = menos 13,6 eV dividido por n al cuadrado"
+        "$E_n = -13{,}6\\ \\text{eV} / n$",
+        "$E_n = -13{,}6\\ \\text{eV} \\cdot n^2$",
+        "$E_n = +13{,}6\\ \\text{eV} / n^2$",
+        "$E_n = -13{,}6\\ \\text{eV} / n^2$"
       ],
       "a": 3,
       "sol": "En el modelo de Bohr, $E_n = -13{,}6\\,\\text{eV}/n^2$. El nivel fundamental ($n=1$) tiene energía $-13{,}6\\,$eV, y los niveles superiores se acercan a cero. La energía de ionización del hidrógeno es 13,6 eV.",
@@ -1198,10 +1198,10 @@
       "tema": "Física atómica",
       "q": "El momento angular orbital de un electrón en el modelo cuántico está cuantizado según:",
       "opts": [
-        "L = n por h barra",
-        "L = l por h barra",
-        "L = raíz de l(l+1) por h barra",
-        "L = h barra dividido por l"
+        "$L = n\\hbar$",
+        "$L = l\\hbar$",
+        "$L = \\sqrt{l(l+1)}\\,\\hbar$",
+        "$L = \\hbar / l$"
       ],
       "a": 2,
       "sol": "El módulo del momento angular orbital está cuantizado como $L = \\sqrt{l(l+1)}\\,\\hbar$, donde $l$ es el número cuántico azimutal. Su componente $z$ es $L_z = m_l\\hbar$. En el modelo de Bohr (incorrecto) se usaba $L = n\\hbar$.",
@@ -1252,10 +1252,10 @@
       "tema": "Física cuántica",
       "q": "La hipótesis de de Broglie establece que una partícula con momento $p$ tiene asociada una longitud de onda:",
       "opts": [
-        "λ = h multiplicado por p",
-        "λ = h dividido por p",
-        "λ = p dividido por h",
-        "λ = raíz de h dividido por p"
+        "$\\lambda = h \\cdot p$",
+        "$\\lambda = h / p$",
+        "$\\lambda = p / h$",
+        "$\\lambda = \\sqrt{h} / p$"
       ],
       "a": 1,
       "sol": "La relación de de Broglie es $\\lambda = h/p$, donde $h$ es la constante de Planck. Esta dualidad onda-partícula fue confirmada experimentalmente por Davisson y Germer en 1927 mediante difracción de electrones.",
@@ -1270,10 +1270,10 @@
       "tema": "Física cuántica",
       "q": "El principio de incertidumbre de Heisenberg posición-momento establece que:",
       "opts": [
-        "Δx por Δp mayor o igual que h barra dividido por 2",
-        "Δx por Δp mayor o igual que h barra",
-        "Δx por Δp igual a cero",
-        "Δx por Δp menor o igual que h barra dividido por 2"
+        "$\\Delta x \\cdot \\Delta p \\geq \\hbar/2$",
+        "$\\Delta x \\cdot \\Delta p \\geq \\hbar$",
+        "$\\Delta x \\cdot \\Delta p = 0$",
+        "$\\Delta x \\cdot \\Delta p \\leq \\hbar/2$"
       ],
       "a": 0,
       "sol": "El principio de incertidumbre de Heisenberg establece que $\\Delta x \\cdot \\Delta p \\geq \\hbar/2$. No se puede conocer simultáneamente con precisión arbitraria la posición y el momento de una partícula. No es una limitación tecnológica, sino una propiedad fundamental de la naturaleza.",
@@ -1288,10 +1288,10 @@
       "tema": "Física cuántica",
       "q": "El principio de incertidumbre energía-tiempo establece que:",
       "opts": [
-        "ΔE por Δt igual a cero",
-        "ΔE dividido por Δt mayor o igual que h barra",
-        "ΔE por Δt mayor o igual que 2 h barra",
-        "ΔE por Δt mayor o igual que h barra dividido por 2"
+        "$\\Delta E \\cdot \\Delta t = 0$",
+        "$\\Delta E / \\Delta t \\geq \\hbar$",
+        "$\\Delta E \\cdot \\Delta t \\geq 2\\hbar$",
+        "$\\Delta E \\cdot \\Delta t \\geq \\hbar/2$"
       ],
       "a": 3,
       "sol": "El principio de incertidumbre energía-tiempo es $\\Delta E \\cdot \\Delta t \\geq \\hbar/2$. Implica que un estado con una vida media finita $\\Delta t$ tiene una incertidumbre en su energía $\\Delta E \\sim \\hbar/\\Delta t$, lo que se manifiesta como un ensanchamiento natural de las líneas espectrales.",
@@ -1378,10 +1378,10 @@
       "tema": "Física cuántica",
       "q": "Los niveles de energía de una partícula en una caja 1D de longitud $L$ son:",
       "opts": [
-        "E sub n = n al cuadrado por h barra al cuadrado dividido por 2mL",
-        "E sub n = n al cuadrado por π al cuadrado por h barra al cuadrado dividido por 2mL al cuadrado",
-        "E sub n = n por h barra por ω",
-        "E sub n = n por π por h barra dividido por mL"
+        "$E_n = n^2 \\hbar^2 / (2mL)$",
+        "$E_n = n^2 \\pi^2 \\hbar^2 / (2mL^2)$",
+        "$E_n = n\\hbar\\omega$",
+        "$E_n = n\\pi\\hbar / (mL)$"
       ],
       "a": 1,
       "sol": "Para una partícula en una caja 1D de longitud $L$ con paredes infinitas, los niveles de energía son $E_n = n^2\\pi^2\\hbar^2/(2mL^2)$, con $n = 1, 2, 3, \\ldots$. La energía del estado fundamental es $E_1 = \\pi^2\\hbar^2/(2mL^2) > 0$, lo que refleja el principio de incertidumbre.",
@@ -1396,10 +1396,10 @@
       "tema": "Física cuántica",
       "q": "La función de onda del estado fundamental de una partícula en una caja 1D de longitud $L$ es:",
       "opts": [
-        "ψ1 = 1 dividido por raíz de L por e elevado a iπx/L",
-        "ψ1 = raíz de 2/L por seno de πx/L",
-        "ψ1 = raíz de 1/L, constante",
-        "ψ1 = raíz de 2/L por coseno de πx/L"
+        "$\\psi_1 = \\frac{1}{\\sqrt{L}}\\, e^{i\\pi x/L}$",
+        "$\\psi_1 = \\sqrt{2/L}\\,\\sin(\\pi x/L)$",
+        "$\\psi_1 = \\sqrt{1/L}$, constante",
+        "$\\psi_1 = \\sqrt{2/L}\\,\\cos(\\pi x/L)$"
       ],
       "a": 1,
       "sol": "La función de onda del estado fundamental es $\\psi_1(x) = \\sqrt{2/L}\\,\\operatorname{sen}(\\pi x/L)$, que se anula en $x=0$ y $x=L$ (condiciones de contorno) y está normalizada. Los estados excitados son $\\psi_n(x) = \\sqrt{2/L}\\,\\operatorname{sen}(n\\pi x/L)$.",
@@ -1432,10 +1432,10 @@
       "tema": "Física cuántica",
       "q": "Los niveles de energía de un oscilador armónico cuántico son:",
       "opts": [
-        "E sub n = h barra ω por (n más 1/2)",
-        "E sub n = n por h barra ω",
-        "E sub n = h barra ω dividido por n",
-        "E sub n = n al cuadrado por h barra ω"
+        "$E_n = \\hbar\\omega\\,(n + 1/2)$",
+        "$E_n = n\\hbar\\omega$",
+        "$E_n = \\hbar\\omega / n$",
+        "$E_n = n^2 \\hbar\\omega$"
       ],
       "a": 0,
       "sol": "Los niveles de energía del oscilador armónico cuántico son $E_n = \\hbar\\omega(n + 1/2)$, con $n = 0, 1, 2, \\ldots$. La energía del punto cero $E_0 = \\hbar\\omega/2$ es una consecuencia del principio de incertidumbre: la partícula no puede estar perfectamente en reposo en el fondo del pozo.",
@@ -1540,10 +1540,10 @@
       "tema": "Física cuántica",
       "q": "La constante de Planck $h$ tiene un valor aproximado de:",
       "opts": [
-        "1,602 por 10 a la menos 19 J",
-        "3 por 10 a la 8 m por segundo",
-        "6,626 por 10 a la menos 34 J por segundo",
-        "9,11 por 10 a la menos 31 kg"
+        "$1{,}602 \\times 10^{-19}\\ \\text{J}$",
+        "$3 \\times 10^{8}\\ \\text{m/s}$",
+        "$6{,}626 \\times 10^{-34}\\ \\text{J}\\cdot\\text{s}$",
+        "$9{,}11 \\times 10^{-31}\\ \\text{kg}$"
       ],
       "a": 2,
       "sol": "La constante de Planck vale $h \\approx 6{,}626\\times10^{-34}\\,$J·s (o $\\hbar = h/2\\pi \\approx 1{,}055\\times10^{-34}\\,$J·s). Es la constante que aparece en todas las fórmulas cuánticas: $E = h\\nu$, $\\lambda = h/p$, $[\\hat{x},\\hat{p}] = i\\hbar$. Su valor tan pequeño explica por qué los efectos cuánticos son despreciables a escala macroscópica.",
@@ -1812,8 +1812,8 @@
       "opts": [
         "Al menos un enlace iónico en el ciclo",
         "Un número par de electrones σ en el anillo",
-        "4n electrones π deslocalizados, con n entero positivo",
-        "4n más 2 electrones π deslocalizados, con n entero no negativo"
+        "$4n$ electrones $\\pi$ deslocalizados, con $n$ entero positivo",
+        "$4n+2$ electrones $\\pi$ deslocalizados, con $n$ entero no negativo"
       ],
       "a": 3,
       "sol": "La regla de Hückel dice que un compuesto cíclico plano y conjugado es aromático si tiene $4n + 2$ electrones π, con $n = 0, 1, 2, \\ldots$. El benceno ($C_6H_6$) tiene 6 electrones π ($n=1$) y es aromático. Los sistemas con $4n$ electrones π son antiaromáticos.",
