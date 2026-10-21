@@ -1,0 +1,951 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Estudio Interactivo: Teoría de la Cavidad de Bragg-Gray</title>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']], displayMath: [['$$','$$'], ['\\[','\\]']]},
+    messageStyle: "none"
+  });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script src="https://cdn.plot.ly/plotly-2.24.1.min.js"></script>
+
+<style>
+  :root {
+    --primary-color: #1a252f;
+    --secondary-color: #2c3e50;
+    --accent-color: #c0392b;
+    --link-color: #2980b9;
+    --bg-color: #f8f9fa;
+    --sm-color: #16a085;
+    --we-color: #6c3483;
+    --intuition-color: #d35400;
+    --warning-color: #c0392b;
+    --hist-color: #b7791f;
+  }
+  body {
+    font-family: 'Georgia', serif;
+    background: var(--bg-color); color: #333;
+    line-height: 1.8; margin: 0; padding: 40px 0; font-size: 16px;
+  }
+  .container {
+    max-width: 1000px; margin: auto; background: white;
+    padding: 50px 80px; border-radius: 12px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.06);
+  }
+  h1 { color: var(--primary-color); text-align: center; font-size: 2.1em; font-family: 'Segoe UI', sans-serif; margin-bottom: 10px;}
+  .subtitle { text-align: center; color: #7f8c8d; font-style: italic; margin-bottom: 40px; }
+  h2 { color: var(--secondary-color); margin-top: 55px; border-bottom: 2px solid #ecf0f1; padding-bottom: 5px; font-family: 'Segoe UI', sans-serif;}
+  h3 { color: var(--secondary-color); margin-top: 35px; font-family: 'Segoe UI', sans-serif; font-size: 1.18em;}
+  h4 { color: var(--sm-color); margin-top: 25px; font-family: 'Segoe UI', sans-serif; font-size: 1.02em; font-style: italic;}
+  p { text-align: justify; margin-bottom: 20px; }
+  ul, ol { text-align: justify; }
+  li { margin-bottom: 8px; }
+  .math-box {
+    background: #fdfefe; border-left: 4px solid var(--link-color);
+    padding: 15px 25px; margin: 25px 0; overflow-x: auto; font-size: 1.1em;
+  }
+  .note-box {
+    background: #fef9e7; border-left: 4px solid #f39c12;
+    padding: 12px 20px; margin: 20px 0; font-size: 0.98em;
+  }
+  .sm-box {
+    background: #eafaf1; border-left: 4px solid var(--sm-color);
+    padding: 14px 22px; margin: 22px 0; font-size: 0.97em;
+  }
+  .sm-box strong:first-child { color: var(--sm-color); }
+  .intuition-box {
+    background: #fdf2e9; border-left: 4px solid var(--intuition-color);
+    padding: 14px 22px; margin: 22px 0; font-size: 0.97em;
+  }
+  .intuition-box strong:first-child { color: var(--intuition-color); }
+  .warning-box {
+    background: #fdedec; border-left: 4px solid var(--warning-color);
+    padding: 14px 22px; margin: 22px 0; font-size: 0.97em;
+  }
+  .warning-box strong:first-child { color: var(--warning-color); }
+  .guide-box {
+    background: #eef6fc; border-left: 4px solid var(--link-color);
+    padding: 14px 22px; margin: 22px 0; font-size: 0.96em;
+  }
+  .guide-box strong:first-child { color: var(--link-color); }
+  .guide-box ol { margin: 8px 0 0 0; padding-left: 22px; }
+  .history-box {
+    background: #fbf6e9; border-left: 4px solid var(--hist-color);
+    padding: 14px 22px; margin: 22px 0; font-size: 0.95em;
+    font-style: italic; color: #5b4a1e;
+  }
+  .history-box strong { font-style: normal; }
+  .worked-example {
+    background: #faf7fd; border: 1px solid #d5c8e8;
+    border-left: 5px solid var(--we-color); border-radius: 8px;
+    padding: 22px 30px 24px; margin: 35px 0; font-size: 0.98em;
+  }
+  .worked-example .we-header {
+    font-family: 'Segoe UI', sans-serif; font-size: 0.78em;
+    text-transform: uppercase; letter-spacing: 0.14em;
+    color: var(--we-color); font-weight: bold; margin-bottom: 6px;
+  }
+  .worked-example .we-title {
+    font-family: 'Segoe UI', sans-serif; color: var(--we-color);
+    font-size: 1.08em; font-weight: 600; margin: 0 0 16px 0;
+  }
+  .worked-example .step {
+    margin: 18px 0; padding-left: 18px;
+    border-left: 2px solid #e3d4f0;
+  }
+  .worked-example .step-label {
+    font-family: 'Segoe UI', sans-serif; font-weight: bold;
+    color: var(--we-color); font-size: 0.86em;
+    display: block; margin-bottom: 4px;
+    text-transform: uppercase;
+  }
+  .worked-example .result {
+    background: #efe9f7; border-radius: 5px;
+    padding: 10px 16px; margin-top: 8px; font-weight: 500;
+  }
+  .exercise-box {
+    background: #fdf2f2; border: 1px solid #f5c6c6;
+    border-radius: 8px; padding: 22px 28px; margin: 35px 0;
+  }
+  .exercise-box h4 {
+    color: var(--accent-color); margin-top: 0;
+    font-style: normal; font-size: 1.05em;
+  }
+  .hint {
+    background: #fff8e1; border-radius: 4px;
+    padding: 8px 14px; margin: 10px 0;
+    font-size: 0.92em; color: #6d4c00;
+    border-left: 3px solid #f39c12;
+  }
+  .solution-toggle {
+    background: var(--accent-color); color: white;
+    border: none; padding: 8px 18px; border-radius: 4px;
+    cursor: pointer; font-family: 'Segoe UI', sans-serif;
+    font-size: 0.92em; margin-top: 12px;
+  }
+  .solution-toggle:hover { background: #a02828; }
+  .solution-content {
+    max-height: 0; overflow: hidden;
+    transition: max-height 0.5s ease, margin 0.3s ease;
+    margin-top: 0;
+  }
+  .solution-content.open {
+    max-height: 6000px; margin-top: 18px;
+  }
+  .interactive-figure {
+    background: #fafafa; border: 1px solid #e0e0e0;
+    border-radius: 10px; padding: 25px; margin: 40px 0;
+    font-family: 'Segoe UI', sans-serif;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+  }
+  .figure-title {
+    text-align: center; color: var(--secondary-color);
+    font-weight: bold; font-size: 1.2em; margin-top: 0;
+  }
+  .plot-area { width: 100%; height: 460px; margin-bottom: 15px; }
+  .controls {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 20px;
+    padding: 18px 20px; background: #fff;
+    border-radius: 8px; border: 1px solid #eee; margin-bottom: 15px;
+  }
+  .control-panel h4 {
+    margin-top: 0; color: var(--secondary-color);
+    font-size: 0.9em; text-transform: uppercase;
+    letter-spacing: 0.08em; font-style: normal;
+  }
+  .slider-row {
+    display: block; margin: 12px 0;
+    font-size: 0.93em; color: #333;
+  }
+  .slider-row input[type=range] {
+    width: 100%; accent-color: var(--accent-color); cursor: pointer;
+  }
+  .slider-val {
+    font-family: Consolas, monospace;
+    color: var(--accent-color); font-weight: bold;
+  }
+  select {
+    width: 100%; padding: 6px 10px; border-radius: 5px;
+    border: 1px solid #ccc; font-family: 'Segoe UI', sans-serif;
+    font-size: 0.93em; margin-top: 4px;
+  }
+  .stats {
+    margin-top: 12px; padding: 12px 16px;
+    background: #f4f6f7; border-radius: 6px;
+    font-family: Consolas, monospace; font-size: 0.86em;
+    line-height: 1.7; text-align: center;
+  }
+  .stats .stat-item {
+    display: inline-block; margin: 3px 6px;
+    padding: 3px 10px; background: white;
+    border-radius: 4px; border: 1px solid #e0e0e0;
+  }
+  .stats .stat-item .lbl { color: #888; }
+  .stats .stat-item .val { color: var(--accent-color); font-weight: bold; }
+  .caption {
+    font-size: 0.95em; color: #555; text-align: justify;
+    padding: 10px 20px; border-left: 3px solid var(--accent-color);
+    background: #fff;
+  }
+  table.generic { border-collapse: collapse; width: 100%; margin: 20px 0; font-size: 0.95em;}
+  table.generic th, table.generic td {
+    border: 1px solid #e0e0e0; padding: 8px 12px;
+    text-align: left; vertical-align: top;
+  }
+  table.generic th { background: #ecf0f1; }
+  .toc {
+    background: #f4f6f7; border-radius: 8px;
+    padding: 20px 30px; margin: 30px 0;
+    font-family: 'Segoe UI', sans-serif; font-size: 0.95em;
+  }
+  .toc h3 { margin-top: 0; color: var(--secondary-color); font-size: 1.05em;}
+  .toc ol { margin: 0; padding-left: 22px;}
+  .toc li { margin: 4px 0;}
+  .toc a { color: var(--link-color); text-decoration: none;}
+  .toc a:hover { text-decoration: underline;}
+  .calculation-display {
+    background: #fdfefe; border: 1px dashed #b0c4de;
+    border-radius: 6px; padding: 14px 20px; margin: 15px 0;
+    font-size: 1.05em; text-align: center; overflow-x: auto;
+  }
+  @media (max-width: 800px) {
+    .container { padding: 30px 20px; }
+    .controls { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h1>Teoría de la Cavidad de Bragg-Gray</h1>
+  <div class="subtitle">El puente entre la ionización medida en una cavidad gaseosa y la dosis absorbida en el medio: fundamentos, ecuaciones, límites de validez y exploración interactiva en distintos materiales</div>
+
+  <div class="note-box">
+    <strong>Notación.</strong> $D_{\rm med}$: dosis en el medio. $D_{\rm cav}$: dosis en la cavidad. $(\bar{S}/\rho)_{\rm med,cav}$: razón de poderes de frenado másicos de colisión (no restringidos) medio/cavidad. $(\bar{\mu}_{\rm en}/\rho)$: razón de coeficientes másicos de absorción de energía. $W/e$: energía media por par ión-electrón por unidad de carga (≈ 33.97 J/C en aire). $g$: dimensión característica de la cavidad.
+  </div>
+
+  <div class="intuition-box">
+    <strong>La idea en una frase.</strong> La teoría de Bragg-Gray dice que, si la cavidad de un detector es lo bastante pequeña como para no perturbar el campo de electrones, la dosis en el medio se obtiene multiplicando la dosis medida en la cavidad por la razón de poderes de frenado másicos medio/cavidad. Es el puente matemático entre lo que mide la cámara (carga) y lo que recibe el paciente (dosis).
+  </div>
+
+  <div class="toc">
+    <h3>Contenido</h3>
+    <ol>
+      <li><a href="#s1">¿Qué es la teoría de Bragg-Gray?</a></li>
+      <li><a href="#s2">Las dos condiciones de Bragg-Gray</a></li>
+      <li><a href="#s3">La ecuación fundamental y los poderes de frenado</a> <em>(Figura 1 interactiva)</em></li>
+      <li><a href="#s4">De la carga medida a la dosis en el medio</a> <em>(Figura 2 interactiva)</em></li>
+      <li><a href="#s5">Límites: la ruptura de Bragg-Gray</a> <em>(Figura 3 interactiva)</em></li>
+      <li><a href="#s6">Teorías posteriores: Spencer-Attix y Burlin</a></li>
+      <li><a href="#s7">Aplicaciones en dosimetría de referencia</a></li>
+      <li><a href="#s8">Ejemplos resueltos</a></li>
+      <li><a href="#s9">Ejercicios propuestos</a></li>
+      <li><a href="#s10">Conclusiones</a></li>
+    </ol>
+  </div>
+
+  <!-- ============================================ -->
+  <h2 id="s1">1. ¿Qué es la teoría de Bragg-Gray?</h2>
+
+  <p>La <strong>teoría de la cavidad de Bragg-Gray</strong> (Gray, 1936) fue la primera teoría de cavidades desarrollada para relacionar la dosis absorbida en un dosímetro (la cavidad) con la dosis absorbida en el medio que lo contiene. Es la base conceptual de la dosimetría con cámaras de ionización: el detector mide la ionización en un pequeño volumen de gas, pero lo que interesa es la dosis en el tejido o en el agua.</p>
+
+  <p>La idea central es que, si la cavidad es lo suficientemente pequeña, los electrones secundarios generados en el medio la atraviesan sin que su presencia altere apreciablemente el campo de radiación. En ese caso, la dosis en la cavidad y la dosis en el medio están relacionadas por una propiedad del material: la <strong>razón de poderes de frenado másicos</strong>.</p>
+
+  <div class="history-box">
+    <strong>Contexto histórico.</strong> Bragg y Kleeman (1908) observaron que la ionización en una cavidad de gas dependía del material de las paredes. Louis Harold Gray (1936) formalizó la relación matemática que lleva su nombre, estableciendo las dos condiciones que aún hoy se citan en todos los protocolos de dosimetría. La teoría de Bragg-Gray fue el punto de partida de una familia de teorías de cavidades (Spencer-Attix, Burlin) que intentan corregir sus limitaciones.
+  </div>
+
+  <!-- ============================================ -->
+  <h2 id="s2">2. Las dos condiciones de Bragg-Gray</h2>
+
+  <table class="generic">
+    <thead>
+      <tr><th>Condición</th><th>Enunciado</th><th>Consecuencia física</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>(a) Cavidad pequeña</strong></td>
+        <td>La cavidad debe ser pequeña frente al alcance de las partículas cargadas que la atraviesan, de modo que su presencia no perturbe la fluencia de electrones en el medio.</td>
+        <td>La fluencia de electrones dentro de la cavidad es igual a la del medio circundante. Válido en regiones de equilibrio electrónico.</td>
+      </tr>
+      <tr>
+        <td><strong>(b) Dosis solo por partículas que cruzan</strong></td>
+        <td>La dosis en la cavidad se debe únicamente a las partículas cargadas que la atraviesan. Se desprecian las interacciones de fotones dentro de la cavidad y los electrones que se detienen en ella.</td>
+        <td>No se generan electrones secundarios dentro de la cavidad, y todos los electrones que depositan dosis se originaron fuera y la cruzan completamente.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="warning-box">
+    <strong>Error común.</strong> "La teoría de Bragg-Gray vale para cualquier cámara." No. Una cámara Farmer típica (~0.6 cm³) no cumple estrictamente la condición (a) para fotones de baja y media energía. La teoría es una aproximación que funciona bien en haces de alta energía (MV) y cavidades pequeñas, pero falla en campos pequeños o energías bajas.
+  </div>
+
+  <!-- ============================================ -->
+  <h2 id="s3">3. La ecuación fundamental y los poderes de frenado</h2>
+
+  <p>Bajo las dos condiciones anteriores, la dosis en el medio y la dosis en la cavidad están relacionadas por:</p>
+
+  <div class="math-box">
+    $$ D_{\rm med} = D_{\rm cav} \cdot \left(\frac{\bar{S}}{\rho}\right)_{\rm med,cav} \tag{1} $$
+  </div>
+
+  <p>El término $(\bar{S}/\rho)_{\rm med,cav}$ es la <strong>razón de poderes de frenado másicos de colisión promedio</strong>, ponderada por la fluencia de electrones:</p>
+
+  <div class="math-box">
+    $$ \left(\frac{\bar{S}}{\rho}\right)_{\rm med,cav} = \frac{\int_0^{E_{\rm max}} \Phi_{e^-}(E) \, (S(E)/\rho)_{\rm med} \, dE}{\int_0^{E_{\rm max}} \Phi_{e^-}(E) \, (S(E)/\rho)_{\rm cav} \, dE} $$
+  </div>
+
+  <p>donde $\Phi_{e^-}(E)$ es la fluencia diferencial de electrones y $S(E)/\rho$ es el poder de frenado másico de colisión (no restringido) del material. La palabra "no restringido" implica que se incluye toda la energía perdida por colisión, sin excluir los rayos δ de alta energía. La Figura 1 muestra cómo esta razón varía con la energía del electrón y con el material.</p>
+
+  <!-- FIGURA 1 -->
+  <div class="interactive-figure">
+    <div class="figure-title">Figura 1: Razón de poderes de frenado másicos agua/material vs energía del electrón</div>
+    <div id="plot_spr" class="plot-area"></div>
+    <div class="guide-box">
+      <strong>Qué observar en la Figura 1.</strong>
+      <ol>
+        <li>La razón $(\bar{S}/\rho)_{\rm agua,mat}$ es la cantidad que multiplica a $D_{\rm cav}$ en la ecuación de Bragg-Gray. Es <strong>dependiente de la energía y del material</strong>.</li>
+        <li>Para el aire, la razón es $\approx 1.10$–$1.15$ en el rango clínico (1–5 MeV). Por eso se usa el factor $\approx 1.12$ en los protocolos.</li>
+        <li>Para el hueso, la razón es $<1$: el hueso tiene mayor poder de frenado que el agua, así que la cavidad de hueso recibe más dosis que el agua para la misma fluencia.</li>
+        <li>En energías bajas ($<0.5$ MeV) las razones crecen y varían mucho más rápido: por eso los haces de ortovoltaje son más difíciles de dosimetrizar con Bragg-Gray.</li>
+        <li>En energías altas ($>10$ MeV) las razones tienden a estabilizarse: la dependencia con la energía se debilita.</li>
+      </ol>
+    </div>
+    <div class="caption">
+      <strong>Epígrafe:</strong> Razón de poderes de frenado másicos de colisión agua/material en función de la energía del electrón. Datos aproximados a partir de NIST ESTAR. La línea horizontal en 1 marca la referencia. Los checkboxes permiten activar o desactivar cada material. El sombreado vertical indica el rango típico de electrones secundarios en haces de Co-60, 6 MV y 15 MV.
+    </div>
+  </div>
+
+  <div class="sm-box">
+    <strong>Interpretación.</strong> Si el medio tiene un poder de frenado mayor que la cavidad, los electrones depositan más energía por unidad de masa en el medio que en la cavidad. Por eso $D_{\rm med} > D_{\rm cav}$ cuando $(\bar{S}/\rho)_{\rm med,cav} > 1$ (caso del agua/aire). La cámara de aire "subestima" la dosis en agua porque el aire frena menos a los electrones que el agua.
+  </div>
+
+  <!-- ============================================ -->
+  <h2 id="s4">4. De la carga medida a la dosis en el medio</h2>
+
+  <p>En una cámara de ionización se mide la carga $Q$ colectada en la cavidad de gas. La dosis en la cavidad se puede expresar como:</p>
+
+  <div class="math-box">
+    $$ D_{\rm cav} = \frac{Q}{m} \cdot \frac{W}{e} $$
+  </div>
+
+  <p>donde $m$ es la masa de gas en la cavidad y $W/e \approx 33.97\ \text{J/C}$ para aire seco. Sustituyendo en (1):</p>
+
+  <div class="math-box">
+    $$ D_{\rm med} = \frac{Q}{m} \cdot \frac{W}{e} \cdot \left(\frac{\bar{S}}{\rho}\right)_{\rm med,cav} \tag{2} $$
+  </div>
+
+  <p>Esta es la ecuación operativa de Bragg-Gray. La Figura 2 permite explorar cómo se aplica en la práctica: con un valor medido de $D_{\rm cav}$, se obtiene $D_{\rm med}$ para distintos medios y calidades de haz.</p>
+
+  <!-- FIGURA 2 -->
+  <div class="interactive-figure">
+    <div class="figure-title">Figura 2: Calculadora interactiva de Bragg-Gray</div>
+    <div id="plot_calc" class="plot-area" style="height:380px;"></div>
+    <div class="controls" style="grid-template-columns: 1fr 1fr 1fr;">
+      <div class="control-panel">
+        <h4>Dosis en la cavidad</h4>
+        <label class="slider-row">
+          $D_{\rm cav}$: <span id="v_dcav" class="slider-val">2.00 mGy</span>
+          <input type="range" id="s_dcav" min="0.1" max="10" step="0.05" value="2.0">
+        </label>
+      </div>
+      <div class="control-panel">
+        <h4>Material de la cavidad</h4>
+        <select id="sel_cav_mat">
+          <option value="air">Aire</option>
+          <option value="graphite">Grafito</option>
+          <option value="bone">Hueso</option>
+          <option value="aluminum">Aluminio</option>
+          <option value="muscle">Músculo</option>
+        </select>
+      </div>
+      <div class="control-panel">
+        <h4>Calidad del haz (energía media)</h4>
+        <select id="sel_beam">
+          <option value="1.25">Co-60 (1.25 MeV)</option>
+          <option value="2.0" selected>6 MV (~2 MeV)</option>
+          <option value="4.0">15 MV (~4 MeV)</option>
+          <option value="10.0">20 MeV electrones (~10 MeV)</option>
+        </select>
+      </div>
+    </div>
+    <div id="calc_display" class="calculation-display"></div>
+    <div id="stats_calc" class="stats" style="margin-top:10px;"></div>
+    <div class="guide-box">
+      <strong>Cómo usar la calculadora.</strong>
+      <ol>
+        <li>Elige un valor de $D_{\rm cav}$ (lo que mediría la cámara).</li>
+        <li>Elige el material de la cavidad (aire, grafito, hueso, etc.).</li>
+        <li>Elige la calidad del haz: la energía media de los electrones cambia la razón de poderes de frenado.</li>
+        <li>Observa cómo el mismo $D_{\rm cav}$ produce distintas $D_{\rm med}$ según el material y la calidad de haz.</li>
+        <li>El panel de abajo muestra el cálculo numérico y el error que cometerías si ignoraras la corrección de Bragg-Gray.</li>
+      </ol>
+    </div>
+    <div class="caption">
+      <strong>Epígrafe:</strong> Calculadora interactiva de la ecuación de Bragg-Gray. Dado $D_{\rm cav}$ (medida), el material de la cavidad y la calidad del haz, se calcula $D_{\rm med} = D_{\rm cav} \cdot (\bar{S}/\rho)_{\rm med,cav}$ para todos los medios posibles. La barra resaltada es el medio seleccionado. La línea horizontal muestra el valor de $D_{\rm cav}$ (sin corrección): la diferencia con cada barra es el error que cometerías si ignoraras la razón de poderes de frenado.
+    </div>
+  </div>
+
+  <!-- ============================================ -->
+  <h2 id="s5">5. Límites: la ruptura de Bragg-Gray</h2>
+
+  <p>La teoría de Bragg-Gray asume que la cavidad es "pequeña". Pero, ¿qué significa "pequeña"? Cuando la cavidad crece, las condiciones (a) y (b) se rompen: los electrones se detienen dentro, las interacciones de fotones en el gas se vuelven importantes y el flujo de electrones se perturba. La teoría de <strong>Burlin</strong> cuantifica la transición entre dos límites:</p>
+
+  <div class="math-box">
+    $$ \frac{D_{\rm cav}}{D_{\rm med}} = d \cdot \left(\frac{\bar{S}}{\rho}\right)_{\rm cav,med} + (1-d) \cdot \left(\frac{\bar{\mu}_{\rm en}}{\rho}\right)_{\rm cav,med} $$
+  </div>
+
+  <p>donde $d$ va de 1 (cavidad pequeña, límite Bragg-Gray) a 0 (cavidad grande, límite de absorción de energía). Un modelo típico es $d = (1 - e^{-\beta g})/(\beta g)$, con $\beta$ un parámetro de atenuación y $g$ la dimensión de la cavidad. La Figura 3 muestra cuantitativamente cómo se rompe Bragg-Gray.</p>
+
+  <!-- FIGURA 3 -->
+  <div class="interactive-figure">
+    <div class="figure-title">Figura 3: Ruptura de Bragg-Gray — teoría de Burlin</div>
+    <div id="plot_burlin" class="plot-area"></div>
+    <div class="controls" style="grid-template-columns: 1fr 1fr;">
+      <div class="control-panel">
+        <h4>Cavidad en agua</h4>
+        <select id="sel_burlin_mat">
+          <option value="air" selected>Aire</option>
+          <option value="bone">Hueso</option>
+          <option value="graphite">Grafito</option>
+          <option value="aluminum">Aluminio</option>
+        </select>
+      </div>
+      <div class="control-panel">
+        <h4>Tamaño de la cavidad (dimensión característica)</h4>
+        <label class="slider-row">
+          $g$: <span id="v_g" class="slider-val">0.100 cm</span>
+          <input type="range" id="s_g" min="-3" max="1" step="0.05" value="-1">
+        </label>
+        <p style="font-size:0.82em; color:#666; margin-top:6px;">(escala logarítmica: $g$ va de 0.001 cm a 10 cm)</p>
+      </div>
+    </div>
+    <div id="stats_burlin" class="stats"></div>
+    <div class="guide-box">
+      <strong>Qué observar en la Figura 3.</strong>
+      <ol>
+        <li>La línea <strong>sólida</strong> es la predicción de Burlin: $D_{\rm med}/D_{\rm cav}$ varía con el tamaño de la cavidad.</li>
+        <li>La línea <strong>punteada horizontal</strong> es el límite Bragg-Gray (cavidad pequeña): $D_{\rm med}/D_{\rm cav} = (\bar{S}/\rho)_{\rm med,cav}$.</li>
+        <li>La línea <strong>de puntos horizontal</strong> es el límite de cavidad grande: $D_{\rm med}/D_{\rm cav} = (\bar{\mu}_{\rm en}/\rho)_{\rm med,cav}$.</li>
+        <li>Para cavidades de <strong>aire en agua</strong>, los dos límites son muy cercanos: por eso Bragg-Gray funciona tan bien en dosimetría clínica (cámaras de aire en agua).</li>
+        <li>Para <strong>hueso en agua</strong>, los dos límites difieren significativamente: Bragg-Gray es una mala aproximación para cavidades de hueso que no sean muy pequeñas.</li>
+        <li>El marcador y el panel de estadísticas muestran el valor actual de $D_{\rm med}/D_{\rm cav}$ y su desviación respecto del límite Bragg-Gray.</li>
+      </ol>
+    </div>
+    <div class="caption">
+      <strong>Epígrafe:</strong> Relación $D_{\rm med}/D_{\rm cav}$ en función del tamaño de la cavidad, según la teoría de Burlin. La línea sólida muestra la transición entre el límite Bragg-Gray (cavidad pequeña) y el límite de absorción de energía (cavidad grande). Para aire en agua los límites son muy próximos (por eso BG funciona); para hueso en agua difieren significativamente (BG falla). El slider controla la dimensión de la cavidad y actualiza el marcador y las estadísticas.
+    </div>
+  </div>
+
+  <div class="warning-box">
+    <strong>La lección.</strong> Bragg-Gray no es una ley universal. Es una aproximación válida en regiones de equilibrio electrónico y para cavidades pequeñas frente al alcance de los electrones. Cuando estas condiciones fallan, es necesario recurrir a teorías más generales (Spencer-Attix, Burlin) o a simulaciones de Monte Carlo. El caso clínico típico (cámara de aire en agua, haces de MV) está en el régimen donde Bragg-Gray es una excelente aproximación.
+  </div>
+
+  <!-- ============================================ -->
+  <h2 id="s6">6. Teorías posteriores: Spencer-Attix y Burlin</h2>
+
+  <h3>6.1 Teoría de Spencer-Attix</h3>
+  <p>Introduce el efecto de los <strong>rayos δ</strong> (electrones secundarios de alta energía) y utiliza poderes de frenado <strong>restringidos</strong> con una energía de corte $\Delta$. Los electrones con energía menor que $\Delta$ se consideran depositados localmente. La ecuación resultante es:</p>
+  <div class="math-box">
+    $$ D_{\rm med} = \frac{Q}{m} \left(\frac{W}{e}\right)_{\rm gas} S_{\rm med,gas}^{\rm SA} \, P_{\rm fl} \, P_{\rm dh} \, P_{\rm wall} \, P_{\rm cel} $$
+  </div>
+  <p>donde $S^{\rm SA}$ es la razón de poderes de frenado restringidos de Spencer-Attix y las $P$ son factores de corrección por perturbación de la fluencia, desplazamiento del punto efectivo, pared y electrodo central.</p>
+
+  <h3>6.2 Teoría de Burlin</h3>
+  <p>Extiende la teoría para cavidades de tamaño <strong>intermedio</strong>, donde ni Bragg-Gray (cavidad muy pequeña) ni la aproximación de cavidad grande son válidas. La Figura 3 ilustra esta transición de forma cuantitativa.</p>
+
+  <div class="sm-box">
+    <strong>En la práctica clínica.</strong> Los protocolos modernos (IAEA TRS-398, AAPM TG-51) usan la estructura de Bragg-Gray como base, con factores de corrección determinados por Monte Carlo o experimentalmente. La teoría de Spencer-Attix es la base de los cálculos de razones de poderes de frenado agua/aire en haces de megavoltaje.
+  </div>
+
+  <!-- ============================================ -->
+  <h2 id="s7">7. Aplicaciones en dosimetría de referencia</h2>
+  <ul>
+    <li><strong>Calibración de haces de radioterapia:</strong> convertir la lectura de la cámara (carga) en dosis absorbida en agua, usando la ecuación de Bragg-Gray con factores de corrección.</li>
+    <li><strong>Dosimetría de referencia con cámaras Farmer:</strong> el protocolo IAEA TRS-398 se basa explícitamente en la teoría de cavidades para establecer la cadena de trazabilidad.</li>
+    <li><strong>Cálculo de razones de poderes de frenado agua/aire:</strong> $s_{w,{\rm air}}$ es un ingrediente esencial de la ecuación de Bragg-Gray y depende de la calidad del haz (Figura 1).</li>
+    <li><strong>Corrección por perturbación:</strong> los factores $P_{\rm wall}$, $P_{\rm cel}$, $P_{\rm fl}$ corrigen las desviaciones de las condiciones ideales de Bragg-Gray en cámaras reales.</li>
+    <li><strong>Investigación en campos pequeños:</strong> la ruptura de Bragg-Gray es un tema activo en dosimetría de radiocirugía y haces muy conformados.</li>
+  </ul>
+
+  <!-- ============================================ -->
+  <h2 id="s8">8. Ejemplos resueltos</h2>
+
+  <div class="worked-example">
+    <div class="we-header">Ejemplo desarrollado 8.1</div>
+    <div class="we-title">Dosis en el medio a partir de la dosis en la cavidad</div>
+    <p>Una cámara de ionización de aire mide $D_{\rm cav} = 2.00\ \text{mGy}$. La razón de poderes de frenado másicos promedio agua/aire es $(\bar{S}/\rho)_{\rm agua,aire} = 1.12$. ¿Cuál es la dosis en agua?</p>
+    <div class="step">
+      <span class="step-label">Paso 1 — Aplicar la ecuación de Bragg-Gray</span>
+      <div class="step-body">
+        $$ D_{\rm agua} = D_{\rm aire} \cdot \left(\frac{\bar{S}}{\rho}\right)_{\rm agua,aire} = 2.00 \times 1.12 = 2.24\ \text{mGy}. $$
+        <div class="result">La dosis en el agua es $2.24\ \text{mGy}$.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="worked-example">
+    <div class="we-header">Ejemplo desarrollado 8.2</div>
+    <div class="we-title">Carga medida y dosis en la cavidad</div>
+    <p>Una cavidad de aire de masa $m = 7.2 \times 10^{-7}\ \text{kg}$ colecta $Q = 1.0 \times 10^{-9}\ \text{C}$. Si $W/e = 33.97\ \text{J/C}$, ¿cuál es la dosis en el aire de la cavidad?</p>
+    <div class="step">
+      <span class="step-label">Paso 1 — Dosis en la cavidad</span>
+      <div class="step-body">
+        $$ D_{\rm cav} = \frac{Q}{m} \cdot \frac{W}{e} = \frac{1.0 \times 10^{-9}}{7.2 \times 10^{-7}} \times 33.97 \approx 47.2\ \text{mGy}. $$
+        <div class="result">La dosis en el aire de la cavidad es aproximadamente $47.2\ \text{mGy}$.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="worked-example">
+    <div class="we-header">Ejemplo desarrollado 8.3</div>
+    <div class="we-title">Comparación entre cavidades de distinto material</div>
+    <p>Si la dosis en agua es $D_{\rm agua} = 2.00\ \text{Gy}$, ¿qué dosis recibe una cavidad de aire y una de hueso? Usa $(\bar{S}/\rho)_{\rm agua,aire} = 1.12$ y $(\bar{S}/\rho)_{\rm agua,hueso} = 0.84$.</p>
+    <div class="step">
+      <span class="step-label">Razonamiento</span>
+      <div class="step-body">
+        <p>De la ecuación de Bragg-Gray: $D_{\rm cav} = D_{\rm agua} / (\bar{S}/\rho)_{\rm agua,cav}$.</p>
+        <p>Cavidad de aire: $D_{\rm aire} = 2.00 / 1.12 = 1.79\ \text{Gy}$.</p>
+        <p>Cavidad de hueso: $D_{\rm hueso} = 2.00 / 0.84 = 2.38\ \text{Gy}$.</p>
+        <div class="result">La cavidad de hueso recibe más dosis que la de aire, porque el hueso tiene mayor poder de frenado másico. Ambas medidas se corrigen con su razón de poderes de frenado para obtener la misma $D_{\rm agua}$.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================ -->
+  <h2 id="s9">9. Ejercicios propuestos</h2>
+
+  <div class="exercise-box">
+    <h4>Ejercicio 1 — Identificar las condiciones</h4>
+    <p>Una cámara de placas paralelas con separación de 2 mm se irradia con electrones de 6 MeV (alcance en aire ~25 m). ¿Se cumplen las condiciones de Bragg-Gray?</p>
+    <div class="hint"><strong>Pista:</strong> compara el espesor de la cavidad con el alcance de los electrones.</div>
+    <button class="solution-toggle" onclick="toggleSolution(this)">Mostrar solución</button>
+    <div class="solution-content">
+      <p>Sí. La cavidad (2 mm) es mucho menor que el alcance (≈25 m en aire). La condición (a) se cumple bien. La condición (b) también es aceptable: los electrones de 6 MeV cruzan la cavidad sin detenerse y las interacciones de fotones en el gas son despreciables. Es una cavidad de Bragg-Gray en sentido práctico.</p>
+    </div>
+  </div>
+
+  <div class="exercise-box">
+    <h4>Ejercicio 2 — Cálculo directo</h4>
+    <p>La dosis en una cavidad de aire es $D_{\rm cav} = 1.5\ \text{mGy}$ y $(\bar{S}/\rho)_{\rm agua,aire} = 1.10$. ¿Cuál es la dosis en agua?</p>
+    <div class="hint"><strong>Pista:</strong> $D_{\rm agua} = D_{\rm cav} \times (\bar{S}/\rho)_{\rm agua,aire}$.</div>
+    <button class="solution-toggle" onclick="toggleSolution(this)">Mostrar solución</button>
+    <div class="solution-content">
+      <p>$D_{\rm agua} = 1.5 \times 1.10 = 1.65\ \text{mGy}$.</p>
+    </div>
+  </div>
+
+  <div class="exercise-box">
+    <h4>Ejercicio 3 — ¿Por qué falla en campos pequeños?</h4>
+    <p>Explica por qué la teoría de Bragg-Gray puede fallar en un campo de fotones de 0.5 × 0.5 cm².</p>
+    <div class="hint"><strong>Pista:</strong> piensa en el equilibrio electrónico lateral.</div>
+    <button class="solution-toggle" onclick="toggleSolution(this)">Mostrar solución</button>
+    <div class="solution-content">
+      <p>En campos pequeños, el alcance lateral de los electrones secundarios es comparable o mayor que el tamaño del campo. No se alcanza el equilibrio electrónico lateral: la fluencia de electrones en la cavidad no es la misma que en el medio sin la cavidad. La condición (a) se viola y la dosis medida no representa la dosis en el medio. Es la llamada "ruptura de Bragg-Gray" en campos pequeños.</p>
+    </div>
+  </div>
+
+  <div class="exercise-box">
+    <h4>Ejercicio 4 — Diferencia entre Bragg-Gray y Spencer-Attix</h4>
+    <p>¿Qué mejora introduce la teoría de Spencer-Attix respecto a la de Bragg-Gray?</p>
+    <div class="hint"><strong>Pista:</strong> rayos δ y poderes de frenado restringidos.</div>
+    <button class="solution-toggle" onclick="toggleSolution(this)">Mostrar solución</button>
+    <div class="solution-content">
+      <p>Spencer-Attix incluye el efecto de los rayos δ generados dentro de la cavidad y del medio, y utiliza poderes de frenado <strong>restringidos</strong> con una energía de corte $\Delta$. Esto mejora la concordancia con medidas experimentales en cavidades pequeñas, especialmente para haces de fotones de alta energía.</p>
+    </div>
+  </div>
+
+  <div class="exercise-box">
+    <h4>Ejercicio 5 — Ecuación práctica</h4>
+    <p>Una cavidad de aire de $0.5\ \text{cm}^3$ (densidad $1.2 \times 10^{-3}\ \text{g/cm}^3$) mide $Q = 2.0\ \text{nC}$. Calcula $D_{\rm cav}$ en mGy ($W/e = 33.97\ \text{J/C}$).</p>
+    <div class="hint"><strong>Pista:</strong> masa = densidad × volumen; $D = (Q/m)(W/e)$.</div>
+    <button class="solution-toggle" onclick="toggleSolution(this)">Mostrar solución</button>
+    <div class="solution-content">
+      <p>$m = 1.2 \times 10^{-3} \times 0.5 = 6.0 \times 10^{-4}\ \text{g} = 6.0 \times 10^{-7}\ \text{kg}$.</p>
+      <p>$D_{\rm cav} = (2.0 \times 10^{-9} / 6.0 \times 10^{-7}) \times 33.97 \approx 113\ \text{mGy}$.</p>
+    </div>
+  </div>
+
+  <!-- ============================================ -->
+  <h2 id="s10">10. Conclusiones</h2>
+  <ol>
+    <li><strong>La teoría de Bragg-Gray</strong> relaciona la dosis en una cavidad con la dosis en el medio mediante la razón de poderes de frenado másicos.</li>
+    <li><strong>Se basa en dos condiciones:</strong> cavidad pequeña que no perturbe la fluencia de electrones, y dosis en la cavidad depositada solo por electrones que la cruzan.</li>
+    <li><strong>La ecuación práctica</strong> permite obtener la dosis en el medio a partir de la carga medida: $D_{\rm med} = (Q/m)(W/e)(\bar{S}/\rho)_{\rm med,cav}$.</li>
+    <li><strong>La razón de poderes de frenado</strong> depende de la energía y del material (Figura 1); para agua/aire en el rango clínico vale $\approx 1.10$–$1.15$.</li>
+    <li><strong>Sus limitaciones</strong> aparecen cuando la cavidad no es pequeña (Figura 3): la "ruptura de Bragg-Gray" es más importante para cavidades de materiales muy distintos del medio.</li>
+    <li><strong>Las teorías de Spencer-Attix y Burlin</strong> extienden el marco para incluir rayos δ y cavidades de tamaño intermedio.</li>
+    <li><strong>En dosimetría de referencia</strong>, Bragg-Gray sigue siendo el fundamento conceptual de los protocolos internacionales, complementado con factores de corrección.</li>
+  </ol>
+
+  <p>La teoría de Bragg-Gray es mucho más que una fórmula: es la declaración de que la dosis en un material puede inferirse midiendo la ionización en otro, siempre que se comprendan y controlen las condiciones bajo las cuales los electrones transportan la energía. Esa es, en esencia, la base de toda la dosimetría con cámaras de ionización.</p>
+
+</div>
+
+<script>
+// ============================================================
+// UTILIDADES
+// ============================================================
+function toggleSolution(btn) {
+  const content = btn.nextElementSibling;
+  content.classList.toggle('open');
+  btn.innerText = content.classList.contains('open') ? 'Ocultar solución' : 'Mostrar solución';
+  if (window.MathJax && window.MathJax.Hub) {
+    window.MathJax.Hub.Queue(["Typeset", window.MathJax.Hub, content]);
+  }
+}
+window.toggleSolution = toggleSolution;
+
+// ============================================================
+// DATOS: PODERES DE FRENADO MÁSICOS DE COLISIÓN (MeV cm²/g)
+// Aproximados de NIST ESTAR
+// ============================================================
+const ENERGY_PTS = [0.05, 0.1, 0.2, 0.5, 1.0, 2.0, 5.0, 10.0, 20.0];
+
+const SP_DATA = {
+  water:    [6.72, 4.31, 2.99, 2.06, 1.86, 1.83, 1.93, 2.14, 2.51],
+  air:      [5.32, 3.42, 2.49, 1.80, 1.69, 1.69, 1.80, 2.00, 2.34],
+  bone:     [8.59, 5.54, 3.85, 2.49, 2.22, 2.16, 2.27, 2.49, 2.89],
+  muscle:   [6.71, 4.30, 2.98, 2.05, 1.86, 1.83, 1.93, 2.13, 2.50],
+  graphite: [5.16, 3.36, 2.36, 1.69, 1.56, 1.57, 1.64, 1.76, 1.99],
+  aluminum: [5.31, 3.45, 2.41, 1.70, 1.55, 1.56, 1.61, 1.73, 1.96]
+};
+
+// Coeficientes másicos de absorción de energía a ~1 MeV (cm²/g)
+// Usados solo para el límite de cavidad grande de Burlin (aproximados)
+const MU_EN = {
+  water: 0.0311,
+  air: 0.0297,
+  bone: 0.0305,
+  muscle: 0.0310,
+  graphite: 0.0288,
+  aluminum: 0.0295
+};
+
+const MAT_LABELS = {
+  water: 'Agua', air: 'Aire', bone: 'Hueso', muscle: 'Músculo',
+  graphite: 'Grafito', aluminum: 'Aluminio'
+};
+
+const MAT_COLORS = {
+  water: '#2980b9', air: '#16a085', bone: '#c0392b',
+  muscle: '#d35400', graphite: '#6c3483', aluminum: '#7f8c8d'
+};
+
+// Interpolación log-log
+function interpLogLog(x, xArr, yArr) {
+  if (x <= xArr[0]) return yArr[0];
+  if (x >= xArr[xArr.length - 1]) return yArr[yArr.length - 1];
+  for (let i = 0; i < xArr.length - 1; i++) {
+    if (x >= xArr[i] && x <= xArr[i + 1]) {
+      const t = (Math.log(x) - Math.log(xArr[i])) / (Math.log(xArr[i + 1]) - Math.log(xArr[i]));
+      return Math.exp(Math.log(yArr[i]) + t * (Math.log(yArr[i + 1]) - Math.log(yArr[i])));
+    }
+  }
+  return yArr[yArr.length - 1];
+}
+
+function getSP(material, energy) {
+  return interpLogLog(energy, ENERGY_PTS, SP_DATA[material]);
+}
+
+// ============================================================
+// FIGURA 1: RAZÓN DE PODERES DE FRENADO
+// ============================================================
+function buildFig1() {
+  const materials = ['air', 'bone', 'muscle', 'graphite', 'aluminum'];
+  const energies = [];
+  for (let i = 0; i <= 300; i++) {
+    energies.push(Math.exp(Math.log(0.05) + i * (Math.log(20) - Math.log(0.05)) / 300));
+  }
+
+  const traces = materials.map(mat => {
+    const ratios = energies.map(E => getSP('water', E) / getSP(mat, E));
+    return {
+      x: energies, y: ratios, type: 'scatter', mode: 'lines',
+      name: MAT_LABELS[mat],
+      line: { color: MAT_COLORS[mat], width: 2.5 }
+    };
+  });
+
+  // Banda de referencia clínica (2 MeV)
+  const shapes = [
+    { type: 'line', x0: 1.25, x1: 1.25, y0: 0, y1: 1, yref: 'paper',
+      line: { color: 'rgba(127,140,141,0.4)', width: 1, dash: 'dot' } },
+    { type: 'line', x0: 2.0, x1: 2.0, y0: 0, y1: 1, yref: 'paper',
+      line: { color: 'rgba(127,140,141,0.6)', width: 1, dash: 'dot' } },
+    { type: 'line', x0: 4.0, x1: 4.0, y0: 0, y1: 1, yref: 'paper',
+      line: { color: 'rgba(127,140,141,0.4)', width: 1, dash: 'dot' } },
+    { type: 'line', x0: 0.05, x1: 20, y0: 1, y1: 1,
+      line: { color: '#999', width: 1, dash: 'dash' } }
+  ];
+
+  const annotations = [
+    { x: 1.25, y: 1.02, yref: 'paper', text: 'Co-60', showarrow: false, font: { size: 10, color: '#888' } },
+    { x: 2.0, y: 1.06, yref: 'paper', text: '6 MV', showarrow: false, font: { size: 10, color: '#888' } },
+    { x: 4.0, y: 1.02, yref: 'paper', text: '15 MV', showarrow: false, font: { size: 10, color: '#888' } }
+  ];
+
+  Plotly.newPlot('plot_spr', traces, {
+    xaxis: { title: 'Energía del electrón (MeV)', type: 'log', range: [-1.3, 1.3], fixedrange: false },
+    yaxis: { title: '(S/ρ)_agua / (S/ρ)_material', range: [0.7, 1.45], fixedrange: false },
+    shapes, annotations,
+    legend: { x: 1.02, y: 1, xanchor: 'left' },
+    margin: { l: 70, r: 140, t: 20, b: 55 },
+    hovermode: 'closest',
+    plot_bgcolor: '#fafafa',
+    paper_bgcolor: '#fafafa'
+  }, { responsive: true, displayModeBar: false });
+}
+
+// ============================================================
+// FIGURA 2: CALCULADORA DE BRAGG-GRAY
+// ============================================================
+function buildFig2() {
+  const media = ['water', 'muscle', 'bone', 'air', 'graphite', 'aluminum'];
+  const mediumColors = media.map(m => m === 'water' ? '#2980b9' : '#95a5a6');
+
+  const trace = {
+    x: media.map(m => MAT_LABELS[m]),
+    y: media.map(() => 0),
+    type: 'bar',
+    marker: { color: mediumColors, line: { color: '#2c3e50', width: 1 } },
+    text: media.map(() => ''),
+    textposition: 'outside',
+    hovertemplate: '<b>%{x}</b><br>D_med = %{y:.3f} mGy<extra></extra>'
+  };
+
+  Plotly.newPlot('plot_calc', [trace], {
+    xaxis: { title: 'Medio', fixedrange: false },
+    yaxis: { title: 'D_med (mGy)', fixedrange: false },
+    margin: { l: 70, r: 30, t: 30, b: 55 },
+    showlegend: false,
+    plot_bgcolor: '#fafafa',
+    paper_bgcolor: '#fafafa'
+  }, { responsive: true, displayModeBar: false });
+
+  updateFig2();
+}
+
+function updateFig2() {
+  const Dcav = parseFloat(document.getElementById('s_dcav').value);
+  document.getElementById('v_dcav').innerText = Dcav.toFixed(2) + ' mGy';
+  const cavityMat = document.getElementById('sel_cav_mat').value;
+  const beamE = parseFloat(document.getElementById('sel_beam').value);
+
+  const media = ['water', 'muscle', 'bone', 'air', 'graphite', 'aluminum'];
+  const spCav = getSP(cavityMat, beamE);
+
+  const dmed = media.map(m => {
+    const ratio = getSP(m, beamE) / spCav;
+    return { m, ratio, dmed: Dcav * ratio };
+  });
+
+  // Actualizar bar chart
+  const colors = media.map(m => m === 'water' ? '#2980b9' :
+    (m === cavityMat ? '#e67e22' : '#95a5a6'));
+  const texts = dmed.map(d => d.dmed.toFixed(3));
+
+  Plotly.react('plot_calc', [{
+    x: media.map(m => MAT_LABELS[m]),
+    y: dmed.map(d => d.dmed),
+    type: 'bar',
+    marker: { color: colors, line: { color: '#2c3e50', width: 1 } },
+    text: texts, textposition: 'outside',
+    hovertemplate: '<b>%{x}</b><br>D_med = %{y:.3f} mGy<extra></extra>'
+  }], {
+    xaxis: { title: 'Medio', fixedrange: false },
+    yaxis: { title: 'D_med (mGy)', fixedrange: false },
+    margin: { l: 70, r: 30, t: 30, b: 55 },
+    showlegend: false, plot_bgcolor: '#fafafa', paper_bgcolor: '#fafafa'
+  }, { responsive: true, displayModeBar: false });
+
+  // Cálculo del medio seleccionado (agua)
+  const waterRes = dmed.find(d => d.m === 'water');
+  const selected = document.getElementById('sel_medium_hidden') ? null : waterRes;
+  // Mostrar cálculo para agua
+  const ratio = waterRes.ratio;
+  const result = waterRes.dmed;
+
+  // Si la cavidad es agua, evitar caso degenerado
+  let calcHTML;
+  if (cavityMat === 'water') {
+    calcHTML = `<span style="color:#888;">La cavidad es de agua: el factor es 1 y D_med = D_cav (caso trivial).</span>`;
+  } else {
+    calcHTML =
+      `<strong>Ecuación de Bragg-Gray aplicada:</strong><br>` +
+      `$$D_{\\rm agua} = D_{\\rm cav} \\cdot \\left(\\frac{\\bar{S}}{\\rho}\\right)_{\\rm agua,\\,${MAT_LABELS[cavityMat].toLowerCase()}} = ` +
+      `${Dcav.toFixed(2)}\\ \\text{mGy} \\times ${ratio.toFixed(3)} = ` +
+      `<strong style="color:#2980b9;">${result.toFixed(3)}\\ \\text{mGy}</strong>$$<br>` +
+      `<span style="font-size:0.9em;color:#666;">(razón de poderes de frenado agua/${MAT_LABELS[cavityMat].toLowerCase()} a ${beamE} MeV)</span>`;
+  }
+  const calcDiv = document.getElementById('calc_display');
+  calcDiv.innerHTML = calcHTML;
+  if (window.MathJax && window.MathJax.Hub) {
+    window.MathJax.Hub.Queue(["Typeset", window.MathJax.Hub, calcDiv]);
+  }
+
+  // Stats
+  const errorIfIgnore = ((result / Dcav - 1) * 100);
+  document.getElementById('stats_calc').innerHTML =
+    `<span class="stat-item"><span class="lbl">D_cav:</span> <span class="val">${Dcav.toFixed(2)} mGy</span></span>` +
+    `<span class="stat-item"><span class="lbl">Cavidad:</span> <span class="val">${MAT_LABELS[cavityMat]}</span></span>` +
+    `<span class="stat-item"><span class="lbl">Razón S/ρ:</span> <span class="val">${ratio.toFixed(3)}</span></span>` +
+    `<span class="stat-item"><span class="lbl">D_agua:</span> <span class="val">${result.toFixed(3)} mGy</span></span>` +
+    `<br><span class="stat-item"><span class="lbl">Si ignoraras la corrección:</span> <span class="val" style="color:#c0392b;">error de ${errorIfIgnore.toFixed(1)} %</span></span>`;
+}
+
+// ============================================================
+// FIGURA 3: TEORÍA DE BURLIN
+// ============================================================
+const BURLIN_BETA = 0.4; // cm^-1
+
+function burlinD(g, spRatio, muRatio) {
+  // d = (1 - exp(-βg)) / (βg)
+  let d;
+  if (g < 1e-6) d = 1;
+  else d = (1 - Math.exp(-BURLIN_BETA * g)) / (BURLIN_BETA * g);
+  // D_cav/D_med = d * S_cav,med + (1-d) * mu_cav,med
+  // Queremos D_med/D_cav
+  const DcavDmed = d * (1 / spRatio) + (1 - d) * (1 / muRatio);
+  return 1 / DcavDmed;
+}
+
+function buildFig3() {
+  const cavityMat = document.getElementById('sel_burlin_mat').value;
+  const spWaterCav = getSP('water', 2.0) / getSP(cavityMat, 2.0); // (S/ρ)agua,cav
+  const muWaterCav = MU_EN.water / MU_EN[cavityMat];              // (μ_en/ρ)agua,cav
+
+  // Curva de Burlin
+  const gArr = [];
+  const yArr = [];
+  for (let i = 0; i <= 200; i++) {
+    const logg = -3 + i * (1 - (-3)) / 200; // -3 a 1
+    const g = Math.pow(10, logg);
+    gArr.push(g);
+    yArr.push(burlinD(g, spWaterCav, muWaterCav));
+  }
+
+  // Línea BG (horizontal)
+  const bgLine = {
+    x: [0.001, 10], y: [spWaterCav, spWaterCav],
+    type: 'scatter', mode: 'lines',
+    line: { color: '#2980b9', width: 2, dash: 'dash' },
+    name: 'Límite Bragg-Gray'
+  };
+  // Línea gran cavidad (horizontal)
+  const largeLine = {
+    x: [0.001, 10], y: [muWaterCav, muWaterCav],
+    type: 'scatter', mode: 'lines',
+    line: { color: '#c0392b', width: 2, dash: 'dot' },
+    name: 'Límite cavidad grande'
+  };
+
+  const burlinLine = {
+    x: gArr, y: yArr, type: 'scatter', mode: 'lines',
+    line: { color: '#16a085', width: 3 },
+    name: 'Burlin'
+  };
+
+  // Marcador en g actual
+  const gCurrent = Math.pow(10, parseFloat(document.getElementById('s_g').value));
+  const yCurrent = burlinD(gCurrent, spWaterCav, muWaterCav);
+  const marker = {
+    x: [gCurrent], y: [yCurrent],
+    type: 'scatter', mode: 'markers',
+    marker: { color: '#e67e22', size: 14, line: { color: 'white', width: 2 } },
+    name: 'Punto actual'
+  };
+
+  Plotly.newPlot('plot_burlin', [burlinLine, bgLine, largeLine, marker], {
+    xaxis: { title: 'Dimensión de la cavidad g (cm)', type: 'log',
+             range: [-3, 1], fixedrange: false },
+    yaxis: { title: 'D_med / D_cav', fixedrange: false,
+             range: [Math.min(spWaterCav, muWaterCav) * 0.9,
+                     Math.max(spWaterCav, muWaterCav) * 1.1] },
+    legend: { x: 1.02, y: 1, xanchor: 'left' },
+    margin: { l: 70, r: 140, t: 20, b: 55 },
+    hovermode: 'closest',
+    plot_bgcolor: '#fafafa', paper_bgcolor: '#fafafa'
+  }, { responsive: true, displayModeBar: false });
+
+  updateFig3Stats();
+}
+
+function updateFig3Stats() {
+  const cavityMat = document.getElementById('sel_burlin_mat').value;
+  const spWaterCav = getSP('water', 2.0) / getSP(cavityMat, 2.0);
+  const muWaterCav = MU_EN.water / MU_EN[cavityMat];
+  const gCurrent = Math.pow(10, parseFloat(document.getElementById('s_g').value));
+  document.getElementById('v_g').innerText = gCurrent.toFixed(3) + ' cm';
+  const yCurrent = burlinD(gCurrent, spWaterCav, muWaterCav);
+  const dev = (yCurrent / spWaterCav - 1) * 100;
+
+  document.getElementById('stats_burlin').innerHTML =
+    `<span class="stat-item"><span class="lbl">Cavidad:</span> <span class="val">${MAT_LABELS[cavityMat]} en agua</span></span>` +
+    `<span class="stat-item"><span class="lbl">BG (g→0):</span> <span class="val">${spWaterCav.toFixed(3)}</span></span>` +
+    `<span class="stat-item"><span class="lbl">Gran cavidad (g→∞):</span> <span class="val">${muWaterCav.toFixed(3)}</span></span>` +
+    `<br><span class="stat-item"><span class="lbl">Actual (g=${gCurrent.toFixed(3)} cm):</span> <span class="val">${yCurrent.toFixed(3)}</span></span>` +
+    `<span class="stat-item"><span class="lbl">Desviación de BG:</span> <span class="val" style="color:${Math.abs(dev) > 5 ? '#c0392b' : '#16a085'};">${dev.toFixed(1)} %</span></span>`;
+
+  // Actualizar marcador en el plot
+  const plotDiv = document.getElementById('plot_burlin');
+  if (plotDiv && plotDiv.data && plotDiv.data.length >= 4) {
+    Plotly.restyle(plotDiv, {
+      x: [[gCurrent]], y: [[yCurrent]]
+    }, [3]);
+    // Ajustar rango y si es necesario
+    const minY = Math.min(spWaterCav, muWaterCav, yCurrent);
+    const maxY = Math.max(spWaterCav, muWaterCav, yCurrent);
+    Plotly.relayout(plotDiv, {
+      'yaxis.range': [minY * 0.9, maxY * 1.1]
+    });
+  }
+}
+
+// ============================================================
+// EVENT HANDLERS
+// ============================================================
+function attachHandlers() {
+  // Fig 2
+  document.getElementById('s_dcav').addEventListener('input', updateFig2);
+  document.getElementById('sel_cav_mat').addEventListener('change', updateFig2);
+  document.getElementById('sel_beam').addEventListener('change', updateFig2);
+
+  // Fig 3
+  document.getElementById('s_g').addEventListener('input', () => {
+    document.getElementById('v_g').innerText = Math.pow(10, parseFloat(document.getElementById('s_g').value)).toFixed(3) + ' cm';
+    updateFig3Stats();
+  });
+  document.getElementById('sel_burlin_mat').addEventListener('change', () => {
+    buildFig3();
+  });
+}
+
+// ============================================================
+// INICIALIZACIÓN
+// ============================================================
+function initAll() {
+  if (typeof Plotly === 'undefined') {
+    setTimeout(initAll, 100);
+    return;
+  }
+  buildFig1();
+  buildFig2();
+  buildFig3();
+  attachHandlers();
+  document.getElementById('v_g').innerText = Math.pow(10, parseFloat(document.getElementById('s_g').value)).toFixed(3) + ' cm';
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initAll);
+} else {
+  initAll();
+}
+</script>
+</body>
+</html>
