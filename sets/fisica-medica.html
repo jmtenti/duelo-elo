@@ -1,1 +1,751 @@
-
+{
+  "version": 1,
+  "savedAt": "2026-10-21T00:00:00.000Z",
+  "usuario": {
+    "temaElo": {
+      "Fundamentos y radiobiología": 1000,
+      "Interacción radiación-materia": 1000,
+      "Dosimetría y detectores": 1000,
+      "Radioterapia": 1000,
+      "Imagen médica": 1000,
+      "Radioprotección": 1000
+    },
+    "wins": 0,
+    "losses": 0,
+    "streak": 0,
+    "best": 0,
+    "round": 0,
+    "recent": []
+  },
+  "problemas": [
+    {
+      "id": 0,
+      "elo": 620,
+      "tema": "Fundamentos y radiobiología",
+      "q": "La dosis absorbida en un tejido se define como:",
+      "opts": [
+        "La carga eléctrica liberada por la radiación en aire por unidad de masa",
+        "La actividad de la fuente dividida por la distancia al paciente",
+        "La energía depositada por la radiación por unidad de masa de material",
+        "El producto de la dosis por el factor de ponderación de la radiación"
+      ],
+      "a": 2,
+      "sol": "La dosis absorbida D = dE/dm es la energía media depositada por la radiación ionizante por unidad de masa de material. Se mide en gray (1 Gy = 1 J/kg).",
+      "teoria": {
+        "titulo": "Dosis absorbida",
+        "texto": "La dosis absorbida es la magnitud dosimétrica fundamental: cuantifica la energía media que la radiación ionizante deposita por unidad de masa de material. Se define como $D = d\\bar{E}/dm$ y su unidad SI es el gray ($1\\,\\text{Gy} = 1\\,\\text{J/kg}$). Antes se usaba el rad ($1\\,\\text{rad} = 0{,}01\\,\\text{Gy}$). Es una cantidad física objetiva que depende de la radiación y del material, pero no del tipo de tejido ni de la respuesta biológica. Es la base de la dosis equivalente ($H = w_R D$) y de la dosis efectiva ($E = \\sum w_T H_T$)."
+      }
+    },
+    {
+      "id": 1,
+      "elo": 640,
+      "tema": "Fundamentos y radiobiología",
+      "q": "La semivida $T_{1/2}$ de un radionúclido se relaciona con su constante de decaimiento $\\lambda$ mediante:",
+      "opts": [
+        "$T_{1/2} = \\ln 2 / \\lambda$",
+        "$T_{1/2} = \\lambda \\cdot \\ln 2$",
+        "$T_{1/2} = \\lambda / \\ln 2$",
+        "$T_{1/2} = 1 / \\lambda$"
+      ],
+      "a": 0,
+      "sol": "De $N(T_{1/2}) = N_0/2$ y $N(t) = N_0 e^{-\\lambda t}$ se obtiene $\\ln(1/2) = -\\lambda T_{1/2}$, de donde $T_{1/2} = \\ln 2 / \\lambda \\approx 0{,}693/\\lambda$.",
+      "teoria": {
+        "titulo": "Semivida y constante de decaimiento",
+        "texto": "El decaimiento radiactivo sigue la ley exponencial $N(t) = N_0 e^{-\\lambda t}$. La semivida $T_{1/2}$ es el tiempo que tarda la actividad en reducirse a la mitad: $N(T_{1/2}) = N_0/2$. Sustituyendo, $\\ln(1/2) = -\\lambda T_{1/2}$, y por tanto $T_{1/2} = \\ln 2 / \\lambda \\approx 0{,}693/\\lambda$. Ejemplos: F-18 tiene $T_{1/2} \\approx 110\\,$min, Tc-99m $\\approx 6\\,$h, Ir-192 $\\approx 74\\,$días, I-131 $\\approx 8\\,$días."
+      }
+    },
+    {
+      "id": 2,
+      "elo": 680,
+      "tema": "Fundamentos y radiobiología",
+      "q": "El modelo lineal-cuadrático (LQ) de supervivencia celular predice que la fracción de células que sobreviven a una dosis $D$ es:",
+      "opts": [
+        "$SF = 1 - \\alpha D - \\beta D^2$",
+        "$SF = \\exp(-\\alpha D - \\beta D^2)$",
+        "$SF = \\exp(-(\\alpha+\\beta)D)$",
+        "$SF = \\exp(\\alpha D + \\beta D^2)$"
+      ],
+      "a": 1,
+      "sol": "El modelo LQ describe la supervivencia como $SF = e^{-\\alpha D - \\beta D^2}$. El término lineal domina a bajas dosis y el cuadrático a dosis altas.",
+      "teoria": {
+        "titulo": "Modelo lineal-cuadrático (LQ)",
+        "texto": "El modelo LQ es el formalismo estándar en radiobiología para describir la supervivencia celular: $SF(D) = \\exp(-\\alpha D - \\beta D^2)$. El parámetro $\\alpha$ (Gy$^{-1}$) caracteriza las lesiones letales irreparables (proporcionales a la dosis) y $\\beta$ (Gy$^{-2}$) las lesiones subletales que interactúan entre sí (proporcionales a $D^2$). El cociente $\\alpha/\\beta$ (en Gy) es la dosis a la que ambas contribuciones son iguales: tejidos con respuesta aguda (tumores, mucosas) tienen $\\alpha/\\beta \\approx 10\\,$Gy; tejidos con respuesta tardía (médula, riñón) tienen $\\alpha/\\beta \\approx 2\\text{–}3\\,$Gy. Esta diferencia es la base biológica de la fraccionación."
+      }
+    },
+    {
+      "id": 3,
+      "elo": 720,
+      "tema": "Fundamentos y radiobiología",
+      "q": "El cociente $\\alpha/\\beta$ de un tejido con respuesta aguda (tumor, mucosa) es típicamente:",
+      "opts": [
+        "Alrededor de 1 Gy, típico de tejidos tardíos",
+        "Alrededor de 3 Gy, típico de la médula espinal",
+        "Alrededor de 7 Gy, típico del pulmón",
+        "Alrededor de 10 Gy, típico de tumores y mucosas"
+      ],
+      "a": 3,
+      "sol": "Los tejidos con respuesta aguda (tumores, mucosas, piel) tienen $\\alpha/\\beta \\approx 10\\,$Gy. Los tejidos con respuesta tardía (médula espinal, riñón, pulmón) tienen $\\alpha/\\beta \\approx 2\\text{–}3\\,$Gy.",
+      "teoria": {
+        "titulo": "El cociente α/β",
+        "texto": "El cociente $\\alpha/\\beta$ es un parámetro del modelo LQ que refleja la forma de la curva de supervivencia. Físicamente, es la dosis a la que la contribución lineal ($\\alpha D$) iguala la cuadrática ($\\beta D^2$) en el exponente. A dosis por fracción mayores que $\\alpha/\\beta$, domina el término cuadrático; a dosis menores, el lineal. La diferencia de $\\alpha/\\beta$ entre tumor y tejido sano tardío es lo que permite la radioterapia fraccionada: con fracciones pequeñas ($\\sim 2\\,$Gy), el tejido tardío (bajo $\\alpha/\\beta$) se protege más que el tumor (alto $\\alpha/\\beta$)."
+      }
+    },
+    {
+      "id": 4,
+      "elo": 780,
+      "tema": "Fundamentos y radiobiología",
+      "q": "La fraccionación de la dosis en radioterapia aprovecha principalmente:",
+      "opts": [
+        "El aumento del daño tumoral por dosis más altas por sesión",
+        "La reducción de la dosis total necesaria para esterilizar el tumor",
+        "La diferencia en la capacidad de reparación entre tumor y tejido sano",
+        "El aumento de la dosis efectiva de la radiación en el tumor"
+      ],
+      "a": 2,
+      "sol": "La fraccionación aprovecha las '4R' de la radiobiología: reparación (el tejido sano repara mejor entre fracciones), repoblación, redistribución en el ciclo celular y reoxigenación. El resultado es un mayor efecto diferencial sobre el tumor.",
+      "teoria": {
+        "titulo": "Las 4R de la radioterapia fraccionada",
+        "texto": "La fraccionación se basa en cuatro procesos biológicos, conocidos como las '4R': (1) **Reparación**: las células sanas reparan mejor el daño subletal entre fracciones que las tumorales; (2) **Redistribución**: las células se redistribuyen en el ciclo celular, quedando más sensibles en fases como G2/M; (3) **Repoblación**: las células sanas proliferan entre fracciones, mientras el tumor no puede compensar completamente; (4) **Reoxigenación**: las células hipóxicas (radiorresistentes) se reoxigenan al reducirse el tumor, volviéndose más sensibles en fracciones posteriores. La combinación de estos efectos permite entregar dosis tumoricidas con menor toxicidad en tejidos sanos."
+      }
+    },
+    {
+      "id": 5,
+      "elo": 850,
+      "tema": "Fundamentos y radiobiología",
+      "q": "El efecto oxígeno en radiobiología establece que:",
+      "opts": [
+        "Las células hipóxicas son más radiosensibles que las oxigenadas",
+        "Las células oxigenadas son hasta 3 veces más radiosensibles que las hipóxicas",
+        "El oxígeno solo afecta a la dosis por el efecto fotoeléctrico",
+        "El oxígeno se consume durante la irradiación y reduce la dosis efectiva"
+      ],
+      "a": 1,
+      "sol": "El oxígeno es un radiosensibilizador natural: fija el daño radiactivo en el ADN. Las células bien oxigenadas son hasta 3 veces más radiosensibles que las hipóxicas. Es la base de la reoxigenación tumoral.",
+      "teoria": {
+        "titulo": "Efecto oxígeno",
+        "texto": "El oxígeno molecular es un potente radiosensibilizador: fija el daño producido por los radicales libres en el ADN, impidiendo su reparación. Las células bien oxigenadas son hasta $\\sim 3$ veces más radiosensibles que las hipóxicas (OER ≈ 2,5–3). En tumores sólidos, las regiones centrales suelen estar hipóxicas por la mala vascularización, y son más radiorresistentes. La fraccionación permite reoxigenar el tumor al reducirse su volumen, aumentando la eficacia en fracciones posteriores."
+      }
+    },
+    {
+      "id": 6,
+      "elo": 950,
+      "tema": "Fundamentos y radiobiología",
+      "q": "El concepto de RBE (eficacia biológica relativa) compara:",
+      "opts": [
+        "La dosis de la radiación de interés con la de rayos X de 250 kV",
+        "La actividad de dos fuentes radiactivas diferentes",
+        "La energía de dos fotones de distintas frecuencias",
+        "La atenuación de dos haces de fotones en un mismo material"
+      ],
+      "a": 0,
+      "sol": "El RBE es el cociente entre la dosis de referencia (rayos X de 250 kV) y la dosis de la radiación de estudio que produce el mismo efecto biológico.",
+      "teoria": {
+        "titulo": "Eficacia biológica relativa (RBE)",
+        "texto": "El RBE cuantifica la eficacia biológica relativa de una radiación comparada con un haz de referencia (tradicionalmente rayos X de 250 kV). Se define como $\\text{RBE} = D_{\\text{ref}}/D_{\\text{rad}}$, donde ambas dosis producen el mismo efecto biológico. Depende del tipo de radiación, su energía y del nivel de efecto considerado. Para fotones de alta energía, RBE ≈ 1; para protones clínicos, RBE ≈ 1,1; para iones de carbono, RBE ≈ 2–3 con picos de 4–5 en el pico de Bragg. El RBE se relaciona con la transferencia lineal de energía (LET): a mayor LET, mayor RBE, porque el daño al ADN es más denso y difícil de reparar."
+      }
+    },
+    {
+      "id": 7,
+      "elo": 1000,
+      "tema": "Fundamentos y radiobiología",
+      "q": "En la curva de supervivencia celular, el 'hombro' a bajas dosis se debe a:",
+      "opts": [
+        "La saturación de los mecanismos de reparación del ADN",
+        "El efecto del oxígeno disuelto en el medio de cultivo",
+        "La naturaleza estadística del decaimiento radiactivo",
+        "La acumulación de daño subletal reparable en las células"
+      ],
+      "a": 3,
+      "sol": "El hombro refleja la acumulación de daño subletal que puede repararse. A dosis muy bajas, la mayoría de las lesiones se reparan; a dosis más altas, la acumulación supera la capacidad de reparación y la curva cae exponencialmente.",
+      "teoria": {
+        "titulo": "Hombro de la curva de supervivencia",
+        "texto": "La curva de supervivencia celular (log SF vs dosis) tiene típicamente un 'hombro' a bajas dosis, consecuencia de la acumulación de daño subletal reparable. En esta región, las lesiones se reparan activamente y la supervivencia cae lentamente. Cuando la dosis supera un umbral (relacionado con la capacidad de reparación), las lesiones subletales interactúan y la curva pasa a una fase exponencial. El modelo LQ captura este comportamiento: el término cuadrático $\\beta D^2$ (dominante a bajas dosis) da cuenta del hombro. En radiobiología clínica, el hombro es clave para la respuesta a la fraccionación: tejidos con hombro pronunciado se protegen mejor con fracciones pequeñas."
+      }
+    },
+    {
+      "id": 8,
+      "elo": 750,
+      "tema": "Interacción radiación-materia",
+      "q": "Para fotones de 6 MV en agua, el mecanismo de interacción dominante es:",
+      "opts": [
+        "Efecto fotoeléctrico",
+        "Efecto Compton",
+        "Producción de pares",
+        "Dispersión Rayleigh"
+      ],
+      "a": 1,
+      "sol": "A energías de megavoltaje (1-10 MeV) en materiales de bajo Z, el efecto Compton domina la interacción de fotones con la materia. El fotoeléctrico domina a bajas energías y la producción de pares a altas.",
+      "teoria": {
+        "titulo": "Mecanismos de interacción fotón-materia",
+        "texto": "Los fotones interactúan con la materia por tres mecanismos principales, cuya importancia relativa depende de la energía del fotón y del número atómico del material: (1) **Efecto fotoeléctrico**: dominante a bajas energías (< 100 keV en agua, < 500 keV en plomo), con sección eficaz $\\propto Z^5/E^3$; el fotón se absorbe completamente y expulsa un electrón ligado. (2) **Efecto Compton**: dominante a energías intermedias (100 keV a 5 MeV en agua), con sección eficaz $\\propto Z$; el fotón se dispersa cediendo parte de su energía a un electrón. (3) **Producción de pares**: dominante a altas energías (> 5 MeV en agua), con sección eficaz $\\propto Z^2$; el fotón se convierte en un par electrón-positrón. A 6 MV (fotones de ~2 MeV promedio), el efecto Compton es el mecanismo dominante en agua y tejidos."
+      }
+    },
+    {
+      "id": 9,
+      "elo": 800,
+      "tema": "Interacción radiación-materia",
+      "q": "El kerma ($K$) y la dosis absorbida ($D$) se relacionan de forma que:",
+      "opts": [
+        "$K$ y $D$ son siempre iguales en cualquier punto del material",
+        "$D$ es siempre mayor que $K$ en todo el material",
+        "$K$ es la energía cinética transferida por unidad de masa; $D$ la depositada",
+        "$K$ solo existe para neutrones y $D$ solo para fotones"
+      ],
+      "a": 2,
+      "sol": "El kerma es la energía cinética inicial transferida a las partículas cargadas por unidad de masa; la dosis absorbida es la energía realmente depositada por esas partículas en el medio. Coinciden en condiciones de equilibrio electrónico.",
+      "teoria": {
+        "titulo": "Kerma vs dosis absorbida",
+        "texto": "El kerma $K = dE_{tr}/dm$ es la energía cinética inicial transferida a todas las partículas cargadas liberadas por la radiación indirecta (fotones, neutrones) en un elemento de masa $dm$. La dosis absorbida $D = d\\bar{\\varepsilon}/dm$ es la energía media realmente depositada por la radiación en el medio. La diferencia es que los electrones liberados pueden escapar del volumen (perdiendo energía fuera) o entrar desde fuera (aportando energía adicional). En condiciones de equilibrio electrónico, $D \\approx K(1-g)$, donde $g$ es la fracción de energía perdida por bremsstrahlung. La distinción es esencial en la región de build-up, en interfaces entre materiales de distinto Z, y en haces de electrones de alta energía."
+      }
+    },
+    {
+      "id": 10,
+      "elo": 900,
+      "tema": "Interacción radiación-materia",
+      "q": "El equilibrio electrónico en un maniquí irradiado con fotones se alcanza cuando:",
+      "opts": [
+        "Todos los electrones secundarios han sido absorbidos en el material",
+        "La temperatura del maniquí se estabiliza",
+        "El haz de fotones se detiene completamente en el material",
+        "El número de electrones que entran y salen del volumen es igual"
+      ],
+      "a": 3,
+      "sol": "El equilibrio electrónico se alcanza cuando el número (y el espectro de energía) de electrones que entran y salen de un volumen se igualan. Se alcanza a una profundidad característica llamada 'profundidad de build-up'.",
+      "teoria": {
+        "titulo": "Equilibrio electrónico y build-up",
+        "texto": "El equilibrio electrónico se establece cuando, en un volumen dado, el número y el espectro de energía de los electrones que entran es igual al de los que salen. En esa condición, la dosis absorbida iguala aproximadamente al kerma (corregido por la fracción de energía perdida por bremsstrahlung). En un maniquí irradiado con fotones de alta energía, la dosis en la superficie es menor que la dosis en profundidad porque no hay suficientes electrones secundarios generados en el material. A medida que aumenta la profundidad, la dosis crece hasta un máximo (región de build-up, típicamente 1-3 cm para ⁶⁰Co, 2-4 cm para 6-18 MV). A partir de ahí, empieza a disminuir por atenuación del haz. En dosimetría, la profundidad de referencia se elige siempre después del build-up para garantizar el equilibrio electrónico."
+      }
+    },
+    {
+      "id": 11,
+      "elo": 1000,
+      "tema": "Interacción radiación-materia",
+      "q": "El poder de frenado de partículas cargadas pesadas en agua, según Bethe-Bloch:",
+      "opts": [
+        "Depende del cuadrado de la carga del proyectil y de $1/\\beta^2$",
+        "Aumenta al aumentar la energía en todo el rango",
+        "Es constante con la energía para una partícula dada",
+        "Es mayor para electrones que para protones de igual energía"
+      ],
+      "a": 0,
+      "sol": "La fórmula de Bethe-Bloch muestra que el poder de frenado es proporcional a $z^2$ (cuadrado de la carga del proyectil), a la densidad electrónica del material, y a $1/\\beta^2$ (crece a bajas velocidades).",
+      "teoria": {
+        "titulo": "Fórmula de Bethe-Bloch",
+        "texto": "El poder de frenado másico para partículas cargadas pesadas (protones, alfas, iones) está dado por la fórmula de Bethe-Bloch: $-\\frac{1}{\\rho}\\frac{dE}{dx} = K\\,\\frac{Z}{A}\\,\\frac{z^2}{\\beta^2}\\left[\\ln\\left(\\frac{2m_ec^2\\beta^2\\gamma^2}{I}\\right) - \\beta^2\\right]$, donde $z$ es la carga del proyectil, $\\beta = v/c$, $Z/A$ es el cociente del material, $I$ es su energía media de excitación y $K \\approx 0{,}307\\,$MeV·mol⁻¹·cm². La dependencia dominante es $\\propto z^2/\\beta^2$: cuanto más lenta es la partícula, mayor es su poder de frenado. Esto explica el pico de Bragg. Para electrones, hay que añadir correcciones por bremsstrahlung y por efectos de densidad."
+      }
+    },
+    {
+      "id": 12,
+      "elo": 1200,
+      "tema": "Interacción radiación-materia",
+      "q": "El alcance de protones en agua es aproximadamente proporcional a:",
+      "opts": [
+        "La energía inicial del protón al cuadrado",
+        "La raíz cuadrada de la energía inicial",
+        "La energía inicial del protón elevada a 1,75",
+        "La carga del protón y la densidad del agua"
+      ],
+      "a": 2,
+      "sol": "La regla empírica de Bragg-Kleeman establece $R \\approx 0{,}0023\\,E^{1{,}75}$, con $E$ en MeV y $R$ en g/cm². Para agua (ρ = 1 g/cm³), el valor numérico en cm coincide.",
+      "teoria": {
+        "titulo": "Alcance de protones",
+        "texto": "El alcance de protones en un material se calcula integrando el poder de frenado: $R(E) = \\int_0^E \\frac{dE'}{S(E')}$. Para estimaciones rápidas, se usa la regla empírica de Bragg-Kleeman: $R \\approx 0{,}0023\\,E^{1{,}75}$ (con $E$ en MeV y $R$ en g/cm²). En agua (ρ = 1 g/cm³), el valor numérico en cm coincide con el de g/cm². Por ejemplo, un protón de 150 MeV tiene un alcance de ~15,8 cm en agua. Esta dependencia casi cuadrática con la energía es lo que permite sintonizar la profundidad del pico de Bragg ajustando la energía del haz en hadronterapia."
+      }
+    },
+    {
+      "id": 13,
+      "elo": 1400,
+      "tema": "Interacción radiación-materia",
+      "q": "El pico de Bragg de protones en agua se debe a que:",
+      "opts": [
+        "Los protones se acumulan en el punto de máxima penetración",
+        "El poder de frenado aumenta al disminuir la velocidad del protón",
+        "La sección eficaz de interacción disminuye a bajas energías",
+        "Los protones se desintegran al final del recorrido"
+      ],
+      "a": 1,
+      "sol": "El poder de frenado $S \\propto 1/\\beta^2$ crece al disminuir la velocidad, así que los protones depositan cada vez más energía por unidad de longitud, produciendo un máximo justo antes de detenerse.",
+      "teoria": {
+        "titulo": "Pico de Bragg",
+        "texto": "El pico de Bragg es el máximo de energía depositada por unidad de longitud que se produce al final del recorrido de partículas cargadas pesadas. Según la fórmula de Bethe-Bloch, el poder de frenado escala con $1/\\beta^2$: cuanto más lenta es la partícula, más tiempo pasa cerca de cada átomo y más energía le arranca. Esta retroalimentación hace que la tasa de pérdida de energía crezca continuamente hasta que la partícula se detiene. Después del pico, la dosis cae abruptamente porque los protones ya no penetran más. En hadronterapia, el pico de Bragg permite depositar la dosis máxima en el tumor con dosis baja en la entrada y prácticamente nula detrás del tumor."
+      }
+    },
+    {
+      "id": 14,
+      "elo": 1600,
+      "tema": "Interacción radiación-materia",
+      "q": "La producción de pares requiere un fotón de energía mínima de:",
+      "opts": [
+        "1,022 MeV (dos veces la masa del electrón)",
+        "0,511 MeV (masa del electrón)",
+        "2,044 MeV (cuatro veces la masa del electrón)",
+        "938 MeV (masa del protón)"
+      ],
+      "a": 0,
+      "sol": "La producción de pares requiere $E_\\gamma \\geq 2m_ec^2 \\approx 1{,}022\\,$MeV para crear el electrón y el positrón. En presencia de un núcleo, el umbral es ligeramente mayor para conservar el momento.",
+      "teoria": {
+        "titulo": "Producción de pares",
+        "texto": "La producción de pares es la conversión de un fotón de alta energía en un par electrón-positrón, en el campo eléctrico de un núcleo (o de un electrón). Para que sea energéticamente posible, la energía del fotón debe superar el umbral $E_{\\min} = 2m_ec^2 \\approx 1{,}022\\,$MeV. En presencia de un núcleo, el umbral real es ligeramente mayor ($1 + m_ec^2/M_{\\text{núcleo}}$), porque parte de la energía se transfiere al núcleo para conservar el momento. La sección eficaz es proporcional a $Z^2$ y domina a altas energías (> 5 MeV en agua, > 1 MeV en plomo). El positrón creado se aniquila rápidamente con un electrón del medio, emitiendo dos fotones de 511 keV en direcciones opuestas. Es la base física de la tomografía por emisión de positrones (PET)."
+      }
+    },
+    {
+      "id": 15,
+      "elo": 850,
+      "tema": "Dosimetría y detectores",
+      "q": "Una cámara de ionización opera en la región de la curva de respuesta donde:",
+      "opts": [
+        "La corriente crece exponencialmente por multiplicación gaseosa",
+        "La avalancha de Townsend produce pulsos de alta amplitud",
+        "La recombinación es máxima y la señal es mínima",
+        "La corriente es aproximadamente independiente del voltaje aplicado"
+      ],
+      "a": 3,
+      "sol": "La cámara de ionización opera en la región de saturación, donde todos los pares ión-electrón producidos se colectan antes de recombinarse. La corriente es independiente del voltaje y proporcional a la tasa de dosis.",
+      "teoria": {
+        "titulo": "Regiones de operación de detectores gaseosos",
+        "texto": "La curva característica corriente-voltaje de un detector gaseoso muestra cinco regiones: (1) **Recombinación**: muchos pares se recombina antes de colectarse; (2) **Ionización o saturación**: todos los pares primarios se colectan, la corriente es independiente del voltaje y proporcional a la dosis; (3) **Proporcional**: los electrones ganan energía suficiente para producir avalanchas, la señal se amplifica pero sigue siendo proporcional a la energía depositada; (4) **Geiger-Müller**: la avalancha es total y la señal ya no depende de la energía; (5) **Descarga continua**: el detector se daña. La cámara de ionización opera en la región II; el contador proporcional en la III; el contador Geiger en la IV."
+      }
+    },
+    {
+      "id": 16,
+      "elo": 950,
+      "tema": "Dosimetría y detectores",
+      "q": "El factor de corrección por temperatura y presión ($k_{TP}$) de una cámara ventilada vale:",
+      "opts": [
+        "$k_{TP} = (P/P_0)\\cdot(T/T_0)$ con $T$ en grados Celsius",
+        "$k_{TP} = (P/P_0)\\cdot(T_0/T)$ con $T$ en grados Celsius",
+        "$k_{TP} = (P_0/P)\\cdot(T/T_0)$ con $T$ en kelvin",
+        "$k_{TP} = P\\cdot T$ con $P$ en kPa y $T$ en kelvin"
+      ],
+      "a": 2,
+      "sol": "La masa de aire en la cavidad es proporcional a $P/T$, así que $k_{TP} = (P_0/P)(T/T_0)$ con T en kelvin. La lectura medida se multiplica por $k_{TP}$ para referirla a condiciones estándar.",
+      "teoria": {
+        "titulo": "Corrección por temperatura y presión",
+        "texto": "Las cámaras de ionización ventiladas tienen aire a la presión y temperatura ambientales. Como la masa de aire dentro de la cavidad es proporcional a $P/T$ (ley de los gases ideales), la señal depende de las condiciones ambientales. Para referir las medidas a las condiciones de calibración $(P_0, T_0)$, se aplica el factor $k_{TP} = \\frac{P_0}{P}\\cdot\\frac{T}{T_0}$, con $T$ en kelvin. Las condiciones de referencia típicas son 101,3 kPa y 20 °C (293,15 K). Ejemplo: si la cámara se calibra a 101,3 kPa y 20 °C y se usa a 98,0 kPa y 25 °C, $k_{TP} \\approx 1{,}052$: la lectura medida debe multiplicarse por ~1,05 para referirla a las condiciones de calibración. Las cámaras selladas no requieren esta corrección."
+      }
+    },
+    {
+      "id": 17,
+      "elo": 1050,
+      "tema": "Dosimetría y detectores",
+      "q": "Un dosímetro TLD (LiF:Mg,Ti) mide la dosis porque:",
+      "opts": [
+        "La radiación lo vuelve permanentemente fluorescente de forma acumulativa",
+        "Los electrones atrapados en trampas metaestables emiten luz al calentarse",
+        "La ionización directa del cristal produce una corriente medible",
+        "El material centellea continuamente durante la irradiación"
+      ],
+      "a": 1,
+      "sol": "Los TLD almacenan energía en trampas metaestables creadas por impurezas. Al calentar el dosímetro, los electrones escapan y emiten luz cuya intensidad es proporcional a la dosis recibida. La lectura es destructiva.",
+      "teoria": {
+        "titulo": "Dosímetros termoluminiscentes (TLD)",
+        "texto": "Los TLD son materiales (típicamente LiF dopado con Mg y Ti) que, al irradiarse, promueven electrones a la banda de conducción y luego son atrapados en niveles metaestables creados por impurezas o defectos. Mientras están atrapados, la información queda almacenada de forma estable durante meses o años. Al calentar el dosímetro de forma programada (hasta 200-300 °C), los electrones escapan y, al recombinarse con los huecos, emiten luz visible o ultravioleta cuya intensidad es proporcional a la dosis. La lectura es destructiva (el dosímetro se borra al leerse) pero acumulativa. Los TLD son pequeños, reutilizables (hasta 100-1000 lecturas) y tejido-equivalentes. Aplicaciones: dosimetría personal, dosimetría clínica in vivo, monitoreo ambiental."
+      }
+    },
+    {
+      "id": 18,
+      "elo": 1150,
+      "tema": "Dosimetría y detectores",
+      "q": "Los dosímetros OSL se leen estimulando el material con:",
+      "opts": [
+        "Luz de una longitud de onda específica (por ejemplo, LED azul)",
+        "Un campo eléctrico alterno de alta frecuencia",
+        "Calor controlado hasta 300 °C",
+        "Rayos X característicos del propio material"
+      ],
+      "a": 0,
+      "sol": "Los dosímetros OSL (como Al₂O₃:C) se leen iluminándolos con luz de una longitud de onda específica, que libera los electrones atrapados y produce luz de fluorescencia proporcional a la dosis.",
+      "teoria": {
+        "titulo": "Dosímetros OSL",
+        "texto": "Los dosímetros de luminiscencia ópticamente estimulada (OSL) funcionan como los TLD: almacenan energía en trampas metaestables. Pero, en lugar de calentarlos, se leen iluminándolos con luz de una longitud de onda específica (típicamente LED azul, 470 nm). Los electrones atrapados absorben los fotones y escapan, recombinándose con los centros de luminiscencia y emitiendo luz (fluorescencia OSL) filtrada para separarla de la luz de estimulación. La lectura es óptica, rápida (~1 s), no destructiva (aunque con pérdida parcial de señal en cada lectura) y reutilizable. El material más usado es Al₂O₃:C, sensible y tejido-equivalente. Aplicaciones: dosimetría personal, monitoreo de radón, dosimetría in vivo, dosimetría en astronautas."
+      }
+    },
+    {
+      "id": 19,
+      "elo": 1300,
+      "tema": "Dosimetría y detectores",
+      "q": "El factor de calibración $N_{D,w}$ de una cámara de ionización en radioterapia se define como:",
+      "opts": [
+        "El número de pares ión-electrón producidos por gray en el aire",
+        "La energía media de ionización del aire en condiciones de referencia",
+        "La constante de decaimiento del isótopo usado para calibrar",
+        "La dosis absorbida en agua por unidad de lectura del electrómetro"
+      ],
+      "a": 3,
+      "sol": "El factor $N_{D,w}$ es la dosis absorbida en agua por unidad de lectura de la cámara, calibrada en un laboratorio de metrología con trazabilidad al patrón primario. Con él, $D_w = M \\cdot N_{D,w}$.",
+      "teoria": {
+        "titulo": "Factor de calibración N_D,w",
+        "texto": "En los protocolos de dosimetría de referencia (TRS-398 del OIEA, TG-51 de la AAPM), la dosis en agua se calcula como $D_w = M \\cdot N_{D,w} \\cdot k_Q$, donde $M$ es la lectura del electrómetro corregida (por temperatura, presión, polaridad, recombinación y calibración del electrómetro), $N_{D,w}$ es el factor de calibración (dosis absorbida en agua por unidad de lectura) y $k_Q$ es el factor de corrección por calidad del haz. El factor $N_{D,w}$ se determina en un laboratorio de metrología calibrando la cámara contra un patrón primario (cámara de aire libre o calorímetro de agua). Es específico de cada cámara y de cada calidad de referencia."
+      }
+    },
+    {
+      "id": 20,
+      "elo": 1450,
+      "tema": "Dosimetría y detectores",
+      "q": "La cámara Farmer se construye con paredes de grafito o plástico conductor porque:",
+      "opts": [
+        "Es un material económico y fácil de mecanizar",
+        "Su bajo Z la aproxima a la respuesta del agua y reduce el efecto de pared",
+        "Su alto Z aumenta la eficiencia para fotones de alta energía",
+        "Es opaco a la radiación gamma, protegiendo al usuario"
+      ],
+      "a": 1,
+      "sol": "Las paredes de bajo Z (grafito, C552, A-150) minimizan el efecto de pared y aproximan la respuesta de la cámara a la del agua/tejido, que es el medio de referencia en dosimetría clínica.",
+      "teoria": {
+        "titulo": "Efecto de pared y cámara Farmer",
+        "texto": "La cámara Farmer es una cámara cilíndrica de ~0,6 cm³ con paredes de grafito o plástico conductor y electrodo central de aluminio. Su diseño busca que la respuesta sea similar a la del agua/tejido en haces de alta energía. El **efecto de pared** aparece cuando el material de la pared tiene un Z distinto al del medio circundante (agua o tejido): los electrones secundarios generados en la pared tienen un espectro distinto al que existiría en el medio, alterando la lectura. Las paredes de bajo Z reducen este efecto. En la práctica, la cámara Farmer opera en la región de saturación (sin multiplicación gaseosa) y se calibra con un factor $N_{D,w}$ contra un patrón primario. Es el estándar de referencia de los protocolos TRS-398 y TG-51 para fotones y electrones de alta energía."
+      }
+    },
+    {
+      "id": 21,
+      "elo": 1700,
+      "tema": "Dosimetría y detectores",
+      "q": "Las películas radiocrómicas son preferidas sobre las radiográficas para dosimetría 2D porque:",
+      "opts": [
+        "Su respuesta depende fuertemente del Z del material irradiado",
+        "Requieren revelado químico y son más económicas",
+        "Tienen alta resolución espacial y respuesta casi independiente de la energía",
+        "Solo funcionan con haces de electrones de alta energía"
+      ],
+      "a": 2,
+      "sol": "Las películas radiocrómicas tienen capa activa de bajo Z (tejido-equivalente) y respuesta casi independiente de la energía y de la tasa de dosis, con resolución espacial sub-milimétrica y lectura 2D con escáner.",
+      "teoria": {
+        "titulo": "Películas radiocrómicas",
+        "texto": "Las películas radiocrómicas (EBT3, EBT-XD) son dosímetros 2D que contienen un monómero que polimeriza al irradiarse, cambiando el color de la película (de amarillo a azul) de forma proporcional a la dosis. Su capa activa tiene un $Z_{eff}$ cercano al del tejido (~6-7), lo que las hace casi independientes de la energía (a diferencia de las radiográficas, con plata de alto Z). Su respuesta es también casi independiente de la tasa de dosis. Se leen con un escáner de documentos calibrado, obteniendo una imagen 2D de la distribución de dosis con resolución sub-milimétrica. Aplicaciones: verificación de planes de IMRT/VMAT/SBRT, dosimetría de haces pequeños, dosimetría in vivo."
+      }
+    },
+    {
+      "id": 22,
+      "elo": 1900,
+      "tema": "Dosimetría y detectores",
+      "q": "El HPGe (germanio hiperpuro) requiere enfriamiento con nitrógeno líquido porque:",
+      "opts": [
+        "El ruido térmico generaría demasiados pares electrón-hueco espurios",
+        "Su eficiencia de detección solo se activa a bajas temperaturas",
+        "El germanio se vuelve superconductor a temperatura ambiente",
+        "Es necesario para mantener la alta tensión de polarización"
+      ],
+      "a": 0,
+      "sol": "El HPGe es un semiconductor con gap pequeño (~0,7 eV). A temperatura ambiente, la agitación térmica generaría un número enorme de pares electrón-hueco espurios, saturando la señal. El enfriamiento (~77 K) reduce el ruido a niveles aceptables.",
+      "teoria": {
+        "titulo": "Detectores HPGe",
+        "texto": "El HPGe (germanio hiperpuro) es un semiconductor de gap pequeño (~0,7 eV) usado para espectroscopía gamma de alta resolución. Su ventaja es que la energía necesaria para crear un par electrón-hueco es de ~3 eV, mucho menor que en un centelleador (~30-100 eV), lo que da una resolución energética ~10 veces mejor (~0,1% a 1 MeV). Su desventaja es el ruido térmico: a temperatura ambiente, la agitación térmica genera pares electrón-hueco espurios que saturan la señal. Por eso debe enfriarse con nitrógeno líquido (~77 K) o con un enfriador mecánico. Aplicaciones: espectroscopía gamma de precisión, análisis de isótopos, salvaguardias nucleares, monitoreo ambiental."
+      }
+    },
+    {
+      "id": 23,
+      "elo": 2100,
+      "tema": "Dosimetría y detectores",
+      "q": "La calibración de fuentes de braquiterapia se realiza típicamente con una cámara de pozo porque:",
+      "opts": [
+        "Es el único tipo de cámara que detecta fotones de baja energía",
+        "Permite medir la energía del haz en tiempo real",
+        "Es más económica que una cámara Farmer cilíndrica",
+        "Su geometría 4π mide prácticamente toda la radiación emitida"
+      ],
+      "a": 3,
+      "sol": "La cámara de pozo tiene una cavidad central donde se inserta la fuente, rodeándola casi completamente (geometría 4π). Esto da una eficiencia muy alta y una respuesta estable, lo que la hace ideal para calibrar fuentes de braquiterapia.",
+      "teoria": {
+        "titulo": "Cámara de ionización de pozo",
+        "texto": "La cámara de ionización de pozo es un tipo especial de cámara diseñada para calibrar fuentes radiactivas de braquiterapia. Su geometría es un cilindro con una cavidad central donde se inserta la fuente, de modo que la cámara la rodea casi completamente (geometría 4π). Esto da una eficiencia muy alta y una respuesta que depende poco de la posición exacta de la fuente. Se usa para medir la **constante de tasa de kerma en aire** $\\Gamma_\\delta$ de fuentes de $^{192}$Ir, $^{125}$I, $^{103}$Pd y $^{60}$Co. Está llena de gas a presión (argón, nitrógeno) para aumentar la eficiencia, con paredes de bajo Z para minimizar la atenuación. Es el instrumento de referencia de los laboratorios de metrología para calibrar fuentes de braquiterapia."
+      }
+    },
+    {
+      "id": 24,
+      "elo": 1050,
+      "tema": "Radioterapia",
+      "q": "El porcentaje de dosis en profundidad (PDD) se define con una distancia fuente-superficie (SSD) de:",
+      "opts": [
+        "100 cm, que es la distancia de referencia estándar",
+        "La distancia real utilizada en cada tratamiento",
+        "80 cm, que es la distancia nominal de los aceleradores",
+        "Cualquier distancia, ya que el PDD es independiente de la SSD"
+      ],
+      "a": 1,
+      "sol": "El PDD se define con una SSD fija, típicamente la distancia de uso clínico. A diferencia del TMR, el PDD depende de la SSD (por el inverso del cuadrado), así que debe especificarse junto con la SSD utilizada.",
+      "teoria": {
+        "titulo": "Porcentaje de dosis en profundidad (PDD)",
+        "texto": "El PDD es el cociente entre la dosis en un punto del eje central a profundidad $d$ y la dosis en el punto de referencia (el máximo, típicamente a $d_{\\max}$). Se define con una SSD fija (típicamente la de uso clínico, 100 cm). Depende de: energía del haz (a mayor energía, mayor penetración), tamaño de campo (mayor campo → mayor dispersión → mayor PDD), y SSD (por el inverso del cuadrado de la distancia). Por eso, en cálculos manuales con PDD, hay que corregir por el factor $(SSD+d_{\\max})^2/(SSD+d)^2$ cuando se cambia la SSD. Es útil para haces isocéntricos con SSD constante. Para haces con distancia fuente-punto constante (isocentro), se usa el TMR, que no depende de la SSD."
+      }
+    },
+    {
+      "id": 25,
+      "elo": 1200,
+      "tema": "Radioterapia",
+      "q": "El TMR (tissue maximum ratio) se define con una distancia fuente-punto fija y:",
+      "opts": [
+        "Un campo constante en el paciente a cualquier profundidad",
+        "La dosis en la superficie del paciente respecto al eje central",
+        "La dosis en el punto de interés respecto al máximo, en el mismo eje central",
+        "El cociente entre dos dosis medidas a diferentes SSD"
+      ],
+      "a": 2,
+      "sol": "El TMR es el cociente entre la dosis en un punto del eje central a profundidad $d$ y la dosis en el punto de máximo (en el mismo eje), con la misma distancia fuente-punto y el mismo tamaño de campo en el punto de interés.",
+      "teoria": {
+        "titulo": "TMR y TPR",
+        "texto": "El TMR (tissue maximum ratio) es el cociente entre la dosis en un punto a profundidad $d$ del eje central y la dosis en el punto de máximo ($d_{\\max}$), manteniendo la misma distancia fuente-punto y el mismo tamaño de campo en el punto de interés. A diferencia del PDD, el TMR es independiente de la SSD, lo que lo hace útil para cálculos isocéntricos. El TPR (tissue phantom ratio) es similar, pero usa como referencia una profundidad fija (típicamente 5 o 10 cm) en lugar del máximo; es útil cuando no hay equilibrio electrónico. Para un tamaño de campo de 10×10 cm², el TMR a 10 cm de profundidad en agua es ~0,78 para 6 MV y ~0,83 para 18 MV."
+      }
+    },
+    {
+      "id": 26,
+      "elo": 1400,
+      "tema": "Radioterapia",
+      "q": "Al aumentar el tamaño de campo en un haz de fotones, el PDD en el punto de interés:",
+      "opts": [
+        "Aumenta, por la mayor contribución de la radiación dispersada",
+        "Disminuye, porque se pierde más energía en el campo amplio",
+        "No cambia, porque el PDD solo depende de la energía del haz",
+        "Se hace más pequeño, por el endurecimiento del haz"
+      ],
+      "a": 0,
+      "sol": "Al aumentar el tamaño de campo, hay más material dispersor alrededor del punto de interés, y la radiación dispersada contribuye a la dosis en profundidad, aumentando el PDD.",
+      "teoria": {
+        "titulo": "Dependencia del PDD con el tamaño de campo",
+        "texto": "El PDD depende del tamaño de campo porque una fracción importante de la dosis en profundidad proviene de la radiación dispersada en el material irradiado. Al aumentar el tamaño de campo, hay más material dispersor alrededor del punto de medida, y la contribución de la radiación dispersada aumenta. Como resultado, el PDD crece con el tamaño de campo. Este efecto es más pronunciado a energías bajas (donde la dispersión es más probable) y a profundidades grandes. Por ejemplo, el PDD a 10 cm de profundidad en agua para 6 MV varía desde ~0,60 para un campo de 5×5 cm² hasta ~0,68 para 20×20 cm². El TMR y el TPR también dependen del tamaño de campo, por la misma razón."
+      }
+    },
+    {
+      "id": 27,
+      "elo": 1550,
+      "tema": "Radioterapia",
+      "q": "Las unidades monitor (UM) para entregar 200 cGy con un factor de calibración de 1 cGy/UM, PDD = 65% y factor de cuña = 0,80, son aproximadamente:",
+      "opts": [
+        "154 UM",
+        "308 UM",
+        "463 UM",
+        "385 UM"
+      ],
+      "a": 3,
+      "sol": "UM = Dosis / (cal × PDD × cuña) = 200 / (1 × 0,65 × 0,80) = 200 / 0,52 ≈ 385 UM.",
+      "teoria": {
+        "titulo": "Cálculo de unidades monitor",
+        "texto": "Las unidades monitor (UM) son la unidad de lectura del acelerador lineal, y se calibran de forma que 100 UM = 1 Gy en condiciones de referencia (típicamente en el máximo, a la SSD de referencia, con un campo de 10×10 cm²). Para entregar una dosis prescrita $D_{\\text{presc}}$ en un punto a profundidad, se usa: $\\text{UM} = \\frac{D_{\\text{presc}}}{\\text{cal} \\cdot \\text{PDD}(d) \\cdot F_{\\text{cuña}} \\cdot F_{\\text{campo}} \\cdot F_{\\text{SSD}}}$, donde cal es el factor de calibración (cGy/UM), PDD es el porcentaje de dosis en profundidad, y los demás factores corrigen por cuña, tamaño de campo y distancia. Ejemplo: 200 cGy, cal = 1 cGy/UM, PDD = 0,65, cuña = 0,80 → UM = 200/0,52 ≈ 385 UM."
+      }
+    },
+    {
+      "id": 28,
+      "elo": 1700,
+      "tema": "Radioterapia",
+      "q": "La regla del inverso del cuadrado establece que la dosis varía con:",
+      "opts": [
+        "El cuadrado de la distancia a la fuente",
+        "El inverso del cuadrado de la distancia a la fuente",
+        "La raíz cuadrada de la distancia a la fuente",
+        "El inverso de la distancia a la fuente"
+      ],
+      "a": 1,
+      "sol": "Para una fuente puntual isótropa, la dosis varía como $1/d^2$: al duplicar la distancia, la dosis cae a la cuarta parte. Es consecuencia de la conservación de la energía en una esfera de radio $d$.",
+      "teoria": {
+        "titulo": "Ley del inverso del cuadrado",
+        "texto": "La ley del inverso del cuadrado establece que la dosis (o la fluencia) de una fuente puntual isótropa varía como $1/d^2$ con la distancia. Se deduce de la conservación de la energía: la misma energía emitida se distribuye sobre una esfera de superficie $4\\pi d^2$, así que la fluencia por unidad de área cae como $1/d^2$. Al duplicar la distancia, la dosis cae a la cuarta parte; al triplicarla, a la novena. En radioterapia, se aplica para corregir el PDD al cambiar la SSD, y para el cálculo de dosis alrededor de fuentes de braquiterapia (aunque allí se combina con la atenuación en el medio). Es exacta solo para fuentes puntuales; para fuentes extensas o muy cercanas, hay que usar correcciones (como el factor de Meisberger en braquiterapia)."
+      }
+    },
+    {
+      "id": 29,
+      "elo": 1850,
+      "tema": "Radioterapia",
+      "q": "En comparación con la IMRT, la técnica VMAT (arcoterapia volumétrica modulada) se caracteriza por:",
+      "opts": [
+        "Entregar la dosis con haces estáticos que cambian solo la intensidad",
+        "No requerir sistema de planificación inversa",
+        "Rotar el gantry mientras modula la dosis, entregando en arcos",
+        "Usar solo fotones de baja energía y un único campo"
+      ],
+      "a": 2,
+      "sol": "VMAT entrega la dosis en uno o varios arcos, rotando el gantry mientras se modulan simultáneamente la tasa de dosis, la velocidad del gantry y la posición de los MLC. Es más rápida que la IMRT estática.",
+      "teoria": {
+        "titulo": "VMAT vs IMRT",
+        "texto": "La IMRT (radioterapia de intensidad modulada) entrega la dosis con múltiples campos estáticos (típicamente 5-9), modulando la intensidad de cada uno con los MLC (colimadores multilámina). La VMAT (arcoterapia volumétrica modulada) entrega la dosis en uno o varios arcos, rotando el gantry mientras modula simultáneamente la tasa de dosis, la velocidad del gantry y la forma de los MLC. Ventajas de VMAT: tratamientos más rápidos (1-2 min vs 10-15 min), menor incertidumbre por movimiento del paciente, y dosis más conformadas en algunos casos. Desventajas: mayor irradiación integral del paciente (más volumen de tejido sano recibe dosis bajas), lo que aumenta el riesgo de segundas neoplasias. Ambas técnicas requieren planificación inversa (el TPS calcula la modulación óptima para cumplir las restricciones dosimétricas)."
+      }
+    },
+    {
+      "id": 30,
+      "elo": 2000,
+      "tema": "Radioterapia",
+      "q": "La técnica SBRT (radioterapia estereotáctica corporal) se caracteriza por:",
+      "opts": [
+        "Dosis altas por fracción en pocas sesiones, con alta precisión espacial",
+        "Dosis bajas por fracción en muchas sesiones, con baja precisión",
+        "Uso de electrones de baja energía en múltiples campos pequeños",
+        "Tratamiento exclusivo de lesiones cerebrales con marco estereotáxico"
+      ],
+      "a": 0,
+      "sol": "SBRT entrega dosis muy altas por fracción (típicamente 7-30 Gy) en 1-8 sesiones, con precisión sub-milimétrica. Se usa en lesiones pulmonares, hepáticas, prostáticas, óseas, etc.",
+      "teoria": {
+        "titulo": "SBRT y SRS",
+        "texto": "La SBRT (radioterapia estereotáctica corporal) y su análoga craneal SRS (radiocirugía estereotáctica) entregan dosis muy altas por fracción (típicamente 7-30 Gy) en pocas sesiones (1-8), con precisión sub-milimétrica. Se usan en lesiones pequeñas y bien delimitadas (tumores pulmonares, hepáticos, prostáticos, metástasis óseas, meningiomas). Requieren inmovilización rígida del paciente, imágenes de verificación en tiempo real (IGRT) y sistemas de planificación avanzados. Su base radiobiológica es diferente a la de la radioterapia convencional: al usar fracciones grandes, el efecto es más "ablative" (destrucción directa del tejido tumoral) y la respuesta puede explicarse por modelos como el LQ con correcciones o por el modelo de la dosis biológica efectiva (BED). Efectos secundarios más pronunciados, por lo que se reservan para tumores pequeños."
+      }
+    },
+    {
+      "id": 31,
+      "elo": 2200,
+      "tema": "Radioterapia",
+      "q": "En braquiterapia HDR con Ir-192 ($T_{1/2} = 74$ días), la semivida corta es ventajosa porque:",
+      "opts": [
+        "Aumenta la dosis total que puede entregarse al tumor",
+        "Mejora la respuesta biológica del tumor al tratamiento",
+        "Permite usar fuentes de mayor actividad sin riesgo",
+        "Reduce la exposición del personal y permite tratamientos ambulatorios"
+      ],
+      "a": 3,
+      "sol": "La semivida corta del Ir-192 (~74 días) hace que la actividad decaiga significativamente en pocos meses, reduciendo la exposición del personal y permitiendo tratamientos ambulatorios. Se recambia la fuente cada 3-4 meses.",
+      "teoria": {
+        "titulo": "Braquiterapia HDR con Ir-192",
+        "texto": "La braquiterapia HDR (alta tasa de dosis) usa fuentes de Ir-192 con actividad de ~10 Ci (370 GBq). El Ir-192 emite fotones gamma con energías medias de ~380 keV, adecuadas para penetrar tejidos y ser detenidas por blindajes razonables. Su semivida de 74 días es un compromiso: suficientemente corta para que la actividad decaiga en pocos meses (reduciendo la exposición del personal y permitiendo recambio trimestral), pero suficientemente larga para que la fuente dure varias semanas de uso clínico. En HDR, la fuente se desplaza mediante un cable de control a través de catéteres implantados en el paciente, entregando dosis altas por fracción (típicamente 5-10 Gy) en pocas sesiones. El tratamiento es ambulatorio (el paciente se retira con la fuente retraída). Contrasta con la LDR (baja tasa de dosis), con fuentes de baja actividad (Cs-137, I-125) que permanecen implantadas durante horas o días."
+      }
+    },
+    {
+      "id": 32,
+      "elo": 2350,
+      "tema": "Radioterapia",
+      "q": "El formalismo TG-43 del AAPM describe:",
+      "opts": [
+        "La calibración de aceleradores lineales en condiciones de referencia",
+        "El protocolo de cálculo de dosis alrededor de fuentes de braquiterapia",
+        "La dosimetría in vivo de pacientes con TLD",
+        "La verificación de planes de IMRT con películas radiocrómicas"
+      ],
+      "a": 1,
+      "sol": "El TG-43 es el protocolo del AAPM para el cálculo de dosis en braquiterapia. Define parámetros como la constante de tasa de dosis (Λ), la función radial (g), la función de anisotropía (F) y la geometría de la fuente.",
+      "teoria": {
+        "titulo": "Formalismo TG-43",
+        "texto": "El formalismo TG-43 (Task Group 43 del AAPM) es el estándar para el cálculo de dosis alrededor de fuentes de braquiterapia. Define la tasa de dosis en un punto $P(r, \\theta)$ alrededor de una fuente como: $\\dot{D}(r, \\theta) = S_K \\cdot \\Lambda \\cdot \\frac{G(r, \\theta)}{G(r_0, \\theta_0)} \\cdot g(r) \\cdot F(r, \\theta)$, donde $S_K$ es el kerma en aire por unidad de tiempo a 1 m de la fuente, $\\Lambda$ es la constante de tasa de dosis (cGy/h/U), $G$ es el factor geométrico, $g$ es la función radial (atenuación y dispersión en el medio) y $F$ es la función de anisotropía. Es un formalismo 2D (en coordenadas polares respecto al eje de la fuente), que no tiene en cuenta la heterogeneidad de tejidos ni la presencia de aplicadores. Para cálculos más precisos, se usan métodos de Monte Carlo o TG-186 (con correcciones por heterogeneidad)."
+      }
+    },
+    {
+      "id": 33,
+      "elo": 2450,
+      "tema": "Radioterapia",
+      "q": "El SOBP (Spread-Out Bragg Peak) en hadronterapia se construye:",
+      "opts": [
+        "Reduciendo la energía del haz de protones durante la irradiación",
+        "Combinando protones y fotones en el mismo tratamiento",
+        "Superponiendo picos de Bragg de distintas energías con pesos ajustados",
+        "Aumentando el tamaño de campo con un colimador de apertura variable"
+      ],
+      "a": 2,
+      "sol": "El SOBP se construye superponiendo picos de Bragg individuales de diferentes energías iniciales, de modo que sus máximos queden a diferentes profundidades y se sumen formando una meseta de dosis que cubre el volumen tumoral.",
+      "teoria": {
+        "titulo": "SOBP (Spread-Out Bragg Peak)",
+        "texto": "El SOBP es la técnica estándar para cubrir tumores extensos en hadronterapia. Un solo pico de Bragg mide apenas unos milímetros de ancho, insuficiente para tratar un tumor de varios centímetros. La solución es superponer varios picos de Bragg de distintas energías iniciales, con pesos ajustados, de modo que sus máximos queden a diferentes profundidades y se sumen formando una meseta de dosis aproximadamente constante que cubre el tumor. El ajuste de pesos se realiza con algoritmos de optimización (similares a los de IMRT) para lograr una meseta uniforme. La caída distal del SOBP sigue siendo abrupta, preservando la ventaja dosimétrica de los protones sobre los fotones. Los sistemas de protonterapia modernos usan PBS (pencil beam scanning), en el que un haz fino de protones barre el volumen tumoral capa por capa, en lugar de un SOBP pasivo."
+      }
+    },
+    {
+      "id": 34,
+      "elo": 950,
+      "tema": "Imagen médica",
+      "q": "El índice CTDI_vol (CT dose index volumétrico) en tomografía computarizada:",
+      "opts": [
+        "Estima la dosis absorbida promedio en el volumen de un corte",
+        "Mide la dosis total recibida por el paciente en todo el estudio",
+        "Es la dosis efectiva dividida por la masa corporal del paciente",
+        "Se calcula multiplicando el CTDI_w por la longitud de la exploración"
+      ],
+      "a": 0,
+      "sol": "El CTDI_vol es una estimación de la dosis absorbida promedio en un corte, corregida por el paso de la mesa (pitch). No es la dosis efectiva ni la dosis total del estudio; para eso se usa el DLP y factores de conversión.",
+      "teoria": {
+        "titulo": "CTDI_vol y dosimetría en TC",
+        "texto": "El CTDI (CT dose index) es la magnitud dosimétrica estándar en tomografía computarizada. Se mide con una cámara de ionización tipo lápiz en un maniquí cilíndrico (de 16 o 32 cm de diámetro) y se define como la integral de la dosis en profundidad a lo largo del eje $z$, dividida por el espesor nominal del corte. El CTDI_w es un promedio ponderado del CTDI en el centro y en la periferia del maniquí. El CTDI_vol = CTDI_w/pitch corrige por el paso de la mesa (pitch = avance por rotación / espesor de corte). Es una estimación de la dosis absorbida promedio en el volumen de un corte, pero no es la dosis efectiva (que tiene en cuenta la radiosensibilidad de cada órgano) ni la dosis total del estudio (para eso se usa el DLP = CTDI_vol × longitud de la zona irradiada)."
+      }
+    },
+    {
+      "id": 35,
+      "elo": 1100,
+      "tema": "Imagen médica",
+      "q": "El DLP (dose length product) en TC se calcula como:",
+      "opts": [
+        "CTDI_vol × el peso del paciente",
+        "Dosis efectiva × factor de riesgo",
+        "CTDI_w × número de cortes",
+        "CTDI_vol × longitud de la zona irradiada"
+      ],
+      "a": 3,
+      "sol": "El DLP es el producto del CTDI_vol por la longitud de la zona irradiada (en cm). Se mide en mGy·cm y es proporcional a la energía total depositada en el paciente. Se usa para estimar la dosis efectiva multiplicando por un factor de conversión específico del estudio.",
+      "teoria": {
+        "titulo": "Dose Length Product (DLP)",
+        "texto": "El DLP es una magnitud dosimétrica que cuantifica la dosis total recibida por el paciente en un estudio de TC, teniendo en cuenta tanto la dosis por corte (CTDI_vol) como la longitud irradiada: $\\text{DLP} = \\text{CTDI}_{\\text{vol}} \\times L$, donde $L$ es la longitud de la zona irradiada (en cm). Se mide en mGy·cm. Es proporcional a la energía total depositada en el paciente. Para estimar la dosis efectiva (en mSv), se multiplica el DLP por un factor de conversión $k$ (en mSv/(mGy·cm)) específico de la región anatómica y de la edad del paciente. Ejemplo: un TC de tórax tiene un factor de ~0,014-0,017 mSv/(mGy·cm); un TC de cráneo, ~0,003. El DLP se reporta en el informe dosimétrico del estudio y es útil para comparar protocolos y optimizar la dosis."
+      }
+    },
+    {
+      "id": 36,
+      "elo": 1400,
+      "tema": "Imagen médica",
+      "q": "En mamografía, los haces de rayos X utilizan típicamente energías de fotones de:",
+      "opts": [
+        "60 a 100 keV, para penetrar el tejido mamario denso",
+        "15 a 30 keV, para maximizar el contraste entre tejidos blandos",
+        "150 a 300 keV, para reducir la dosis en la piel",
+        "Más de 1 MeV, para aprovechar el efecto Compton"
+      ],
+      "a": 1,
+      "sol": "La mamografía usa rayos X de baja energía (15-30 keV), donde el efecto fotoeléctrico domina y proporciona el máximo contraste entre tejido glandular, grasa y microcalcificaciones.",
+      "teoria": {
+        "titulo": "Mamografía: energía y contraste",
+        "texto": "La mamografía es la técnica de imagen de la mama mediante rayos X de baja energía. Se usan haces de 15-30 keV (típicamente con ánodo de Mo, Rh o W y filtración adicional), porque en ese rango: (1) el efecto fotoeléctrico domina y proporciona alto contraste entre tejido glandular, grasa y microcalcificaciones; (2) la atenuación diferencial entre esos tejidos es máxima; (3) la dosis glandular media se mantiene en niveles aceptables. A energías más altas (> 40 keV), el contraste cae porque domina el efecto Compton, que no diferencia bien los tejidos blandos. La energía óptima depende del espesor y la densidad de la mama: mamas densas requieren energías ligeramente mayores para penetrar. La introducción de la tomosíntesis (mamografía 3D) y de la mamografía con contraste (CEM) ha mejorado la detección en mamas densas."
+      }
+    },
+    {
+      "id": 37,
+      "elo": 1700,
+      "tema": "Imagen médica",
+      "q": "En PET, el radiofármaco emite positrones que, tras aniquilarse con electrones, producen:",
+      "opts": [
+        "Un fotón de 511 keV que se detecta en coincidencia",
+        "Un par de electrones con 1,022 MeV de energía total",
+        "Dos fotones de 511 keV emitidos en direcciones opuestas",
+        "Tres fotones de distintas energías en direcciones arbitrarias"
+      ],
+      "a": 2,
+      "sol": "El positrón se aniquila con un electrón del medio, produciendo dos fotones de 511 keV emitidos en direcciones opuestas. La detección en coincidencia de ambos define una línea de respuesta donde se encuentra el punto de aniquilación.",
+      "teoria": {
+        "titulo": "PET: aniquilación y detección",
+        "texto": "La tomografía por emisión de positrones (PET) se basa en la aniquilación de un positrón con un electrón del medio. El positrón es emitido por un radiofármaco (típicamente F-18, con $T_{1/2} \\approx 110\\,$min, marcando la glucosa en la FDG). Tras recorrer unos milímetros en el tejido, el positrón se aniquila con un electrón, produciendo dos fotones de 511 keV emitidos en direcciones opuestas (para conservar la energía y el momento). Un anillo de detectores alrededor del paciente registra los fotones en coincidencia (dentro de una ventana temporal de ~10 ns), definiendo una línea de respuesta a lo largo de la cual se encuentra el punto de aniquilación. La reconstrucción tomográfica de muchas coincidencias permite localizar la distribución del radiofármaco. Requiere corrección por atenuación (con un escáner TC o una fuente de transmisión) y por dispersión. Es una técnica de alta sensibilidad (nM) y resolución moderada (~4-5 mm)."
+      }
+    },
+    {
+      "id": 38,
+      "elo": 2100,
+      "tema": "Imagen médica",
+      "q": "La función de transferencia de modulación (MTF) de un sistema de imagen cuantifica:",
+      "opts": [
+        "La capacidad del sistema de reproducir el contraste a distintas frecuencias espaciales",
+        "La dosis absorbida por unidad de señal en el detector",
+        "El número de fotones detectados por unidad de tiempo",
+        "La eficiencia cuántica del detector en función de la energía"
+      ],
+      "a": 0,
+      "sol": "La MTF mide cómo el sistema reproduce el contraste de un objeto en función de la frecuencia espacial. Un sistema ideal tendría MTF = 1 a todas las frecuencias; en la práctica, la MTF cae con la frecuencia por efecto del tamaño del pixel, la dispersión de la luz y el ruido.",
+      "teoria": {
+        "titulo": "MTF y caracterización de sistemas de imagen",
+        "texto": "La MTF (modulation transfer function) es una medida de la resolución espacial de un sistema de imagen. Mide cómo se atenúa el contraste de una señal senoidal al atravesar el sistema, en función de su frecuencia espacial (pares de líneas por mm, lp/mm). Un sistema ideal tendría MTF = 1 a todas las frecuencias; en la práctica, la MTF cae con la frecuencia por el tamaño finito del pixel, la dispersión de la luz en el centelleador, el efecto del foco del tubo de rayos X y el ruido. La MTF se relaciona con la función de dispersión de punto (PSF) por transformada de Fourier. Junto con la DQE (detective quantum efficiency), que combina la MTF con la eficiencia cuántica y el ruido, la MTF es una de las magnitudes estándar para caracterizar detectores de imagen (IEC 62220-1)."
+      }
+    },
+    {
+      "id": 39,
+      "elo": 850,
+      "tema": "Radioprotección",
+      "q": "El principio ALARA establece que las dosis deben mantenerse:",
+      "opts": [
+        "Por debajo del límite legal para cada individuo",
+        "Iguales para todos los trabajadores expuestos",
+        "Por encima del nivel de referencia para diagnóstico",
+        "Tan bajas como sea razonablemente posible, considerando factores sociales y económicos"
+      ],
+      "a": 3,
+      "sol": "ALARA (As Low As Reasonably Achievable) es el principio de optimización: las dosis deben mantenerse tan bajas como sea razonablemente posible, teniendo en cuenta factores económicos y sociales. No es solo cumplir los límites legales, sino optimizar.",
+      "teoria": {
+        "titulo": "Principio ALARA",
+        "texto": "ALARA (As Low As Reasonably Achievable) es el principio de optimización de la protección radiológica, uno de los tres principios fundamentales (junto con justificación y aplicación de límites). Establece que las dosis deben mantenerse tan bajas como sea razonablemente posible, teniendo en cuenta factores económicos y sociales. No se trata solo de cumplir los límites legales, sino de optimizar las prácticas para reducir las dosis incluso por debajo de esos límites. Se aplica a: diseño de instalaciones (blindajes), protocolos de imagen (optimizar kVp, mAs, tiempo de fluoroscopía), formación del personal, y control de calidad. Ejemplo típico: en radiología intervencionista, reducir el tiempo de fluoroscopía y el número de imágenes, colimar el haz y usar protección plomada, sin comprometer el diagnóstico. El principio ALARA se complementa con el análisis costo-beneficio y con la cultura de seguridad."
+      }
+    }
+  ],
+  "datasetId": null,
+  "meta": {
+    "titulo": "Elo - Física Médica",
+    "eloMin": 200,
+    "eloMax": 2500,
+    "kProbTau": 2,
+    "kProbNew": 256,
+    "kProbBase": 32
+  }
+}
