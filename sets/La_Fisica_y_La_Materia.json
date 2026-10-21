@@ -1176,8 +1176,8 @@
     },
     {
       "id": 65,
-      "elo": 740,
       "tema": "Física atómica",
+      "elo": 740,
       "q": "En el modelo de Bohr, la energía del nivel $n$ del hidrógeno es:",
       "opts": [
         "$E_n = -13{,}6\\ \\text{eV} / n$",
@@ -1185,11 +1185,15 @@
         "$E_n = +13{,}6\\ \\text{eV} / n^2$",
         "$E_n = -13{,}6\\ \\text{eV} / n^2$"
       ],
-      "a": 3,
       "sol": "En el modelo de Bohr, $E_n = -13{,}6\\,\\text{eV}/n^2$. El nivel fundamental ($n=1$) tiene energía $-13{,}6\\,$eV, y los niveles superiores se acercan a cero. La energía de ionización del hidrógeno es 13,6 eV.",
+      "a": 3,
       "teoria": {
         "titulo": "Energía de los niveles en el modelo de Bohr",
         "texto": "En el modelo de Bohr, la energía total del electrón en la órbita $n$ del átomo de hidrógeno es la suma de la energía cinética y la energía potencial electrostática:\n\n$$E = \\frac{1}{2}m_e v^2 - \\frac{1}{4\\pi\\epsilon_0}\\frac{e^2}{r}$$\n\nUsando la relación $m_e v^2 = e^2/(4\\pi\\epsilon_0 r)$ que se obtiene del equilibrio de fuerzas, la energía cinética es la mitad del valor absoluto de la potencial (teorema del virial):\n\n$$E = \\frac{1}{2}\\frac{1}{4\\pi\\epsilon_0}\\frac{e^2}{r} - \\frac{1}{4\\pi\\epsilon_0}\\frac{e^2}{r} = -\\frac{1}{8\\pi\\epsilon_0}\\frac{e^2}{r}$$\n\nSustituyendo el radio de la órbita $r_n = n^2 a_0$:\n\n$$E_n = -\\frac{1}{8\\pi\\epsilon_0}\\frac{e^2}{n^2 a_0} = -\\frac{m_e e^4}{8\\epsilon_0^2 h^2}\\frac{1}{n^2}$$\n\nNuméricamente:\n\n$$E_n = -\\frac{13{,}6\\,\\text{eV}}{n^2}$$\n\nEl nivel fundamental ($n=1$) tiene energía $-13{,}6\\,$eV. Los niveles superiores son menos negativos: $E_2 = -3{,}4\\,$eV, $E_3 = -1{,}51\\,$eV, etc., y se acercan a cero a medida que $n \\to \\infty$. El estado con $E = 0$ corresponde al electrón libre (ionizado), en reposo.\n\nLa energía de ionización del hidrógeno es la energía necesaria para llevar al electrón desde $n=1$ hasta $E=0$:\n\n$$E_{ion} = 0 - (-13{,}6\\,\\text{eV}) = 13{,}6\\,\\text{eV}$$\n\nEste valor coincide excelentemente con el medido experimentalmente, lo que fue uno de los grandes triunfos del modelo de Bohr.\n\nLas transiciones entre niveles emiten o absorben fotones de energía $h\\nu = E_{n_i} - E_{n_f}$, lo que da lugar a las series espectrales del hidrógeno."
+      },
+      "link": {
+        "url": "interactivos/modelos_atomicos.html",
+        "texto": "🔗 Abrir recurso"
       }
     },
     {
@@ -1230,8 +1234,8 @@
     },
     {
       "id": 68,
-      "elo": 770,
       "tema": "Física atómica",
+      "elo": 770,
       "q": "La estructura fina del espectro del hidrógeno se debe a:",
       "opts": [
         "Presencia de otros átomos y campos externos",
@@ -1239,11 +1243,15 @@
         "Efecto fotoeléctrico y dispersión Compton",
         "Interacción con el núcleo y efecto Doppler"
       ],
-      "a": 1,
       "sol": "La estructura fina es el desdoblamiento de las líneas espectrales debido al acoplamiento entre el espín del electrón y su momento angular orbital (interacción espín-órbita) y a correcciones relativistas a la energía cinética. Es un efecto de orden $\\alpha^2$ respecto de la energía de Bohr, donde $\\alpha \\approx 1/137$ es la constante de estructura fina.",
+      "a": 1,
       "teoria": {
         "titulo": "Estructura fina del espectro",
         "texto": "La estructura fina es el desdoblamiento de las líneas espectrales del hidrógeno (y de otros átomos) en componentes muy cercanas entre sí, observado por primera vez por Michelson y Fabry en 1891. No se explica por el modelo de Bohr, que predice una energía que depende solo de $n$, sino que requiere correcciones relativistas y la interacción entre el espín y el momento angular orbital del electrón.\n\nHay tres contribuciones a la estructura fina, todas del mismo orden de magnitud ($\\alpha^2$ respecto de la energía de Bohr, donde $\\alpha \\approx 1/137$ es la constante de estructura fina):\n\n1. Corrección relativista a la energía cinética. A velocidades cercanas a $c$, la energía cinética no es $p^2/(2m)$ sino la expresión relativista. El desarrollo a primer orden en $(v/c)^2$ da una corrección negativa proporcional a $1/n^3$.\n\n2. Interacción espín-órbita. El electrón, moviéndose en el campo eléctrico del núcleo, ve un campo magnético en su sistema de referencia. Su espín interactúa con este campo, dando una energía que depende de la orientación relativa de $\\vec{L}$ y $\\vec{S}$:\n\n$$\\Delta E_{SO} = \\frac{\\alpha^2}{2}\\frac{1}{n^3}\\frac{1}{l(l+1/2)(l+1)}\\times(\\text{factor de espín})$$\n\n3. Término de Darwin. Una corrección asociada a la naturaleza no local de la interacción de Dirac, que afecta solo a estados $s$ ($l=0$).\n\nEl resultado neto es que los niveles con el mismo $n$ pero distinto $l$ y $j$ (momento angular total $\\vec{J} = \\vec{L} + \\vec{S}$) tienen energías ligeramente distintas. Por ejemplo, la línea Hα del hidrógeno ($3 \\to 2$) se desdobla en varias componentes separadas por fracciones de $10^{-4}\\,$eV.\n\nLa estructura fina fue explicada completamente por la ecuación de Dirac (1928), que incorpora la relatividad y el espín de forma natural. La estructura hiperfina, aún más pequeña, se debe a la interacción con el espín del núcleo."
+      },
+      "link": {
+        "url": "interactivos/estructura_fina.html",
+        "texto": "🔗 Abrir recurso"
       }
     },
     {
@@ -1788,8 +1796,8 @@
     },
     {
       "id": 99,
-      "elo": 720,
       "tema": "Química cuántica",
+      "elo": 720,
       "q": "Las fuerzas de Van der Waals incluyen:",
       "opts": [
         "Solo interacciones electrostáticas entre iones",
@@ -1797,11 +1805,15 @@
         "Enlaces covalentes débiles entre moléculas",
         "Dipolo-dipolo, dipolo inducido y dispersión de London"
       ],
-      "a": 3,
       "sol": "Las fuerzas de Van der Waals son interacciones intermoleculares débiles que incluyen: dipolo-dipolo (entre moléculas polares), dipolo-dipolo inducido (entre una molécula polar y una apolar) y fuerzas de dispersión de London (fluctuaciones instantáneas de dipolo, presentes en todas las moléculas). Son responsables de la cohesión en gases nobles y moléculas apolares.",
+      "a": 3,
       "teoria": {
         "titulo": "Fuerzas de Van der Waals",
         "texto": "Las fuerzas de Van der Waals son un conjunto de interacciones intermoleculares atractivas débiles y de corto alcance, que no implican la formación de enlaces covalentes ni iónicos. Su nombre se debe al físico holandés Johannes Diderik van der Waals, que las introdujo en 1873 para explicar las desviaciones de los gases reales respecto del gas ideal.\n\nLas fuerzas de Van der Waals incluyen tres tipos de interacciones:\n\n1. Fuerzas dipolo-dipolo (Keesom). Entre moléculas polares permanentes. Por ejemplo, entre moléculas de HCl. La energía depende de la orientación relativa de los dipolos y de la temperatura.\n\n2. Fuerzas dipolo-dipolo inducido (Debye). Entre una molécula polar y una molécula apolar. El dipolo permanente de la primera induce un dipolo en la segunda. Por ejemplo, entre HCl y Ar.\n\n3. Fuerzas de dispersión de London. Entre moléculas apolares o átomos neutros. Surgen de las fluctuaciones instantáneas de la distribución electrónica, que generan dipolos instantáneos que inducen dipolos en los átomos vecinos. Fueron explicadas por Fritz London en 1930 mediante mecánica cuántica. Son las responsables de la cohesión en gases nobles (He, Ne, Ar) y en moléculas apolares (como CH$_4$ o CO$_2$).\n\nTodas estas fuerzas tienen una dependencia con la distancia del tipo $1/r^6$ (para la atracción) y son de corto alcance. Su energía típica es de 1-10 kJ/mol, mucho menor que un enlace covalente o iónico, pero suficiente para mantener unidas moléculas en fase líquida o sólida.\n\nLas fuerzas de Van der Waals son responsables de muchas propiedades físicas: puntos de fusión y ebullición de sustancias moleculares, solubilidad, tensión superficial, y la estabilidad de coloides y emulsiones. En la naturaleza, son importantes en la adhesión de insectos a superficies, en la estructura de proteínas y en la formación de cristales moleculares."
+      },
+      "link": {
+        "url": "interactivos/Fuerzas-de-Van-der-Waals.html",
+        "texto": "🔗 Abrir recurso"
       }
     },
     {
