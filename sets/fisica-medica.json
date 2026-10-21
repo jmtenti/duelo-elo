@@ -737,6 +737,906 @@
         "titulo": "Principio ALARA",
         "texto": "ALARA (As Low As Reasonably Achievable) es el principio de optimización de la protección radiológica, uno de los tres principios fundamentales (junto con justificación y aplicación de límites). Establece que las dosis deben mantenerse tan bajas como sea razonablemente posible, teniendo en cuenta factores económicos y sociales. No se trata solo de cumplir los límites legales, sino de optimizar las prácticas para reducir las dosis incluso por debajo de esos límites. Se aplica a: diseño de instalaciones (blindajes), protocolos de imagen (optimizar kVp, mAs, tiempo de fluoroscopía), formación del personal, y control de calidad. Ejemplo típico: en radiología intervencionista, reducir el tiempo de fluoroscopía y el número de imágenes, colimar el haz y usar protección plomada, sin comprometer el diagnóstico. El principio ALARA se complementa con el análisis costo-beneficio y con la cultura de seguridad."
       }
+    },
+    {
+      "id": 41,
+      "elo": 900,
+      "tema": "Fundamentos y radiobiología",
+      "q": "La diferencia principal entre efectos deterministas y estocásticos de la radiación es que:",
+      "opts": [
+        "Los efectos deterministas tienen un umbral de dosis por debajo del cual no aparecen, mientras que los estocásticos no tienen umbral conocido",
+        "Los estocásticos tienen umbral y los deterministas no, por su origen cuántico en el ADN",
+        "Ambos tienen umbral, pero los estocásticos son siempre hereditarios y los deterministas somáticos",
+        "Los deterministas solo aparecen con radiación de alta LET y los estocásticos con cualquier radiación"
+      ],
+      "a": 0,
+      "sol": "Los efectos deterministas (quemadura, necrosis, cataratas) tienen un umbral de dosis por debajo del cual no aparecen. Los estocásticos (cáncer, efectos hereditarios) se consideran sin umbral, con probabilidad proporcional a la dosis.",
+      "teoria": {
+        "titulo": "Efectos deterministas y estocásticos",
+        "texto": "Los efectos biológicos de la radiación se clasifican en dos grandes grupos según su relación dosis-respuesta:\n\n**Efectos deterministas (o tisulares)**: aparecen cuando la dosis supera un umbral característico del tejido. Por debajo de ese umbral no se manifiestan. Ejemplos: eritema cutáneo (umbral ~2 Gy), depilación (~3-4 Gy), cataratas (~0,5-2 Gy en el cristalino), neumonitis (~10-20 Gy en pulmón), mielopatía (~45-50 Gy en médula espinal). Su gravedad aumenta con la dosis por encima del umbral. Se deben a la muerte celular masiva que supera la capacidad de reparación y repoblación del tejido.\n\n**Efectos estocásticos**: no tienen umbral conocido (aunque las autoridades regulatorias asumen un modelo lineal sin umbral, LNT, para protección radiológica). Su probabilidad aumenta con la dosis, pero su gravedad no depende de ella. Ejemplos: cáncer radioinducido, efectos hereditarios en la descendencia. Se deben a mutaciones en el ADN de células somáticas (cáncer) o germinales (hereditarios).\n\nLa protección radiológica se centra en prevenir los deterministas (con límites altos) y en limitar la probabilidad de los estocásticos (con el principio ALARA y dosis bajas)."
+      }
+    },
+    {
+      "id": 42,
+      "elo": 950,
+      "tema": "Fundamentos y radiobiología",
+      "q": "La dosis biológica efectiva (BED) para un esquema de n fracciones de dosis d, con cociente (α/β), es:",
+      "opts": [
+        "BED = n·d·(1 − d/(α/β))",
+        "BED = n·d·(1 + d/(α/β))",
+        "BED = n·d²·(α/β)",
+        "BED = d/(α/β) · n²"
+      ],
+      "a": 1,
+      "sol": "BED = n·d·[1 + d/(α/β)] permite comparar esquemas de fraccionamiento distintos en unidades de dosis biológicamente equivalentes para un tejido dado.",
+      "teoria": {
+        "titulo": "Dosis biológica efectiva (BED)",
+        "texto": "La BED permite comparar esquemas de fraccionamiento distintos en términos del efecto biológico producido en un tejido con un cociente $\\alpha/\\beta$ determinado. Se define como:\n\n$$\\text{BED} = n \\cdot d \\cdot \\left(1 + \\frac{d}{\\alpha/\\beta}\\right)$$\n\ndonde $n$ es el número de fracciones, $d$ la dosis por fracción (Gy) y $\\alpha/\\beta$ el cociente característico del tejido.\n\nLa BED se expresa en unidades de Gy con una $\\alpha/\\beta$ especificada (por ejemplo, Gy$_3$ o Gy$_{10}$). Es una herramienta esencial en la práctica clínica:\n\n- **Comparar esquemas**: 30 × 2 Gy (BED$_{10}$ = 72 Gy$_{10}$) no es equivalente a 20 × 3 Gy (BED$_{10}$ = 78 Gy$_{10}$).\n- **Diseñar hipofraccionamiento**: en próstata ($\\alpha/\\beta \\approx 1{,}5$ Gy), 20 × 3 Gy tiene mayor BED que el convencional.\n- **Calcular dosis acumulada en reirradiación**: sumando las BED de cada curso, con correcciones por recuperación parcial.\n\nLa BED se deriva del modelo LQ y es válida para dosis por fracción donde el modelo sigue siendo aplicable (típicamente hasta ~8-10 Gy por fracción)."
+      }
+    },
+    {
+      "id": 43,
+      "elo": 1000,
+      "tema": "Fundamentos y radiobiología",
+      "q": "En el ciclo celular, las fases más radiosensibles son:",
+      "opts": [
+        "G1 y S, porque el ADN está menos condensado y hay más contenido genético expuesto",
+        "G0, porque las células en reposo no tienen mecanismos de reparación activos",
+        "G2/M, porque el ADN está condensado y hay menos tiempo para reparar antes de la mitosis",
+        "Todas las fases del ciclo celular son igualmente radiosensibles, sin diferencias significativas"
+      ],
+      "a": 2,
+      "sol": "Las fases G2 y M son las más radiosensibles porque el ADN está condensado y la célula tiene menos tiempo para reparar el daño antes de dividirse. La fase S (síntesis) es la más radiorresistente.",
+      "teoria": {
+        "titulo": "Radiosensibilidad y ciclo celular",
+        "texto": "La sensibilidad de una célula a la radiación varía a lo largo del ciclo celular. El orden clásico de radiosensibilidad es:\n\n**M > G2 > G1 > S (radiorresistente)**\n\n- **Mitosis (M)**: los cromosomas están condensados y la célula se divide. Cualquier daño en el ADN se traduce en aberraciones cromosómicas letales porque no hay tiempo para reparar antes de la división.\n- **G2**: la célula se prepara para la mitosis. Los mecanismos de control del ciclo pueden detectar daño y detener el avance, pero si no se repara bien, la célula muere en mitosis.\n- **G1**: la célula crece antes de la síntesis. Hay tiempo para reparar, lo que aumenta la supervivencia.\n- **S (síntesis)**: la célula replica el ADN. La maquinaria de replicación enmascara el daño, y las lesiones subletales se toleran mejor. Es la fase más radiorresistente.\n\nEste fenómeno es la base biológica de la **redistribución**, una de las 4R. Al fraccionar la dosis, las células se redistribuyen por el ciclo, quedando algunas en fases sensibles en fracciones posteriores. Por eso fraccionar más (o usar esquemas acelerados) puede aumentar el efecto diferencial."
+      }
+    },
+    {
+      "id": 44,
+      "elo": 1050,
+      "tema": "Fundamentos y radiobiología",
+      "q": "El hipofraccionamiento en radioterapia se caracteriza por:",
+      "opts": [
+        "Aumentar la dosis total sin cambiar la dosis por fracción ni el número de sesiones",
+        "Reducir el número de fracciones manteniendo la misma dosis total que el convencional",
+        "Es exactamente equivalente al fraccionamiento convencional en todos los casos clínicos",
+        "Aumentar la dosis por fracción y reducir el número total de fracciones"
+      ],
+      "a": 3,
+      "sol": "El hipofraccionamiento usa dosis mayores por fracción (> 2,5 Gy) en menos sesiones, lo que puede mejorar el efecto en tumores con α/β bajo (próstata) a costa de mayor toxicidad tardía.",
+      "teoria": {
+        "titulo": "Hipofraccionamiento y esquemas alterados",
+        "texto": "El hipofraccionamiento consiste en administrar **dosis mayores por fracción** (> 2,5 Gy) en **menos sesiones**, manteniendo o modificando la dosis total. Se apoya en dos conceptos:\n\n1. **Diferencia de $\\alpha/\\beta$**: en tumores con $\\alpha/\\beta$ bajo (próstata, melanoma, sarcomas), el efecto del fraccionamiento es menor que en tumores con $\\alpha/\\beta$ alto. Aumentar la dosis por fracción los daña más sin aumentar demasiado la toxicidad en tejidos tardíos.\n\n2. **BED**: la BED$_{10}$ o BED$_3$ permite comparar el esquema hipofraccionado con el convencional para el tumor y para los tejidos de riesgo.\n\nEjemplos clínicos:\n- **Próstata**: 20 × 3 Gy (BED$_{1{,}5}$ ≈ 180 Gy$_{1{,}5}$) o 5 × 7,25 Gy (BED$_{1{,}5}$ ≈ 250 Gy$_{1{,}5}$).\n- **Mama**: 15 × 2,67 Gy o 5 × 5,2 Gy (FAST-Forward, IMPORT LOW).\n- **SBRT**: 1-8 fracciones de 7-30 Gy para tumores pequeños.\n\nEl **hiperfraccionamiento** es lo contrario: dosis menores en más sesiones (por ejemplo, 70 × 1,2 Gy dos veces al día), usado en tumores de crecimiento rápido para aumentar la dosis total sin superar la tolerancia del tejido tardío."
+      }
+    },
+    {
+      "id": 45,
+      "elo": 1100,
+      "tema": "Fundamentos y radiobiología",
+      "q": "Un radiosensibilizador es un compuesto que:",
+      "opts": [
+        "Aumenta el daño tumoral sin aumentar la dosis física administrada",
+        "Aumenta la dosis física de radiación depositada en el tumor",
+        "Reduce la reparación del ADN en los tejidos sanos, aumentando el daño en ellos",
+        "Incrementa el número de fotones que interactúan por efecto fotoeléctrico"
+      ],
+      "a": 0,
+      "sol": "Los radiosensibilizadores (como el oxígeno, la etanidazol o la nimorazol) aumentan el daño tumoral sin incrementar la dosis física, mejorando la diferencia entre tumor y tejido sano.",
+      "teoria": {
+        "titulo": "Radiosensibilizadores",
+        "texto": "Los radiosensibilizadores son compuestos que **aumentan el daño biológico producido por una dosis física dada**, sin incrementar la dosis entregada al paciente. Se aprovechan de diferencias entre tumor y tejido sano (oxigenación, metabolismo, proliferación).\n\nPrincipales tipos:\n\n- **Radiosensibilizadores hipóxicos** (misonidazol, etanidazol, nimorazol): imitan al oxígeno y fijan el daño en células hipóxicas del tumor, donde el oxígeno no llega. Su eficacia clínica fue limitada por la toxicidad neurológica.\n- **Quimioterápicos radiosensibilizantes** (cisplatino, 5-FU, gemcitabina, temozolomida): además de su efecto citotóxico, sincronizan las células en fases sensibles, inhiben la reparación del ADN o aumentan la apoptosis. Son la base de la **quimiorradiación concurrente**, estándar en muchos tumores (cabeza y cuello, pulmón, recto, cérvix).\n- **Inhibidores de la reparación del ADN** (inhibidores de PARP, de ATM, de DNA-PK): bloquean las vías de reparación, aumentando la letalidad del daño inducido por la radiación. Son el foco actual de la investigación en radiosensibilización selectiva.\n- **Nanopartículas de alto Z** (oro, gadolinio, hafnio): aumentan la absorción local de fotones por efecto fotoeléctrico y liberan electrones Auger. El NBTXR3 (hafnio) está aprobado para sarcomas de partes blandas.\n\nEn cambio, los **radioprotectores** (amifostina) protegen preferentemente a los tejidos sanos, reduciendo la toxicidad sin afectar al tumor."
+      }
+    },
+    {
+      "id": 46,
+      "elo": 1150,
+      "tema": "Fundamentos y radiobiología",
+      "q": "La hipoxia tumoral tiene como consecuencia principal:",
+      "opts": [
+        "Es más frecuente en tumores pequeños y bien vascularizados que en grandes",
+        "Aumenta la radiorresistencia y es un factor de mal pronóstico",
+        "Solo afecta a la respuesta a neutrones, no a fotones",
+        "Disminuye el efecto de la reoxigenación durante el tratamiento"
+      ],
+      "a": 1,
+      "sol": "Las células hipóxicas son más radiorresistentes (OER ≈ 3) y se asocian a mal pronóstico. La reoxigenación durante el tratamiento es clave para recuperar la sensibilidad.",
+      "teoria": {
+        "titulo": "Hipoxia tumoral",
+        "texto": "La hipoxia tumoral es la disminución de la concentración de oxígeno en regiones del tumor, consecuencia de una vascularización anárquica y de la alta demanda metabólica de las células tumorales. Es un factor clave en radioterapia porque:\n\n- **Aumenta la radiorresistencia**: el oxígeno fija el daño producido por los radicales libres en el ADN (efecto oxígeno, OER ≈ 2,5-3). Las células hipóxicas necesitan 2,5-3 veces más dosis para el mismo efecto.\n- **Es un factor pronóstico negativo**: múltiples estudios muestran peor control local y peor supervivencia en tumores con alto porcentaje de hipoxia (cabeza y cuello, cérvix, próstata, sarcomas).\n- **Genera subpoblaciones resistentes**: las células hipóxicas pueden seleccionar clones más agresivos y favorecer metástasis.\n\nEstrategias para combatirla:\n\n- **Reoxigenación durante el tratamiento**: al reducirse el tumor, mejora la perfusión. Es una de las 4R.\n- **Radiosensibilizadores hipóxicos**: misonidazol, nimorazol (eficacia limitada por toxicidad).\n- **Terapias dirigidas a la hipoxia**: inhibidores de HIF-1α, tirapazamina (citotóxica solo en hipoxia).\n- **Hipofraccionamiento / SBRT**: dosis altas por fracción pueden superar la radiorresistencia hipóxica por mecanismos vasculares y de muerte directa.\n- **Terapias de oxigenación**: carbogen (95% O₂ + 5% CO₂) con nicotinamida, aunque con resultados modestos."
+      }
+    },
+    {
+      "id": 47,
+      "elo": 1200,
+      "tema": "Fundamentos y radiobiología",
+      "q": "La diferencia entre el gray y el sievert es que:",
+      "opts": [
+        "El gray mide dosis efectiva y el sievert mide dosis absorbida",
+        "Ambos son lo mismo, solo cambia la unidad según el país",
+        "El gray mide dosis absorbida y el sievert dosis equivalente o efectiva",
+        "El gray se usa en radioterapia y el sievert en radiodiagnóstico"
+      ],
+      "a": 2,
+      "sol": "El gray (Gy = J/kg) mide dosis absorbida. El sievert (Sv) pondera esa dosis por el tipo de radiación (w_R) y por la radiosensibilidad del tejido (w_T).",
+      "teoria": {
+        "titulo": "Gray, sievert y dosis equivalente/efectiva",
+        "texto": "El **gray** (Gy) y el **sievert** (Sv) son unidades del SI que cuantifican magnitudes distintas. La diferencia está en los **factores de ponderación** que se aplican a partir de la dosis absorbida.\n\n**Dosis absorbida (D)**: energía depositada por unidad de masa. Se mide en gray ($1\\,\\text{Gy} = 1\\,\\text{J/kg}$). Es una cantidad física objetiva, dependiente del material y de la radiación.\n\n**Dosis equivalente (H)**: pondera la dosis absorbida por el tipo de radiación según su eficacia biológica relativa (RBE). Se mide en sievert:\n\n$$H = \\sum_R w_R \\cdot D_R$$\n\ndonde $w_R$ es el factor de ponderación de la radiación (1 para fotones y electrones, 2 para protones, 20 para partículas alfa e iones pesados, 2-20 para neutrones según energía).\n\n**Dosis efectiva (E)**: además pondera por la radiosensibilidad del tejido irradiado:\n\n$$E = \\sum_T w_T \\cdot H_T = \\sum_T \\sum_R w_T \\cdot w_R \\cdot D_{T,R}$$\n\ndonde $w_T$ es el factor de ponderación tisular (gónadas 0,08; médula roja, colon, pulmón, estómago, mama 0,12 cada uno; piel, superficie ósea, encéfalo 0,01; etc.). La suma de $w_T$ es 1.\n\nEn resumen: **Gy** mide energía depositada; **Sv** mide riesgo biológico. Un Gy de partículas alfa equivale a 20 Sv de dosis equivalente por su alta densidad de ionización."
+      }
+    },
+    {
+      "id": 48,
+      "elo": 1250,
+      "tema": "Fundamentos y radiobiología",
+      "q": "Al fraccionar la dosis en muchas sesiones pequeñas, el tejido tardío:",
+      "opts": [
+        "Se protege mejor que el tumor porque tiene α/β bajo y repara más daño subletal",
+        "Se protege peor que el tumor porque tiene mayor α/β",
+        "Recibe la misma dosis biológica que el tumor en todos los esquemas",
+        "Se vuelve más radiosensible que el tumor por la reoxigenación"
+      ],
+      "a": 0,
+      "sol": "El tejido tardío tiene α/β ≈ 2–3 Gy y una curva de supervivencia con hombro pronunciado, por lo que las fracciones pequeñas lo protegen más que al tumor (α/β ≈ 10 Gy).",
+      "teoria": {
+        "titulo": "Fraccionación y protección del tejido tardío",
+        "texto": "Al dividir la dosis total en muchas fracciones pequeñas (~2 Gy), el tejido tardío (baja $\\alpha/\\beta$, 2-3 Gy) se protege más que el tumor (alto $\\alpha/\\beta$, ~10 Gy). El motivo está en la forma de la curva de supervivencia LQ y en su **hombro**.\n\nLos tejidos con bajo $\\alpha/\\beta$ tienen una curva con hombro pronunciado a bajas dosis: la supervivencia cae lentamente hasta que se acumula suficiente daño subletal, y solo entonces la curva se vuelve exponencial. Al fraccionar, entre fracciones hay tiempo para reparar el daño subletal, y el hombro \"se recupera\". El resultado neto es que las fracciones pequeñas son más benévolas con este tejido.\n\nLos tumores con alto $\\alpha/\\beta$ tienen una curva casi exponencial desde dosis bajas (poco hombro). La reparación entre fracciones es menor y la forma del esquema no los protege tanto. Al fraccionar, la BED del tumor sigue siendo alta mientras la del tejido tardío se reduce.\n\nParámetros típicos:\n\n- **$\\alpha/\\beta$ alto (~10 Gy)**: tumores, mucosas, piel. Responden bien a fracciones pequeñas (convencional 2 Gy).\n- **$\\alpha/\\beta$ bajo (~2-3 Gy)**: médula espinal, riñón, pulmón, vejiga, tejido conectivo. Se protegen con fracciones pequeñas.\n- **$\\alpha/\\beta$ muy bajo (~1,5 Gy)**: próstata, melanoma, sarcoma. Paradójicamente pueden beneficiarse del **hipofraccionamiento** (dosis altas por fracción) porque el tumor tiene menor capacidad de reparación que el tejido tardío a dosis altas.\n\nEste análisis se formaliza con la BED$_{10}$ (tumor) y BED$_3$ (tejido tardío), y es la base de los esquemas convencional, hiperfraccionado e hipofraccionado."
+      }
+    },
+    {
+      "id": 49,
+      "elo": 900,
+      "tema": "Interacción radiación-materia",
+      "q": "La capa hemirreductora (HVL) es:",
+      "opts": [
+        "El espesor de material que reduce a la mitad la intensidad del haz",
+        "El espesor que reduce la intensidad a la décima parte",
+        "El espesor necesario para atenuar completamente el haz",
+        "El espesor de material equivalente a 1 cm de agua"
+      ],
+      "a": 0,
+      "sol": "La HVL es el espesor necesario para reducir la intensidad a I0/2. Se relaciona con el coeficiente de atenuación como HVL = ln2/μ. Caracteriza la calidad del haz y se usa en diseño de blindajes.",
+      "teoria": {
+        "titulo": "Capa hemirreductora (HVL)",
+        "texto": "La **capa hemirreductora** (HVL, half-value layer) es el espesor de material necesario para reducir a la mitad la intensidad de un haz de fotones. Se relaciona con el coeficiente de atenuación lineal $\\mu$ por:\n\n$$\\text{HVL} = \\frac{\\ln 2}{\\mu} \\approx \\frac{0{,}693}{\\mu}$$\n\nTambién se define la **capa decimorreductora** (TVL, tenth-value layer) para reducir a la décima parte: $\\text{TVL} = \\ln 10 / \\mu \\approx 2{,}303/\\mu \\approx 3{,}32\\,\\text{HVL}$.\n\nLa HVL es una magnitud característica de la calidad del haz:\n\n- Depende de la **energía del fotón** y del **material atenuador**. Cuanto mayor es la energía, mayor es la HVL (mayor penetración). Cuanto mayor es $Z$ y densidad del material, menor es la HVL.\n- A energías bajas se especifica en mm de Al (radiografía); a energías altas en mm de Cu o cm de Pb (radioterapia, protección radiológica).\n\nPara haces **polienergéticos** (rayos X de tubo), la HVL no es constante con el espesor: el haz se endurece al atenuarse (los fotones de baja energía se absorben primero), así que la segunda HVL es mayor que la primera. La primera HVL es un indicador de la calidad del haz (IEC 60601).\n\nLa HVL se usa en:\n- Diseño de blindajes: para reducir la intensidad por un factor $2^n$, se necesitan $n$ HVL de material.\n- Control de calidad: la constancia de la HVL indica estabilidad del tubo y del filtraje.\n- Especificación de haces en protocolos (p. ej., \"HVL 0,5 mm Cu\" para un haz de 100 kV)."
+      }
+    },
+    {
+      "id": 50,
+      "elo": 1000,
+      "tema": "Interacción radiación-materia",
+      "q": "El coeficiente de atenuación másico (μ/ρ):",
+      "opts": [
+        "Depende de la densidad del material y de la energía del fotón",
+        "Depende del material y la energía, pero no de la densidad",
+        "Es constante para cualquier material a una energía dada",
+        "Depende únicamente del número atómico del material"
+      ],
+      "a": 1,
+      "sol": "μ/ρ es independiente de la densidad del material (ya se dividió por ρ). Depende de Z, composición y energía del fotón. Es la magnitud tabulada estándar.",
+      "teoria": {
+        "titulo": "Coeficiente de atenuación másico",
+        "texto": "El **coeficiente de atenuación másico** $\\mu/\\rho$ (en cm²/g) es la magnitud estándar para describir la atenuación de fotones por un material, porque es **independiente de la densidad** del material. Esto la hace especialmente útil para comparar sustancias y para tabular datos.\n\nLa atenuación total es:\n\n$$\\frac{\\mu}{\\rho} = \\frac{\\mu_{\\text{fotoeléctrico}}}{\\rho} + \\frac{\\mu_{\\text{Compton}}}{\\rho} + \\frac{\\mu_{\\text{pares}}}{\\rho}$$\n\nCada componente depende de la energía $E$ y del número atómico $Z$ del material:\n\n- **Fotoeléctrico**: $\\propto Z^5 / E^3$ (bajas energías). Predomina con elementos de alto $Z$ y fotones de baja energía.\n- **Compton**: $\\propto Z$ (energías intermedias, 100 keV a 5 MeV en agua). Es casi independiente del material por electrón, y su magnitud por unidad de masa es similar en todos los materiales.\n- **Producción de pares**: $\\propto Z^2$ (altas energías, > 5 MeV en agua, > 1 MeV en plomo). Domina en haces de alta energía y en materiales pesados.\n\nEl coeficiente lineal $\\mu = (\\mu/\\rho) \\cdot \\rho$ depende de la densidad: por eso el plomo (ρ = 11,35 g/cm³) es mejor blindaje por cm que el agua aunque el másico sea parecido a bajas energías.\n\nLos datos de $\\mu/\\rho$ para elementos y compuestos están tabulados en NIST XCOM y en la base de datos del NIST. Son la base de cálculos de blindajes, diseño de detectores y planificación dosimétrica."
+      }
+    },
+    {
+      "id": 51,
+      "elo": 1050,
+      "tema": "Interacción radiación-materia",
+      "q": "En el efecto Compton, el corrimiento en longitud de onda es máximo cuando:",
+      "opts": [
+        "El fotón sale en la misma dirección que el haz incidente (θ = 0°)",
+        "El fotón sale a 90°, perpendicular a la dirección del haz",
+        "El fotón retrocede a 180° y transfiere la máxima energía al electrón",
+        "El corrimiento es independiente del ángulo de dispersión"
+      ],
+      "a": 2,
+      "sol": "Δλ = (h/m_ec)(1−cosθ) alcanza su máximo cuando cosθ = −1, es decir, θ = 180°. En ese caso el fotón retrocede y el electrón recibe la máxima energía posible.",
+      "teoria": {
+        "titulo": "Dispersión Compton: corrimiento angular",
+        "texto": "En el **efecto Compton**, un fotón de energía $E_\\gamma$ dispersa por un electrón libre y le transfiere parte de su energía. La conservación de energía y momento conduce a la fórmula del corrimiento en longitud de onda:\n\n$$\\Delta\\lambda = \\lambda' - \\lambda = \\frac{h}{m_ec}(1 - \\cos\\theta)$$\n\ndonde $\\theta$ es el ángulo de dispersión del fotón y $h/(m_ec) = 2{,}43\\times10^{-12}$ m es la **longitud de onda Compton** del electrón.\n\nAnálisis angular:\n\n- $\\theta = 0°$: $\\cos\\theta = 1$, $\\Delta\\lambda = 0$. El fotón no cambia de energía (dispersión frontal).\n- $\\theta = 90°$: $\\cos\\theta = 0$, $\\Delta\\lambda = h/(m_ec) \\approx 2{,}43$ pm. El fotón pierde una fracción apreciable.\n- $\\theta = 180°$: $\\cos\\theta = -1$, $\\Delta\\lambda = 2h/(m_ec) \\approx 4{,}86$ pm (máximo). El fotón retrocede y el electrón recibe la máxima energía posible.\n\nEnergía del electrón Compton:\n\n$$E_e = E_\\gamma - E_\\gamma' = E_\\gamma\\left(1 - \\frac{1}{1 + \\frac{E_\\gamma}{m_ec^2}(1 - \\cos\\theta)}\\right)$$\n\nEl electrón Compton retrocede con la máxima energía en $\\theta = 180°$ (retroceso). Este electrón deposita su energía localmente y contribuye a la dosis en el material.\n\nEl efecto Compton es el mecanismo dominante de interacción de fotones de energía intermedia (100 keV a 5 MeV en agua y tejidos), y su sección eficaz es casi independiente de $Z$ por electrón, por lo que el blindaje con plomo es menos eficaz que en fotoeléctrico."
+      }
+    },
+    {
+      "id": 52,
+      "elo": 1100,
+      "tema": "Interacción radiación-materia",
+      "q": "La intensidad de la radiación de frenado (bremsstrahlung) es proporcional a:",
+      "opts": [
+        "Z y a la masa de la partícula, independientemente de la energía",
+        "El número atómico del material y la carga de la partícula",
+        "El cuadrado de la energía del electrón y el cuadrado de Z",
+        "Z² e inversamente proporcional al cuadrado de la masa de la partícula"
+      ],
+      "a": 3,
+      "sol": "La radiación de frenado escala como Z²/m². Por eso es mucho más importante para electrones que para protones o alfas, y más intensa en materiales de alto Z.",
+      "teoria": {
+        "titulo": "Radiación de frenado (bremsstrahlung)",
+        "texto": "La **radiación de frenado** es la emisión de fotones por una partícula cargada cuando se desacelera en el campo eléctrico de un núcleo. La intensidad total (potencia radiada) es:\n\n$$P_{\\text{brems}} \\propto \\frac{Z^2 z^2}{m^2} E$$\n\ndonde $Z$ es el número atómico del material, $z$ la carga de la partícula, $m$ su masa y $E$ su energía.\n\nConsecuencias:\n\n- **Dependencia con la masa**: la radiación de frenado es mucho más intensa para electrones ($m_e$) que para protones o alfas (1836 veces más pesados). Es despreciable para partículas pesadas en radioterapia, pero significativa para electrones de alta energía.\n- **Dependencia con $Z$**: crece con $Z^2$, por lo que es más intensa en materiales de alto $Z$ (plomo, tungsteno).\n- **Dependencia con la energía**: proporcional a la energía cinética del electrón. A altas energías, predomina sobre la pérdida por colisión (ionización).\n\nEn **dosimetría de electrones**, esto es crítico: la energía depositada tiene dos componentes, ionización y radiación de frenado. La fracción de energía perdida por radiación es aproximadamente:\n\n$$g = \\frac{(dE/dx)_{\\text{rad}}}{(dE/dx)_{\\text{total}}} \\approx \\frac{E \\cdot Z}{800 + E \\cdot Z}$$\n\n(con $E$ en MeV). Para electrones de 20 MeV en agua, $g \\approx 0{,}1$; en plomo, $g \\approx 0{,}7$.\n\nEn **protección radiológica**, los electrones de alta energía que atraviesan blindajes de alto $Z$ generan fotones de alta energía (bremsstrahlung) que penetran más que los electrones originales. Por eso se blindan primero con material de bajo $Z$ (plástico) y luego con alto $Z$ (plomo) — blindaje \"sandwich\"."
+      }
+    },
+    {
+      "id": 53,
+      "elo": 1150,
+      "tema": "Interacción radiación-materia",
+      "q": "La energía media W necesaria para crear un par ión-electrón en aire es aproximadamente:",
+      "opts": [
+        "34 eV por par ión-electrón formado en el aire",
+        "3 eV por par, como en los semiconductores",
+        "100 eV por par, porque el aire es más denso que un semiconductor",
+        "511 keV por par, igual que la masa del electrón"
+      ],
+      "a": 0,
+      "sol": "W_aire ≈ 33,97 eV/par. Es un valor clave para convertir carga colectada en cámaras de ionización a energía depositada en el gas y, a través de la teoría de Bragg-Gray, a dosis en el medio.",
+      "teoria": {
+        "titulo": "Energía media de ionización del aire (W)",
+        "texto": "La **energía media para crear un par ión-electrón en un gas** ($W$) es la energía promedio que hay que depositar en el gas para producir un par de iones estables. Para el aire seco es:\n\n$$W_{\\text{aire}} = 33{,}97\\ \\text{eV/par} \\approx 34\\ \\text{eV/par}$$\n\nEste valor es sorprendentemente alto comparado con la energía de ionización del nitrógeno y el oxígeno (~15 eV) porque una parte importante de la energía se pierde en excitaciones y en ionizaciones que se recombinan.\n\nEn el aire, el número de pares producidos por una dosis $D$ en una masa $m$ es:\n\n$$N = \\frac{D \\cdot m}{W_{\\text{aire}}}$$\n\nPor ejemplo, en una cámara de 0,6 cm³ de aire a densidad normal, una dosis de 1 Gy produce $N \\approx 7{,}2\\times10^{-4}\\,\\text{g} \\cdot 1\\ \\text{Gy} / 34\\ \\text{eV} \\approx 2{,}1\\times10^{11}$ pares.\n\nOtros gases:\n\n- Argón: $W \\approx 26{,}4$ eV/par.\n- Nitrógeno: $W \\approx 34{,}8$ eV/par.\n- Metano: $W \\approx 27{,}3$ eV/par.\n- Aire húmedo: $W \\approx 34{,}2$ eV/par.\n\n$W$ es la magnitud que relaciona la carga colectada en una cámara de ionización con la energía depositada en el gas. Se usa en la teoría de Bragg-Gray para convertir carga en dosis, y en los protocolos de dosimetría de referencia (TRS-398, TG-51) con el factor $W/e$ tabulado."
+      }
+    },
+    {
+      "id": 54,
+      "elo": 1200,
+      "tema": "Interacción radiación-materia",
+      "q": "A igual energía inicial, un electrón en agua tiene respecto a un protón:",
+      "opts": [
+        "Mayor alcance porque su masa es menor y su velocidad inicial es mayor",
+        "Menor alcance porque pierde energía por bremsstrahlung y dispersión múltiple",
+        "El mismo alcance, porque ambos dependen solo de la energía inicial",
+        "Mayor alcance porque no experimenta dispersión coulombiana con los núcleos"
+      ],
+      "a": 1,
+      "sol": "El electrón sufre mucha más dispersión múltiple y bremsstrahlung. Por eso su alcance es mucho menor y su trayectoria errática, a diferencia del protón que sigue una traza casi recta con alcance bien definido.",
+      "teoria": {
+        "titulo": "Alcance y trayectoria: electrones vs protones",
+        "texto": "A igual energía inicial, electrones y protones se comportan de forma radicalmente distinta al atravesar materia:\n\n**Electrones**:\n\n- **Masa pequeña** → gran dispersión múltiple por colisiones coulombianas con los núcleos. La trayectoria es errática y el alcance es una distribución, no un valor único.\n- **Bremsstrahlung** significativo (> 10% de la energía a energías clínicas en agua): parte de la energía se emite como fotones y puede escaparse del material.\n- **Alcance** en agua: aproximadamente $R_p \\approx E/2$ (cm, con $E$ en MeV), hasta ~20 MeV. Para 10 MeV, ~5 cm.\n- **Curva de dosis en profundidad**: máxima dosis superficial, caída abrupta al final (aunque menos abrupta que el pico de Bragg de protones), cola de bremsstrahlung más allá del alcance.\n\n**Protones**:\n\n- **Masa grande** → apenas se desvían; trayectoria casi recta.\n- **Bremsstrahlung** despreciable (proporcional a $1/m^2$, ~$10^6$ veces menor que para electrones).\n- **Alcance** bien definido (rango CSDA), con la regla de Bragg-Kleeman: $R \\approx 0{,}0023\\,E^{1{,}75}$ (g/cm², con $E$ en MeV). Para 150 MeV, ~15,8 cm en agua.\n- **Curva de dosis en profundidad**: pico de Bragg al final del recorrido, con dosis baja en la entrada y caída abrupta distal. Es la base de la protonterapia.\n\nEste contraste es fundamental en radioterapia: los electrones se usan para tratar lesiones superficiales (hasta 5-6 cm de profundidad) y los protones para lesiones profundas y tumores junto a órganos críticos."
+      }
+    },
+    {
+      "id": 55,
+      "elo": 1250,
+      "tema": "Interacción radiación-materia",
+      "q": "Los neutrones interactúan con la materia principalmente mediante:",
+      "opts": [
+        "Interacciones electromagnéticas con electrones atómicos",
+        "Interacción coulombiana con los núcleos, como las partículas cargadas",
+        "Colisiones nucleares (elásticas e inelásticas) y reacciones de captura",
+        "Dispersión Rayleigh con los electrones más internos del átomo"
+      ],
+      "a": 2,
+      "sol": "Al no tener carga, los neutrones no sienten la fuerza de Coulomb. Su interacción es nuclear: dispersión elástica, inelástica, captura radiactiva, fisión y reacciones de transmutación.",
+      "teoria": {
+        "titulo": "Interacción de neutrones con la materia",
+        "texto": "Los **neutrones** son partículas sin carga eléctrica. Por eso no interactúan con los electrones atómicos ni sienten la repulsión coulombiana de los núcleos, lo que les permite penetrar profundamente en la materia. Su interacción es **exclusivamente nuclear**:\n\n**1. Dispersión elástica**: el neutrón colisiona con un núcleo y ambos se reparten energía y momento. Es el mecanismo principal de **moderación** (frenado de neutrones rápidos en reactores). La eficiencia de moderación depende de la masa del núcleo: los núcleos ligeros (H, D, C) frenan más eficazmente.\n\n**2. Dispersión inelástica**: el neutrón excita el núcleo blanco, que emite un fotón gamma al desexcitarse. Requiere energías por encima de un umbral (~keV-MeV).\n\n**3. Captura radiactiva ($n,\\gamma$)**: el núcleo absorbe el neutrón y queda en un estado excitado, que decae emitiendo radiación gamma. Es importante para la **activación neutrónica** y para la producción de radioisótopos.\n\n**4. Reacciones de transmutación**: $(n,\\alpha)$, $(n,p)$, $(n,\\text{fisión})$. Son la base de la **BNCT** (terapia por captura neutrónica en boro) con $^{10}\\text{B}(n,\\alpha)^7\\text{Li}$.\n\n**5. Fisión nuclear**: los neutrones pueden inducir la fisión del $^{235}\\text{U}$ (y del $^{238}\\text{U}$ con neutrones rápidos).\n\nLa sección eficaz depende fuertemente de la energía del neutrón y del núcleo. Para neutrones **térmicos** (0,025 eV) muchas secciones eficaces son enormes (p. ej., $^{10}$B: 3840 barns; $^3$He: 5330 barns), y suelen mostrar resonancias. Por eso los detectores de neutrones suelen moderar primero los neutrones rápidos a térmicos."
+      }
+    },
+    {
+      "id": 56,
+      "elo": 1300,
+      "tema": "Interacción radiación-materia",
+      "q": "La radiación Cherenkov se emite cuando una partícula cargada:",
+      "opts": [
+        "Supera la velocidad de la luz en el vacío (algo imposible según la relatividad)",
+        "Se aniquila con un electrón del medio, produciendo dos fotones de 511 keV",
+        "Colisiona elásticamente con un núcleo y le transfiere toda su energía",
+        "Supera la velocidad de fase de la luz en el medio transparente por el que viaja"
+      ],
+      "a": 3,
+      "sol": "Cherenkov ocurre cuando v > c/n en un dieléctrico. Se emite un cono de luz con cosθ = c/(nv). Se usa para identificar partículas por su velocidad en física de partículas.",
+      "teoria": {
+        "titulo": "Radiación Cherenkov",
+        "texto": "La **radiación Cherenkov** es una radiación electromagnética emitida cuando una partícula cargada se mueve en un medio dieléctrico con una velocidad mayor que la **velocidad de fase de la luz en ese medio**:\n\n$$v > \\frac{c}{n}$$\n\ndonde $n$ es el índice de refracción del medio. Es análoga a la onda de choque de un avión supersónico.\n\nLa emisión se produce en un cono, cuyo ángulo $\\theta$ respecto a la trayectoria de la partícula satisface:\n\n$$\\cos\\theta = \\frac{c}{nv}$$\n\nEl **ángulo de emisión** depende de la velocidad $v$ de la partícula: a mayor velocidad (cerca de $c$), menor ángulo. Midiendo el ángulo, se puede obtener $v$ y, conociendo el momento, identificar la partícula por su masa.\n\nAplicaciones:\n\n- **Física de partículas**: detectores Cherenkov (RICH) en experimentos de altas energías para identificación de partículas (piones, kaones, protones).\n- **Astrofísica**: telescopios Cherenkov de agua (Auger, IceCube) y de aire (MAGIC, H.E.S.S., CTA) detectan la radiación Cherenkov de cascadas atmosféricas.\n- **Reactores nucleares**: los electrones de la fisión emiten luz azulada Cherenkov en el agua de la piscina del reactor.\n- **Dosimetría**: se han propuesto sistemas de dosimetría Cherenkov de fibra óptica para haces de electrones de alta energía (no para fotones, porque no la emiten en agua a las energías típicas).\n- **Medicina nuclear**: la radiación Cherenkov puede detectarse en radiofármacos emisores de positrones (F-18) y usarse para imagen (CLI, Cherenkov luminescence imaging).\n\nEl umbral de emisión en agua ($n \\approx 1{,}33$) es $v > c/1{,}33 \\approx 0{,}75c$, que corresponde a electrones de ~260 keV."
+      }
+    },
+    {
+      "id": 57,
+      "elo": 900,
+      "tema": "Dosimetría y detectores",
+      "q": "La cámara de ionización de placas paralelas es especialmente adecuada para:",
+      "opts": [
+        "Dosimetría de superficie y haces de electrones de baja energía",
+        "Dosimetría de haces de fotones de alta energía en condiciones de referencia",
+        "Calibración de fuentes de braquiterapia con geometría 4π",
+        "Medición de neutrones térmicos en reactores nucleares"
+      ],
+      "a": 0,
+      "sol": "Su volumen delgado y ventana de entrada fina la hacen ideal para dosimetría superficial (primeros milímetros) y para haces de electrones de baja energía, donde la resolución en profundidad es crítica.",
+      "teoria": {
+        "titulo": "Cámara de placas paralelas",
+        "texto": "La **cámara de ionización de placas paralelas** es una cámara con dos electrodos planos, separados por un volumen delgado (típicamente 0,2-2 mm) y con una ventana de entrada muy fina. Está diseñada para:\n\n- **Dosimetría superficial**: el volumen delgado permite medir la dosis en los primeros milímetros de profundidad, donde las cámaras cilíndricas (tipo Farmer) promedian demasiado y sobreestiman la profundidad.\n- **Haces de electrones de baja energía**: el gradiente de dosis es muy pronunciado en la superficie y las primeras capas; la cámara debe tener poco volumen y ventana fina para no perturbarlo.\n- **Dosimetría de radiología diagnóstica**: mamografía, fluoroscopía, TC (con cámaras tipo lápiz para CTDI).\n\nVentajas frente a la cámara cilíndrica:\n\n- Menor efecto de volumen: el gradiente de dosis en haces de electrones se promedia menos.\n- Menor perturbación del haz: no hay un vástago cilíndrico que desplace el punto efectivo de medida.\n- Mejor resolución en profundidad.\n\nSe calibra contra patrones primarios con protocolos específicos (TRS-398 permite placas paralelas para electrones de energía < 10 MeV). El factor de calibración $N_{D,w}$ es específico de cada cámara y calidad de haz."
+      }
+    },
+    {
+      "id": 58,
+      "elo": 950,
+      "tema": "Dosimetría y detectores",
+      "q": "Los diodos semiconductores usados en dosimetría tienen como ventaja principal:",
+      "opts": [
+        "Requieren alto voltaje de polarización, lo que aumenta su sensibilidad",
+        "Son pequeños, sensibles y permiten medidas en tiempo real durante el tratamiento",
+        "Tienen respuesta absolutamente independiente de la temperatura y la tasa de dosis",
+        "Solo miden haces de electrones de alta energía, no fotones"
+      ],
+      "a": 1,
+      "sol": "Los diodos son compactos, muy sensibles y permiten dosimetría in vivo en tiempo real. Sus desventajas son la dependencia con la temperatura y con la tasa de dosis, que se corrigen.",
+      "teoria": {
+        "titulo": "Diodos semiconductores en dosimetría",
+        "texto": "Los **diodos semiconductores** son detectores en los que la radiación crea pares electrón-hueco en la zona de deplexión de una unión p-n polarizada en inversa, generando una corriente proporcional a la tasa de dosis. Ventajas e inconvenientes:\n\n**Ventajas**:\n\n- **Tamaño pequeño** (1-2 mm de diámetro): buena resolución espacial, adecuados para haces pequeños y dosimetría in vivo.\n- **Alta sensibilidad**: la energía necesaria para crear un par es de ~3 eV (Si), mucho menor que los ~34 eV de un gas. La señal es cientos de veces mayor que una cámara de ionización del mismo volumen.\n- **Lectura en tiempo real**: se pueden usar para dosimetría in vivo durante el tratamiento (diodos de superficie, dosimetría intraluminal).\n- **Robustez mecánica** y bajo voltaje de polarización.\n\n**Desventajas**:\n\n- **Dependencia con la temperatura**: la respuesta cambia ~0,3-0,5%/°C. Se corrige con un factor de temperatura o midiendo la temperatura del diodo.\n- **Dependencia con la tasa de dosis**: por la densidad de pares y efectos de recombinación; se corrige con factores empíricos.\n- **Dependencia angular y energética**: la respuesta depende del ángulo de incidencia y de la energía; hay que caracterizar cada tipo de diodo.\n- **Respuesta no tejido-equivalente** en general: los diodos de Si tienen $Z$ mayor que el agua; se usan diodos con filtros o correcciones.\n- **Envejecimiento**: la respuesta puede degradarse por dosis acumulada; requieren recalibración periódica.\n\nEn la práctica, los diodos se usan para dosimetría in vivo (SBRT, IMRT, braquiterapia), medición de dosis en haces pequeños y verificación de planes, siempre tras una calibración cuidadosa en las condiciones de uso."
+      }
+    },
+    {
+      "id": 59,
+      "elo": 1000,
+      "tema": "Dosimetría y detectores",
+      "q": "El dosímetro de Fricke se basa en:",
+      "opts": [
+        "Reducción de Fe³⁺ a Fe²⁺ por la radiación",
+        "Polimerización de un monómero al irradiarse",
+        "Oxidación de Fe²⁺ a Fe³⁺ por radicales libres de la radiólisis del agua",
+        "Termoluminiscencia del sulfato ferroso en disolución"
+      ],
+      "a": 2,
+      "sol": "Los radicales libres (OH·, HO₂·) generados por la radiación oxidan Fe²⁺ a Fe³⁺. La concentración de Fe³⁺ se mide por espectrofotometría y es proporcional a la dosis. Es un dosímetro de referencia para dosis altas.",
+      "teoria": {
+        "titulo": "Dosímetro de Fricke",
+        "texto": "El **dosímetro de Fricke** es un dosímetro químico basado en la **oxidación de iones Fe²⁺ a Fe³⁺** producida por los radicales libres generados en la radiólisis del agua. Fue desarrollado por Hugo Fricke en 1927 y es un dosímetro de referencia en radioterapia y en el procesado de alimentos.\n\n**Composición**: disolución acuosa ácida de sulfato ferroso (FeSO₄·7H₂O) 1 mM, con NaCl y H₂SO₄ 0,4 M. Se puede preparar con o sin exclusión de oxígeno (versiones estándar y de altas dosis).\n\n**Mecanismo**:\n\n1. La radiación ioniza el agua y produce radicales libres: OH·, H·, HO₂·, H₂O₂.\n2. Los radicales oxidan Fe²⁺ a Fe³⁺:\n\n$$\\text{Fe}^{2+} + \\text{OH}^\\cdot \\to \\text{Fe}^{3+} + \\text{OH}^-$$\n\n3. El **rendimiento radiolítico** G(Fe³⁺) ≈ 15,6 iones por 100 eV de energía absorbida.\n\n**Lectura**: el Fe³⁺ forma un complejo coloreado con tiocianato u o-fenantrolina, con pico de absorción ~304 nm. La absorbancia es proporcional a la concentración de Fe³⁺ (ley de Beer-Lambert) y a la dosis.\n\n**Características**:\n\n- Respuesta **lineal** de 20 a 400 Gy.\n- **Independiente de la tasa de dosis**.\n- **Tejido-equivalente** (respuesta similar al agua/tejido).\n- Requiere laboratorio de espectrofotometría.\n- Se usa para calibración de fuentes, auditorías dosimétricas (junto con TLD y alanina) y dosimetría de referencia en haces de alta energía."
+      }
+    },
+    {
+      "id": 60,
+      "elo": 1050,
+      "tema": "Dosimetría y detectores",
+      "q": "El dosímetro de alanina se lee mediante:",
+      "opts": [
+        "Termoluminiscencia convencional, calentando el dosímetro",
+        "Centelleo en un fotomultiplicador después de la irradiación",
+        "Revelado químico en un laboratorio especializado",
+        "Resonancia paramagnética electrónica (EPR) de los radicales libres"
+      ],
+      "a": 3,
+      "sol": "La alanina forma radicales libres estables al irradiarse. Su concentración se mide por EPR, con respuesta lineal en un rango muy amplio (0,5 Gy a 100 kGy). Es dosímetro de referencia en auditorías.",
+      "teoria": {
+        "titulo": "Dosímetro de alanina / EPR",
+        "texto": "El **dosímetro de alanina** es un dosímetro de estado sólido basado en la formación de **radicales libres estables** en el aminoácido alanina cuando se irradia. La lectura se realiza mediante **resonancia paramagnética electrónica (EPR)**, también llamada resonancia de espín electrónico (ESR).\n\n**Mecanismo**:\n\n1. La radiación rompe enlaces químicos en la alanina y produce radicales libres (moléculas con un electrón desapareado). El radical predominante es el radical alanina (NH₃⁺-ĊH-COO⁻).\n2. La concentración de radicales es proporcional a la dosis absorbida y estable durante meses o años (si se almacena en condiciones controladas).\n3. La lectura EPR mide la absorción de microondas por los electrones desapareados en un campo magnético. La intensidad de la señal EPR es proporcional a la concentración de radicales y a la dosis.\n\n**Características**:\n\n- **Rango muy amplio**: de 0,5 Gy a 100 kGy (según espectrómetro y protocolo).\n- **Respuesta tejido-equivalente**.\n- **Estable a largo plazo** (los radicales persisten durante años).\n- **No destructivo**: se puede leer varias veces (aunque con pérdida de señal).\n- Requiere **espectrómetro EPR**, equipo costoso y especializado.\n- Menor sensibilidad que TLD para dosis bajas.\n\n**Aplicaciones**: dosimetría de referencia en radioterapia (para dosis altas, SBRT, braquiterapia), auditorías dosimétricas internacionales (junto con TLD y Fricke), dosimetría de haces de partículas (protones, iones), dosimetría de neutrones y dosimetría en el procesado de alimentos."
+      }
+    },
+    {
+      "id": 61,
+      "elo": 1100,
+      "tema": "Dosimetría y detectores",
+      "q": "La diferencia entre cámara de ionización sellada y ventilada es que:",
+      "opts": [
+        "Las selladas no requieren corrección por temperatura y presión",
+        "Las ventiladas son más estables a largo plazo porque el gas se renueva continuamente",
+        "Las selladas tienen menor eficiencia que las ventiladas por tener menos gas",
+        "Las ventiladas no se ven afectadas por la humedad ambiental"
+      ],
+      "a": 0,
+      "sol": "Las cámaras selladas contienen gas a presión constante y no necesitan corrección k_TP. Las ventiladas tienen aire ambiente y requieren k_TP = (P0/P)(T/T0).",
+      "teoria": {
+        "titulo": "Cámaras selladas vs ventiladas",
+        "texto": "Las cámaras de ionización se clasifican en **ventiladas** (abiertas al aire ambiente) y **selladas** (gas encerrado a presión). Cada tipo tiene ventajas y limitaciones:\n\n**Cámaras ventiladas**:\n\n- El gas de la cavidad es el aire ambiente, a la presión y temperatura del lugar.\n- La masa de aire depende de $P$ y $T$: requieren corrección por $k_{TP} = (P_0/P)(T/T_0)$.\n- Son las más usadas en dosimetría clínica de referencia (Farmer ventilada, placas paralelas ventiladas).\n- Requieren climatización estable del laboratorio y medición de $P$ y $T$.\n- Económicas y de fabricación sencilla.\n\n**Cámaras selladas**:\n\n- Contienen un gas (argón, nitrógeno) a presión encerrado herméticamente.\n- La masa de gas es constante: **no requieren $k_{TP}$**, lo que simplifica las medidas.\n- Son más estables a largo plazo y menos sensibles al ambiente.\n- Usadas en dosimetría de radiación ambiental, monitoreo de reactores, detectores de humo.\n- Más caras y con mayor deriva por envejecimiento del gas.\n- El gas es más denso, lo que aumenta la señal para un mismo volumen.\n\nEn dosimetría clínica de referencia, la cámara Farmer ventilada es el estándar de los protocolos TRS-398 y TG-51. Las selladas se usan cuando la estabilidad y la ausencia de correcciones son prioritarias (monitoreo de radiación, detectores de área).\n\nEn la práctica, la elección depende del uso: la ventilada para haces de alta energía con correcciones bien establecidas; la sellada para monitorización continua y condiciones ambientales variables."
+      }
+    },
+    {
+      "id": 62,
+      "elo": 1150,
+      "tema": "Dosimetría y detectores",
+      "q": "El detector CZT (telururo de cadmio-zinc) es:",
+      "opts": [
+        "Un centelleador que emite luz al irradiarse",
+        "Un semiconductor que opera a temperatura ambiente",
+        "Un gas noble usado en cámaras de ionización a alta presión",
+        "Un detector de centelleo líquido para haces de neutrones"
+      ],
+      "a": 1,
+      "sol": "El CZT es un semiconductor de gap grande (~1,5 eV) que opera a temperatura ambiente, con buena eficiencia para fotones gamma. Se usa en gammacámaras, SPECT y detectores portátiles.",
+      "teoria": {
+        "titulo": "Detector CZT (CdZnTe)",
+        "texto": "El **CZT** (telururo de cadmio-zinc, Cd₁₋ₓZnₓTe) es un **semiconductor de gap grande** ($E_g \\approx 1{,}5\\text{–}1{,}6$ eV) que puede operar a temperatura ambiente, a diferencia del HPGe (gap 0,7 eV, requiere enfriamiento).\n\n**Ventajas**:\n\n- **Opera a temperatura ambiente**: no requiere nitrógeno líquido ni enfriador mecánico.\n- **Alto número atómico efectivo** ($Z_{eff} \\approx 48$): alta eficiencia de absorción de fotones gamma, incluso en capas delgadas (1-10 mm).\n- **Energía de creación de par** ~4,6 eV: resolución energética intermedia entre centelleadores y HPGe (~2-4% a 122 keV).\n- **Compacto y robusto**: se usa en gammacámaras portátiles, sondas intraoperatorias, SPECT de alta resolución, monitores de radiación.\n- **Resolución espacial**: permite pixeles pequeños y arrays de imagen.\n\n**Desventajas**:\n\n- **Baja movilidad de huecos**: la carga colectada depende de la profundidad de interacción (efecto de \"hole trapping\"). Se usan diseños coplanares, ánodos de pixeles o técnicas de corrección.\n- **Polarización**: tras irradiación acumulada puede perder respuesta; requiere \"refresco\".\n- **Bajo rendimiento de fabricación**: cristales de calidad limitada y tamaño pequeño (hasta unos cm).\n- **Coste** relativamente alto.\n\nAplicaciones en física médica: gammacámaras para cirugía radioguiada (ganglio centinela), SPECT cardíaco y óseo con CZT (mayor sensibilidad que NaI), monitoreo de radón y de radiación ambiental, y dosimetría de haces de alta energía. En radioterapia se ha explorado para verificación de planes en tiempo real."
+      }
+    },
+    {
+      "id": 63,
+      "elo": 1200,
+      "tema": "Dosimetría y detectores",
+      "q": "El contador Geiger-Müller se caracteriza porque:",
+      "opts": [
+        "Mide la energía de la radiación incidente por la altura del pulso",
+        "Opera en la región proporcional de la curva de respuesta",
+        "No distingue entre tipos de radiación ni su energía",
+        "Requiere gas a alta presión para funcionar correctamente"
+      ],
+      "a": 2,
+      "sol": "En la región Geiger, la avalancha es total y la altura del pulso es independiente de la energía depositada. Solo cuenta eventos, no mide energía ni distingue tipos de radiación.",
+      "teoria": {
+        "titulo": "Contador Geiger-Müller",
+        "texto": "El **contador Geiger-Müller** es un detector gaseoso que opera en la **región IV** de la curva característica (región Geiger o de descarga de avalancha). Está formado por un tubo cilíndrico lleno de gas (argón con un gas orgánico o halógeno) con un ánodo central y un cátodo cilíndrico, polarizado a 400-1000 V.\n\n**Mecanismo**:\n\n- La radiación ioniza el gas, produciendo pares ión-electrón.\n- El campo eléctrico intenso cerca del ánodo acelera los electrones, que producen ionizaciones secundarias (avalancha de Townsend).\n- La avalancha se propaga por todo el gas y genera un pulso de corriente de alta amplitud.\n- El gas de **quenching** (orgánico o halógeno) absorbe la radiación UV y detiene la avalancha, evitando descargas continuas.\n\n**Características clave**:\n\n- **La altura del pulso es independiente de la energía depositada** por la radiación. Todos los pulsos son de la misma amplitud, porque la avalancha es total.\n- **No distingue el tipo de radiación** ni su energía. Solo cuenta eventos.\n- **Alta sensibilidad**: detecta partículas individuales con electrónica simple.\n- **Tiempo muerto** de ~100-400 μs, que limita la tasa de conteo.\n- **Eficiencia** variable con el tipo y la energía de la radiación (baja para fotones, alta para partículas cargadas).\n\n**Usos**: monitoreo de radiación en laboratorios y campo, prospección minera, educación, detección de contaminación superficial. No se usa para dosimetría ni espectroscopía, porque no mide energía.\n\nComparado con el contador proporcional (región III), el Geiger no permite espectroscopía. Comparado con la cámara de ionización (región II), tiene señal mucho mayor y electrónica más simple."
+      }
+    },
+    {
+      "id": 64,
+      "elo": 1250,
+      "tema": "Dosimetría y detectores",
+      "q": "Un array 2D de detectores (por ejemplo, de ionización o diodos) se usa típicamente para:",
+      "opts": [
+        "Medir haces de electrones de alta energía en condiciones de referencia",
+        "Sustituir a la cámara Farmer en la calibración absoluta",
+        "Calibrar fuentes de braquiterapia con geometría 4π",
+        "Verificación 2D de planes de IMRT/VMAT antes del tratamiento"
+      ],
+      "a": 3,
+      "sol": "Los arrays 2D (matrices de cámaras o diodos) permiten medir la distribución de dosis en un plano, comparándola con la calculada por el TPS. Son la herramienta estándar de verificación paciente-específico en IMRT/VMAT/SBRT.",
+      "teoria": {
+        "titulo": "Arrays 2D en dosimetría",
+        "texto": "Los **arrays 2D de detectores** son matrices de cámaras de ionización, diodos, o cámaras de ionización tipo pixel, distribuidas en un plano. Se usan principalmente para la **verificación de planes de IMRT, VMAT y SBRT** antes del tratamiento.\n\n**Ventajas frente a otros verificadores**:\n\n- **Alta resolución espacial** (típicamente 5-10 mm entre detectores, con arrays de alta densidad de 2-3 mm).\n- **Medición en tiempo real**: la dosis se mide durante la entrega del haz, sin necesidad de películas o TLD.\n- **Análisis gamma 2D/3D**: se compara la distribución medida con la calculada por el TPS usando el índice gamma (criterios como 3%/3 mm, 2%/2 mm) y el gamma passing rate (GPR).\n- **Corrección por temperatura y presión** integrada, calibración estable.\n- **Reducción de tiempo de verificación**: minutos, en vez de horas de procesado de películas.\n\n**Desventajas**:\n\n- **Volumen del detector**: cada elemento promedia la dosis en un volumen pequeño; para haces pequeños requiere correcciones.\n- **Dependencia angular y energética**: la respuesta puede variar con el ángulo del haz, sobre todo en VMAT donde el gantry rota.\n- **Resolución limitada** para haces muy pequeños o gradientes muy pronunciados.\n- **No mide en el paciente**: se mide en un maniquí plano.\n\nEjemplos comerciales: MapCHECK (Sun Nuclear), MatriXX (IBA), Octavius (PTW), ArcCHECK (Sun Nuclear). Son parte del control de calidad paciente-específico de radioterapia de intensidad modulada y técnicas avanzadas, y se complementan con películas radiocrómicas, EPID y detectores puntuales cuando se requiere mayor resolución."
+      }
+    },
+    {
+      "id": 65,
+      "elo": 1300,
+      "tema": "Dosimetría y detectores",
+      "q": "El detector de diamante en dosimetría destaca por:",
+      "opts": [
+        "Su respuesta tejido-equivalente y su pequeño tamaño",
+        "Su bajo costo en comparación con las cámaras de ionización",
+        "No requerir corrección por tasa de dosis en ningún caso",
+        "Funcionar exclusivamente con haces de protones"
+      ],
+      "a": 0,
+      "sol": "El diamante (Z = 6) es casi tejido-equivalente, tiene volumen pequeño y buena sensibilidad. Se usa en haces pequeños y en dosimetría de protones. Requiere correcciones por tasa por efectos de priming.",
+      "teoria": {
+        "titulo": "Detector de diamante",
+        "texto": "El **detector de diamante** es un semiconductor de carbono (diamante sintético CVD) que, al irradiarse, genera pares electrón-hueco y una corriente proporcional a la tasa de dosis. Sus propiedades lo hacen especialmente útil en dosimetría avanzada.\n\n**Ventajas**:\n\n- **Tejido-equivalente** ($Z = 6$, densidad 3,5 g/cm³): la respuesta se parece a la del agua, con poco efecto de pared.\n- **Pequeño volumen activo** (1-3 mm de diámetro, 0,3 mm de espesor): buena resolución espacial para haces pequeños.\n- **Alta sensibilidad y bajo ruido** a temperatura ambiente.\n- **Baja dependencia energética** en un rango amplio, sobre todo con correcciones.\n- **Resistente a la radiación**: soporta altas dosis acumuladas.\n- **Respuesta rápida**: adecuada para haces pulsados y escaneo de haces de protones.\n\n**Desventajas**:\n\n- **Dependencia con la tasa de dosis**: por efectos de priming (captura de carga en trampas) y de recombinación. Requiere corrección o preirradiación.\n- **Tiempo de estabilización**: puede necesitar varios minutos de irradiación para estabilizar la respuesta.\n- **Costo elevado** y disponibilidad limitada.\n- **Dependencia con la temperatura** moderada.\n\n**Aplicaciones**: dosimetría de haces pequeños, SBRT/SRS, haces de protones (para verificar la forma del pico de Bragg), haces de electrones de alta energía, dosimetría in vivo. Su respuesta tejido-equivalente y su tamaño lo hacen ideal donde las cámaras cilíndricas perturban demasiado."
+      }
+    },
+    {
+      "id": 66,
+      "elo": 1350,
+      "tema": "Dosimetría y detectores",
+      "q": "En dosimetría de haces pequeños (campos < 3×3 cm²), es necesario aplicar:",
+      "opts": [
+        "Ninguna corrección adicional: la cámara Farmer mide con precisión",
+        "Correcciones por efecto de volumen y por efecto de la fuente finita",
+        "Solo películas radiocrómicas como detector de referencia",
+        "Correcciones únicamente por temperatura y presión"
+      ],
+      "a": 1,
+      "sol": "En haces pequeños, el tamaño finito del detector produce un promediado del gradiente (efecto de volumen) y la fuente no es puntual. Se usan factores de corrección calculados por Monte Carlo (TG-155, TRS-483).",
+      "teoria": {
+        "titulo": "Dosimetría de haces pequeños",
+        "texto": "La **dosimetría de haces pequeños** (campos < 3×3 cm², típicos de SRS/SBRT e IMRT con MLC) presenta desafíos específicos que requieren correcciones adicionales:\n\n**1. Efecto de volumen (o de promediado)**: el detector tiene un volumen finito, no puntual. En un haz pequeño, el gradiente de dosis es muy pronunciado y el detector promedia la dosis sobre su volumen. La respuesta se desvía de la dosis puntual. Se corrige con el factor de corrección por volumen $k_{\\text{vol}}$ calculado por Monte Carlo (TG-155, TRS-483).\n\n**2. Efecto de la fuente finita (o de oclusión)**: la fuente de rayos X no es puntual, tiene un tamaño (~1-2 mm en un linac). En un haz pequeño, la penumbra geométrica es muy ancha, y el detector puede ver la fuente parcialmente ocluida por el colimador. Se corrige con $k_{\\text{fs}}$.\n\n**3. Desplazamiento del punto de medida**: la cámara cilíndrica desplaza el punto efectivo de medida hacia el interior (en la dirección del haz) por su volumen. En un gradiente fuerte, esto introduce un error.\n\n**4. Falta de equilibrio electrónico lateral**: en un haz pequeño, no hay suficiente material a los lados para generar el equilibrio electrónico lateral, y la dosis en el centro del haz es menor que en un haz grande.\n\n**5. Elección del detector**: no todos los detectores son válidos. Se recomiendan detectores pequeños (diodos no blindados, diamante, cámaras de microplacas paralelas, películas radiocrómicas) y evitar cámaras cilíndricas grandes.\n\nEl protocolo **TRS-483** (IAEA-AAPM, 2017) es la referencia para dosimetría de haces pequeños, y define factores de corrección $k_{Q_{msr},Q_{ref}}^{f_{msr},f_{ref}}$ que dependen del detector, del tamaño de campo y de la calidad del haz."
+      }
+    },
+    {
+      "id": 67,
+      "elo": 1000,
+      "tema": "Radioterapia",
+      "q": "Al calcular unidades monitor en un tratamiento, los factores de campo (Sc, Sp, cuña, bandeja):",
+      "opts": [
+        "El factor de cuña es siempre mayor que 1 porque añade material al haz",
+        "El factor de campo es independiente del tamaño de campo utilizado",
+        "Corrigen la dosis por tamaño de campo, cuña, bandeja, colimador y distancia",
+        "Solo se aplican en cálculos manuales, no en el TPS"
+      ],
+      "a": 2,
+      "sol": "En el cálculo manual de UM (o en la verificación de un plan) se encadenan factores: calibración, PDD/TMR, Sc, Sp, cuña, bandeja, colimador y corrección por SSD, hasta obtener la dosis en el punto de interés.",
+      "teoria": {
+        "titulo": "Cálculo de unidades monitor y factores de campo",
+        "texto": "El **cálculo de unidades monitor (UM)** para entregar una dosis prescrita en un punto del paciente requiere encadenar varios factores que corrigen la calibración de referencia por las condiciones de uso:\n\n$$\\text{UM} = \\frac{D_{\\text{presc}}}{\\text{cal} \\cdot \\text{PDD}(d) \\cdot S_c \\cdot S_p \\cdot F_{\\text{cuña}} \\cdot F_{\\text{bandeja}} \\cdot F_{\\text{SSD}}}$$\n\nFactores típicos:\n\n- **cal**: factor de calibración (cGy/UM) en condiciones de referencia (10×10 cm², $d_{\\max}$, SSD 100 cm).\n- **PDD(d)** (o **TMR(d)**): porcentaje de dosis en profundidad (o TMR) en el punto de interés.\n- **$S_c$ (colimador)**: factor de tamaño de campo del colimador, medido en aire con cámara puntual.\n- **$S_p$ (paciente)**: factor de tamaño de campo en el maniquí, medido a la profundidad de referencia.\n- **$F_{\\text{cuña}}$**: factor de cuña, siempre ≤ 1 (la cuña absorbe parte del haz).\n- **$F_{\\text{bandeja}}$**: factor de bandeja (accesorios en el cabezal), siempre ≤ 1.\n- **$F_{\\text{SSD}}$**: corrección por distancia, $(SSD + d_{\\max})^2/(SSD + d)^2$.\n\nEl producto $S_c \\cdot S_p$ se denomina **factor de campo total** ($S_{cp}$). En el TPS, estos factores se integran en el modelo de cálculo. En cálculo manual (o en verificación independiente), se aplican explícitamente.\n\nLos esquemas modernos (IMRT, VMAT, SBRT) hacen inviable el cálculo manual, y la verificación se hace con arrays 2D, películas o cálculos de Monte Carlo independientes."
+      }
+    },
+    {
+      "id": 68,
+      "elo": 1050,
+      "tema": "Radioterapia",
+      "q": "Los protocolos TG-51 (AAPM) y TRS-398 (OIEA) para dosimetría de referencia:",
+      "opts": [
+        "TG-51 se aplica solo a electrones y TRS-398 solo a fotones",
+        "TRS-398 no utiliza el factor N_D,w, sino el N_K",
+        "TG-51 es más preciso que TRS-398 en todos los haces",
+        "Ambos usan N_D,w, pero difieren en el origen de las tablas de k_Q"
+      ],
+      "a": 3,
+      "sol": "Ambos protocolos usan N_D,w y factores de corrección por calidad del haz k_Q, pero tabulan los k_Q con métodos y datos ligeramente distintos. Los resultados clínicos son equivalentes dentro de la incertidumbre.",
+      "teoria": {
+        "titulo": "Protocolos TG-51 y TRS-398",
+        "texto": "Los protocolos **TG-51** (AAPM, 1999) y **TRS-398** (OIEA, 2000) son los estándares internacionales para la dosimetría de referencia en radioterapia externa (fotones y electrones de alta energía). Ambos siguen el mismo esquema conceptual:\n\n$$D_{w,Q} = M_Q \\cdot N_{D,w,Q_0} \\cdot k_{Q,Q_0}$$\n\ndonde:\n\n- $M_Q$ es la lectura del electrómetro corregida por temperatura, presión, polaridad, recombinación y calibración del electrómetro.\n- $N_{D,w,Q_0}$ es el factor de calibración de la cámara (dosis absorbida en agua por unidad de lectura) en la calidad de referencia $Q_0$ (típicamente ⁶⁰Co).\n- $k_{Q,Q_0}$ es el factor de corrección por calidad del haz, que convierte la respuesta calibrada en ⁶⁰Co a la del haz clínico $Q$.\n\n**Diferencias**:\n\n- **Origen de $k_Q$**: TG-51 tabula $k_Q$ para fotones con base en el %dd(10)_x y para electrones con $R_{50}$; TRS-398 tabula $k_Q$ para fotones con TPR$_{20,10}$ y para electrones con $R_{50}$, con datos de Monte Carlo.\n- **Cámaras recomendadas**: TG-51 recomienda cilíndricas para fotones y cilíndricas o de placas paralelas para electrones. TRS-398 permite cámaras de placas paralelas para electrones de baja energía y cilíndricas para alta.\n- **Calidad de referencia**: TG-51 y TRS-398 usan ⁶⁰Co como referencia, pero las tablas de $k_Q$ difieren ligeramente.\n\nEn la práctica, ambos protocolos producen dosis que coinciden dentro de ~0,5-1%, lo que es aceptable. La elección entre uno u otro depende de las guías nacionales y de la disponibilidad de factores tabulados.\n\nAmbos requieren calibración en un laboratorio de metrología con trazabilidad al patrón primario (calorímetro de agua o cámara de aire libre) y verificaciones periódicas."
+      }
+    },
+    {
+      "id": 69,
+      "elo": 1100,
+      "tema": "Radioterapia",
+      "q": "Un histograma dosis-volumen (DVH) es:",
+      "opts": [
+        "Una representación de la distribución de dosis sobre un volumen de interés",
+        "La dosis absorbida en un único punto del paciente",
+        "La curva de dosis en profundidad del haz en agua",
+        "Un tipo de imagen empleado exclusivamente en braquiterapia"
+      ],
+      "a": 0,
+      "sol": "El DVH resume en 1D la distribución 3D de dosis sobre un volumen (PTV, OAR). Permite extraer índices como D95, V20, D_max para evaluar la cobertura del tumor y la toxicidad de órganos de riesgo.",
+      "teoria": {
+        "titulo": "Histograma dosis-volumen (DVH)",
+        "texto": "El **DVH** es una representación 1D de la distribución 3D de dosis sobre un volumen de interés (PTV, GTV, órganos de riesgo). Se construye calculando la dosis en cada vóxel del volumen y representando:\n\n- **DVH diferencial**: fracción de volumen que recibe exactamente una dosis $D$.\n- **DVH acumulativo** (el más usado): fracción de volumen que recibe al menos una dosis $D$ (curva decreciente).\n\n**Índices derivados**:\n\n- **$D_x$**: dosis que recibe el x% del volumen (p. ej., D95 es la dosis mínima que recibe el 95% del PTV).\n- **$V_x$**: volumen que recibe al menos x Gy (p. ej., V20 de pulmón = % de pulmón que recibe ≥20 Gy).\n- **$D_{\\max}$, $D_{\\min}$, $D_{\\text{mean}}$**: dosis máxima, mínima y media en el volumen.\n- **HI (índice de homogeneidad)**: $D_5/D_{95}$ o $(D_2-D_{98})/D_{50}$.\n- **CI (índice de conformidad)**: relación entre volumen tratado y volumen del PTV (Paddick, RTOG).\n\nEl DVH permite evaluar:\n\n- **Cobertura del PTV**: D95 ≥ 95% de la dosis prescrita.\n- **Toxicidad en OAR**: comparar V20 de pulmón, D_max de médula, D_mean de parótidas con los límites de tolerancia (QUANTEC, etc.).\n- **Comparación de planes**: elegir entre dos planes el que mejor cubre el tumor con menor dosis a OAR.\n\nEl DVH no da información espacial (no muestra dónde se da la dosis), pero es la herramienta estándar de evaluación de planes y de reporte clínico. Se complementa con cortes axiales y con DVH espaciales."
+      }
+    },
+    {
+      "id": 70,
+      "elo": 1150,
+      "tema": "Radioterapia",
+      "q": "El colimador multilámina (MLC) permite:",
+      "opts": [
+        "Medir la dosis en tiempo real durante el tratamiento",
+        "Formar el campo de tratamiento y modular la intensidad del haz",
+        "Incrementar la energía del haz sin cambiar el campo",
+        "Sustituir al sistema de planificación para el cálculo de UM"
+      ],
+      "a": 1,
+      "sol": "El MLC, con decenas de pares de láminas de tungsteno, conforma el campo y modula la intensidad (IMRT/VMAT). Es el elemento clave para conformación 3D en radioterapia moderna.",
+      "teoria": {
+        "titulo": "Colimador multilámina (MLC)",
+        "texto": "El **MLC** (Multi-Leaf Collimator) es un dispositivo formado por decenas de pares de láminas de tungsteno (típicamente 40-160 pares, cada una de 5-10 mm de ancho en el isocentro, con versiones de alta definición de 2,5 mm) que se mueven independientemente para conformar el campo de tratamiento.\n\n**Funciones**:\n\n- **Conformación del campo**: en 3DCRT, las láminas se sitúan para ajustar el campo al contorno del PTV desde cada ángulo del gantry, evitando irradiar tejido sano.\n- **Modulación de intensidad**: en IMRT, las láminas se mueven durante la irradiación (step-and-shoot o sliding window) para crear perfiles de intensidad no uniformes que permiten conformar la dosis incluso a volúmenes cóncavos.\n- **VMAT**: las láminas se mueven dinámicamente mientras el gantry rota, modulando la dosis en arcos completos.\n- **SRS/SBRT**: con MLC de alta definición se consiguen campos pequeños y conformados.\n\n**Características**:\n\n- **Penumbra** debida al tamaño finito de la fuente y a la transmisión entre láminas (~1-2%).\n- **Efecto tongue-and-groove** en la unión entre láminas adyacentes: subdosificación en la interfase. Se corrige con el diseño o con técnicas de planificación.\n- **Verificación de posiciones**: cada lámina se verifica en el control de calidad (test de picket fence, test de posición con EPID).\n- **Integración con TPS**: los algoritmos de planificación inversa calculan las posiciones y movimientos de las láminas para cumplir las restricciones dosimétricas.\n\nEl MLC es el componente clave de la radioterapia de intensidad modulada y de la VMAT, y ha reemplazado a los colimadores de cerrobend en la mayoría de los centros modernos."
+      }
+    },
+    {
+      "id": 71,
+      "elo": 1200,
+      "tema": "Radioterapia",
+      "q": "Un haz FFF (flattening filter free) se caracteriza por:",
+      "opts": [
+        "Tener un filtro aplanador que mejora la uniformidad del perfil",
+        "Usarse exclusivamente en radiodiagnóstico por su baja energía",
+        "No tener filtro aplanador, lo que permite tasas de dosis más altas",
+        "Reducir la tasa de dosis para tratamientos con haces pequeños"
+      ],
+      "a": 2,
+      "sol": "Sin filtro aplanador, el perfil del haz no es plano pero la tasa de dosis puede ser 2-4 veces mayor. Se usa en SBRT y técnicas que requieren entregas rápidas (respiratory gating).",
+      "teoria": {
+        "titulo": "Haz FFF (flattening filter free)",
+        "texto": "Un haz **FFF** (flattening filter free) es un haz de fotones de alta energía (6, 10 MV) en el que se ha retirado el **filtro aplanador** del cabezal del acelerador. Este filtro, en los haces convencionales, se usa para hacer el perfil del haz aproximadamente plano en un campo de 40×40 cm² a 10 cm de profundidad, pero absorbe una fracción importante de la dosis y reduce la tasa de dosis.\n\n**Características de los haces FFF**:\n\n- **Perfil no plano**: la dosis es máxima en el eje central y cae gradualmente hacia los bordes. No es un problema para haces pequeños, y en haces grandes se corrige en planificación.\n- **Tasa de dosis más alta**: 2-4 veces mayor que el mismo haz con filtro (hasta 1400-2400 UM/min para 6 MV FFF frente a 600 UM/min con filtro). Esto reduce el tiempo de tratamiento.\n- **Menor dosis fuera del campo**: el filtro aplanador genera dispersión y dosis periférica; sin él, hay menos radiación dispersa y dosis integral.\n- **Cambio en el espectro**: el haz FFF tiene más fotones de baja energía y un espectro más blando que el filtrado, lo que afecta a la dosimetría y a la calidad del haz.\n\n**Aplicaciones**: SBRT/SRS (donde se requieren dosis altas por fracción en tiempos cortos), radioterapia con gating respiratorio (donde se necesita entregar la dosis en la fase estable del ciclo respiratorio), radioterapia estereotáctica de tumores pequeños, y técnicas que requieren alta tasa (VMAT, IMRT).\n\nEn dosimetría, los haces FFF requieren medidas específicas de PDD, perfiles y factores de campo; no se pueden usar los datos de los haces filtrados."
+      }
+    },
+    {
+      "id": 72,
+      "elo": 1250,
+      "tema": "Radioterapia",
+      "q": "La radioterapia intraoperatoria (IORT) consiste en:",
+      "opts": [
+        "Una técnica de imagen intraoperatoria para verificar el tumor",
+        "Un tratamiento fraccionado en 25–30 sesiones tras la cirugía",
+        "Un tratamiento exclusivo con haces de protones durante la cirugía",
+        "Administrar una única dosis alta directamente al lecho tumoral durante la cirugía"
+      ],
+      "a": 3,
+      "sol": "La IORT entrega una única dosis alta en el quirófano, directamente sobre el lecho tumoral. Se usa en cáncer de mama, sarcomas y tumores abdominales. Reduce el tiempo total de tratamiento y aumenta la dosis local.",
+      "teoria": {
+        "titulo": "Radioterapia intraoperatoria (IORT)",
+        "texto": "La **IORT** (radioterapia intraoperatoria) consiste en administrar **una única dosis alta de radiación directamente al lecho tumoral durante la cirugía**, tras la resección del tumor, mientras el paciente está aún en el quirófano. Es una técnica de escalada de dosis local con mínima irradiación de tejidos sanos.\n\n**Modalidades técnicas**:\n\n- **Con electrones**: aceleradores móviles en el quirófano (Mobetron, Liac, Novac) o linacs convencionales con el paciente trasladado. Se usan electrones de 4-12 MeV, con un aplicador que colima y adapta la dosis al lecho.\n- **Con rayos X de baja energía**: dispositivos como el Intrabeam (50 kV), que emiten dosis muy localizada en el lecho, con rápida caída.\n- **Con braquiterapia**: se colocan catéteres o un aplicador (MammoSite, balón de braquiterapia) en el lecho quirúrgico.\n\n**Ventajas**:\n\n- **Dosis alta directa al lecho** sin atravesar piel ni tejidos sanos proximales.\n- **Visibilidad directa** del volumen a irradiar, con protección de órganos vecinos mediante desplazamiento quirúrgico o láminas de plomo.\n- **Reduce el tiempo total** de tratamiento (una sola sesión, no 25-30).\n\n**Aplicaciones**:\n\n- **Cáncer de mama temprano**: IORT con electrones o rayos X como boost o como tratamiento único en pacientes seleccionadas (TARGIT, ELIOT).\n- **Sarcomas retroperitoneales y de partes blandas**: boost intraoperatorio en áreas de alto riesgo.\n- **Tumores digestivos (páncreas, recto)**: IORT en el lecho tumoral para mejorar el control local.\n- **Tumores ginecológicos** y **pediátricos**.\n\n**Limitaciones**: el volumen tratado debe ser accesible quirúrgicamente, el aplicador debe adaptarse al lecho, y la dosimetría debe caracterizarse con precisión (calibración específica, Monte Carlo)."
+      }
+    },
+    {
+      "id": 73,
+      "elo": 1300,
+      "tema": "Radioterapia",
+      "q": "La diferencia técnica principal entre CyberKnife y Gamma Knife es:",
+      "opts": [
+        "CyberKnife usa un acelerador lineal robotizado; Gamma Knife usa múltiples fuentes de Co-60",
+        "Gamma Knife usa un acelerador lineal; CyberKnife usa múltiples fuentes de Co-60",
+        "Ambos usan el mismo tipo de fuente radiactiva y solo difieren en el software",
+        "Solo CyberKnife se utiliza para radiocirugía estereotáctica craneal"
+      ],
+      "a": 0,
+      "sol": "CyberKnife monta un linac de 6 MV sobre un brazo robótico. Gamma Knife usa ~200 fuentes de Co-60 que convergen en el isocentro. Ambos son sistemas de SRS, con indicaciones clínicas similares.",
+      "teoria": {
+        "titulo": "CyberKnife vs Gamma Knife",
+        "texto": "**CyberKnife** y **Gamma Knife** son dos sistemas de radiocirugía estereotáctica (SRS) que entregan dosis ablativas (15-25 Gy) en una sola fracción o pocas fracciones, con precisión sub-milimétrica. Difieren en su tecnología:\n\n**Gamma Knife**:\n\n- **Fuentes**: ~192 fuentes de cobalto-60 distribuidas en una cúpula hemisférica, que convergen en el isocentro.\n- **Energía**: fotones gamma de 1,17 y 1,33 MeV.\n- **Colimación**: casco con colimadores de 4-18 mm que adaptan el tamaño del haz a la lesión.\n- **Uso clínico**: exclusivamente **intracraneal** (lesiones cerebrales, metástasis cerebrales, meningiomas, neurinomas, malformaciones arteriovenosas).\n- **Inmovilización**: marco estereotáxico fijado al cráneo o máscara termoplástica según el modelo (Perfexion/Icon).\n- **Ventajas**: precisión extrema, haz no rotacional, dosis de radiación dispersa baja.\n- **Desventajas**: solo cerebral, requiere recambio de fuentes cada ~5-10 años (aunque el Co-60 tiene T₁/₂ = 5,27 años).\n\n**CyberKnife**:\n\n- **Fuente**: acelerador lineal de 6 MV compacto montado sobre un brazo robótico (manipulador industrial) con 6 grados de libertad.\n- **Colimación**: colimadores fijos o MLC (Iris o colimador multilámina).\n- **Imagen**: sistema de imagen en tiempo real (kV) que verifica la posición del paciente y corrige en tiempo real (tracking).\n- **Uso clínico**: lesiones **intracraneales y extracraneales** (pulmón, próstata, hígado, columna, páncreas, etc.).\n- **Inmovilización**: máscara o sistema de seguimiento de marcas fiduciales o de la anatomía (XM, Synchrony para tracking respiratorio).\n- **Ventajas**: tratamiento de lesiones extracraneales, tracking en tiempo real sin marco, fraccionamiento.\n- **Desventajas**: haz rotacional con más dispersión, precisión ligeramente menor que Gamma Knife.\n\nAmbos son sistemas consolidados de SRS/SBRT, con indicaciones clínicas que se solapan. La elección depende de la localización de la lesión, del tamaño, del estado del paciente y de la disponibilidad en el centro."
+      }
+    },
+    {
+      "id": 74,
+      "elo": 1350,
+      "tema": "Radioterapia",
+      "q": "La tomoterapia (Tomotherapy) combina:",
+      "opts": [
+        "Braquiterapia de alta tasa con imagen intraoperatoria",
+        "Tomografía computarizada y acelerador lineal en rotación helicoidal",
+        "Solo haces de protones con imagen de resonancia magnética",
+        "Un ciclotrón y un sistema de planificación inversa"
+      ],
+      "a": 1,
+      "sol": "Tomotherapy integra un TC en el mismo gantry que un linac, rotando helicoidalmente alrededor del paciente. Permite IMRT rotacional con verificación imagenológica en cada fracción (IGRT).",
+      "teoria": {
+        "titulo": "Tomoterapia helicoidal",
+        "texto": "La **tomoterapia helicoidal** (Tomotherapy, Accuray) es una modalidad de radioterapia de intensidad modulada que combina un **acelerador lineal de 6 MV** con un **tomógrafo computarizado** (kV) en el mismo gantry, rotando helicoidalmente alrededor del paciente.\n\n**Características técnicas**:\n\n- **Haz en abanico (fan beam)**: un colimador binario (MLC de 64 láminas, que se abren o cierran rápidamente) modula el haz mientras el gantry rota.\n- **Movimiento helicoidal**: la mesa se desplaza lentamente mientras el gantry rota, cubriendo el volumen tumoral de forma continua, como un TC helicoidal.\n- **IMRT rotacional**: cada rotación produce una modulación 2D del haz en abanico; la combinación de rotaciones y avance de mesa produce una distribución 3D altamente conformada.\n- **IGRT integrada**: el mismo sistema de TC de kV permite verificar la posición del paciente antes de cada fracción (MVCT), con la misma geometría del tratamiento.\n- **Dosis en el paciente**: la dosis de imagen (MVCT) es baja (~1-3 cGy), aceptable frente a la dosis terapéutica.\n\n**Ventajas**:\n\n- **Alta conformación** de la dosis, con buen control de la dosis integral.\n- **Tratamiento de volúmenes largos**: ideal para irradiación craneoespinal, linfomas, tumores pediátricos con múltiples lesiones.\n- **IGRT diaria** con verificación 3D de la posición.\n\n**Desventajas**:\n\n- **Tiempo de tratamiento** de 10-20 minutos por fracción.\n- **Dosis integral** relativamente alta por la rotación continua y el fan beam (el haz atraviesa al paciente en todas las direcciones).\n- **Complejidad** en la planificación y en el control de calidad.\n\nLa tomoterapia helicoidal es una técnica consolidada de IMRT/IGRT con indicaciones específicas (tratamientos complejos, largos o con múltiples lesiones)."
+      }
+    },
+    {
+      "id": 75,
+      "elo": 1400,
+      "tema": "Radioterapia",
+      "q": "La radioterapia guiada por imagen (IGRT) tiene como objetivo principal:",
+      "opts": [
+        "Reducir la dosis al tumor para minimizar efectos secundarios",
+        "Sustituir a la inmovilización del paciente",
+        "Verificar la posición del paciente antes y durante el tratamiento",
+        "Incrementar la energía del haz para mejorar la penetración"
+      ],
+      "a": 2,
+      "sol": "IGRT utiliza imágenes 2D/3D (kV, CBCT, MRI, ultrasonidos) antes y durante la sesión para corregir desplazamientos. Permite márgenes más pequeños y dosis más conformadas, especialmente en SBRT.",
+      "teoria": {
+        "titulo": "IGRT (Image-Guided Radiation Therapy)",
+        "texto": "La **IGRT** (radioterapia guiada por imagen) es el conjunto de técnicas que permiten **verificar y corregir la posición del paciente antes y durante cada sesión de tratamiento** mediante imágenes. Su objetivo es reducir el error de posicionamiento y, con ello, los márgenes de seguridad, permitiendo dosis más conformadas.\n\n**Fuentes de error que corrige**:\n\n- **Error de posicionamiento inicial**: desplazamientos diarios del paciente respecto a la posición de planificación.\n- **Error de configuración**: diferencias en la inmovilización, en la mesa, en la colimación.\n- **Movimientos internos**: cambios en la anatomía (vejiga, recto, pulmón), respiración, latido.\n- **Cambios anatómicos** durante el tratamiento (pérdida de peso, reducción tumoral).\n\n**Modalidades de imagen**:\n\n- **kV 2D**: radiografías ortogonales para corregir traslaciones y rotaciones simples (basadas en hueso o marcadores).\n- **CBCT (cone-beam CT)**: imágenes volumétricas con kV, integradas en el linac. Permiten corrección 3D basada en tejidos blandos y huesos, con alineación con el TC de planificación.\n- **MVCT**: TC con el propio haz de tratamiento (Tomotherapy).\n- **Imagen de resonancia magnética (MRI-linac)**: la más avanzada, con excelente contraste de tejidos blandos y posibilidad de tracking en tiempo real.\n- **Ultrasonidos**: para próstata, con transductor abdominal.\n- **Marcadores fiduciales**: semillas implantadas en la próstata o en el hígado, que se detectan por kV o por rayos X.\n\n**Beneficios clínicos**:\n\n- **Reducción de márgenes** (de 10-15 mm a 3-5 mm en SBRT), lo que permite escalar la dosis al tumor sin aumentar la toxicidad.\n- **Mejora del control local** en tumores con alta dosis.\n- **Detección de cambios anatómicos** durante el tratamiento (adaptive radiotherapy).\n\nLa IGRT es hoy el estándar en SBRT/SRS, próstata, cabeza y cuello, y en tratamientos con márgenes estrechos."
+      }
+    },
+    {
+      "id": 76,
+      "elo": 1450,
+      "tema": "Radioterapia",
+      "q": "En una reirradiación, es esencial considerar:",
+      "opts": [
+        "Únicamente la dosis de la nueva irradiación, sin importar la previa",
+        "La misma dosis y fraccionamiento que en la primera irradiación",
+        "Que la reirradiación solo puede hacerse con braquiterapia",
+        "La dosis acumulada en cada OAR y los límites de tolerancia"
+      ],
+      "a": 3,
+      "sol": "En reirradiación se debe reconstruir la dosis acumulada biológica (EQD2) sumando la dosis previa y la nueva, comprobando que cada OAR permanece dentro de tolerancia. La recuperación de tejidos es parcial y depende del tiempo transcurrido.",
+      "teoria": {
+        "titulo": "Reirradiación",
+        "texto": "La **reirradiación** es el tratamiento con radiación de un volumen previamente irradiado. Es cada vez más frecuente por el aumento de la supervivencia de los pacientes oncológicos y por la disponibilidad de técnicas de alta precisión. Requiere una evaluación dosimétrica y radiobiológica cuidadosa.\n\n**Consideraciones clave**:\n\n1. **Reconstrucción de la dosis previa**: no siempre se dispone de la dosimetría original. Se puede reconstruir con los datos del TPS o con imágenes del tratamiento previo (PET, TC post-tratamiento).\n\n2. **Dosis acumulada biológica**: la dosis previa y la nueva no se suman linealmente, porque los tejidos se recuperan parcialmente con el tiempo. Se usa el concepto de **EQD2** (dosis equivalente en 2 Gy) con la fórmula LQ, sumando las contribuciones:\n\n$$\\text{EQD2}_{\\text{acum}} = \\text{EQD2}_{\\text{previa}} + \\text{EQD2}_{\\text{nueva}} \\cdot f_{\\text{recuperación}}$$\n\ndonde $f_{\\text{recuperación}}$ depende del tiempo transcurrido y del tejido.\n\n3. **Tolerancia de los órganos de riesgo**: cada OAR tiene una tolerancia acumulada diferente. La médula espinal (~45-50 Gy), el tronco del encéfalo (~54 Gy), el quiasma óptico (~54 Gy), el pulmón (V20 < 30-35%), el riñón (dosis media < 18 Gy), etc.\n\n4. **Técnicas avanzadas**: SBRT, IMRT/VMAT, protones e iones de carbono permiten administrar dosis ablativas a lesiones recurrentes con mínima dosis a OAR, incluso en territorios previamente irradiados.\n\n5. **Evaluación multidisciplinar**: la decisión de reirradiar requiere el análisis conjunto de oncología radioterápica, física médica, radiología y otras especialidades, considerando el beneficio esperado y el riesgo de toxicidad.\n\nLa reirradiación es un campo en expansión, con protocolos específicos (ASTRO, ESTRO) que guían la selección de pacientes y la planificación."
+      }
+    },
+    {
+      "id": 77,
+      "elo": 1000,
+      "tema": "Radioterapia",
+      "q": "El isocentro del acelerador lineal es:",
+      "opts": [
+        "El punto donde se intersectan los ejes de rotación del gantry, colimador y mesa",
+        "El centro geométrico del tumor, independiente del acelerador utilizado",
+        "La posición del colimador respecto a la fuente de rayos X",
+        "El punto de la piel del paciente donde entra el haz"
+      ],
+      "a": 0,
+      "sol": "El isocentro es el punto del espacio donde se cruzan los tres ejes de rotación (gantry, colimador, mesa). Su precisión (< 1 mm) es crítica en SRS/SBRT y en técnicas isocéntricas.",
+      "teoria": {
+        "titulo": "Isocentro del acelerador lineal",
+        "texto": "El **isocentro** de un acelerador lineal es el punto del espacio donde se cruzan los **tres ejes de rotación** del equipo:\n\n- Eje de rotación del **gantry** (rotación del cabezal alrededor del paciente, 360°).\n- Eje de rotación del **colimador** (rotación del sistema de colimación, 360°).\n- Eje de rotación de la **mesa** (rotación del paciente, alrededor del eje vertical).\n\nEn un linac bien calibrado, los tres ejes se intersecan en un punto con precisión de ~1 mm de diámetro (esfera de isocentro). Es el punto donde se coloca el tumor (o la referencia) para los tratamientos isocéntricos.\n\n**Importancia clínica**:\n\n- **SRS/SBRT**: la precisión del isocentro es crítica; se requieren verificaciones específicas (test de Winston-Lutz, con tolerancia < 1 mm) para asegurar que la dosis se entrega en el punto correcto.\n- **IMRT/VMAT**: la planificación se hace en el isocentro; los haces rotan alrededor de él.\n- **Tratamientos isocéntricos** (la mayoría): la mesa y el gantry rotan con el tumor fijo en el isocentro.\n- **Tratamientos no isocéntricos** (algunos de cráneo, irradiación de cuerpo entero): se usan SSD variables y no se depende del isocentro.\n\n**Verificación del isocentro**:\n\n- **Test de isocentro mecánico**: puntero en el isocentro, rotación del gantry y colimador, verificación con placas radiográficas.\n- **Test de isocentro radiográfico** (Winston-Lutz): una bola de tungsteno en el isocentro se irradia desde múltiples ángulos; las imágenes se analizan para medir el desplazamiento (debe ser < 1 mm en SRS).\n- **Verificación diaria**: parte del control de calidad diario del linac.\n\nUn isocentro impreciso introduce errores sistemáticos en todos los tratamientos isocéntricos, por lo que su verificación y mantenimiento son esenciales."
+      }
+    },
+    {
+      "id": 78,
+      "elo": 1500,
+      "tema": "Radioterapia",
+      "q": "Para un haz de electrones en agua, la regla práctica R_p ≈ E/2 indica que:",
+      "opts": [
+        "El alcance práctico (cm) es proporcional al cuadrado de la energía inicial en MeV",
+        "El alcance práctico (cm) es aproximadamente la energía inicial (MeV) dividida por 2",
+        "El alcance es independiente de la energía inicial del haz",
+        "El alcance es mayor que el de protones de igual energía inicial"
+      ],
+      "a": 1,
+      "sol": "Para electrones en agua, R_p (cm) ≈ E(MeV)/2. Un haz de 12 MeV tiene un alcance de ~6 cm. Esta regla permite escoger la energía adecuada para tratar lesiones superficiales.",
+      "teoria": {
+        "titulo": "Alcance de electrones y regla R_p ≈ E/2",
+        "texto": "Para haces de electrones en agua, el **alcance práctico** $R_p$ (profundidad donde la dosis cae al 0,1% del máximo, aproximadamente) sigue una regla empírica muy útil:\n\n$$R_p \\approx \\frac{E_0}{2}\\ \\text{cm}$$\n\ndonde $E_0$ es la energía inicial del haz en MeV. Por ejemplo, un haz de 10 MeV tiene un alcance de ~5 cm; uno de 6 MeV, ~3 cm; uno de 20 MeV, ~10 cm.\n\nRelaciones adicionales:\n\n- $R_{50}$ (profundidad al 50% del máximo): $R_{50} \\approx E_0/2{,}33$ cm, usada para caracterizar la calidad del haz (protocolo TRS-398).\n- $R_{90}$ (profundidad al 90% del máximo): ~$R_{50} - 0{,}5$ cm, cercana a la profundidad útil de tratamiento.\n- $d_{\\max}$ (profundidad del máximo): ~$0{,}3 \\cdot R_{50}$ cm; para 10 MeV, $d_{\\max} \\approx 1{,}3$ cm.\n\n**Implicaciones clínicas**:\n\n- La energía del haz se elige según la profundidad del tumor: 4-6 MeV para lesiones superficiales (0,5-2 cm), 9-12 MeV para 2-4 cm, 15-20 MeV para 4-6 cm.\n- El alcance es mucho menor que el de los fotones (que no tienen alcance finito), y la caída distal es abrupta.\n- El tejido detrás del alcance recibe poca dosis (excepto la cola de bremsstrahlung, que se puede reducir con un colchón de bajo Z).\n\nEstas reglas se aplican en dosimetría de electrones y en la elección de energía del tratamiento. Son aproximaciones, con desviaciones que dependen del material y del diseño del aplicador, por lo que se verifican con medidas específicas (PDD medido)."
+      }
+    },
+    {
+      "id": 79,
+      "elo": 1000,
+      "tema": "Imagen médica",
+      "q": "La reconstrucción iterativa en TC se prefiere a la retroproyección filtrada porque:",
+      "opts": [
+        "Produce más ruido pero menor tiempo de reconstrucción",
+        "Es un método de adquisición, no de reconstrucción",
+        "Reduce el ruido y permite disminuir la dosis al paciente",
+        "Solo se aplica en mamografía y radiología simple"
+      ],
+      "a": 2,
+      "sol": "Los algoritmos iterativos (ASIR, SAFIRE, MBIR) reducen el ruido en la imagen, permitiendo bajar la dosis o mejorar la calidad con la misma dosis. Requieren mayor tiempo de cómputo pero son el estándar actual.",
+      "teoria": {
+        "titulo": "Reconstrucción iterativa en TC",
+        "texto": "La **reconstrucción iterativa** es un conjunto de algoritmos que reconstruyen la imagen de TC de forma iterativa, resolviendo un problema de optimización entre las proyecciones medidas y la imagen reconstruida, en lugar de la **retroproyección filtrada** (FBP) clásica.\n\n**Diferencia con FBP**:\n\n- **FBP**: reconstrucción analítica directa. Rápida (segundos) pero amplifica el ruido en las proyecciones, especialmente en dosis bajas.\n- **Iterativa**: se parte de una imagen inicial y se itera mejorando la estimación, modelando el ruido y la física del sistema (haz polienergético, dispersión, etc.). Requiere más cómputo (minutos) pero produce imágenes con **menos ruido** y menos artefactos.\n\n**Algoritmos**:\n\n- **ASIR** (Adaptive Statistical Iterative Reconstruction, GE).\n- **SAFIRE** (Sinogram-Affirmed Iterative Reconstruction, Siemens).\n- **iDose** (Philips).\n- **AIDR** (Adaptive Iterative Dose Reduction, Toshiba/Canon).\n- **MBIR** (Model-Based Iterative Reconstruction), la familia más avanzada, con modelado completo de la física.\n\n**Ventajas**:\n\n- **Reducción de ruido** a igual dosis, o **reducción de dosis** a igual calidad.\n- **Mejor contraste** en imágenes de bajo contraste (por ejemplo, hígado, cerebro).\n- **Menos artefactos** (endurecimiento del haz, fotón hambriento).\n\n**Desventajas**:\n\n- **Mayor tiempo de reconstrucción** (minutos vs segundos).\n- **Textura de imagen diferente** (aspecto \"plastificado\" en algunos algoritmos).\n- **Necesidad de recalibración** de la escala de Hounsfield y de los protocolos.\n- **Riesgo de sobre-suavizado** si el algoritmo es demasiado agresivo.\n\nLa reconstrucción iterativa es el estándar en TC moderno y permite reducir la dosis al paciente manteniendo la calidad diagnóstica, en línea con el principio ALARA."
+      }
+    },
+    {
+      "id": 80,
+      "elo": 1100,
+      "tema": "Imagen médica",
+      "q": "El SUV (Standardized Uptake Value) en PET:",
+      "opts": [
+        "Mide la resolución espacial del escáner PET",
+        "Es la energía de los fotones de aniquilación en keV",
+        "Es la sensibilidad del detector en coincidencia",
+        "Cuantifica la captación del radiofármaco en el tejido en estudio"
+      ],
+      "a": 3,
+      "sol": "El SUV normaliza la concentración del radiofármaco por la actividad inyectada y el peso (o masa magra/superficie) del paciente. Es un índice semicuantitativo clave en oncología (SUVmax, SUVmean).",
+      "teoria": {
+        "titulo": "SUV en PET",
+        "texto": "El **SUV** (Standardized Uptake Value) es un índice **semicuantitativo** usado en PET para expresar la captación de un radiofármaco (típicamente ¹⁸F-FDG) en un tejido, normalizada por la dosis inyectada y el tamaño corporal del paciente.\n\nFórmula general:\n\n$$\\text{SUV} = \\frac{\\text{actividad en el tejido (Bq/mL)} \\times \\text{peso corporal (g)}}{\\text{actividad inyectada (Bq)}}$$\n\nVariantes según la normalización:\n\n- **SUV$_{\\text{bw}}$** (body weight): la más usada en clínica. Normaliza por el peso corporal total.\n- **SUV$_{\\text{lbm}}$** (lean body mass): normaliza por masa magra (mejor en obesos).\n- **SUV$_{\\text{bsa}}$** (body surface area): normaliza por superficie corporal.\n\n**Índices derivados**:\n\n- **SUV$_{\\max}$**: valor máximo en el volumen de interés. El más usado en oncología.\n- **SUV$_{\\text{mean}}$**: media en el volumen.\n- **SUV$_{\\text{peak}}$**: media en una región pequeña centrada en el máximo (más robusto que SUV$_{\\max}$).\n- **MTV** (metabolic tumor volume) y **TLG** (total lesion glycolysis): combinan volumen y SUV.\n\n**Aplicaciones clínicas**:\n\n- **Diagnóstico diferencial** benigno/maligno (SUV$_{\\max}$ > 2,5 sugiere malignidad en muchos tumores, aunque no es universal).\n- **Estadificación**: detección de metástasis.\n- **Evaluación de respuesta**: comparación de SUV antes/después del tratamiento (criterios PERCIST).\n- **Pronóstico**: SUV alto suele asociarse a peor pronóstico en muchos tumores.\n\n**Limitaciones**: el SUV depende de muchos factores (tiempo de captación, calibración del escáner, glucemia, peso, tamaño de la lesión, efectos de volumen parcial, corrección por atenuación). No es una medida absoluta de actividad metabólica, sino un índice útil para comparaciones relativas."
+      }
+    },
+    {
+      "id": 81,
+      "elo": 1200,
+      "tema": "Imagen médica",
+      "q": "La corrección por atenuación en PET es imprescindible porque:",
+      "opts": [
+        "Sin ella, la cuantificación del radiofármaco sería incorrecta",
+        "Elimina la dispersión de los fotones en el detector",
+        "Ajusta la energía de los fotones a 511 keV exactos",
+        "Solo se aplica en PET/TC, no en PET/RM"
+      ],
+      "a": 0,
+      "sol": "Los fotones de 511 keV se atenúan en el paciente (factor e^{-μx}). Sin corrección, la actividad en zonas profundas se subestima. Se corrige con mapa de atenuación de TC (PET/TC) o con atlas/superposición (PET/RM).",
+      "teoria": {
+        "titulo": "Corrección por atenuación en PET",
+        "texto": "En PET, la **corrección por atenuación** es imprescindible para obtener imágenes cuantitativas. Los fotones de aniquilación (511 keV) se atenúan al atravesar el paciente, y sin corrección la actividad en regiones profundas se subestima significativamente (puede ser la mitad o menos).\n\n**Fundamento**:\n\n- En una aniquilación, se emiten dos fotones de 511 keV en direcciones opuestas.\n- Ambos deben llegar al detector para registrar una coincidencia.\n- La probabilidad de que ambos lleguen es el producto de las atenuaciones: $e^{-\\mu x_1} \\cdot e^{-\\mu x_2} = e^{-\\mu(x_1 + x_2)} = e^{-\\mu L}$, donde $L$ es el espesor total atravesado.\n- Sin corrección, las coincidencias se subestiman en un factor $e^{-\\mu L}$ (hasta ~0,1-0,2 en el tórax).\n\n**Métodos de corrección**:\n\n- **PET/TC**: se usa el TC del mismo estudio para generar un mapa de atenuación (coeficientes $\\mu$ a 511 keV, escalados desde las unidades Hounsfield). Es el método estándar y el más preciso.\n- **Fuente de transmisión** (PET antiguos): una fuente de ⁶⁸Ge/⁶⁸Ga o ¹³⁷Cs rota alrededor del paciente y mide la atenuación.\n- **PET/RM**: no hay TC; se genera un mapa de atenuación sintético a partir de la imagen de RM (segmentación en hueso, tejido blando, aire, pulmón), o con técnicas avanzadas (ultra-corto TE, atlas, ML).\n\n**Importancia**:\n\n- Sin corrección, el SUV sería incorrecto y las comparaciones entre pacientes o entre estudios no serían válidas.\n- La corrección permite cuantificación absoluta y protocolos como PERCIST.\n\n**Artefactos**: metales (prótesis), contraste y movimiento pueden generar errores en el mapa de atenuación."
+      }
+    },
+    {
+      "id": 82,
+      "elo": 1300,
+      "tema": "Imagen médica",
+      "q": "La dosis glandular media (DGM) en mamografía es:",
+      "opts": [
+        "La dosis absorbida promedio en el tejido glandular de la mama",
+        "La dosis absorbida en el detector de la mamografía",
+        "La dosis efectiva de todo el cuerpo durante la mamografía",
+        "La dosis en la piel de la mama en el punto de entrada"
+      ],
+      "a": 0,
+      "sol": "La DGM es la dosis promedio en el tejido glandular (el más radiosensible de la mama), estimada a partir de la dosis en superficie y de parámetros del haz. Es la magnitud dosimétrica de referencia en mamografía.",
+      "teoria": {
+        "titulo": "Dosis glandular media (DGM) en mamografía",
+        "texto": "La **dosis glandular media (DGM)** es la magnitud dosimétrica de referencia en mamografía. Representa la **dosis absorbida promedio en el tejido glandular** de la mama, que es el tejido más radiosensible y donde se originan la mayoría de los cánceres.\n\n**Por qué no se usa la dosis en piel ni la dosis absorbida promedio**:\n\n- La dosis en piel sobreestima el riesgo, porque la piel es poco radiosensible y no es el tejido de interés.\n- La dosis absorbida promedio en toda la mama subestima el riesgo, porque el tejido glandular recibe dosis diferentes al adiposo.\n\n**Estimación**:\n\n- Se mide la **dosis en superficie** (con TLD o cámara) y se aplica un factor de conversión que depende del espectro del haz (kV, filtración, ánodo) y del espesor y composición de la mama.\n- El protocolo del **EUREF** y del **IAEA** proporciona factores de conversión tabulados.\n- Se usan maniquíes estándar (por ejemplo, de PMMA o de tejido equivalente) para verificar la DGM.\n\n**Valores típicos**: 1-3 mGy por proyección (una mamografía estándar son 2 proyecciones por mama, ~4-6 mGy en total).\n\n**Límites regulatorios**: la DGM está limitada por normativas (por ejemplo, < 2,5 mGy por proyección en la FDA estadounidense, con tolerancias según el espesor y la composición de la mama). El control de calidad incluye la verificación periódica de la DGM.\n\n**Factores que influyen**: el kV, la filtración, el ánodo, la compresión, el espesor de la mama, la densidad. La optimización busca el mejor compromiso entre dosis y calidad diagnóstica."
+      }
+    },
+    {
+      "id": 83,
+      "elo": 1400,
+      "tema": "Imagen médica",
+      "q": "La DQE (detective quantum efficiency) de un detector de imagen:",
+      "opts": [
+        "Es la dosis necesaria para detectar una señal mínima",
+        "Combina la eficiencia cuántica y la MTF con el ruido del sistema",
+        "Es la resolución espacial en pares de líneas por milímetro",
+        "Es la velocidad de adquisición de imágenes por segundo"
+      ],
+      "a": 1,
+      "sol": "DQE(f) = [MTF(f)]² · SNR_out² / SNR_in². Mide la eficiencia con la que el detector transfiere la relación señal-ruido del haz de entrada, combinando absorción, resolución y ruido en una sola curva.",
+      "teoria": {
+        "titulo": "DQE (Detective Quantum Efficiency)",
+        "texto": "La **DQE** (eficiencia cuántica de detección) es una métrica fundamental para caracterizar el rendimiento de un sistema de imagen. Combina la **eficiencia de absorción** de los fotones, la **resolución espacial** (MTF) y el **ruido** del sistema en una sola curva:\n\n$$\\text{DQE}(f) = \\frac{\\text{SNR}_{\\text{salida}}^2(f)}{\\text{SNR}_{\\text{entrada}}^2(f)} \\approx \\frac{\\text{MTF}^2(f)}{\\text{NPS}(f) \\cdot \\Phi}$$\n\ndonde:\n\n- **SNR$_{\\text{salida}}$ y SNR$_{\\text{entrada}}$**: relación señal-ruido a la salida y a la entrada del detector.\n- **MTF(f)**: función de transferencia de modulación (resolución espacial).\n- **NPS(f)**: espectro de potencia de ruido (Wiener).\n- **Φ**: fluencia de fotones (número por unidad de área).\n\nLa DQE se expresa en porcentaje (0-100%) y depende de la frecuencia espacial. A frecuencia cero, DQE(0) mide la eficiencia con que el detector convierte los fotones incidentes en señal útil. A frecuencias altas, la DQE cae por la MTF y por el ruido.\n\n**Interpretación**:\n\n- DQE = 1 (100%) sería un detector ideal, que transfiere toda la información de los fotones sin pérdida. En la práctica, es imposible.\n- Un buen detector tiene DQE(0) > 50% a la dosis de trabajo.\n- La DQE permite comparar detectores de forma objetiva, más allá de la resolución o el ruido por separado.\n\n**Uso**:\n\n- **Control de calidad** (protocolo IEC 62220-1): se mide la DQE de los detectores de imagen (radiografía, mamografía, fluoroscopía, CBCT) en condiciones normalizadas.\n- **Optimización de protocolos**: a mayor DQE, menor dosis para una calidad de imagen dada.\n- **Diseño de detectores**: guía la elección de centelleador, tamaño de pixel, electrónica.\n\nLa DQE es la métrica más completa del rendimiento de un sistema de imagen, porque captura simultáneamente la eficiencia, la resolución y el ruido, que son los tres pilares de la calidad de imagen."
+      }
+    },
+    {
+      "id": 84,
+      "elo": 1500,
+      "tema": "Imagen médica",
+      "q": "El control automático de exposición (AEC) en radiología:",
+      "opts": [
+        "Controla la posición del paciente en el sistema de imagen",
+        "Es un sistema de reconstrucción de imagen en TC",
+        "Ajusta la energía del haz en tiempo real durante la exposición",
+        "Ajusta automáticamente la exposición para optimizar la dosis"
+      ],
+      "a": 3,
+      "sol": "El AEC (cámaras de ionización o detectores sólidos) mide la señal que llega al receptor y corta la exposición cuando se alcanza el nivel óptimo, reduciendo la variabilidad entre pacientes y la dosis innecesaria.",
+      "teoria": {
+        "titulo": "Control automático de exposición (AEC)",
+        "texto": "El **AEC** (Automatic Exposure Control) es un sistema que **ajusta automáticamente la exposición** (mAs, y a veces kV) en radiología y fluoroscopía para obtener una señal óptima en el receptor de imagen, independientemente del paciente y de la anatomía.\n\n**Componentes**:\n\n- **Cámaras de ionización** o **detectores sólidos** situados entre el paciente y el receptor, que miden la intensidad de la radiación transmitida.\n- **Circuito de control** que integra la señal y corta la exposición cuando se alcanza un nivel preestablecido (el nivel de referencia).\n- **Selección de campos** (cámaras central, lateral, etc.) según la anatomía.\n\n**Funcionamiento**:\n\n- El operador selecciona la cámara o cámaras que se usarán, según el estudio.\n- El sistema inicia la exposición; las cámaras miden la señal.\n- Cuando la señal integrada alcanza el nivel de referencia, se corta la exposición.\n- El resultado es una exposición reproducible, adaptada al paciente, que evita la subexposición (ruido) y la sobreexposición (dosis innecesaria).\n\n**Modos de AEC**:\n\n- **Cámara única o múltiple**: la central o las laterales según la anatomía.\n- **Densidad (o nivel de exposición)**: ajusta el nivel de referencia (más o menos dosis, a costa de más o menos ruido).\n- **Tiempo mínimo de exposición**: para evitar cortes demasiado rápidos que produzcan ruido por debajo del umbral.\n\n**Importancia clínica**:\n\n- **Reduce la variabilidad** entre pacientes y entre operadores.\n- **Optimiza la dosis** para cada paciente (no usa la misma exposición para un niño que para un adulto).\n- **Mejora la calidad** al evitar la subexposición.\n\n**Limitaciones**: la posición incorrecta del paciente, la presencia de material extraño (prótesis, contraste) o la selección inadecuada de cámaras pueden producir exposiciones subóptimas. La supervisión del técnico sigue siendo esencial.\n\nEl AEC es una de las herramientas más importantes para aplicar el principio ALARA en radiología diagnóstica."
+      }
+    },
+    {
+      "id": 85,
+      "elo": 1000,
+      "tema": "Radioprotección",
+      "q": "Los límites de dosis efectiva recomendados por la ICRP son:",
+      "opts": [
+        "1 mSv/año al público, 20 mSv/año a trabajadores ocupacionalmente expuestos",
+        "20 mSv/año al público, 100 mSv/año a trabajadores ocupacionalmente expuestos",
+        "100 mSv/año al público, 500 mSv/año a trabajadores ocupacionalmente expuestos",
+        "No existen límites para el público, solo para trabajadores"
+      ],
+      "a": 0,
+      "sol": "La ICRP (103) recomienda 1 mSv/año al público y 20 mSv/año promediado en 5 años (máximo 50 mSv/año) a trabajadores. Los límites buscan mantener el riesgo estocástico aceptable.",
+      "teoria": {
+        "titulo": "Límites de dosis de la ICRP",
+        "texto": "La **Comisión Internacional de Protección Radiológica (ICRP)** establece límites de dosis efectiva y equivalente para trabajadores y público, con el objetivo de prevenir efectos deterministas y limitar la probabilidad de efectos estocásticos.\n\n**Límites recomendados (ICRP 103, 2007)**:\n\n**Trabajadores ocupacionalmente expuestos (POE)**:\n\n- **Dosis efectiva**: 20 mSv/año promediado en 5 años (100 mSv en 5 años), sin superar 50 mSv en un año.\n- **Dosis equivalente en cristalino**: 20 mSv/año (promediado en 5 años, sin superar 50 mSv en un año).\n- **Dosis equivalente en piel y extremidades**: 500 mSv/año.\n\n**Público general**:\n\n- **Dosis efectiva**: 1 mSv/año.\n- **Dosis equivalente en cristalino**: 15 mSv/año.\n- **Dosis equivalente en piel**: 50 mSv/año.\n\n**Aprendices y estudiantes (16-18 años)**:\n\n- Dosis efectiva: 6 mSv/año.\n- Dosis equivalente en cristalino: 15 mSv/año.\n- Dosis equivalente en piel y extremidades: 150 mSv/año.\n\n**Principios complementarios**:\n\n- **Justificación**: toda exposición debe estar justificada por un beneficio neto.\n- **Optimización (ALARA)**: las dosis deben mantenerse tan bajas como sea razonablemente posible.\n- **Aplicación de límites**: las dosis individuales no deben superar los límites establecidos.\n\n**Exposición médica de pacientes**: no se aplican límites (el beneficio clínico justifica la exposición), sino **niveles de referencia para diagnóstico** (DRL), que orientan sobre dosis típicas en exploraciones estándar y ayudan a optimizar.\n\n**Nota**: los límites son para dosis ocupacionales y públicas. Los límites no se aplican a la exposición médica de un paciente, sino que se usan niveles de referencia."
+      }
+    },
+    {
+      "id": 86,
+      "elo": 1100,
+      "tema": "Radioprotección",
+      "q": "El dosímetro de anillo se utiliza para:",
+      "opts": [
+        "Medir neutrones térmicos en instalaciones de investigación",
+        "Evaluar la dosis en extremidades y cristalino en procedimientos intervencionistas",
+        "Reemplazar al dosímetro de cuerpo entero en radioterapia",
+        "Medir la dosis en el ambiente de zonas vigiladas"
+      ],
+      "a": 1,
+      "sol": "En radiología intervencionista, manos y cristalino reciben dosis mayores que el cuerpo entero. El dosímetro de anillo (TLD u OSL) evalúa la dosis en esas localizaciones.",
+      "teoria": {
+        "titulo": "Dosímetro de anillo",
+        "texto": "El **dosímetro de anillo** es un dosímetro personal que se coloca en el dedo (anillo) para estimar la dosis en las **extremidades** (manos, dedos) y en el **cristalino** en procedimientos donde estas zonas reciben dosis mayores que el cuerpo entero.\n\n**Indicaciones**:\n\n- **Radiología intervencionista**: los operadores tienen las manos cerca del haz primario y de la radiación dispersa. La dosis en manos puede ser 10-100 veces mayor que la dosis en el cuerpo.\n- **Medicina nuclear**: manipulación de radiofármacos, preparación de dosis, inyección.\n- **Braquiterapia**: manipulación de fuentes, implantación de semillas.\n- **Cirugía radioguiada**: uso de sondas y fuentes.\n- **Veterinaria** y **control de calidad** con fuentes.\n\n**Tipo de dosímetro**: TLD (LiF:Mg,Ti o LiF:Mg,Cu,P) o, más recientemente, OSL (Al₂O₃:C). Se eligen por su pequeño tamaño y su respuesta estable.\n\n**Protocolo de uso**:\n\n- Se lleva en el dedo índice o anular de la mano dominante (o en ambas manos, si ambas están expuestas).\n- Se usa **junto con el dosímetro de cuerpo entero**, no lo sustituye.\n- Se lee mensualmente o trimestralmente, según la carga de trabajo.\n- Se registra junto con la dosis de cuerpo entero en el historial dosimétrico del trabajador.\n\n**Límites**:\n\n- Dosis equivalente en extremidades: **500 mSv/año** para trabajadores.\n- Dosis equivalente en cristalino: **20 mSv/año** (promediado en 5 años).\n\nEl dosímetro de anillo es esencial para una evaluación correcta de la dosis en procedimientos intervencionistas, donde el cuerpo entero puede estar bien protegido por el delantal plomado pero las manos y el cristalino pueden recibir dosis significativas."
+      }
+    },
+    {
+      "id": 87,
+      "elo": 1200,
+      "tema": "Radioprotección",
+      "q": "El radón es un gas que:",
+      "opts": [
+        "Es un gas noble estable que no presenta riesgo radiológico",
+        "Emite fotones gamma de alta energía tras la desintegración",
+        "Es un gas radiactivo que emite partículas alfa y se acumula en interiores",
+        "Se usa como contraste en radiología intervencionista"
+      ],
+      "a": 2,
+      "sol": "El radón-222 es un gas noble radiactivo que emite alfa. Se acumula en viviendas mal ventiladas y es la segunda causa de cáncer de pulmón tras el tabaco. Los productos de desintegración se inhalan y depositan en el pulmón.",
+      "teoria": {
+        "titulo": "Radón y protección radiológica",
+        "texto": "El **radón** (²²²Rn) es un gas noble radiactivo, incoloro e inodoro, que se produce en la cadena de desintegración del ²³⁸U (presente en el suelo y en materiales de construcción). Su semivida es de 3,82 días, y emite partículas alfa.\n\n**Cadena de desintegración y riesgo**:\n\n- El ²²²Rn emite una partícula alfa y se transforma en ²¹⁸Po, que también es radiactivo.\n- Los descendientes del radón (Po-218, Pb-214, Bi-214, Po-214) son sólidos que se adhieren al polvo y, al inhalarse, se depositan en el pulmón.\n- Emiten partículas alfa de alta LET, que dañan el epitelio bronquial y aumentan el riesgo de cáncer de pulmón.\n\n**Exposición**:\n\n- Es la **segunda causa de cáncer de pulmón** después del tabaco, y la primera en no fumadores.\n- La concentración se mide en **Bq/m³** (actividad por unidad de volumen) o en **Bq·h/m³** (exposición acumulada).\n- Niveles de referencia: la OMS recomienda < 100 Bq/m³ (hasta 300 Bq/m³ aceptable si no es posible). La EPA estadounidense recomienda < 4 pCi/L (~148 Bq/m³).\n\n**Fuentes y mitigación**:\n\n- Se acumula en sótanos, plantas bajas y viviendas mal ventiladas, especialmente en zonas graníticas.\n- Medidas de mitigación: ventilación, sellado de grietas, sistemas de despresurización del suelo (sub-slab depressurization), membrana de impermeabilización.\n- Se recomienda medir en viviendas, escuelas y lugares de trabajo en zonas de riesgo.\n\n**Detección**:\n\n- **Detectores de trazas** (CR-39): integradores, se colocan durante meses.\n- **Cámaras de ionización** o **detectores de estado sólido**: lectura en tiempo real.\n- **Detectores de carbón activo**: para medidas de corta duración.\n\nEl radón es un problema de salud pública relevante, y su control es parte de la protección radiológica ambiental."
+      }
+    },
+    {
+      "id": 88,
+      "elo": 1300,
+      "tema": "Radioprotección",
+      "q": "En la exposición médica de una mujer embarazada:",
+      "opts": [
+        "No hay restricciones especiales si la dosis es menor que 10 mSv",
+        "Solo importa la dosis al feto en el primer trimestre del embarazo",
+        "Se puede irradiar sin restricciones si la madre firma el consentimiento",
+        "Se requiere justificación estricta y optimización por la mayor radiosensibilidad fetal"
+      ],
+      "a": 3,
+      "sol": "El feto es especialmente radiosensible. Toda exposición debe justificarse estrictamente (beneficio clínico para la madre) y optimizarse al máximo. Se evalúa la dosis fetal si el estudio es imprescindible.",
+      "teoria": {
+        "titulo": "Exposición médica en el embarazo",
+        "texto": "La exposición a radiación ionizante durante el embarazo requiere una **justificación estricta** y una **optimización cuidadosa**, por la mayor radiosensibilidad del feto, especialmente en el primer trimestre.\n\n**Riesgos para el feto**:\n\n- **Efectos deterministas**: malformaciones, retraso mental, microcefalia, con umbrales variables según la edad gestacional (típicamente > 100-200 mGy). La etapa más crítica es la organogénesis (semanas 8-15 postconcepción).\n- **Efectos estocásticos**: aumento del riesgo de cáncer infantil (leucemia, tumores sólidos), con un exceso de riesgo relativo ~5-10% por Gy, en el rango de dosis bajas (1-100 mGy).\n\n**Dosis típicas**:\n\n- Radiografía de tórax: < 0,01 mGy al feto.\n- Radiografía de abdomen: 1-3 mGy.\n- TC de abdomen: 5-15 mGy.\n- Medicina nuclear (FDG-PET): 5-15 mGy.\n- Radioterapia: depende del campo; puede ser muy alta si el tumor está cerca del útero.\n\n**Protocolo**:\n\n1. **Justificación**: evaluar si el estudio es imprescindible, si se puede posponer o sustituir por otra técnica (ecografía, RM sin contraste).\n2. **Optimización**: usar la menor dosis posible, colimar, proteger con delantal plomado si es posible, evitar proyecciones innecesarias.\n3. **Consulta con el especialista** si la dosis puede ser alta o si el estudio es urgente.\n4. **Registro de la dosis fetal** si el estudio se realiza.\n5. **Consejo** sobre los riesgos según la dosis estimada.\n\n**Lactancia**: la lactancia no se interrumpe en la mayoría de los estudios radiológicos. En medicina nuclear, depende del radiofármaco (algunos requieren suspensión temporal).\n\n**Regla general**: los beneficios clínicos para la madre pueden superar los riesgos fetales, pero la decisión debe ser compartida e informada, con la participación de un experto en protección radiológica."
+      }
+    },
+    {
+      "id": 89,
+      "elo": 1400,
+      "tema": "Radioprotección",
+      "q": "En relación al monitoreo dosimétrico ocupacional:",
+      "opts": [
+        "El dosímetro personal debe usarse siempre que se trabaje en zona controlada",
+        "Solo es necesario si la dosis anual puede superar 100 mSv",
+        "Se puede prescindir si se trabaja a más de 2 m de la fuente",
+        "Solo se exige en radioterapia, no en radiodiagnóstico"
+      ],
+      "a": 0,
+      "sol": "En zona controlada (dosis potencial > 6 mSv/año) el dosímetro personal es obligatorio y debe portarse en el tronco a la altura del pecho, fuera del delantal plomado. En intervencionismo se complementa con dosímetro de anillo.",
+      "teoria": {
+        "titulo": "Monitoreo dosimétrico ocupacional",
+        "texto": "El **monitoreo dosimétrico personal** es la medida sistemática de la dosis recibida por los trabajadores expuestos a radiación ionizante. Es obligatorio en zonas controladas y una parte esencial del programa de protección radiológica.\n\n**Clasificación de zonas**:\n\n- **Zona vigilada**: donde la dosis efectiva puede superar 1 mSv/año o la dosis equivalente en extremidades 15 mSv/año o en piel 50 mSv/año. Requiere vigilancia dosimétrica.\n- **Zona controlada**: donde la dosis efectiva puede superar 6 mSv/año o la dosis equivalente en extremidades 150 mSv/año o en piel 150 mSv/año. Requiere dosímetro obligatorio y medidas de protección.\n\n**Tipos de dosímetros**:\n\n- **TLD** (LiF:Mg,Ti o LiF:Mg,Cu,P): pequeños, reutilizables, sensibles.\n- **OSL** (Al₂O₃:C): lectura óptica, rápidos, reutilizables.\n- **Películas radiográficas**: históricas, en desuso.\n- **Dosímetros electrónicos** (EPD): lectura directa, alarma, para procedimientos de alta dosis.\n\n**Ubicación**:\n\n- **Dosímetro de cuerpo entero**: en el tronco, a la altura del pecho o del abdomen, **fuera** del delantal plomado (para estimar la dosis real al cuerpo, con correcciones si se usa delantal).\n- **Dosímetro de anillo**: en el dedo, para extremidades.\n- **Dosímetro de cristalino**: en la cabeza o cuello, si se sospecha dosis al cristalino.\n- **Dosímetro de delantal**: si se usa delantal, a veces se coloca uno debajo para estimar la dosis a órganos internos.\n\n**Frecuencia**:\n\n- Lectura mensual o trimestral, según la carga de trabajo.\n- Registro en el historial dosimétrico del trabajador (obligatorio por ley, conservado durante décadas).\n\n**Principios**:\n\n- **Consistencia**: usar siempre el mismo tipo de dosímetro y el mismo laboratorio de lectura.\n- **Trazabilidad**: los dosímetros deben calibrarse contra patrones nacionales.\n- **Investigación de sobreexposiciones**: si la dosis supera los umbrales de investigación (típicamente 1/10 del límite), se investiga la causa.\n\nEl monitoreo dosimétrico es la base para verificar que las dosis ocupacionales se mantienen dentro de los límites y para detectar tendencias o incidentes."
+      }
+    },
+    {
+      "id": 90,
+      "elo": 1500,
+      "tema": "Radioprotección",
+      "q": "Los factores de ponderación tisular (w_T) que se usan en la dosis efectiva:",
+      "opts": [
+        "Son iguales para todos los tejidos del cuerpo humano",
+        "Son mayores para los tejidos más radiosensibles, como gónadas y médula roja",
+        "Solo se aplican a piel y cristalino por su exposición externa",
+        "Dependen de la energía y del tipo de radiación considerados"
+      ],
+      "a": 1,
+      "sol": "Cada tejido recibe un w_T proporcional a su radiosensibilidad relativa. Las gónadas, la médula roja, el colon, el pulmón y el estómago tienen w_T de 0,08 a 0,12; la piel, 0,01. La suma de todos los w_T es 1.",
+      "teoria": {
+        "titulo": "Factores de ponderación tisular (w_T)",
+        "texto": "Los **factores de ponderación tisular** $w_T$ son números adimensionales que reflejan la **radiosensibilidad relativa de cada tejido u órgano** en el cálculo de la dosis efectiva:\n\n$$E = \\sum_T w_T \\cdot H_T$$\n\ndonde $H_T$ es la dosis equivalente en el tejido $T$ (que ya incluye el factor de ponderación de la radiación $w_R$). La suma de los $w_T$ de todos los tejidos es **1**.\n\n**Valores recomendados por la ICRP 103 (2007)**:\n\n| Tejido / órgano | $w_T$ |\n|---|---|\n| Gónadas | 0,08 |\n| Médula ósea (roja) | 0,12 |\n| Colon | 0,12 |\n| Pulmón | 0,12 |\n| Estómago | 0,12 |\n| Mama | 0,12 |\n| Vejiga | 0,04 |\n| Esófago | 0,04 |\n| Hígado | 0,04 |\n| Tiroides | 0,04 |\n| Piel | 0,01 |\n| Superficie ósea | 0,01 |\n| Encéfalo | 0,01 |\n| Glándulas salivales | 0,01 |\n| Resto de tejidos | 0,12 (total) |\n\n**Lógica**:\n\n- Los tejidos con $w_T$ mayor son los más **radiosensibles** y los que más contribuyen al riesgo estocástico (cáncer, efectos hereditarios).\n- Las gónadas tienen $w_T = 0,08$ por el riesgo de efectos hereditarios.\n- La médula ósea, el colon, el pulmón, el estómago y la mama tienen $w_T = 0,12$ porque son los tejidos donde se ha observado mayor incidencia de cáncer radioinducido.\n- La piel y la superficie ósea tienen $w_T = 0,01$ porque el riesgo es bajo.\n- El resto de tejidos se agrupa con $w_T = 0,12$ total, repartido entre varios órganos pequeños.\n\n**Aplicación**:\n\n- Se usa para calcular la **dosis efectiva** en exposiciones no uniformes.\n- Es la magnitud que se compara con los **límites de dosis** en protección radiológica.\n- Se aplica tanto en exposición ocupacional como en pública, y en la evaluación de dosis en medicina (aunque no en las decisiones clínicas individuales de radioterapia, donde la dosis absorbida y la dosis biológica efectiva son las magnitudes relevantes).\n\nLos $w_T$ son revisados periódicamente por la ICRP con nuevos datos epidemiológicos y radiobiológicos, y pueden cambiar entre publicaciones (ICRP 60 vs ICRP 103)."
+      }
     }
   ],
   "datasetId": null,
