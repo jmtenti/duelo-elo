@@ -490,6 +490,18 @@ const CONV_FACTOR   = 0.05;
 const K_BOOST_RANGO = 400;
 const K_BOOST_MAX   = 2;
 
+/* ─── K del problema: decae con la cantidad de respuestas (n) ───
+   Problema nuevo (n=0) → K≈64 (se corrige rápido si el ELO puesto a mano estaba mal).
+   Problema maduro (n≥24) → K≈16 (se mueve poco). */
+const K_PROB_BASE = 16;   // K de un problema ya establecido
+const K_PROB_NEW  = 64;   // K de un problema con n = 0
+const K_PROB_TAU  = 3;    // "vida media" en partidas
+
+function kProbEfectivo(n){
+  if(!Number.isFinite(n) || n < 0) n = 0;
+  return K_PROB_BASE + (K_PROB_NEW - K_PROB_BASE) * Math.pow(0.5, n / K_PROB_TAU);
+}
+
 /* ═══════════════════════════════════════════════════════════════
    SECCIÓN 4 · META DEL DATASET
    ═══════════════════════════════════════════════════════════════ */
@@ -747,20 +759,33 @@ async function workerLoadProblemElos(dataset){
     }, 8000);
     if(!resp.ok) return {};
     const data = await resp.json();
-    return data.elos || {};
+    const raw  = data.elos || {};
+    const norm = {};
+    for(const [id, v] of Object.entries(raw)){
+      if(typeof v === 'number' && isFinite(v)){
+        // Worker viejo (solo ELO). Asumimos n=5: calibración moderada.
+        norm[id] = { elo: v, n: 5 };
+      } else if(v && typeof v === 'object' && typeof v.elo === 'number' && isFinite(v.elo)){
+        norm[id] = {
+          elo: v.elo,
+          n:   (Number.isFinite(v.n) && v.n >= 0) ? Math.floor(v.n) : 0
+        };
+      }
+    }
+    return norm;
   }catch(e){
     console.warn('No se pudieron cargar ELOs globales:', e);
     return {};
   }
 }
 
-async function workerSendProblemElo(dataset, problemId, elo){
+async function workerSendProblemElo(dataset, problemId, elo, n){
   if(!WORKER_URL || !dataset) return;
   try{
     await fetch(WORKER_URL + '/problems/set', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ dataset, problemId, elo }),
+      body: JSON.stringify({ dataset, problemId, elo, n }),
       keepalive: true
     });
   }catch(e){
@@ -828,10 +853,14 @@ async function cargarDataset(){
   if(!Array.isArray(usuario.recent)) usuario.recent = [];
 
   const globalElos = await workerLoadProblemElos(selectedFilename);
-  const problemas = dataset.problemas.map(p => ({
-    ...p,
-    elo: (typeof globalElos[p.id] === 'number') ? globalElos[p.id] : p.elo
-  }));
+  const problemas = dataset.problemas.map(p => {
+    const g = globalElos[p.id];
+    return {
+      ...p,
+      elo: g ? g.elo : p.elo,
+      n:   g ? g.n   : 0
+    };
+  });
 
   state = {
     version: 2,
@@ -1569,12 +1598,15 @@ function responder(indice){
   const uTemaDespues = uTemaAntes + dUser;
   state.usuario.temaElo[temaActual] = uTemaDespues;
 
-  /* ─── ELO global del problema ───
-     Nota: (1-S)-(1-E) simplifica a (E-S). Antes usaba E_raw.
-     Ahora usa E_adj — el problema baja/cae menos bruscamente porque
-     "el jugador pudo haber acertado por azar". */
-  current.elo = pEloAntes + META.kProb * (E - S);
-  workerSendProblemElo(selectedFilename, current.id, current.elo);
+  /* ─── ELO global del problema con K variable ───
+     Problemas nuevos (n=0) usan K=64 → se corrigen rápido.
+     Problemas con muchas respuestas usan K≈16 → se mueven poco.
+     E ya es E_adj (corrección por adivinanza en MCQ). */
+  const pN  = (typeof current.n === 'number' && current.n >= 0) ? current.n : 0;
+  const kPr = kProbEfectivo(pN);
+  current.elo = pEloAntes + kPr * (E - S);
+  current.n   = pN + 1;
+  workerSendProblemElo(selectedFilename, current.id, current.elo, current.n);
 
   /* ─── Registro de la respuesta ─── */
   state.usuario.round += 1;
@@ -1637,13 +1669,15 @@ function responder(indice){
   }
 
  
+  const kPrShow = kProbEfectivo(pN);
   html +=
     '<div class="elo-line">' +
       '<span class="tema-chip" style="border-color:' + color + '55; color:' + color + '">' + temaActual + '</span>' +
       '<span>Tema: <b>' + Math.round(uTemaAntes) + '</b> → <b>' + Math.round(uTemaDespues) + '</b> ' +
       '(<b class="' + (dUser >= 0 ? 'up' : 'down') + '">' + signoU + dUser.toFixed(1) + '</b>)</span>' +
       '<span>Rival (global): ' + Math.round(pEloAntes) + ' → ' + Math.round(current.elo) +
-      ' (<b class="' + ((current.elo - pEloAntes) >= 0 ? 'up' : 'down') + '">' + signoP + (current.elo - pEloAntes).toFixed(1) + '</b>)</span>' +
+      ' (<b class="' + ((current.elo - pEloAntes) >= 0 ? 'up' : 'down') + '">' + signoP + (current.elo - pEloAntes).toFixed(1) + '</b>)' +
+      ' <small>· n=' + current.n + ' · K=' + kPrShow.toFixed(0) + '</small></span>' +
     '</div>';
 
   fb.innerHTML = html;
