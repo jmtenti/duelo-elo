@@ -1,1 +1,1074 @@
-
+{
+  "version": 1,
+  "savedAt": "2026-10-15T21:57:18.547Z",
+  "usuario": {
+    "temaElo": {
+      "Límites": 999.31,
+      "Continuidad": 995.26,
+      "Derivadas": 994.45,
+      "Aplicaciones de derivadas": 1000,
+      "Taylor": 1012.93,
+      "Sucesiones": 1006.10,
+      "Series": 1008.11,
+      "Integrales": 1017.01,
+      "Teoremas": 993.60,
+      "Ecuaciones diferenciales": 1000
+    },
+    "wins": 8,
+    "losses": 10,
+    "streak": 0,
+    "best": 2,
+    "round": 18,
+    "recent": [
+      38, 37, 29, 28, 10, 26, 9, 25, 6, 5, 1, 36, 2, 12, 4, 31, 3, 20
+    ]
+  },
+  "problemas": [
+    {
+      "id": 1,
+      "elo": 959.5016861637788,
+      "tema": "Límites",
+      "q": "$\\lim_{x \\to 2} \\dfrac{x^2 - 4}{x - 2}$",
+      "opts": ["$0$", "$2$", "$4$", "No existe"],
+      "a": 2,
+      "sol": "Factorizamos: $\\dfrac{x^2 - 4}{x - 2} = \\dfrac{(x-2)(x+2)}{x-2} = x+2$. Evaluando en $x = 2$ obtenemos $4$.",
+      "teoria": {
+        "titulo": "Indeterminación $0/0$ en funciones racionales",
+        "texto": "Cuando $P(a) = Q(a) = 0$, el polinomio $(x-a)$ divide tanto a $P$ como a $Q$. Se factoriza, se cancela y se reevalúa. <em>Ejemplo:</em> $\\displaystyle\\lim_{x \\to 3} \\frac{x^2 - 9}{x - 3} = \\lim_{x \\to 3}(x+3) = 6$."
+      }
+    },
+    {
+      "id": 2,
+      "elo": 992,
+      "tema": "Límites",
+      "q": "$\\lim_{x \\to 0} \\dfrac{\\sin x}{x}$",
+      "opts": ["$0$", "$1$", "$+\\infty$", "No existe"],
+      "a": 1,
+      "sol": "Es el límite fundamental trigonométrico: vale $1$.",
+      "teoria": {
+        "titulo": "Límite fundamental trigonométrico",
+        "texto": "$\\displaystyle\\lim_{x \\to 0} \\frac{\\sin x}{x} = 1$. Se deduce del desarrollo $\\sin x = x - \\frac{x^3}{6} + o(x^3)$, dividiendo por $x$. <em>Ejemplo:</em> $\\displaystyle\\lim_{x \\to 0} \\frac{\\sin(3x)}{x} = 3\\lim_{x \\to 0} \\frac{\\sin(3x)}{3x} = 3$."
+      }
+    },
+    {
+      "id": 3,
+      "elo": 959.1434098785342,
+      "tema": "Derivadas",
+      "q": "Si $f(x) = x^3$, ¿cuánto vale $f'(2)$?",
+      "opts": ["$6$", "$8$", "$12$", "$3x^2$"],
+      "a": 2,
+      "sol": "$f'(x) = 3x^2$, entonces $f'(2) = 3 \\cdot 4 = 12$. La opción $3x^2$ es la <em>función</em> derivada, no el valor puntual.",
+      "teoria": {
+        "titulo": "Regla de la potencia",
+        "texto": "$\\dfrac{d}{dx}x^n = n\\,x^{n-1}$ para todo $n \\in \\mathbb{R}$ (con $x>0$ si $n$ no es entero). <em>Ejemplo:</em> si $g(x) = x^5$, entonces $g'(x) = 5x^4$ y $g'(1) = 5$."
+      }
+    },
+    {
+      "id": 4,
+      "elo": 1040.8565901214658,
+      "tema": "Límites",
+      "q": "$\\lim_{x \\to +\\infty} \\dfrac{3x^2 + 2x}{x^2 - 1}$",
+      "opts": ["$0$", "$3$", "$+\\infty$", "$1$"],
+      "a": 1,
+      "sol": "Dividimos numerador y denominador por $x^2$: $\\dfrac{3 + 2/x}{1 - 1/x^2} \\to \\dfrac{3}{1} = 3$.",
+      "teoria": {
+        "titulo": "Límite al infinito de funciones racionales",
+        "texto": "Se divide por la mayor potencia de $x$ y se usa $1/x^k \\to 0$. Si $\\deg P < \\deg Q$, el límite es $0$; si $\\deg P = \\deg Q$, es el cociente de coeficientes líderes; si $\\deg P > \\deg Q$, es $\\pm\\infty$. <em>Ejemplo:</em> $\\displaystyle\\lim_{x \\to \\infty} \\frac{2x^3+1}{5x^3-x} = \\frac{2}{5}$."
+      }
+    },
+    {
+      "id": 5,
+      "elo": 1154.7458399444508,
+      "tema": "Continuidad",
+      "q": "Sea $f(x) = \\dfrac{x^2 - 1}{x - 1}$ si $x \\neq 1$, y $f(1) = 2$. ¿Es $f$ continua en $x = 1$?",
+      "opts": [
+        "Sí, porque el límite es $2$ y coincide con $f(1)$",
+        "No, hay una discontinuidad evitable",
+        "No, hay una asíntota vertical en $x = 1$",
+        "No se puede determinar"
+      ],
+      "a": 0,
+      "sol": "El límite vale $2$ (se simplifica a $x+1$) y $f(1) = 2$. Como coinciden, es continua.",
+      "teoria": {
+        "titulo": "Continuidad en un punto",
+        "texto": "$f$ es continua en $a$ si: (1) $f(a)$ existe, (2) $\\lim_{x \\to a} f(x)$ existe, (3) son iguales. Si el límite existe pero $f(a)$ no está definido o difiere, la discontinuidad es <em>evitable</em>. <em>Ejemplo:</em> $f(x) = \\frac{x^2-9}{x-3}$ con $f(3) = 6$ es continua en $3$."
+      }
+    },
+    {
+      "id": 6,
+      "elo": 1138.4021176815181,
+      "tema": "Derivadas",
+      "q": "$\\dfrac{d}{dx}\\big[\\, x \\ln x \\,\\big]$",
+      "opts": ["$\\ln x$", "$\\ln x + 1$", "$1/x$", "$x + \\ln x$"],
+      "a": 1,
+      "sol": "Regla del producto: $1 \\cdot \\ln x + x \\cdot \\frac{1}{x} = \\ln x + 1$.",
+      "teoria": {
+        "titulo": "Regla del producto",
+        "texto": "$(uv)' = u'v + uv'$. <em>Ejemplo:</em> $(x^2 e^x)' = 2x\\,e^x + x^2 e^x = e^x(x^2 + 2x)$."
+      }
+    },
+    {
+      "id": 7,
+      "elo": 1250,
+      "tema": "Límites",
+      "q": "$\\lim_{x \\to 0} \\dfrac{1 - \\cos x}{x^2}$",
+      "opts": ["$0$", "$\\tfrac{1}{2}$", "$1$", "$+\\infty$"],
+      "a": 1,
+      "sol": "Usando $1 - \\cos x \\sim \\dfrac{x^2}{2}$, el límite es $\\dfrac{1}{2}$. También sale por L'Hôpital dos veces.",
+      "teoria": {
+        "titulo": "Equivalencias asintóticas en $0$",
+        "texto": "Cerca de $0$: $\\sin x \\sim x$, $\\tan x \\sim x$, $1-\\cos x \\sim \\dfrac{x^2}{2}$, $\\ln(1+x) \\sim x$, $e^x - 1 \\sim x$. <em>Ejemplo:</em> $\\displaystyle\\lim_{x \\to 0} \\frac{1 - \\cos(2x)}{x^2} = 2$."
+      }
+    },
+    {
+      "id": 8,
+      "elo": 1400,
+      "tema": "Taylor",
+      "q": "$\\lim_{x \\to 0} \\dfrac{e^x - 1 - x}{x^2}$",
+      "opts": ["$0$", "$\\tfrac{1}{2}$", "$1$", "$+\\infty$"],
+      "a": 1,
+      "sol": "Con Taylor: $e^x = 1 + x + \\dfrac{x^2}{2} + o(x^2)$. Restando $1 + x$ queda $\\dfrac{x^2}{2}$, así que el límite es $\\dfrac{1}{2}$.",
+      "teoria": {
+        "titulo": "Desarrollo de Taylor",
+        "texto": "Si $f$ es suave cerca de $0$, $f(x) = f(0) + f'(0)x + \\frac{f''(0)}{2}x^2 + \\cdots$. Se expande hasta que sobreviva el primer término no nulo. <em>Ejemplo:</em> $\\displaystyle\\lim_{x \\to 0} \\frac{e^x - 1}{x} = 1$."
+      }
+    },
+    {
+      "id": 9,
+      "elo": 894.2410399968462,
+      "tema": "Integrales",
+      "q": "$\\displaystyle\\int_0^1 x^2\\,dx$",
+      "opts": ["$\\tfrac{1}{2}$", "$\\tfrac{1}{3}$", "$\\tfrac{1}{4}$", "$1$"],
+      "a": 1,
+      "sol": "Primitiva $\\dfrac{x^3}{3}$. Evaluando entre $0$ y $1$: $\\dfrac{1}{3} - 0 = \\dfrac{1}{3}$.",
+      "teoria": {
+        "titulo": "Regla de Barrow (TFC)",
+        "texto": "Si $F' = f$, entonces $\\displaystyle\\int_a^b f(x)\\,dx = F(b) - F(a)$. La primitiva de una potencia es $\\int x^n\\,dx = \\frac{x^{n+1}}{n+1} + C$ para $n \\neq -1$. <em>Ejemplo:</em> $\\displaystyle\\int_0^2 x^3\\,dx = \\left[\\frac{x^4}{4}\\right]_0^2 = 4$."
+      }
+    },
+    {
+      "id": 10,
+      "elo": 1203.8440491736326,
+      "tema": "Teoremas",
+      "q": "$f(x) = x^2$ en $[0, 2]$. ¿Qué valor $c$ garantiza el TVM?",
+      "opts": ["$c = 1$", "$c = \\sqrt{2}$", "$c = \\tfrac{1}{2}$", "$c = \\tfrac{3}{2}$"],
+      "a": 0,
+      "sol": "$\\dfrac{f(2) - f(0)}{2 - 0} = \\dfrac{4}{2} = 2$. Necesitamos $f'(c) = 2c = 2 \\Rightarrow c = 1$.",
+      "teoria": {
+        "titulo": "Teorema del Valor Medio",
+        "texto": "Si $f$ es continua en $[a,b]$ y derivable en $(a,b)$, existe $c \\in (a,b)$ con $f'(c) = \\dfrac{f(b)-f(a)}{b-a}$. <em>Ejemplo:</em> para $f(x) = x^3$ en $[0,3]$: $\\dfrac{27-0}{3} = 9 = 3c^2 \\Rightarrow c = \\sqrt{3}$."
+      }
+    },
+    {
+      "id": 11,
+      "elo": 1400,
+      "tema": "Series",
+      "q": "La serie $\\displaystyle\\sum_{n \\geq 1} \\dfrac{1}{n^2}$",
+      "opts": ["Diverge a $+\\infty$", "Converge a $\\pi^2/6$", "Converge a $1$", "Converge a $e$"],
+      "a": 1,
+      "sol": "Es la serie $p$ con $p = 2 > 1$, así que converge. Euler demostró que su suma es $\\pi^2/6$.",
+      "teoria": {
+        "titulo": "Serie $p$",
+        "texto": "$\\displaystyle\\sum_{n \\geq 1} \\frac{1}{n^p}$ converge si y solo si $p > 1$. Es el criterio de referencia para comparaciones. <em>Ejemplo:</em> $\\sum \\frac{1}{n^3}$ converge (Euler: $\\zeta(3) \\approx 1{,}202$); $\\sum \\frac{1}{\\sqrt{n}}$ diverge."
+      }
+    },
+    {
+      "id": 12,
+      "elo": 1105.7589600031538,
+      "tema": "Series",
+      "q": "La serie armónica $\\displaystyle\\sum_{n \\geq 1} \\dfrac{1}{n}$",
+      "opts": ["Converge a $1$", "Diverge a $+\\infty$", "Converge a $\\ln 2$", "Oscila sin límite"],
+      "a": 1,
+      "sol": "Aunque sus términos tienden a $0$, la serie armónica diverge (crecimiento logarítmico).",
+      "teoria": {
+        "titulo": "Condición necesaria de convergencia",
+        "texto": "Si $\\sum a_n$ converge, entonces $a_n \\to 0$. <strong>El recíproco es falso.</strong> <em>Ejemplo:</em> la armónica $\\sum 1/n$ tiene $1/n \\to 0$ pero diverge."
+      }
+    },
+    {
+      "id": 13,
+      "elo": 1550,
+      "tema": "Series",
+      "q": "La serie $\\displaystyle\\sum_{n \\geq 1} \\dfrac{n!}{n^n}$",
+      "opts": ["Diverge", "Converge (criterio del cociente, límite $1/e$)", "Converge a $1$", "El criterio no decide"],
+      "a": 1,
+      "sol": "$\\dfrac{a_{n+1}}{a_n} = \\left(\\dfrac{n}{n+1}\\right)^n \\to \\dfrac{1}{e} < 1$, así que converge por el criterio del cociente.",
+      "teoria": {
+        "titulo": "Criterio del cociente (D'Alembert)",
+        "texto": "Con $L = \\displaystyle\\lim_{n \\to \\infty} \\left|\\frac{a_{n+1}}{a_n}\\right|$: si $L < 1$ converge, $L > 1$ diverge, $L = 1$ no decide. Ideal con factoriales y exponenciales. <em>Ejemplo:</em> $\\sum \\frac{2^n}{n!}$ tiene $\\frac{a_{n+1}}{a_n} = \\frac{2}{n+1} \\to 0$: converge."
+      }
+    },
+    {
+      "id": 14,
+      "elo": 1650,
+      "tema": "Taylor",
+      "q": "$\\lim_{x \\to 0} \\dfrac{\\tan x - x}{x^3}$",
+      "opts": ["$\\tfrac{1}{3}$", "$\\tfrac{1}{2}$", "$\\tfrac{1}{6}$", "$0$"],
+      "a": 0,
+      "sol": "$\\tan x = x + \\dfrac{x^3}{3} + o(x^3)$. Restando $x$ queda $\\dfrac{x^3}{3}$; dividiendo por $x^3 \\to \\dfrac{1}{3}$.",
+      "teoria": {
+        "titulo": "Desarrollos de Taylor útiles en $0$",
+        "texto": "$\\tan x = x + \\frac{x^3}{3} + \\frac{2x^5}{15} + \\cdots$, $\\sin x = x - \\frac{x^3}{6} + \\cdots$, $\\ln(1+x) = x - \\frac{x^2}{2} + \\frac{x^3}{3} - \\cdots$. <em>Ejemplo:</em> $\\displaystyle\\lim_{x\\to 0} \\frac{\\ln(1+x) - x}{x^2} = -\\frac{1}{2}$."
+      }
+    },
+    {
+      "id": 15,
+      "elo": 1450,
+      "tema": "Sucesiones",
+      "q": "$\\sup\\,\\{\\, x \\in \\mathbb{Q} : x^2 < 2 \\,\\}$",
+      "opts": ["No existe", "$\\sqrt{2}$", "$2$", "$1{,}41$"],
+      "a": 1,
+      "sol": "El conjunto está acotado superiormente y su menor cota superior en $\\mathbb{R}$ es $\\sqrt{2}$ (que no pertenece a $\\mathbb{Q}$).",
+      "teoria": {
+        "titulo": "Axioma de completitud y supremo",
+        "texto": "Todo conjunto no vacío y acotado superiormente en $\\mathbb{R}$ tiene supremo (la menor cota superior). Puede no pertenecer al conjunto. <em>Ejemplo:</em> $A = \\{x \\in \\mathbb{Q} : x < \\pi\\}$ tiene $\\sup A = \\pi \\notin \\mathbb{Q}$."
+      }
+    },
+    {
+      "id": 16,
+      "elo": 1550,
+      "tema": "Sucesiones",
+      "q": "Para $a_n = (-1)^n\\left(1 + \\dfrac{1}{n}\\right)$, ¿cuánto valen $\\limsup$ y $\\liminf$?",
+      "opts": ["$\\limsup = 1$, $\\liminf = -1$", "$\\limsup = -1$, $\\liminf = 1$", "Ambos valen $0$", "No existen"],
+      "a": 0,
+      "sol": "Los términos pares $\\to 1$ y los impares $\\to -1$. El mayor punto de acumulación es $1$ y el menor $-1$.",
+      "teoria": {
+        "titulo": "Límite superior e inferior",
+        "texto": "$\\limsup a_n$ es el mayor punto de acumulación; $\\liminf a_n$ el menor. Siempre existen en $\\overline{\\mathbb{R}}$. <em>Ejemplo:</em> $a_n = (-1)^n$ tiene $\\limsup = 1$ y $\\liminf = -1$."
+      }
+    },
+    {
+      "id": 17,
+      "elo": 1500,
+      "tema": "Continuidad",
+      "q": "$f(x) = x^2$ en $[0,1]$. ¿Es uniformemente continua?",
+      "opts": ["Sí, es uniformemente continua", "No, porque la derivada no está acotada en $\\mathbb{R}$", "No, porque $f$ no es continua", "Solo lo es en $(0,1)$"],
+      "a": 0,
+      "sol": "Toda función continua en un compacto es uniformemente continua. $[0,1]$ es compacto.",
+      "teoria": {
+        "titulo": "Teorema de Heine–Cantor",
+        "texto": "Toda función continua en un compacto $[a,b]$ es uniformemente continua: existe $\\delta(\\varepsilon)$ que sirve para todos los puntos a la vez. <em>Ejemplo:</em> $\\sin x$ es uniformemente continua en $[0, 2\\pi]$."
+      }
+    },
+    {
+      "id": 18,
+      "elo": 1550,
+      "tema": "Continuidad",
+      "q": "$f(x) = \\dfrac{1}{x}$ en $(0,1)$. ¿Es uniformemente continua?",
+      "opts": ["Sí, es uniformemente continua", "No es uniformemente continua", "Es continua pero no derivable", "Es acotada"],
+      "a": 1,
+      "sol": "El intervalo no es compacto y $f$ no está acotada cerca de $0$: tomando $x_n = 1/n$, $y_n = 1/(n+1)$, $|f(x_n) - f(y_n)| = 1$ pese a que $|x_n - y_n| \\to 0$.",
+      "teoria": {
+        "titulo": "Fallos de la continuidad uniforme",
+        "texto": "En intervalos no compactos puede romperse: la función se escapa o su derivada no está acotada. <em>Ejemplo:</em> $f(x) = x^2$ en $\\mathbb{R}$: con $x_n = n$, $y_n = n + 1/n$, $|f(x_n)-f(y_n)| \\to 2$ pero $|x_n - y_n| \\to 0$."
+      }
+    },
+    {
+      "id": 19,
+      "elo": 1300,
+      "tema": "Integrales",
+      "q": "$\\displaystyle\\int_1^{+\\infty} \\dfrac{dx}{x^p}$ converge si y solo si",
+      "opts": ["$p \\geq 1$", "$p > 1$", "$p < 1$", "para todo $p$"],
+      "a": 1,
+      "sol": "Es la integral $p$. Para $p > 1$ converge a $\\dfrac{1}{p-1}$; para $p \\leq 1$ diverge.",
+      "teoria": {
+        "titulo": "Integral impropia de tipo $p$",
+        "texto": "$\\displaystyle\\int_1^{+\\infty} \\frac{dx}{x^p}$ converge si y solo si $p > 1$, y vale $\\frac{1}{p-1}$. <em>Ejemplo:</em> $\\int_1^\\infty \\frac{dx}{x^3} = \\frac{1}{2}$; $\\int_1^\\infty \\frac{dx}{x}$ diverge."
+      }
+    },
+    {
+      "id": 20,
+      "elo": 1008,
+      "tema": "Derivadas",
+      "q": "$f(x) = |x|$ en $x = 0$",
+      "opts": ["Es derivable con $f'(0) = 0$", "No es derivable: las derivadas laterales son distintas", "Es derivable solo por derecha e izquierda a la vez", "Es discontinua en $0$"],
+      "a": 1,
+      "sol": "La derivada por izquierda es $-1$ y por derecha es $+1$. Al no coincidir, $f'(0)$ no existe.",
+      "teoria": {
+        "titulo": "Derivabilidad vs continuidad",
+        "texto": "Derivable $\\Rightarrow$ continua, pero no al revés. En un <em>pico</em> las derivadas laterales difieren. <em>Ejemplo:</em> $f(x) = \\sqrt[3]{x}$ es continua en $0$ pero $f'(0) = +\\infty$."
+      }
+    },
+    {
+      "id": 21,
+      "elo": 1350,
+      "tema": "Teoremas",
+      "q": "El teorema de Bolzano–Weierstrass afirma que:",
+      "opts": ["Toda sucesión acotada tiene una subsucesión convergente", "Toda sucesión convergente es acotada", "Toda sucesión tiene una subsucesión convergente", "Toda sucesión de Cauchy converge en $\\mathbb{Q}$"],
+      "a": 0,
+      "sol": "En $\\mathbb{R}^n$, toda sucesión acotada posee una subsucesión convergente. La tercera opción es falsa (ej: $a_n = n$).",
+      "teoria": {
+        "titulo": "Teorema de Bolzano–Weierstrass",
+        "texto": "Toda sucesión <em>acotada</em> en $\\mathbb{R}^n$ admite una subsucesión convergente. Es equivalente al axioma de completitud. <em>Ejemplo:</em> $a_n = \\sin(n)$ está acotada, así que tiene subsucesiones convergentes."
+      }
+    },
+    {
+      "id": 22,
+      "elo": 1250,
+      "tema": "Límites",
+      "q": "$\\lim_{x \\to 0} x \\, \\sin\\!\\left(\\dfrac{1}{x}\\right)$",
+      "opts": ["$0$", "$1$", "No existe", "$+\\infty$"],
+      "a": 0,
+      "sol": "$\\sin(1/x)$ está acotado entre $-1$ y $1$, y $x \\to 0$. Por el teorema del sándwich, el producto tiende a $0$.",
+      "teoria": {
+        "titulo": "Teorema del sándwich",
+        "texto": "Si $g(x) \\leq f(x) \\leq h(x)$ cerca de $a$ y $\\lim_{x\\to a} g = \\lim_{x\\to a} h = L$, entonces $\\lim_{x\\to a} f = L$. <em>Ejemplo:</em> $\\displaystyle\\lim_{x\\to 0} x^2 \\cos(1/x) = 0$ porque $|x^2\\cos(1/x)| \\leq x^2 \\to 0$."
+      }
+    },
+    {
+      "id": 23,
+      "elo": 1400,
+      "tema": "Series",
+      "q": "La serie $\\displaystyle\\sum_{n \\geq 1} \\dfrac{(-1)^n}{n}$",
+      "opts": ["Diverge", "Converge absolutamente", "Converge condicionalmente", "Converge a $0$"],
+      "a": 2,
+      "sol": "Converge por Leibniz, pero $\\sum 1/n$ diverge; por lo tanto la convergencia es condicional.",
+      "teoria": {
+        "titulo": "Criterio de Leibniz",
+        "texto": "Si $a_n$ decrece y $a_n \\to 0$, entonces $\\sum (-1)^n a_n$ converge. Es <em>absoluta</em> si $\\sum |a_n|$ converge, y <em>condicional</em> si no. <em>Ejemplo:</em> $\\sum \\frac{(-1)^n}{n^2}$ converge absolutamente."
+      }
+    },
+    {
+      "id": 24,
+      "elo": 1300,
+      "tema": "Integrales",
+      "q": "$\\displaystyle\\int x\\,e^x\\,dx$",
+      "opts": ["$e^x(x-1) + C$", "$x\\,e^x + C$", "$e^x(x+1) + C$", "$x^2 e^x / 2 + C$"],
+      "a": 0,
+      "sol": "Integrando por partes con $u = x$, $dv = e^x\\,dx$: $x\\,e^x - \\int e^x\\,dx = e^x(x-1) + C$.",
+      "teoria": {
+        "titulo": "Integración por partes",
+        "texto": "$\\displaystyle\\int u\\,dv = uv - \\int v\\,du$. Elegí $u$ en el orden Logaritmo &gt; Algebraica &gt; Trigonométrica &gt; Exponencial. <em>Ejemplo:</em> $\\displaystyle\\int x\\cos x\\,dx = x\\sin x + \\cos x + C$."
+      }
+    },
+    {
+      "id": 25,
+      "elo": 1154.688330938455,
+      "tema": "Límites",
+      "q": "$\\lim_{x \\to 1} \\dfrac{\\ln x}{x - 1}$",
+      "opts": ["$0$", "$1$", "$e$", "$+\\infty$"],
+      "a": 1,
+      "sol": "Es la derivada de $\\ln$ en $x = 1$: $1/1 = 1$. También por L'Hôpital: $(1/x)/1 \\to 1$.",
+      "teoria": {
+        "titulo": "Regla de L'Hôpital",
+        "texto": "Si $\\frac{f}{g}$ es indeterminación $\\frac{0}{0}$ o $\\frac{\\infty}{\\infty}$ y $\\lim \\frac{f'}{g'}$ existe, entonces $\\lim \\frac{f}{g} = \\lim \\frac{f'}{g'}$. <em>Ejemplo:</em> $\\displaystyle\\lim_{x\\to 0} \\frac{e^x - 1}{x} = 1$."
+      }
+    },
+    {
+      "id": 26,
+      "elo": 1237.0669172392086,
+      "tema": "Taylor",
+      "q": "El polinomio de Taylor de orden $3$ de $\\sin(x)$ en $x = 0$ es:",
+      "opts": ["$x - \\dfrac{x^3}{6}$", "$x + \\dfrac{x^3}{6}$", "$x - \\dfrac{x^2}{2}$", "$1 - \\dfrac{x^2}{2}$"],
+      "a": 0,
+      "sol": "$\\sin x = x - \\dfrac{x^3}{3!} + \\dfrac{x^5}{5!} - \\cdots$. El término de orden $3$ es $-\\dfrac{x^3}{6}$.",
+      "teoria": {
+        "titulo": "Polinomio de Taylor (Maclaurin)",
+        "texto": "$P_n(x) = \\displaystyle\\sum_{k=0}^{n} \\frac{f^{(k)}(0)}{k!} x^k$. Aproxima $f$ cerca de $0$ con error $o(x^n)$. <em>Ejemplo:</em> para $\\cos x$, $P_4(x) = 1 - \\frac{x^2}{2} + \\frac{x^4}{24}$."
+      }
+    },
+    {
+      "id": 27,
+      "elo": 1400,
+      "tema": "Aplicaciones de derivadas",
+      "q": "Si $f'(x) > 0$ para todo $x \\in (a, b)$, entonces:",
+      "opts": ["$f$ es estrictamente creciente en $(a, b)$", "$f$ es constante en $(a, b)$", "$f$ es convexa en $(a, b)$", "$f$ alcanza un máximo interior"],
+      "a": 0,
+      "sol": "Por el TVM, para $x_1 < x_2$ existe $c$ con $f(x_2) - f(x_1) = f'(c)(x_2 - x_1) > 0$.",
+      "teoria": {
+        "titulo": "Criterio de monotonía",
+        "texto": "Si $f'(x) > 0$ en un intervalo, $f$ es estrictamente creciente; si $f'(x) < 0$, estrictamente decreciente. <em>Ejemplo:</em> $f(x) = e^x - x$ tiene $f'(x) = e^x - 1 > 0$ para $x > 0$, así que crece ahí."
+      }
+    },
+    {
+      "id": 28,
+      "elo": 1203.6397863516472,
+      "tema": "Límites",
+      "q": "$\\lim_{x \\to +\\infty} \\left(1 + \\dfrac{1}{x}\\right)^{x}$",
+      "opts": ["$1$", "$e$", "$+\\infty$", "$0$"],
+      "a": 1,
+      "sol": "Es la definición clásica del número $e \\approx 2{,}71828\\ldots$",
+      "teoria": {
+        "titulo": "Límite exponencial fundamental",
+        "texto": "$\\displaystyle\\lim_{x \\to \\pm\\infty}\\left(1 + \\frac{1}{x}\\right)^x = e$. Generalización: $\\displaystyle\\lim_{x\\to\\infty}\\left(1+\\frac{a}{x}\\right)^x = e^a$. <em>Ejemplo:</em> $\\left(1+\\frac{2}{x}\\right)^x \\to e^2$."
+      }
+    },
+    {
+      "id": 29,
+      "elo": 1236.9059010313692,
+      "tema": "Series",
+      "q": "La serie $\\displaystyle\\sum_{n \\geq 1} \\dfrac{1}{n^2 + 1}$",
+      "opts": ["Diverge", "Converge", "Converge a $1$", "Es telescópica"],
+      "a": 1,
+      "sol": "Comparando con $1/n^2$: $\\dfrac{1}{n^2 + 1} < \\dfrac{1}{n^2}$, así que converge por comparación.",
+      "teoria": {
+        "titulo": "Criterio de comparación",
+        "texto": "Si $0 \\leq a_n \\leq b_n$ para todo $n$ grande y $\\sum b_n$ converge, entonces $\\sum a_n$ converge. <em>Ejemplo:</em> $\\sum \\frac{1}{n^3 + 5}$ converge porque $\\frac{1}{n^3+5} < \\frac{1}{n^3}$."
+      }
+    },
+    {
+      "id": 30,
+      "elo": 1500,
+      "tema": "Derivadas",
+      "q": "$\\dfrac{d}{dx}\\big[\\, x^{x} \\,\\big]$ para $x > 0$",
+      "opts": ["$x^x$", "$x^x \\ln x$", "$x^x(\\ln x + 1)$", "$x \\cdot x^{x-1}$"],
+      "a": 2,
+      "sol": "Escribimos $x^x = e^{x \\ln x}$ y derivamos: $e^{x \\ln x}(\\ln x + 1) = x^x(\\ln x + 1)$.",
+      "teoria": {
+        "titulo": "Derivación logarítmica",
+        "texto": "Para $f^g$, escribí $f^g = e^{g \\ln f}$ y aplicá la cadena. Fórmula general: $(f^g)' = f^g\\left(g' \\ln f + g \\frac{f'}{f}\\right)$. <em>Ejemplo:</em> $(x^{\\sin x})' = x^{\\sin x}\\left(\\cos x \\ln x + \\frac{\\sin x}{x}\\right)$."
+      }
+    },
+    {
+      "id": 31,
+      "elo": 1040.8565901214658,
+      "tema": "Sucesiones",
+      "q": "Para $A = \\{\\, 1/n : n \\in \\mathbb{N} \\,\\}$, ¿cuánto valen $\\sup(A)$ e $\\inf(A)$?",
+      "opts": ["$\\sup = 1$, $\\inf = 0$", "$\\sup = 1$, $\\inf = 1$", "$\\sup = 0$, $\\inf = 1$", "Ninguno existe"],
+      "a": 0,
+      "sol": "El mayor elemento es $1$ y los términos se acercan a $0$ sin alcanzarlo: $0$ es el ínfimo, no el mínimo.",
+      "teoria": {
+        "titulo": "Supremo, ínfimo, máximo, mínimo",
+        "texto": "$\\sup$ es la menor cota superior, $\\inf$ la mayor cota inferior. Si $\\sup \\in A$ es el máximo; si $\\inf \\in A$ es el mínimo. <em>Ejemplo:</em> $A = [0,1)$ tiene $\\sup A = 1 \\notin A$ e $\\inf A = 0 \\in A$."
+      }
+    },
+    {
+      "id": 32,
+      "elo": 1650,
+      "tema": "Taylor",
+      "q": "$\\lim_{x \\to 0} \\dfrac{\\sin x - x}{x^3}$",
+      "opts": ["$-\\tfrac{1}{6}$", "$\\tfrac{1}{6}$", "$0$", "$-\\tfrac{1}{3}$"],
+      "a": 0,
+      "sol": "$\\sin x = x - \\dfrac{x^3}{6} + o(x^3)$. Restando $x$ queda $-\\dfrac{x^3}{6}$; dividiendo por $x^3 \\to -\\dfrac{1}{6}$.",
+      "teoria": {
+        "titulo": "Elección del orden de Taylor",
+        "texto": "Expandí hasta que el primer término no nulo sobreviva a la cancelación. <em>Ejemplo:</em> para $\\displaystyle\\lim_{x\\to 0}\\frac{\\cos x - 1 + x^2/2}{x^4}$ necesitás Taylor de $\\cos$ hasta orden $4$: $\\frac{x^4}{24}$."
+      }
+    },
+    {
+      "id": 33,
+      "elo": 1350,
+      "tema": "Series",
+      "q": "La serie $\\displaystyle\\sum_{n \\geq 1} \\dfrac{1}{n(n+1)}$",
+      "opts": ["Diverge", "Converge a $1$", "Converge a $1/2$", "Converge a $2$"],
+      "a": 1,
+      "sol": "Es telescópica: $\\dfrac{1}{n(n+1)} = \\dfrac{1}{n} - \\dfrac{1}{n+1}$. La suma parcial es $1 - \\dfrac{1}{N+1} \\to 1$.",
+      "teoria": {
+        "titulo": "Series telescópicas",
+        "texto": "Si $a_n = b_n - b_{n+1}$, la suma parcial vale $b_1 - b_{N+1}$. La serie converge si $b_{N+1}$ tiene límite finito. <em>Ejemplo:</em> $\\displaystyle\\sum_{n\\geq 1}\\left(\\frac{1}{\\sqrt{n}} - \\frac{1}{\\sqrt{n+1}}\\right) = 1$."
+      }
+    },
+    {
+      "id": 34,
+      "elo": 1300,
+      "tema": "Sucesiones",
+      "q": "Para $a_n = \\dfrac{(-1)^n}{n}$, ¿cuánto vale $\\limsup a_n$?",
+      "opts": ["$1$", "$0$", "$-1$", "No existe"],
+      "a": 1,
+      "sol": "La sucesión completa tiende a $0$, por lo que su mayor punto de acumulación también es $0$.",
+      "teoria": {
+        "titulo": "Límite superior de una convergente",
+        "texto": "Si $a_n \\to L$ en el sentido usual, entonces $\\limsup a_n = \\liminf a_n = L$. <em>Ejemplo:</em> $a_n = \\frac{\\cos n}{n} \\to 0$ implica $\\limsup a_n = 0$."
+      }
+    },
+    {
+      "id": 35,
+      "elo": 1750,
+      "tema": "Teoremas",
+      "q": "$f(x) = x^3$ es inyectiva en $\\mathbb{R}$ y $f'(0) = 0$. ¿Contradice esto el teorema de la función inversa?",
+      "opts": ["Sí, $f'$ debe ser distinto de $0$ en todo punto", "No: la hipótesis es local, y $f'(0) = 0$ solo impide garantizar invertibilidad en un entorno de $0$", "Sí, porque $f$ no es inyectiva", "No, porque $f$ no es continua"],
+      "a": 1,
+      "sol": "El teorema da una condición <em>suficiente</em> local. Aquí $f$ sí es globalmente invertible ($\\sqrt[3]{x}$), pero $\\sqrt[3]{\\;}$ no es derivable en $0$.",
+      "teoria": {
+        "titulo": "Teorema de la función inversa",
+        "texto": "Si $f$ es $C^1$ en un entorno de $a$ y $f'(a) \\neq 0$, entonces $f$ es localmente invertible con inversa $C^1$. La condición es suficiente, no necesaria. <em>Ejemplo:</em> $f(x) = x + x^3$ cumple $f'(0) = 1 \\neq 0$; su inversa local es $C^1$."
+      }
+    },
+    {
+      "id": 36,
+      "elo": 1105.7589600031538,
+      "tema": "Teoremas",
+      "q": "Si $f$ es continua en $[a,b]$ con $f(a) < 0 < f(b)$, entonces:",
+      "opts": ["Existe $c \\in (a,b)$ con $f(c) = 0$", "$f$ es derivable en $(a,b)$", "$f$ tiene un máximo en el interior", "No se puede afirmar nada"],
+      "a": 0,
+      "sol": "Es exactamente el teorema de Bolzano (valor intermedio).",
+      "teoria": {
+        "titulo": "Teorema de Bolzano (valor intermedio)",
+        "texto": "Si $f$ es continua en $[a,b]$ y $y$ está entre $f(a)$ y $f(b)$, existe $c \\in (a,b)$ con $f(c)=y$. Corolario: si $f(a)$ y $f(b)$ tienen signos opuestos, hay raíz en $(a,b)$. <em>Ejemplo:</em> $f(x)=x^3+x-1$ tiene raíz en $(0,1)$."
+      }
+    },
+    {
+      "id": 37,
+      "elo": 1138.7458399444508,
+      "tema": "Integrales",
+      "q": "$\\displaystyle\\int_0^{+\\infty} e^{-x}\\,dx$",
+      "opts": ["$1$", "$+\\infty$", "$0$", "$e$"],
+      "a": 0,
+      "sol": "La primitiva es $-e^{-x}$. Evaluando: $(0) - (-1) = 1$.",
+      "teoria": {
+        "titulo": "Integral impropia de primera especie",
+        "texto": "Se define $\\displaystyle\\int_a^{+\\infty} f = \\lim_{R \\to +\\infty} \\int_a^R f$. Converge si el límite es finito. <em>Ejemplo:</em> $\\displaystyle\\int_1^\\infty \\frac{dx}{x^2} = \\lim_{R\\to\\infty}\\left[1 - \\frac{1}{R}\\right] = 1$."
+      }
+    },
+    {
+      "id": 38,
+      "elo": 1253.2817353347966,
+      "tema": "Series",
+      "q": "La serie $\\displaystyle\\sum_{n \\geq 1} \\dfrac{1}{n^{3/2}}$",
+      "opts": ["Diverge", "Converge", "Converge a $3/2$", "Oscila"],
+      "a": 1,
+      "sol": "Serie $p$ con $p = 3/2 > 1$, por lo tanto converge.",
+      "teoria": {
+        "titulo": "Serie $p$ (criterio de referencia)",
+        "texto": "$\\displaystyle\\sum_{n\\geq 1} \\frac{1}{n^p}$ converge $\\Leftrightarrow p > 1$. Cualquier serie comparable con una $p$ se resuelve por comparación. <em>Ejemplo:</em> $\\sum \\frac{1}{n^{\\pi}}$ converge porque $\\pi \\approx 3{,}14 > 1$."
+      }
+    },
+    {
+      "id": 39,
+      "elo": 1450,
+      "tema": "Límites",
+      "q": "$\\lim_{x \\to 0^+} x \\ln x$",
+      "opts": ["$0$", "$-\\infty$", "$1$", "No existe"],
+      "a": 0,
+      "sol": "Reescribimos como $\\dfrac{\\ln x}{1/x}$ y aplicamos L'Hôpital: $\\dfrac{1/x}{-1/x^2} = -x \\to 0$.",
+      "teoria": {
+        "titulo": "Límites del tipo $0 \\cdot \\infty$",
+        "texto": "Se reescriben como cociente para aplicar L'Hôpital: $f \\cdot g = \\frac{f}{1/g}$ o $\\frac{g}{1/f}$. <em>Ejemplo:</em> $\\displaystyle\\lim_{x\\to 0^+} x^2 \\ln x = \\lim_{x\\to 0^+}\\frac{\\ln x}{1/x^2} = \\lim_{x\\to 0^+}\\frac{-x^2}{2} = 0$."
+      }
+    },
+    {
+      "id": 40,
+      "elo": 1350,
+      "tema": "Derivadas",
+      "q": "Si $f(x) = \\arctan(x)$, ¿cuánto vale $f'(1)$?",
+      "opts": ["$\\tfrac{1}{2}$", "$1$", "$\\tfrac{\\pi}{4}$", "$\\tfrac{1}{\\sqrt{2}}$"],
+      "a": 0,
+      "sol": "$f'(x) = \\dfrac{1}{1 + x^2}$. En $x = 1$: $\\dfrac{1}{2}$.",
+      "teoria": {
+        "titulo": "Derivadas de trigonométricas inversas",
+        "texto": "$(\\arcsin x)' = \\frac{1}{\\sqrt{1-x^2}}$, $(\\arccos x)' = -\\frac{1}{\\sqrt{1-x^2}}$, $(\\arctan x)' = \\frac{1}{1+x^2}$. <em>Ejemplo:</em> $\\dfrac{d}{dx}\\arctan(2x) = \\dfrac{2}{1+4x^2}$."
+      }
+    },
+    {
+      "id": 41,
+      "elo": 950,
+      "tema": "Límites",
+      "q": "$\\lim_{x \\to 0^+} \\dfrac{|x|}{x}$ y $\\lim_{x \\to 0^-} \\dfrac{|x|}{x}$ valen, respectivamente:",
+      "opts": ["$1$ y $-1$", "$-1$ y $1$", "$0$ y $0$", "No existen"],
+      "a": 0,
+      "sol": "Si $x>0$, $|x|=x$, entonces $|x|/x=1$. Si $x<0$, $|x|=-x$, entonces $|x|/x=-1$.",
+      "teoria": {
+        "titulo": "Límites laterales y existencia del límite",
+        "texto": "El límite lateral por derecha $\\lim_{x\\to a^+} f(x)$ usa valores $x>a$; el lateral por izquierda usa $x<a$. El límite ordinario existe si y solo si ambos laterales existen y coinciden. <br><br><strong>Pasos:</strong> 1) Calcular cada lateral. 2) Comparar. 3) Si coinciden, ese es el límite; si no, el límite no existe. <br><br><em>Error común:</em> cancelar $|x|/x$ como $1$ sin analizar el signo. <em>Ejemplo extra:</em> $\\lim_{x\\to 0^+} \\frac{\\sqrt{x^2}}{x}=1$ y $\\lim_{x\\to 0^-} \\frac{\\sqrt{x^2}}{x}=-1$."
+      }
+    },
+    {
+      "id": 42,
+      "elo": 1000,
+      "tema": "Límites",
+      "q": "$f(x)=\\dfrac{x+1}{x-3}$. ¿Cuál es la asíntota vertical?",
+      "opts": ["$x=3$", "$y=1$", "$x=-1$", "$y=3$"],
+      "a": 0,
+      "sol": "El denominador se anula en $x=3$ y el numerador no. Los límites laterales son $\\pm\\infty$, así que $x=3$ es asíntota vertical.",
+      "teoria": {
+        "titulo": "Asíntotas verticales, horizontales y oblicuas",
+        "texto": "Una asíntota vertical aparece cuando $f(x)\\to \\pm\\infty$ al acercarse a un punto $a$. Se busca donde el denominador se anula y el numerador no. Una asíntota horizontal aparece si $\\lim_{x\\to\\pm\\infty} f(x)=L$; la recta es $y=L$. Una oblicua aparece si $f(x)-(mx+b)\\to 0$ con $m\\neq 0$. <br><br><strong>Pasos:</strong> 1) Dominio y ceros del denominador para verticales. 2) Límites al infinito para horizontales. 3) Si no hay horizontal, probar división polinómica para oblicua. <br><br><em>Ejemplo extra:</em> $g(x)=\\frac{2x^2+1}{x-1}$ tiene asíntota oblicua $y=2x+2$."
+      }
+    },
+    {
+      "id": 43,
+      "elo": 1050,
+      "tema": "Derivadas",
+      "q": "$\\dfrac{d}{dx}\\left[\\sin(x^2)\\right]$",
+      "opts": ["$\\cos(x^2)$", "$2x\\cos(x^2)$", "$2x\\sin(x^2)$", "$-2x\\cos(x^2)$"],
+      "a": 1,
+      "sol": "Regla de la cadena: derivada de $\\sin(u)$ es $\\cos(u)\\cdot u'$. Con $u=x^2$, $u'=2x$. Resultado: $2x\\cos(x^2)$.",
+      "teoria": {
+        "titulo": "Regla de la cadena",
+        "texto": "Si $y=f(u)$ y $u=g(x)$, entonces $\\dfrac{dy}{dx}=f'(g(x))\\cdot g'(x)$. La idea es derivar de afuera hacia adentro. <br><br><strong>Pasos:</strong> 1) Identificar la función externa y la interna. 2) Derivar la externa evaluada en la interna. 3) Multiplicar por la derivada de la interna. <br><br><em>Error común:</em> olvidar multiplicar por la derivada interna. <em>Ejemplo extra:</em> $\\dfrac{d}{dx}\\cos(3x^2)=-6x\\sin(3x^2)$."
+      }
+    },
+    {
+      "id": 44,
+      "elo": 1100,
+      "tema": "Derivadas",
+      "q": "Si $x^2+y^2=25$, ¿cuánto vale $\\dfrac{dy}{dx}$?",
+      "opts": ["$-\\dfrac{x}{y}$", "$\\dfrac{x}{y}$", "$-\\dfrac{y}{x}$", "$2x+2y$"],
+      "a": 0,
+      "sol": "Derivamos ambos lados respecto de $x$: $2x+2y\\dfrac{dy}{dx}=0$. Despejando: $\\dfrac{dy}{dx}=-\\dfrac{x}{y}$.",
+      "teoria": {
+        "titulo": "Derivación implícita",
+        "texto": "Cuando $y$ no está despejada, se deriva toda la ecuación respecto de $x$, tratando a $y$ como función de $x$. Cada vez que se deriva $y$ aparece $\\dfrac{dy}{dx}$ por la regla de la cadena. <br><br><strong>Pasos:</strong> 1) Derivar ambos miembros. 2) Agrupar los términos con $y'$. 3) Despejar $y'$. <br><br><em>Error común:</em> olvidar que $\\frac{d}{dx}(y^2)=2y\\,y'$. <em>Ejemplo extra:</em> de $x^3+y^3=6xy$, se obtiene $y'=\\frac{2y-x^2}{y^2-2x}$."
+      }
+    },
+    {
+      "id": 45,
+      "elo": 1150,
+      "tema": "Aplicaciones de derivadas",
+      "q": "Un rectángulo tiene perímetro $40$. ¿Qué dimensiones maximizan su área?",
+      "opts": ["$10\\times 10$", "$20\\times 0$", "$5\\times 15$", "$8\\times 12$"],
+      "a": 0,
+      "sol": "Sean $x$ e $y$ los lados. $2x+2y=40\\Rightarrow y=20-x$. Área $A=x(20-x)=20x-x^2$. $A'=20-2x=0\\Rightarrow x=10$, luego $y=10$.",
+      "teoria": {
+        "titulo": "Optimización en una variable",
+        "texto": "Para maximizar o minimizar una cantidad: 1) Escribir la función objetivo. 2) Usar las restricciones para dejarla en una sola variable. 3) Derivar e igualar a cero. 4) Verificar con la segunda derivada o con el contexto. <br><br><em>Error común:</em> no justificar que el punto crítico es máximo. <em>Ejemplo extra:</em> con perímetro $P$, el rectángulo de área máxima es siempre un cuadrado de lado $P/4$."
+      }
+    },
+    {
+      "id": 46,
+      "elo": 1000,
+      "tema": "Integrales",
+      "q": "$\\displaystyle\\int 2x e^{x^2}\\,dx$",
+      "opts": ["$e^{x^2}+C$", "$2e^{x^2}+C$", "$x^2 e^{x^2}+C$", "$\\dfrac{e^{x^2}}{2}+C$"],
+      "a": 0,
+      "sol": "Sustitución $u=x^2$, $du=2x\\,dx$. La integral queda $\\int e^u\\,du=e^u+C=e^{x^2}+C$.",
+      "teoria": {
+        "titulo": "Integración por sustitución",
+        "texto": "Se elige $u$ de modo que $du$ aparezca en la integral. Es la regla de la cadena al revés. <br><br><strong>Pasos:</strong> 1) Elegir $u$. 2) Calcular $du$. 3) Reescribir toda la integral en $u$. 4) Integrar. 5) Volver a $x$. <br><br><em>Error común:</em> mezclar $x$ y $u$ en la misma integral. <em>Ejemplo extra:</em> $\\int \\frac{1}{x\\ln x}\\,dx=\\ln|\\ln x|+C$ con $u=\\ln x$."
+      }
+    },
+    {
+      "id": 47,
+      "elo": 1050,
+      "tema": "Integrales",
+      "q": "$\\displaystyle\\int \\sin x \\cos x\\,dx$",
+      "opts": ["$\\dfrac{1}{2}\\sin^2 x + C$", "$-\\dfrac{1}{2}\\sin^2 x + C$", "$\\cos^2 x + C$", "$\\dfrac{1}{2}\\cos^2 x + C$"],
+      "a": 0,
+      "sol": "Sustitución $u=\\sin x$, $du=\\cos x\\,dx$. Queda $\\int u\\,du=\\frac{u^2}{2}+C=\\frac{1}{2}\\sin^2 x+C$.",
+      "teoria": {
+        "titulo": "Integrales trigonométricas básicas",
+        "texto": "Muchas integrales trigonométricas se resuelven con identidades o sustituciones. Por ejemplo, $\\sin(2x)=2\\sin x\\cos x$, así que $\\int \\sin x\\cos x\\,dx=\\frac{1}{2}\\int \\sin(2x)\\,dx=-\\frac{1}{4}\\cos(2x)+C$, equivalente a las anteriores salvo constante. <br><br><em>Error común:</em> olvidar la constante $C$ o confundir signos. <em>Ejemplo extra:</em> $\\int \\tan x\\,dx=-\\ln|\\cos x|+C$."
+      }
+    },
+    {
+      "id": 48,
+      "elo": 1300,
+      "tema": "Series",
+      "q": "La serie $\\displaystyle\\sum_{n\\geq 1} \\left(\\dfrac{n}{2n+1}\\right)^n$",
+      "opts": ["Diverge", "Converge", "El criterio de la raíz no decide", "Converge a $1$"],
+      "a": 1,
+      "sol": "Aplicamos criterio de la raíz: $\\sqrt[n]{a_n}=\\dfrac{n}{2n+1}\\to \\dfrac{1}{2}<1$. Por lo tanto, converge.",
+      "teoria": {
+        "titulo": "Criterio de la raíz (Cauchy)",
+        "texto": "Para $\\sum a_n$, sea $L=\\lim_{n\\to\\infty}\\sqrt[n]{|a_n|}$. Si $L<1$, la serie converge absolutamente; si $L>1$, diverge; si $L=1$, no decide. Es ideal cuando hay potencias $n$-ésimas. <br><br><em>Ejemplo extra:</em> $\\sum \\left(\\frac{3n}{n+1}\\right)^{-n}$ tiene raíz $\\frac{n+1}{3n}\\to 1/3<1$, converge."
+      }
+    },
+    {
+      "id": 49,
+      "elo": 1350,
+      "tema": "Series",
+      "q": "La serie $\\displaystyle\\sum_{n\\geq 2} \\dfrac{1}{n\\ln n}$",
+      "opts": ["Converge", "Diverge", "Converge a $1$", "No se puede decidir"],
+      "a": 1,
+      "sol": "Criterio integral: $\\int_2^\\infty \\frac{dx}{x\\ln x}=\\lim_{R\\to\\infty}\\ln(\\ln R)-\\ln(\\ln 2)=+\\infty$. Por lo tanto, la serie diverge.",
+      "teoria": {
+        "titulo": "Criterio integral",
+        "texto": "Si $f(x)$ es positiva, continua y decreciente para $x\\geq N$, entonces $\\sum_{n=N}^\\infty f(n)$ y $\\int_N^\\infty f(x)\\,dx$ convergen o divergen juntas. <br><br><strong>Pasos:</strong> 1) Verificar hipótesis. 2) Calcular la integral impropia. 3) Concluir. <br><br><em>Ejemplo extra:</em> $\\sum \\frac{1}{n(\\ln n)^2}$ converge porque $\\int \\frac{dx}{x(\\ln x)^2}$ es finita."
+      }
+    },
+    {
+      "id": 50,
+      "elo": 1250,
+      "tema": "Series",
+      "q": "La serie $\\displaystyle\\sum_{n\\geq 1} \\dfrac{(-1)^{n+1}}{\\sqrt{n}}$",
+      "opts": ["Converge absolutamente", "Converge condicionalmente", "Diverge", "No se sabe"],
+      "a": 1,
+      "sol": "Por Leibniz, $1/\\sqrt{n}$ decrece a $0$, así que la serie alternada converge. Pero $\\sum 1/\\sqrt{n}$ diverge porque es serie $p$ con $p=1/2<1$. Entonces la convergencia es condicional.",
+      "teoria": {
+        "titulo": "Series alternadas y convergencia condicional",
+        "texto": "Criterio de Leibniz: si $a_n$ es decreciente, positiva y $a_n\\to 0$, entonces $\\sum (-1)^n a_n$ converge. La convergencia es absoluta si $\\sum |a_n|$ converge; si la serie converge pero no absolutamente, se llama condicional. <br><br><em>Error común:</em> creer que $a_n\\to 0$ garantiza convergencia. La armónica $\\sum 1/n$ muestra que no. <em>Ejemplo extra:</em> $\\sum \\frac{(-1)^n}{n^2}$ converge absolutamente."
+      }
+    },
+    {
+      "id": 51,
+      "elo": 1400,
+      "tema": "Series",
+      "q": "El radio de convergencia de $\\displaystyle\\sum_{n\\geq 0} \\dfrac{x^n}{n!}$ es:",
+      "opts": ["$0$", "$1$", "$+\\infty$", "$e$"],
+      "a": 2,
+      "sol": "Criterio del cociente: $\\left|\\frac{a_{n+1}}{a_n}\\right|=\\frac{|x|}{n+1}\\to 0$ para todo $x$. Por lo tanto, el radio es infinito.",
+      "teoria": {
+        "titulo": "Radio de convergencia",
+        "texto": "Una serie de potencias $\\sum a_n x^n$ converge en un intervalo $(-R,R)$ llamado intervalo de convergencia. $R$ es el radio. Se calcula con $R=\\lim_{n\\to\\infty}\\left|\\frac{a_n}{a_{n+1}}\\right|$ o con la raíz. <br><br><em>Ejemplo extra:</em> $\\sum n! x^n$ tiene $R=0$; $\\sum \\frac{x^n}{n}$ tiene $R=1$."
+      }
+    },
+    {
+      "id": 52,
+      "elo": 1200,
+      "tema": "Sucesiones",
+      "q": "Sea $a_{n+1}=\\dfrac{a_n+2}{2}$ con $a_1=0$. ¿A qué valor converge?",
+      "opts": ["$2$", "$1$", "$0$", "No converge"],
+      "a": 0,
+      "sol": "Si $L=\\lim a_n$, entonces $L=\\frac{L+2}{2}\\Rightarrow 2L=L+2\\Rightarrow L=2$. También es creciente y acotada superiormente por $2$.",
+      "teoria": {
+        "titulo": "Sucesiones recursivas y punto fijo",
+        "texto": "Para una recurrencia $a_{n+1}=f(a_n)$, si el límite existe, debe satisfacer $L=f(L)$. Eso da candidatos. Luego hay que probar que la sucesión converge, por ejemplo mostrando que es monótona y acotada. <br><br><em>Ejemplo extra:</em> $a_{n+1}=\\sqrt{2+a_n}$ con $a_1=0$ converge a $2$, porque $L=\\sqrt{2+L}\\Rightarrow L=2$."
+      }
+    },
+    {
+      "id": 53,
+      "elo": 1300,
+      "tema": "Teoremas",
+      "q": "$f(x)=x^2-4$ en $[-2,2]$. ¿Qué garantiza el teorema de Rolle?",
+      "opts": ["Existe $c\\in(-2,2)$ con $f'(c)=0$", "Existe $c\\in(-2,2)$ con $f(c)=0$", "No se cumplen las hipótesis", "Existe $c=2$ con $f'(c)=0$"],
+      "a": 0,
+      "sol": "$f(-2)=f(2)=0$, y $f$ es continua en $[-2,2]$ y derivable en $(-2,2)$. Rolle garantiza $c\\in(-2,2)$ con $f'(c)=0$. Como $f'(x)=2x$, $c=0$.",
+      "teoria": {
+        "titulo": "Teorema de Rolle",
+        "texto": "Si $f$ es continua en $[a,b]$, derivable en $(a,b)$ y $f(a)=f(b)$, entonces existe al menos un $c\\in(a,b)$ con $f'(c)=0$. Es un caso particular del TVM. <br><br><em>Error común:</em> aplicarlo sin verificar las hipótesis. <em>Ejemplo extra:</em> $f(x)=\\sin x$ en $[0,\\pi]$ cumple Rolle y $c=\\pi/2$."
+      }
+    },
+    {
+      "id": 54,
+      "elo": 1150,
+      "tema": "Taylor",
+      "q": "El polinomio de Taylor de orden $2$ de $e^x$ en $x=0$ es:",
+      "opts": ["$1+x+\\dfrac{x^2}{2}$", "$1+x$", "$1+x+x^2$", "$x+\\dfrac{x^2}{2}$"],
+      "a": 0,
+      "sol": "$e^x=1+x+\\dfrac{x^2}{2}+o(x^2)$. El polinomio de orden $2$ es $1+x+\\dfrac{x^2}{2}$.",
+      "teoria": {
+        "titulo": "Polinomio de Taylor y resto",
+        "texto": "$P_n(x)=\\sum_{k=0}^n \\frac{f^{(k)}(0)}{k!}x^k$ para Maclaurin. El error es $R_n(x)=o(x^n)$ o dado por Lagrange. Se usa para aproximar y para calcular límites. <br><br><em>Ejemplo extra:</em> $\\cos x=1-\\frac{x^2}{2}+\\frac{x^4}{24}+o(x^4)$. Para $\\lim_{x\\to 0}\\frac{1-\\cos x}{x^2}$ basta orden $2$: $1-\\cos x\\sim x^2/2$."
+      }
+    },
+    {
+      "id": 55,
+      "elo": 1100,
+      "tema": "Límites",
+      "q": "$\\displaystyle\\lim_{x\\to 0} \\dfrac{\\tan x}{x}$",
+      "opts": ["$0$", "$1$", "$+\\infty$", "No existe"],
+      "a": 1,
+      "sol": "Por L'Hôpital: $\\lim_{x\\to 0}\\frac{\\sec^2 x}{1}=1$. También por equivalencia $\\tan x\\sim x$.",
+      "teoria": {
+        "titulo": "L'Hôpital y equivalencias asintóticas",
+        "texto": "L'Hôpital se usa en indeterminaciones $0/0$ o $\\infty/\\infty$: $\\lim\\frac{f}{g}=\\lim\\frac{f'}{g'}$ si el segundo existe. Las equivalencias en $0$ permiten resolver más rápido: $\\sin x\\sim x$, $\\tan x\\sim x$, $1-\\cos x\\sim x^2/2$, $\\ln(1+x)\\sim x$, $e^x-1\\sim x$. <br><br><em>Error común:</em> aplicar L'Hôpital cuando no hay indeterminación. <em>Ejemplo extra:</em> $\\lim_{x\\to 0}\\frac{\\ln(1+x)}{x}=1$."
+      }
+    },
+    {
+      "id": 56,
+      "elo": 1050,
+      "tema": "Continuidad",
+      "q": "$f(x)=\\dfrac{1}{x-2}$. ¿Qué tipo de discontinuidad tiene en $x=2$?",
+      "opts": ["Evitable", "Inevitable de salto infinito", "Continua", "Inevitable de salto finito"],
+      "a": 1,
+      "sol": "En $x=2$ el denominador se anula y $f(x)\\to\\pm\\infty$. Es una discontinuidad inevitable de salto infinito (asíntota vertical).",
+      "teoria": {
+        "titulo": "Tipos de discontinuidad",
+        "texto": "Una discontinuidad es evitable si $\\lim_{x\\to a}f(x)$ existe pero no coincide con $f(a)$ o $f(a)$ no existe. Es inevitable de salto finito si los límites laterales existen y son distintos. Es inevitable de salto infinito si al menos un lateral tiende a $\\pm\\infty$. <br><br><em>Ejemplo extra:</em> $f(x)=\\frac{x^2-1}{x-1}$ tiene discontinuidad evitable en $x=1$; $f(x)=\\frac{|x|}{x}$ tiene salto finito en $0$."
+      }
+    },
+    {
+      "id": 57,
+      "elo": 1150,
+      "tema": "Sucesiones",
+      "q": "Para $A=\\{x\\in\\mathbb{R}: x^2<9\\}$, ¿cuánto valen $\\sup(A)$ e $\\inf(A)$?",
+      "opts": ["$\\sup=3$, $\\inf=-3$", "$\\sup=9$, $\\inf=0$", "$\\sup=3$, $\\inf=0$", "No existen"],
+      "a": 0,
+      "sol": "$A=(-3,3)$. El supremo es $3$ y el ínfimo es $-3$. Ninguno pertenece a $A$.",
+      "teoria": {
+        "titulo": "Supremo e ínfimo",
+        "texto": "El supremo es la menor cota superior; el ínfimo, la mayor cota inferior. Pueden pertenecer o no al conjunto. Si el supremo pertenece al conjunto, es máximo; si el ínfimo pertenece, es mínimo. <br><br><em>Ejemplo extra:</em> $B=\\{1/n:n\\in\\mathbb{N}\\}$ tiene $\\sup B=1$ (máximo) e $\\inf B=0$ (no mínimo)."
+      }
+    },
+    {
+      "id": 58,
+      "elo": 1350,
+      "tema": "Integrales",
+      "q": "$\\displaystyle\\int_1^{+\\infty} \\dfrac{dx}{x^2+1}$ vale:",
+      "opts": ["$\\pi/4$", "$+\\infty$", "$\\pi/2$", "$1$"],
+      "a": 0,
+      "sol": "La primitiva es $\\arctan x$. Evaluando: $\\arctan(\\infty)-\\arctan(1)=\\pi/2-\\pi/4=\\pi/4$.",
+      "teoria": {
+        "titulo": "Integrales impropias de primera especie",
+        "texto": "Se define $\\int_a^{+\\infty} f=\\lim_{R\\to\\infty}\\int_a^R f$. Si el límite es finito, converge; si es infinito o no existe, diverge. Para comparar, se usan integrales $p$: $\\int_1^\\infty \\frac{dx}{x^p}$ converge si $p>1$. <br><br><em>Ejemplo extra:</em> $\\int_1^\\infty \\frac{dx}{x^2+1}$ converge porque $\\frac{1}{x^2+1}<\\frac{1}{x^2}$ y esta última converge."
+      }
+    },
+    {
+      "id": 59,
+      "elo": 1200,
+      "tema": "Aplicaciones de derivadas",
+      "q": "Si $f''(x)>0$ en un intervalo, entonces la gráfica de $f$ es:",
+      "opts": ["Cóncava hacia arriba (convexa)", "Cóncava hacia abajo", "Decreciente", "Lineal"],
+      "a": 0,
+      "sol": "$f''>0$ significa que $f'$ es creciente, las pendientes aumentan, por lo tanto la curva es cóncava hacia arriba.",
+      "teoria": {
+        "titulo": "Concavidad y puntos de inflexión",
+        "texto": "Si $f''(x)>0$, la función es convexa o cóncava hacia arriba. Si $f''(x)<0$, es cóncava hacia abajo. Un punto de inflexión es donde cambia la concavidad y suele cumplir $f''(c)=0$ o no existe, con cambio de signo. <br><br><em>Error común:</em> confundir crecimiento con concavidad. <em>Ejemplo extra:</em> $f(x)=x^3$ tiene $f''(x)=6x$; en $x=0$ hay punto de inflexión."
+      }
+    },
+    {
+      "id": 60,
+      "elo": 1400,
+      "tema": "Teoremas",
+      "q": "El teorema de Weierstrass afirma que si $f$ es continua en $[a,b]$, entonces:",
+      "opts": ["Alcanza máximo y mínimo absolutos", "Es derivable en $(a,b)$", "Es monótona", "Tiene una raíz"],
+      "a": 0,
+      "sol": "Toda función continua en un compacto $[a,b]$ alcanza su máximo y su mínimo absolutos.",
+      "teoria": {
+        "titulo": "Teorema de Weierstrass",
+        "texto": "Si $f$ es continua en un intervalo cerrado y acotado $[a,b]$, entonces existen $x_m,x_M\\in[a,b]$ tales que $f(x_m)\\leq f(x)\\leq f(x_M)$ para todo $x\\in[a,b]$. Es decir, alcanza extremos absolutos. <br><br><em>Error común:</em> aplicarlo en intervalos abiertos, donde puede fallar. <em>Ejemplo extra:</em> $f(x)=1/x$ en $(0,1]$ no alcanza mínimo; el intervalo no es compacto."
+      }
+    },
+    {
+      "id": 61,
+      "elo": 1250,
+      "tema": "Ecuaciones diferenciales",
+      "q": "La solución general de $\\dfrac{dy}{dx}=xy$ es:",
+      "opts": ["$y=Ce^{x^2/2}$", "$y=Ce^{x^2}$", "$y=Cx^2$", "$y=\\dfrac{x^2}{2}+C$"],
+      "a": 0,
+      "sol": "Separamos: $\\dfrac{dy}{y}=x\\,dx$. Integrando: $\\ln|y|=\\dfrac{x^2}{2}+C_1$. Exponenciando: $y=Ce^{x^2/2}$.",
+      "teoria": {
+        "titulo": "Ecuaciones diferenciales de variables separables",
+        "texto": "Son de la forma $\\dfrac{dy}{dx}=f(x)g(y)$. Se separan como $\\dfrac{dy}{g(y)}=f(x)\\,dx$ y se integra cada lado.<br><br><strong>Pasos:</strong> 1) Separar variables. 2) Integrar ambos miembros. 3) Agregar $C$. 4) Despejar $y$ si es posible. 5) Verificar soluciones singulares ($g(y)=0$).<br><br><em>Error común:</em> olvidar la constante o dividir por $y$ sin considerar $y=0$. <em>Ejemplo extra:</em> $\\dfrac{dy}{dx}=\\dfrac{x}{y}$ da $y^2=x^2+C$ (circunferencias)."
+      }
+    },
+    {
+      "id": 62,
+      "elo": 1300,
+      "tema": "Integrales",
+      "q": "$\\displaystyle\\int_0^{\\pi} x\\sin x\\,dx$ vale:",
+      "opts": ["$\\pi$", "$-\\pi$", "$0$", "$2\\pi$"],
+      "a": 0,
+      "sol": "Integración por partes con $u=x$, $dv=\\sin x\\,dx$: $-x\\cos x\\big|_0^{\\pi}+\\int_0^{\\pi}\\cos x\\,dx=\\pi+[\\sin x]_0^{\\pi}=\\pi$.",
+      "teoria": {
+        "titulo": "Integración por partes definida",
+        "texto": "$\\displaystyle\\int_a^b u\\,dv=[uv]_a^b-\\int_a^b v\\,du$. La regla LIATE sugiere elegir $u$ en orden: Logarítmica, Algebraica (potencias), Trigonométrica, Exponencial.<br><br><em>Ejemplo extra:</em> $\\int_0^1 xe^x\\,dx=[xe^x]_0^1-\\int_0^1 e^x\\,dx=e-(e-1)=1$."
+      }
+    },
+    {
+      "id": 63,
+      "elo": 1400,
+      "tema": "Series",
+      "q": "La serie $\\displaystyle\\sum_{n\\geq 1} \\dfrac{1}{2^n-n}$",
+      "opts": ["Converge por comparación al límite con $1/2^n$", "Diverge", "Converge a $1$", "No se puede decidir"],
+      "a": 0,
+      "sol": "$\\dfrac{1/(2^n-n)}{1/2^n}=\\dfrac{2^n}{2^n-n}=\\dfrac{1}{1-n/2^n}\\to 1$. Como $\\sum 1/2^n$ converge y el cociente tiende a $1>0$, la serie converge.",
+      "teoria": {
+        "titulo": "Criterio de comparación al límite",
+        "texto": "Si $a_n,b_n>0$ y $\\lim\\dfrac{a_n}{b_n}=L$ con $0<L<\\infty$, entonces $\\sum a_n$ y $\\sum b_n$ convergen o divergen juntas.<br><br><strong>Pasos:</strong> 1) Elegir $b_n$ comparable (usualmente serie $p$ o geométrica). 2) Calcular el cociente. 3) Concluir.<br><br><em>Error común:</em> usar comparación directa cuando los términos no están ordenados. <em>Ejemplo extra:</em> $\\sum \\frac{1}{n^2+3n}$ se compara con $1/n^2$ y converge."
+      }
+    },
+    {
+      "id": 64,
+      "elo": 1450,
+      "tema": "Derivadas",
+      "q": "Si $f(x)=x^3+2x$ y $f^{-1}$ existe, ¿cuánto vale $(f^{-1})'(3)$?",
+      "opts": ["$\\tfrac{1}{5}$", "$\\tfrac{1}{3}$", "$5$", "$\\tfrac{1}{14}$"],
+      "a": 0,
+      "sol": "$f(1)=3$, entonces $(f^{-1})'(3)=\\dfrac{1}{f'(1)}=\\dfrac{1}{3+2}=\\dfrac{1}{5}$.",
+      "teoria": {
+        "titulo": "Derivada de la función inversa",
+        "texto": "Si $f$ es derivable con $f'(a)\\neq 0$, entonces $(f^{-1})'(f(a))=\\dfrac{1}{f'(a)}$. Es decir, las pendientes de $f$ y $f^{-1}$ son recíprocas en puntos correspondientes.<br><br><strong>Pasos:</strong> 1) Verificar $f'(a)\\neq 0$. 2) Identificar $b=f(a)$. 3) Calcular $1/f'(a)$.<br><br><em>Ejemplo extra:</em> $f(x)=e^x$, $(f^{-1})'(1)=1/f'(0)=1$ (derivada de $\\ln$ en $1$)."
+      }
+    },
+    {
+      "id": 65,
+      "elo": 1250,
+      "tema": "Integrales",
+      "q": "$\\displaystyle\\int \\cos^2 x\\,dx$ vale:",
+      "opts": ["$\\dfrac{x}{2}+\\dfrac{\\sin 2x}{4}+C$", "$\\dfrac{\\sin^3 x}{3}+C$", "$\\dfrac{\\cos^3 x}{3}+C$", "$x-\\dfrac{\\sin 2x}{4}+C$"],
+      "a": 0,
+      "sol": "Usamos $\\cos^2 x=\\dfrac{1+\\cos 2x}{2}$. Entonces $\\int \\cos^2 x\\,dx=\\dfrac{x}{2}+\\dfrac{\\sin 2x}{4}+C$.",
+      "teoria": {
+        "titulo": "Potencia par de funciones trigonométricas",
+        "texto": "Para integrar $\\sin^2 x$ o $\\cos^2 x$ se usan las identidades de ángulo doble: $\\sin^2 x=\\frac{1-\\cos 2x}{2}$, $\\cos^2 x=\\frac{1+\\cos 2x}{2}$. Para potencias impares se separa un factor y se sustituye.<br><br><em>Ejemplo extra:</em> $\\int \\sin^2 x\\,dx=\\frac{x}{2}-\\frac{\\sin 2x}{4}+C$."
+      }
+    },
+    {
+      "id": 66,
+      "elo": 1500,
+      "tema": "Series",
+      "q": "La derivada de $\\displaystyle\\sum_{n\\geq 0}\\dfrac{x^n}{n!}$ es:",
+      "opts": ["La misma serie", "$e^x-1$", "$xe^x$", "$\\dfrac{1}{1-x}$"],
+      "a": 0,
+      "sol": "Derivando término a término: $\\sum_{n\\geq 1}\\dfrac{n x^{n-1}}{n!}=\\sum_{n\\geq 1}\\dfrac{x^{n-1}}{(n-1)!}=\\sum_{k\\geq 0}\\dfrac{x^k}{k!}$, la misma serie ($e^x$).",
+      "teoria": {
+        "titulo": "Derivación de series de potencias",
+        "texto": "Dentro del radio de convergencia, una serie de potencias se puede derivar término a término y el radio no cambia. Esto permite obtener nuevas series y resolver EDOs.<br><br><em>Ejemplo extra:</em> $\\sum_{n\\geq 1} n x^{n-1}=\\frac{1}{(1-x)^2}$ para $|x|<1$."
+      }
+    },
+    {
+      "id": 67,
+      "elo": 1100,
+      "tema": "Límites",
+      "q": "$\\displaystyle\\lim_{x\\to 0}\\dfrac{\\sqrt{1+x}-1}{x}$",
+      "opts": ["$\\tfrac{1}{2}$", "$0$", "$1$", "$+\\infty$"],
+      "a": 0,
+      "sol": "Racionalizamos: $\\dfrac{\\sqrt{1+x}-1}{x}\\cdot\\dfrac{\\sqrt{1+x}+1}{\\sqrt{1+x}+1}=\\dfrac{1}{\\sqrt{1+x}+1}\\to\\dfrac{1}{2}$.",
+      "teoria": {
+        "titulo": "Racionalización para indeterminaciones",
+        "texto": "Cuando aparecen raíces y hay $0/0$, multiplicar por el conjugado suele eliminar la indeterminación. Alternativa: usar el desarrollo $(1+x)^\\alpha\\approx 1+\\alpha x$ cerca de $0$.<br><br><em>Ejemplo extra:</em> $\\lim_{x\\to 0}\\frac{\\sqrt[3]{1+x}-1}{x}=\\frac{1}{3}$."
+      }
+    },
+    {
+      "id": 68,
+      "elo": 1550,
+      "tema": "Teoremas",
+      "q": "El teorema del valor medio de Cauchy aplicado a $f(x)=x^2$, $g(x)=x^3$ en $[1,2]$ garantiza un $c$ con:",
+      "opts": ["$\\dfrac{2c}{3c^2}=\\dfrac{3}{7}$", "$c=1$", "$c=\\dfrac{7}{9}$", "No se cumple"],
+      "a": 0,
+      "sol": "TVM Cauchy: $\\dfrac{f(2)-f(1)}{g(2)-g(1)}=\\dfrac{f'(c)}{g'(c)}$, o sea $\\dfrac{3}{7}=\\dfrac{2c}{3c^2}=\\dfrac{2}{3c}$, de donde $c=\\dfrac{14}{9}$ (cae en $(1,2)$).",
+      "teoria": {
+        "titulo": "Teorema del valor medio generalizado (Cauchy)",
+        "texto": "Si $f,g$ son continuas en $[a,b]$, derivables en $(a,b)$ y $g'(x)\\neq 0$, existe $c\\in(a,b)$ con $\\dfrac{f(b)-f(a)}{g(b)-g(a)}=\\dfrac{f'(c)}{g'(c)}$. Es la base de la regla de L'Hôpital.<br><br><em>Ejemplo extra:</em> con $f=\\sin x$, $g=x$ en $[0,\\pi/2]$ sirve para estimar errores de aproximación."
+      }
+    },
+    {
+      "id": 69,
+      "elo": 1400,
+      "tema": "Integrales",
+      "q": "$\\displaystyle\\int \\dfrac{dx}{x^2-1}$ vale:",
+      "opts": ["$\\dfrac{1}{2}\\ln\\left|\\dfrac{x-1}{x+1}\\right|+C$", "$\\arctan x+C$", "$\\ln|x^2-1|+C$", "$\\dfrac{1}{x}+C$"],
+      "a": 0,
+      "sol": "Fracciones simples: $\\dfrac{1}{x^2-1}=\\dfrac{1/2}{x-1}-\\dfrac{1/2}{x+1}$. Integrando: $\\dfrac{1}{2}\\ln\\left|\\dfrac{x-1}{x+1}\\right|+C$.",
+      "teoria": {
+        "titulo": "Integración por fracciones simples",
+        "texto": "Una función racional propia $P(x)/Q(x)$ se descompone según los factores de $Q$. Factores lineales distintos dan términos $A/(x-a)$; repetidos dan $A/(x-a)^k$; cuadráticos irreducibles dan $(Ax+B)/(x^2+bx+c)$.<br><br><em>Error común:</em> olvidar el valor absoluto en los logaritmos. <em>Ejemplo extra:</em> $\\int \\frac{dx}{x^2+1}=\\arctan x+C$."
+      }
+    },
+    {
+      "id": 70,
+      "elo": 1500,
+      "tema": "Sucesiones",
+      "q": "$\\displaystyle\\lim_{n\\to\\infty}\\dfrac{1+2+\\cdots+n}{n^2}$ vale:",
+      "opts": ["$\\tfrac{1}{2}$", "$1$", "$0$", "$+\\infty$"],
+      "a": 0,
+      "sol": "$1+2+\\cdots+n=\\dfrac{n(n+1)}{2}$, entonces el cociente es $\\dfrac{n+1}{2n}\\to\\dfrac{1}{2}$.",
+      "teoria": {
+        "titulo": "Criterio de Stolz–Cesàro",
+        "texto": "Análogo discreto de L'Hôpital: si $b_n$ es estrictamente creciente y $b_n\\to+\\infty$, entonces $\\lim\\dfrac{a_n}{b_n}=\\lim\\dfrac{a_{n+1}-a_n}{b_{n+1}-b_n}$ cuando el segundo existe. Aquí $a_n=n(n+1)/2$, $b_n=n^2$, y $\\frac{\\Delta a_n}{\\Delta b_n}=\\frac{n+1}{2n+1}\\to\\frac{1}{2}$.<br><br><em>Ejemplo extra:</em> $\\lim\\frac{1^2+\\cdots+n^2}{n^3}=\\frac{1}{3}$."
+      }
+    },
+    {
+      "id": 71,
+      "elo": 1150,
+      "tema": "Teoremas",
+      "q": "Sea $f(x)=x^3-x-1$. ¿Cuántas raíces reales tiene?",
+      "opts": ["Exactamente 1", "Exactamente 2", "Exactamente 3", "Ninguna"],
+      "a": 0,
+      "sol": "$f(1)=-1<0$, $f(2)=5>0$: hay al menos una raíz en $(1,2)$. Además $f'(x)=3x^2-1$ tiene dos ceros; $f$ tiene un máximo local en $-1/\\sqrt{3}$ y un mínimo local en $1/\\sqrt{3}$, ambos negativos para el máximo. Con análisis de signos se ve que solo hay una raíz real.",
+      "teoria": {
+        "titulo": "Teorema de Bolzano y conteo de raíces",
+        "texto": "Bolzano: si $f$ continua con $f(a)f(b)<0$, hay raíz en $(a,b)$. Para contar raíces se combina con monotonía: entre dos raíces consecutivas debe haber un extremo local (Rolle).<br><br><strong>Pasos:</strong> 1) Encontrar intervalos de signo opuesto. 2) Estudiar $f'$ para saber cuántas veces cambia de monotonía. 3) Concluir número de raíces. <em>Ejemplo extra:</em> $x^5+x+1$ tiene exactamente una raíz porque es estrictamente creciente."
+      }
+    },
+    {
+      "id": 72,
+      "elo": 1050,
+      "tema": "Derivadas",
+      "q": "$\\dfrac{d}{dx}\\left[\\dfrac{x}{x^2+1}\\right]$",
+      "opts": ["$\\dfrac{1-x^2}{(x^2+1)^2}$", "$\\dfrac{x^2-1}{(x^2+1)^2}$", "$\\dfrac{1}{2x}$", "$\\dfrac{1}{(x^2+1)^2}$"],
+      "a": 0,
+      "sol": "Regla del cociente: $\\dfrac{1\\cdot(x^2+1)-x\\cdot 2x}{(x^2+1)^2}=\\dfrac{1-x^2}{(x^2+1)^2}$.",
+      "teoria": {
+        "titulo": "Regla del cociente",
+        "texto": "$\\left(\\dfrac{u}{v}\\right)'=\\dfrac{u'v-uv'}{v^2}$. Orden importante: numerador con $u'$ primero. Alternativa: escribir $u\\cdot v^{-1}$ y usar producto + cadena.<br><br><em>Error común:</em> olvidar el signo menos o invertir el orden. <em>Ejemplo extra:</em> $\\left(\\tan x\\right)'=\\left(\\frac{\\sin x}{\\cos x}\\right)'=\\frac{1}{\\cos^2 x}=\\sec^2 x$."
+      }
+    },
+    {
+      "id": 73,
+      "elo": 1550,
+      "tema": "Integrales",
+      "q": "La longitud de arco de $y=\\ln(\\cos x)$ entre $x=0$ y $x=\\pi/4$ es:",
+      "opts": ["$\\ln(1+\\sqrt{2})$", "$\\pi/4$", "$\\sqrt{2}$", "$1$"],
+      "a": 0,
+      "sol": "$y'=-\\tan x$, entonces $1+(y')^2=\\sec^2 x$, y $L=\\int_0^{\\pi/4}\\sec x\\,dx=\\ln|\\sec x+\\tan x|\\Big|_0^{\\pi/4}=\\ln(1+\\sqrt{2})$.",
+      "teoria": {
+        "titulo": "Longitud de arco",
+        "texto": "$L=\\displaystyle\\int_a^b\\sqrt{1+(y')^2}\\,dx$. Requiere que $y$ sea $C^1$. A veces conviene usar $x=g(y)$: $L=\\int_c^d\\sqrt{1+(x')^2}\\,dy$.<br><br><em>Ejemplo extra:</em> $y=x^{3/2}$ de $0$ a $1$: $L=\\frac{8}{27}(10\\sqrt{10}-1)$."
+      }
+    },
+    {
+      "id": 74,
+      "elo": 1600,
+      "tema": "Series",
+      "q": "La serie $\\displaystyle\\sum_{n\\geq 1}\\dfrac{1}{n^{\\ln n}}$",
+      "opts": ["Converge", "Diverge", "El criterio $p$ no aplica", "Converge a $1$"],
+      "a": 0,
+      "sol": "Usamos criterio de condensación de Cauchy: $2^n a_{2^n}=2^n/2^{n\\ln 2}=\\left(2^{1-\\ln 2}\\right)^n$. Como $1-\\ln 2<0$, es geométrica de razón $<1$: converge.",
+      "teoria": {
+        "titulo": "Criterio de condensación de Cauchy",
+        "texto": "Si $a_n$ es decreciente y positiva, entonces $\\sum a_n$ converge si y solo si $\\sum 2^n a_{2^n}$ converge. Es útil con términos con logaritmos.<br><br><em>Ejemplo extra:</em> $\\sum \\frac{1}{n\\ln n}$ se condensa a $\\sum \\frac{2^n}{2^n\\ln 2^n}=\\sum\\frac{1}{n\\ln 2}$, que diverge."
+      }
+    },
+    {
+      "id": 75,
+      "elo": 1350,
+      "tema": "Límites",
+      "q": "$\\displaystyle\\lim_{x\\to 0}(1+x)^{1/x}$ vale:",
+      "opts": ["$e$", "$1$", "$0$", "$+\\infty$"],
+      "a": 0,
+      "sol": "Es de la forma $1^\\infty$. Tomando logaritmo: $\\ln L=\\lim\\frac{\\ln(1+x)}{x}=1$, así que $L=e$.",
+      "teoria": {
+        "titulo": "Indeterminación $1^\\infty$",
+        "texto": "Se resuelve escribiendo $f^g=e^{g\\ln f}$ y calculando el límite del exponente. Forma general: $\\lim(1+u)^{1/u}=e$ si $u\\to 0$.<br><br><em>Ejemplo extra:</em> $\\lim_{x\\to\\infty}\\left(1+\\frac{2}{x}\\right)^x=e^2$."
+      }
+    },
+    {
+      "id": 76,
+      "elo": 1300,
+      "tema": "Taylor",
+      "q": "El desarrollo de Maclaurin de $\\ln(1+x)$ hasta orden $3$ es:",
+      "opts": ["$x-\\dfrac{x^2}{2}+\\dfrac{x^3}{3}+o(x^3)$", "$x+\\dfrac{x^2}{2}+\\dfrac{x^3}{6}+o(x^3)$", "$x-x^2+x^3+o(x^3)$", "$1+x+x^2+x^3+o(x^3)$"],
+      "a": 0,
+      "sol": "Las derivadas de $\\ln(1+x)$ en $0$ son $1,-1,2,-6,\\ldots$, así que $P_3(x)=x-\\dfrac{x^2}{2}+\\dfrac{x^3}{3}$.",
+      "teoria": {
+        "titulo": "Series de Maclaurin comunes",
+        "texto": "Conviene memorizar: $e^x=\\sum x^n/n!$, $\\sin x=x-x^3/6+\\cdots$, $\\cos x=1-x^2/2+\\cdots$, $\\ln(1+x)=x-x^2/2+x^3/3-\\cdots$ (válido $|x|<1$), $\\frac{1}{1-x}=\\sum x^n$.<br><br><em>Ejemplo extra:</em> $\\lim_{x\\to 0}\\frac{\\ln(1+x)-x}{x^2}=-\\frac{1}{2}$."
+      }
+    },
+    {
+      "id": 77,
+      "elo": 1450,
+      "tema": "Integrales",
+      "q": "El volumen del sólido generado al girar $y=\\sqrt{x}$ en $[0,1]$ alrededor del eje $x$ es:",
+      "opts": ["$\\dfrac{\\pi}{2}$", "$\\pi$", "$\\dfrac{\\pi}{4}$", "$2\\pi$"],
+      "a": 0,
+      "sol": "$V=\\pi\\int_0^1(\\sqrt{x})^2\\,dx=\\pi\\int_0^1 x\\,dx=\\pi\\cdot\\dfrac{1}{2}=\\dfrac{\\pi}{2}$.",
+      "teoria": {
+        "titulo": "Volumen de revolución (discos)",
+        "texto": "Al girar $y=f(x)$ alrededor del eje $x$: $V=\\pi\\int_a^b[f(x)]^2\\,dx$. Si gira alrededor de $y$: $V=\\pi\\int_c^d[g(y)]^2\\,dy$. Con huecos: $V=\\pi\\int_a^b\\left([R(x)]^2-[r(x)]^2\\right)dx$.<br><br><em>Ejemplo extra:</em> $y=x^2$ en $[0,1]$ alrededor de $x$: $V=\\pi\\int_0^1 x^4\\,dx=\\pi/5$."
+      }
+    },
+    {
+      "id": 78,
+      "elo": 1250,
+      "tema": "Sucesiones",
+      "q": "La sucesión $a_n=\\dfrac{2^n}{n!}$:",
+      "opts": ["Es decreciente a partir de $n=2$ y tiende a $0$", "Es creciente", "Diverge", "Oscila"],
+      "a": 0,
+      "sol": "$\\dfrac{a_{n+1}}{a_n}=\\dfrac{2}{n+1}<1$ para $n\\geq 2$, entonces decrece. Como es positiva y decreciente, converge; su límite $L$ cumple $L=\\lim a_{n+1}=\\lim\\frac{2}{n+1}a_n=0$. Por lo tanto $a_n\\to 0$.",
+      "teoria": {
+        "titulo": "Sucesiones monótonas y acotadas",
+        "texto": "Teorema: toda sucesión monótona y acotada en $\\mathbb{R}$ converge. Para probar monotonía se estudia $a_{n+1}-a_n$ o $a_{n+1}/a_n$ (si términos positivos).<br><br><em>Ejemplo extra:</em> $\\left(1+\\frac{1}{n}\\right)^n$ es creciente y acotada, su límite es $e$."
+      }
+    },
+    {
+      "id": 79,
+      "elo": 1350,
+      "tema": "Teoremas",
+      "q": "Si $f$ es derivable en $\\mathbb{R}$ con $f'(x)=0$ para todo $x$, entonces:",
+      "opts": ["$f$ es constante", "$f$ es la identidad", "$f$ es lineal no constante", "No se puede afirmar"],
+      "a": 0,
+      "sol": "Por el TVM: para $x_1<x_2$, existe $c$ con $f(x_2)-f(x_1)=f'(c)(x_2-x_1)=0$. Entonces $f(x_1)=f(x_2)$: $f$ es constante.",
+      "teoria": {
+        "titulo": "Consecuencias del TVM",
+        "texto": "Si $f'=g'$ en un intervalo, entonces $f-g$ es constante. Si $f'>0$ en todo el intervalo, $f$ es estrictamente creciente. Si $f'=0$, $f$ es constante. Estas son las bases para antiderivadas.<br><br><em>Ejemplo extra:</em> dos primitivas de la misma función difieren en una constante."
+      }
+    },
+    {
+      "id": 80,
+      "elo": 1700,
+      "tema": "Integrales",
+      "q": "$\\displaystyle\\int_0^1\\!\\!\\int_0^1 (x+y)\\,dx\\,dy$ vale:",
+      "opts": ["$1$", "$\\tfrac{1}{2}$", "$2$", "$\\tfrac{3}{2}$"],
+      "a": 0,
+      "sol": "$\\int_0^1\\left(\\int_0^1(x+y)\\,dx\\right)dy=\\int_0^1\\left(\\dfrac{1}{2}+y\\right)dy=\\dfrac{1}{2}+\\dfrac{1}{2}=1$.",
+      "teoria": {
+        "titulo": "Integrales dobles sobre rectángulos",
+        "texto": "Sobre $[a,b]\\times[c,d]$ con $f$ continua, $\\iint f\\,dA=\\int_a^b\\!\\!\\int_c^d f(x,y)\\,dy\\,dx=\\int_c^d\\!\\!\\int_a^b f(x,y)\\,dx\\,dy$ (Fubini). El orden se elige según conveniencia.<br><br><em>Error común:</em> confundir los límites de integración al cambiar de orden. <em>Ejemplo extra:</em> $\\int_0^1\\!\\!\\int_0^x xy\\,dy\\,dx=\\frac{1}{8}$."
+      }
+    }
+  ],
+  "datasetId": null
+}
