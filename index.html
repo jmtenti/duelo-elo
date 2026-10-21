@@ -493,13 +493,17 @@ const K_BOOST_MAX   = 2;
 /* ─── K del problema: decae con la cantidad de respuestas (n) ───
    Problema nuevo (n=0) → K≈64 (se corrige rápido si el ELO puesto a mano estaba mal).
    Problema maduro (n≥24) → K≈16 (se mueve poco). */
-const K_PROB_BASE = 16;   // K de un problema ya establecido
-const K_PROB_NEW  = 64;   // K de un problema con n = 0
-const K_PROB_TAU  = 3;    // "vida media" en partidas
+/* Defaults por si el dataset no define kProbBase/kProbNew/kProbTau */
+const K_PROB_BASE_DEFAULT = 16;
+const K_PROB_NEW_DEFAULT  = 64;
+const K_PROB_TAU_DEFAULT  = 3;
 
 function kProbEfectivo(n){
   if(!Number.isFinite(n) || n < 0) n = 0;
-  return K_PROB_BASE + (K_PROB_NEW - K_PROB_BASE) * Math.pow(0.5, n / K_PROB_TAU);
+  const base = Number.isFinite(META.kProbBase) ? META.kProbBase : K_PROB_BASE_DEFAULT;
+  const nw   = Number.isFinite(META.kProbNew)  ? META.kProbNew  : K_PROB_NEW_DEFAULT;
+  const tau  = (Number.isFinite(META.kProbTau) && META.kProbTau > 0) ? META.kProbTau : K_PROB_TAU_DEFAULT;
+  return base + (nw - base) * Math.pow(0.5, n / tau);
 }
 
 /* ═══════════════════════════════════════════════════════════════
@@ -515,7 +519,10 @@ const DEFAULT_META = {
   eloStartPct: 0.2,
   nRings: 5,
   kUser: 32,
-  kProb: 16,
+  kProb: 16,          // obsoleto (K fijo viejo), se mantiene por compatibilidad
+  kProbBase: 16,      // NUEVO: K del problema maduro
+  kProbNew:  64,      // NUEVO: K del problema nuevo
+  kProbTau:  3,       // NUEVO: vida media en respuestas
   id: null
 };
 
@@ -532,6 +539,14 @@ function buildMeta(s){
   META.nRings = Math.max(2, Math.round(Number(m.nRings) || DEFAULT_META.nRings));
   META.kUser = Number(m.kUser) || DEFAULT_META.kUser;
   META.kProb = Number(m.kProb) || DEFAULT_META.kProb;
+
+  // K-variable del problema (calibración adaptativa)
+  META.kProbBase = (Number.isFinite(Number(m.kProbBase)) && Number(m.kProbBase) > 0)
+    ? Number(m.kProbBase) : DEFAULT_META.kProbBase;
+  META.kProbNew  = (Number.isFinite(Number(m.kProbNew)) && Number(m.kProbNew) > 0)
+    ? Number(m.kProbNew)  : DEFAULT_META.kProbNew;
+  META.kProbTau  = (Number.isFinite(Number(m.kProbTau)) && Number(m.kProbTau) > 0)
+    ? Number(m.kProbTau)  : DEFAULT_META.kProbTau;
 
   const pct = (typeof m.eloStartPct === 'number' && m.eloStartPct >= 0 && m.eloStartPct <= 1)
     ? m.eloStartPct : DEFAULT_META.eloStartPct;
