@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Estudio Interactivo: Estructura Fina del Hidrógeno</title>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']], displayMath: [['$$','$$'], ['\\[','\\]']]},
+    messageStyle: "none"
+  });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script src="https://cdn.plot.ly/plotly-2.24.1.min.js"></script>
+
+<style>
+  :root {
+    --primary-color: #1a252f;
+    --secondary-color: #2c3e50;
+    --accent-color: #c0392b;
+    --link-color: #2980b9;
+    --bg-color: #f8f9fa;
+    --sm-color: #16a085;
+    --ex-color: #8e44ad;
+    --hist-color: #b7791f;
+    --we-color: #6c3483;
+    --intuition-color: #d35400;
+    --warning-color: #c0392b;
+  }
+  body {
+    font-family: 'Georgia', serif;
+    background: var(--bg-color);
+    color: #333;
+    line-height: 1.8;
+    margin: 0; padding: 40px 0;
+    font-size: 16px;
+  }
+  .container {
+    max-width: 1000px;
+    margin: auto;
+    background: white;
+    padding: 50px 80px;
+    border-radius: 12px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.06);
+  }
+  h1 { color: var(--primary-color); text-align: center; font-size: 2.1em; font-family: 'Segoe UI', sans-serif; margin-bottom: 10px;}
+  .subtitle { text-align: center; color: #7f8c8d; font-style: italic; margin-bottom: 40px; }
+  h2 { color: var(--secondary-color); margin-top: 55px; border-bottom: 2px solid #ecf0f1; padding-bottom: 5px; font-family: 'Segoe UI', sans-serif;}
+  h3 { color: var(--secondary-color); margin-top: 35px; font-family: 'Segoe UI', sans-serif; font-size: 1.18em;}
+  h4 { color: var(--sm-color); margin-top: 25px; font-family: 'Segoe UI', sans-serif; font-size: 1.02em; font-style: italic;}
+  p { text-align: justify; margin-bottom: 20px; }
+  ul, ol { text-align: justify; }
+  li { margin-bottom: 8px; }
+  .math-box {
+    background: #fdfefe;
+    border-left: 4px solid var(--link-color);
+    padding: 15px 25px;
+    margin: 25px 0;
+    overflow-x: auto;
+    font-size: 1.1em;
+  }
+  .note-box {
+    background: #fef9e7;
+    border-left: 4px solid #f39c12;
+    padding: 12px 20px;
+    margin: 20px 0;
+    font-size: 0.98em;
+  }
+  .sm-box {
+    background: #eafaf1;
+    border-left: 4px solid var(--sm-color);
+    padding: 14px 22px;
+    margin: 22px 0;
+    font-size: 0.97em;
+  }
+  .sm-box strong:first-child { color: var(--sm-color); }
+  .intuition-box {
+    background: #fdf2e9;
+    border-left: 4px solid var(--intuition-color);
+    padding: 14px 22px;
+    margin: 22px 0;
+    font-size: 0.97em;
+  }
+  .intuition-box strong:first-child { color: var(--intuition-color); }
+  .warning-box {
+    background: #fdedec;
+    border-left: 4px solid var(--warning-color);
+    padding: 14px 22px;
+    margin: 22px 0;
+    font-size: 0.97em;
+  }
+  .warning-box strong:first-child { color: var(--warning-color); }
+  .guide-box {
+    background: #eef6fc;
+    border-left: 4px solid var(--link-color);
+    padding: 14px 22px;
+    margin: 22px 0;
+    font-size: 0.96em;
+  }
+  .guide-box strong:first-child { color: var(--link-color); }
+  .guide-box ol { margin: 8px 0 0 0; padding-left: 22px; }
+  .history-box {
+    background: #fbf6e9;
+    border-left: 4px solid var(--hist-color);
+    padding: 14px 22px;
+    margin: 22px 0;
+    font-size: 0.95em;
+    font-style: italic;
+    color: #5b4a1e;
+  }
+  .history-box strong { font-style: normal; }
+  .worked-example {
+    background: #faf7fd;
+    border: 1px solid #d5c8e8;
+    border-left: 5px solid var(--we-color);
+    border-radius: 8px;
+    padding: 22px 30px 24px;
+    margin: 35px 0;
+    font-size: 0.98em;
+  }
+  .worked-example .we-header {
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 0.78em;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--we-color);
+    font-weight: bold;
+    margin-bottom: 6px;
+  }
+  .worked-example .we-title {
+    font-family: 'Segoe UI', sans-serif;
+    color: var(--we-color);
+    font-size: 1.08em;
+    font-weight: 600;
+    margin: 0 0 16px 0;
+    line-height: 1.4;
+  }
+  .worked-example .step {
+    margin: 18px 0;
+    padding-left: 18px;
+    border-left: 2px solid #e3d4f0;
+  }
+  .worked-example .step-label {
+    font-family: 'Segoe UI', sans-serif;
+    font-weight: bold;
+    color: var(--we-color);
+    font-size: 0.86em;
+    display: block;
+    margin-bottom: 4px;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+  }
+  .worked-example .result {
+    background: #efe9f7;
+    border-radius: 5px;
+    padding: 10px 16px;
+    margin-top: 8px;
+    font-weight: 500;
+  }
+  .worked-example .verify {
+    background: #eafaf1;
+    border-left: 3px solid var(--sm-color);
+    padding: 8px 14px;
+    border-radius: 0 5px 5px 0;
+    margin-top: 8px;
+    font-size: 0.95em;
+  }
+  .exercise-box {
+    background: #fdf2f2;
+    border: 1px solid #f5c6c6;
+    border-radius: 8px;
+    padding: 22px 28px;
+    margin: 35px 0;
+  }
+  .exercise-box h4 {
+    color: var(--accent-color);
+    margin-top: 0;
+    font-style: normal;
+    font-size: 1.05em;
+  }
+  .hint {
+    background: #fff8e1;
+    border-radius: 4px;
+    padding: 8px 14px;
+    margin: 10px 0;
+    font-size: 0.92em;
+    color: #6d4c00;
+    border-left: 3px solid #f39c12;
+  }
+  .solution-toggle {
+    background: var(--accent-color);
+    color: white;
+    border: none;
+    padding: 8px 18px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 0.92em;
+    margin-top: 12px;
+    transition: background 0.2s;
+  }
+  .solution-toggle:hover { background: #a02828; }
+  .solution-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s ease, margin 0.3s ease;
+    margin-top: 0;
+  }
+  .solution-content.open {
+    max-height: 6000px;
+    margin-top: 18px;
+  }
+  .interactive-figure {
+    background: #fafafa;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    padding: 25px;
+    margin: 40px 0;
+    font-family: 'Segoe UI', sans-serif;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+  }
+  .figure-title { text-align: center; color: var(--secondary-color); font-weight: bold; font-size: 1.2em; margin-top: 0; }
+  .plot-area { width: 100%; height: 460px; margin-bottom: 15px; }
+  .controls {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    padding: 18px 20px;
+    background: #fff;
+    border-radius: 8px;
+    border: 1px solid #eee;
+    margin-bottom: 15px;
+  }
+  .control-panel h4 {
+    margin-top: 0;
+    color: var(--secondary-color);
+    font-size: 0.9em;
+    font-family: 'Segoe UI', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-style: normal;
+  }
+  .checkbox-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 6px 0;
+    font-size: 0.93em;
+    color: #444;
+    cursor: pointer;
+  }
+  .checkbox-row input[type=checkbox] {
+    width: 16px; height: 16px;
+    accent-color: var(--link-color);
+    cursor: pointer;
+  }
+  .slider-row {
+    display: block;
+    margin: 12px 0;
+    font-size: 0.93em;
+    color: #333;
+  }
+  .slider-row input[type=range] {
+    width: 100%;
+    accent-color: var(--accent-color);
+    cursor: pointer;
+  }
+  .slider-val {
+    font-family: Consolas, monospace;
+    color: var(--accent-color);
+    font-weight: bold;
+  }
+  .select-row {
+    margin: 10px 0;
+    font-size: 0.93em;
+    color: #333;
+  }
+  .select-row select {
+    display: block;
+    width: 100%;
+    margin-top: 6px;
+    padding: 8px 12px;
+    border-radius: 6px;
+    border: 1.5px solid #ccc;
+    font-size: 0.95em;
+    background: white;
+    cursor: pointer;
+  }
+  .select-row select:hover { border-color: var(--link-color); }
+  .stats {
+    margin-top: 12px;
+    padding: 12px 16px;
+    background: #f4f6f7;
+    border-radius: 6px;
+    font-family: Consolas, monospace;
+    font-size: 0.86em;
+    line-height: 1.7;
+    text-align: center;
+  }
+  .stats .stat-item {
+    display: inline-block;
+    margin: 3px 6px;
+    padding: 3px 10px;
+    background: white;
+    border-radius: 4px;
+    border: 1px solid #e0e0e0;
+  }
+  .stats .stat-item .lbl { color: #888; }
+  .stats .stat-item .val { color: var(--accent-color); font-weight: bold; }
+  .caption {
+    font-size: 0.95em; color: #555; text-align: justify;
+    padding: 10px 20px; border-left: 3px solid var(--accent-color);
+    background: #fff;
+  }
+  .legend-swatch {
+    display: inline-block; width: 14px; height: 14px;
+    border-radius: 3px; margin-right: 6px; vertical-align: middle;
+  }
+  .term-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 0.94em;
+  }
+  .term-table th, .term-table td {
+    border: 1px solid #e0e0e0;
+    padding: 10px 14px;
+    text-align: left;
+    vertical-align: top;
+  }
+  .term-table th { background: #ecf0f1; font-family: 'Segoe UI', sans-serif; }
+  .term-table td.symbol { font-family: 'Cambria Math', 'Times New Roman', serif; font-size: 1.08em; text-align: center; width: 90px; background: #fafafa;}
+  table.generic { border-collapse: collapse; width: 100%; margin: 20px 0; font-size: 0.95em;}
+  table.generic th, table.generic td { border: 1px solid #e0e0e0; padding: 8px 12px; text-align: left; vertical-align: top;}
+  table.generic th { background: #ecf0f1; }
+  .toc {
+    background: #f4f6f7;
+    border-radius: 8px;
+    padding: 20px 30px;
+    margin: 30px 0;
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 0.95em;
+  }
+  .toc h3 { margin-top: 0; color: var(--secondary-color); font-size: 1.05em;}
+  .toc ol { margin: 0; padding-left: 22px;}
+  .toc li { margin: 4px 0;}
+  .toc a { color: var(--link-color); text-decoration: none;}
+  .toc a:hover { text-decoration: underline;}
+  .step-by-step {
+    counter-reset: step-counter;
+    list-style: none;
+    padding-left: 0;
+    margin: 25px 0;
+  }
+  .step-by-step li {
+    position: relative;
+    padding: 12px 18px 12px 60px;
+    margin: 10px 0;
+    background: #f8f9fa;
+    border-radius: 6px;
+    border-left: 3px solid var(--link-color);
+  }
+  .step-by-step li::before {
+    counter-increment: step-counter;
+    content: counter(step-counter);
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 32px;
+    height: 32px;
+    background: var(--link-color);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Segoe UI', sans-serif;
+    font-weight: bold;
+    font-size: 0.95em;
+  }
+  @media (max-width: 800px) {
+    .container { padding: 30px 20px; }
+    .controls { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h1>Estructura Fina del Hidrógeno</h1>
+  <div class="subtitle">Cómo el espín, la relatividad y las correcciones cuánticas desdoblan las líneas espectrales del átomo más simple</div>
+
+  <div class="note-box">
+    <strong>Notación.</strong> $n$: número cuántico principal. $l$: número cuántico orbital ($0,1,2,\dots$). $s=1/2$: espín del electrón. $j = l \pm 1/2$: momento angular total. $m_j$: proyección de $j$. $\alpha \approx 1/137$: constante de estructura fina. $\mu_B = 5.788\times10^{-5}\ \text{eV/T}$: magnetón de Bohr. $\hbar$: constante reducida de Planck. $E_0 = 13.6\ \text{eV}$: energía de ionización del hidrógeno. $a_0 = 0.529\ \text{Å}$: radio de Bohr.
+  </div>
+
+  <div class="intuition-box">
+    <strong>La idea en una frase.</strong> El modelo de Bohr predice que todos los estados con el mismo $n$ tienen exactamente la misma energía. Pero cuando se tienen en cuenta la relatividad, el espín del electrón y las fluctuaciones cuánticas del vacío, esa degeneración se rompe: cada nivel $n$ se desdobla en varios subniveles muy próximos, separados por energías del orden de $10^{-5}\ \text{eV}$. Ese desdoblamiento es la <strong>estructura fina</strong>.
+  </div>
+
+  <div class="toc">
+    <h3>Contenido</h3>
+    <ol>
+      <li><a href="#s1">¿Qué es la estructura fina?</a></li>
+      <li><a href="#s2">Las tres correcciones relativistas</a></li>
+      <li><a href="#s3">La fórmula de Dirac y los niveles $nL_j$</a></li>
+      <li><a href="#s4">Notación espectroscópica</a></li>
+      <li><a href="#s5">El desplazamiento de Lamb</a></li>
+      <li><a href="#s6">Efecto Zeeman: la ruptura magnética</a></li>
+      <li><a href="#s7">Reglas de selección y el doblete de Lyman-α</a></li>
+      <li><a href="#s8">Ejemplos resueltos</a></li>
+      <li><a href="#s9">Ejercicios propuestos</a></li>
+      <li><a href="#s10">Conclusiones</a></li>
+    </ol>
+  </div>
+
+  <!-- ============================================ -->
+  <h2 id="s1">1. ¿Qué es la estructura fina?</h2>
+
+  <p>El modelo de Bohr (1913) predice que la energía del electrón en el hidrógeno depende solo del número cuántico principal $n$:</p>
+
+  <div class="math-box">
+    $$ E_n = -\frac{13.6\ \text{eV}}{n^2}. $$
+  </div>
+
+  <p>Según esta fórmula, todos los estados con el mismo $n$ tienen la misma energía. Por ejemplo, los estados $2s$, $2p$ y (en el modelo de Bohr) cualquier órbita con $n=2$ estarían degenerados. Sin embargo, los espectroscopistas de principios del siglo XX observaron que las líneas espectrales del hidrógeno <strong>no eran simples</strong>: al aumentar la resolución del espectroscopio, muchas líneas se revelaban como <strong>dobletes o multipletes</strong> muy próximos. Ese desdoblamiento es la estructura fina.</p>
+
+  <p>La estructura fina es, por tanto, la ruptura de la degeneración en $n$ debida a tres efectos:</p>
+
+  <ol class="step-by-step">
+    <li><strong>Corrección relativista a la energía cinética.</strong> A velocidades cercanas a $c$, la energía cinética no es $p^2/2m_e$ sino la expresión relativista completa. Esto modifica ligeramente la energía de cada órbita.</li>
+    <li><strong>Acoplamiento espín-órbita.</strong> El electrón tiene un momento angular intrínseco (espín) que se acopla con su momento angular orbital, produciendo una energía que depende de la orientación relativa de ambos.</li>
+    <li><strong>Término de Darwin.</strong> Una corrección cuántica que afecta solo a los estados $s$ ($l=0$), asociada al movimiento "tembloroso" del electrón (zitterbewegung).</li>
+  </ol>
+
+  <p>La combinación de las tres correcciones da la fórmula de Dirac, que depende de $n$ y de $j$ (el momento angular total), pero no de $l$ por separado. La estructura fina del hidrógeno es, por tanto, una manifestación directa de la electrodinámica cuántica relativista.</p>
+
+  <div class="history-box">
+    <strong>Contexto histórico.</strong> Sommerfeld (1916) fue el primero en intentar explicar la estructura fina introduciendo órbitas elípticas y correcciones relativistas en el modelo de Bohr. Su modelo funcionaba parcialmente, pero no era conceptualmente correcto. La explicación completa llegó con la ecuación de Dirac (1928), que incorpora de forma natural el espín y la relatividad. La confirmación experimental decisiva fue el desplazamiento de Lamb (1947), que reveló que $2s_{1/2}$ y $2p_{1/2}$ no están exactamente degenerados.
+  </div>
+
+  <div class="warning-box">
+    <strong>Error común.</strong> "La estructura fina se debe al espín del electrón." Solo en parte. El espín contribuye a través del acoplamiento espín-órbita, pero la corrección relativista a la energía cinética y el término de Darwin también son esenciales. Los tres efectos son del mismo orden de magnitud ($\sim \alpha^2 E_n$) y deben tenerse en cuenta simultáneamente.
+  </div>
+
+  <!-- ============================================ -->
+  <h2 id="s2">2. Las tres correcciones relativistas</h2>
+
+  <h3>2.1 Corrección relativista a la energía cinética</h3>
+
+  <p>La energía cinética relativista es $T = \sqrt{p^2c^2 + m_e^2c^4} - m_ec^2$. Expandiendo en potencias de $p/(m_ec)$ se obtiene:</p>
+
+  <div class="math-box">
+    $$ T \approx \frac{p^2}{2m_e} - \frac{p^4}{8m_e^3c^2} + \cdots $$
+  </div>
+
+  <p>El primer término es la energía cinética clásica; el segundo es la corrección relativista. Su valor esperado en el estado $|n,l\rangle$ es:</p>
+
+  <div class="math-box">
+    $$ \Delta E_{\rm rel} = -\frac{E_n^2}{2m_ec^2} \left( \frac{4n}{l+1/2} - 3 \right). $$
+  </div>
+
+  <p>Esta corrección depende de $l$, así que ya rompe parcialmente la degeneración en $n$.</p>
+
+  <h3>2.2 Acoplamiento espín-órbita</h3>
+
+  <p>Desde el sistema de referencia del electrón, el núcleo (carga $+Ze$) orbita a su alrededor y produce un campo magnético. El espín del electrón interactúa con ese campo. La energía de interacción es:</p>
+
+  <div class="math-box">
+    $$ \Delta E_{\rm so} = \frac{Z e^2}{2 m_e^2 c^2} \left\langle \frac{1}{r^3} \right\rangle \langle \mathbf{L}\cdot\mathbf{S} \rangle. $$
+  </div>
+
+  <p>Usando $\mathbf{J} = \mathbf{L} + \mathbf{S}$ y $\mathbf{J}^2 = \mathbf{L}^2 + \mathbf{S}^2 + 2\mathbf{L}\cdot\mathbf{S}$, se obtiene:</p>
+
+  <div class="math-box">
+    $$ \langle \mathbf{L}\cdot\mathbf{S} \rangle = \frac{\hbar^2}{2} \big[ j(j+1) - l(l+1) - s(s+1) \big]. $$
+  </div>
+
+  <p>Para $l=0$ el acoplamiento espín-órbita se anula (no hay momento angular orbital). Para $l>0$, la energía depende de $j = l\pm 1/2$. El resultado final es:</p>
+
+  <div class="math-box">
+    $$ \Delta E_{\rm so} = \frac{E_n^2}{m_ec^2} \, \frac{n\,[j(j+1) - l(l+1) - 3/4]}{l(l+1/2)(l+1)}. $$
+  </div>
+
+  <div class="intuition-box">
+    <strong>Analogía.</strong> Imagina un electrón girando alrededor del núcleo (momento orbital $\mathbf{L}$) y, además, girando sobre sí mismo (espín $\mathbf{S}$). Es como una peonza que orbita alrededor de otra peonza: la interacción entre ambos giros depende de si giran "en el mismo sentido" o "en sentidos opuestos". Esa diferencia de energía es el acoplamiento espín-órbita.
+  </div>
+
+  <h3>2.3 Término de Darwin</h3>
+
+  <p>La ecuación de Dirac predice una corrección adicional que afecta solo a los estados $s$ ($l=0$). Se debe a que el electrón relativista no está localizado en un punto: experimenta un "temblor" (zitterbewegung) de amplitud $\sim \hbar/(m_ec)$, lo que hace que sienta un potencial promedio ligeramente distinto. La corrección es:</p>
+
+  <div class="math-box">
+    $$ \Delta E_{\rm Darwin} = \frac{\pi Z e^2 \hbar^2}{2 m_e^2 c^2} |\psi(0)|^2 = \frac{E_n^2}{m_ec^2} \, n \, \delta_{l,0}. $$
+  </div>
+
+  <p>Solo contribuye para $l=0$, porque solo los estados $s$ tienen densidad de probabilidad no nula en el origen.</p>
+
+  <h3>2.4 La suma: la fórmula de Dirac</h3>
+
+  <p>La suma de las tres correcciones, para un átomo hidrogenoide ($Z$), da la célebre fórmula de estructura fina:</p>
+
+  <div class="math-box">
+    $$ E_{n,j} = -\frac{13.6\,Z^2}{n^2} \left[ 1 + \frac{\alpha^2 Z^2}{n^2} \left( \frac{n}{j+1/2} - \frac{3}{4} \right) \right]. $$
+  </div>
+
+  <p>El término entre corchetes es la corrección de estructura fina. Es del orden de $\alpha^2 \approx 5.3\times10^{-5}$, es decir, unas $10^5$ veces menor que la energía de Bohr. Para el hidrógeno ($Z=1$), las correcciones típicas son del orden de $10^{-5}\ \text{eV}$, que corresponden a frecuencias de unos pocos GHz.</p>
+
+  <div class="sm-box">
+    <strong>La gran virtud de la fórmula de Dirac.</strong> La energía depende de $n$ y de $j$, pero <em>no</em> de $l$. Esto significa que, por ejemplo, $2s_{1/2}$ y $2p_{1/2}$ tienen exactamente la misma energía en la teoría de Dirac. Esta degeneración "accidental" es una consecuencia de la simetría relativista y fue confirmada experimentalmente... hasta que el desplazamiento de Lamb (1947) demostró que no es exacta.
+  </div>
+
+  <!-- FIGURA 1: NIVELES DE ESTRUCTURA FINA -->
+  <div class="interactive-figure">
+    <div class="figure-title">Figura 1: Niveles de estructura fina del hidrógeno</div>
+    <div id="plot_FS" class="plot-area"></div>
+    <div class="controls">
+      <div class="control-panel">
+        <h4>Opciones</h4>
+        <label class="checkbox-row">
+          <input type="checkbox" id="cb_lamb" checked>
+          <span>Incluir desplazamiento de Lamb</span>
+        </label>
+        <label class="checkbox-row">
+          <input type="checkbox" id="cb_zoom" checked>
+          <span>Ampliar estructura fina (×10⁴)</span>
+        </label>
+      </div>
+      <div class="control-panel">
+        <h4>Lectura</h4>
+        <div id="stats_FS" class="stats"></div>
+      </div>
+    </div>
+
+    <div class="guide-box">
+      <strong>Qué observar en la Figura 1.</strong>
+      <ol>
+        <li>Con la ampliación activada, los niveles $n=2$ y $n=3$ se desdoblan en subniveles separados por energías del orden de $10^{-5}\ \text{eV}$ (GHz).</li>
+        <li>El nivel $1s_{1/2}$ no se desdobla: solo hay un estado con $n=1$ y $j=1/2$.</li>
+        <li>Activa y desactiva el desplazamiento de Lamb: verás que $2s_{1/2}$ se separa ligeramente de $2p_{1/2}$ (que sin Lamb serían degenerados).</li>
+        <li>Observa que $3p_{3/2}$ y $3d_{3/2}$ están degenerados en la teoría de Dirac: misma $n$, misma $j$, distinta $l$.</li>
+        <li>La notación es $nL_j$: $n$ es el número principal, $L$ la letra del momento orbital ($S$, $P$, $D$ para $l=0,1,2$) y $j$ el momento total.</li>
+      </ol>
+    </div>
+
+    <div class="caption">
+      <strong>Epígrafe:</strong> Niveles de energía del hidrógeno con estructura fina. La escala vertical está ampliada ×10⁴ para hacer visible el desdoblamiento; las energías reales de separación son del orden de $10^{-5}\ \text{eV}$. Colores: $s$ en azul, $p$ en rojo, $d$ en verde. El desplazamiento de Lamb separa $2s_{1/2}$ de $2p_{1/2}$ (y $3s_{1/2}$ de $3p_{1/2}$) en aproximadamente 1 GHz.
+    </div>
+  </div>
+
+  <!-- ============================================ -->
+  <h2 id="s3">3. La fórmula de Dirac y los niveles $nL_j$</h2>
+
+  <p>La ecuación de Dirac para un electrón en el potencial coulombiano del núcleo da la energía exacta (a orden $\alpha^2$):</p>
+
+  <div class="math-box">
+    $$ E_{n,j} = m_ec^2 \left[ 1 + \frac{(Z\alpha)^2}{\big(n - (j+1/2) + \sqrt{(j+1/2)^2 - (Z\alpha)^2}\big)^2} \right]^{-1/2} - m_ec^2. $$
+  </div>
+
+  <p>Expandiendo en potencias de $(Z\alpha)^2$ se recupera la fórmula anterior. Para el hidrógeno ($Z=1$), los niveles de estructura fina son:</p>
+
+  <table class="generic">
+    <thead>
+      <tr>
+        <th>Estado</th>
+        <th>$n$</th>
+        <th>$l$</th>
+        <th>$j$</th>
+        <th>$\delta E_{\rm fs}$ (GHz)</th>
+        <th>Energía total (eV)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>$1s_{1/2}$</td><td>1</td><td>0</td><td>1/2</td><td>$-43.7$</td><td>$-13.60018$</td></tr>
+      <tr><td>$2s_{1/2}$</td><td>2</td><td>0</td><td>1/2</td><td>$-13.7$</td><td>$-3.400057$</td></tr>
+      <tr><td>$2p_{1/2}$</td><td>2</td><td>1</td><td>1/2</td><td>$-13.7$</td><td>$-3.400057$</td></tr>
+      <tr><td>$2p_{3/2}$</td><td>2</td><td>1</td><td>3/2</td><td>$-2.73$</td><td>$-3.400011$</td></tr>
+      <tr><td>$3s_{1/2}$</td><td>3</td><td>0</td><td>1/2</td><td>$-4.86$</td><td>$-1.511120$</td></tr>
+      <tr><td>$3p_{1/2}$</td><td>3</td><td>1</td><td>1/2</td><td>$-4.86$</td><td>$-1.511120$</td></tr>
+      <tr><td>$3p_{3/2}$</td><td>3</td><td>1</td><td>3/2</td><td>$-1.62$</td><td>$-1.511107$</td></tr>
+      <tr><td>$3d_{3/2}$</td><td>3</td><td>2</td><td>3/2</td><td>$-1.62$</td><td>$-1.511107$</td></tr>
+      <tr><td>$3d_{5/2}$</td><td>3</td><td>2</td><td>5/2</td><td>$-0.54$</td><td>$-1.511102$</td></tr>
+    </tbody>
+  </table>
+
+  <div class="sm-box">
+    <strong>Lectura de la tabla.</strong> La columna $\delta E_{\rm fs}$ es la corrección de estructura fina respecto a la energía de Bohr $-13.6/n^2$ eV. Todas las correcciones son negativas (los niveles bajan ligeramente). Las separaciones entre subniveles con la misma $n$ son del orden de $1\text{–}11$ GHz. Para $n=2$, la separación $2p_{3/2} - 2p_{1/2}$ es de $10.9$ GHz, la más grande del hidrógeno.
+  </div>
+
+  <!-- ============================================ -->
+  <h2 id="s4">4. Notación espectroscópica</h2>
+
+  <p>Los estados atómicos se etiquetan con la notación <strong>$nL_j$</strong>, donde:</p>
+
+  <ul>
+    <li>$n$ es el número cuántico principal ($1, 2, 3, \dots$).</li>
+    <li>$L$ es una letra que indica el momento angular orbital $l$: $S$ ($l=0$), $P$ ($l=1$), $D$ ($l=2$), $F$ ($l=3$), etc.</li>
+    <li>$j$ es el momento angular total, $j = l \pm 1/2$ (para un solo electrón).</li>
+  </ul>
+
+  <p>Por ejemplo, $2p_{3/2}$ significa: $n=2$, $l=1$ (orbital $p$), $j=3/2$. Esta notación es universal en física atómica y espectroscopía.</p>
+
+  <table class="term-table">
+    <thead>
+      <tr><th>Letra</th><th>$l$</th><th>Nombre</th><th>Ejemplo</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>$S$</td><td>0</td><td>sharp</td><td>$1s_{1/2}$, $2s_{1/2}$</td></tr>
+      <tr><td>$P$</td><td>1</td><td>principal</td><td>$2p_{1/2}$, $2p_{3/2}$</td></tr>
+      <tr><td>$D$</td><td>2</td><td>diffuse</td><td>$3d_{3/2}$, $3d_{5/2}$</td></tr>
+      <tr><td>$F$</td><td>3</td><td>fundamental</td><td>$4f_{5/2}$, $4f_{7/2}$</td></tr>
+    </tbody>
+  </table>
+
+  <div class="intuition-box">
+    <strong>Regla mnemotécnica.</strong> Las letras $S$, $P$, $D$, $F$ provienen de la clasificación empírica de las líneas espectrales: <em>sharp</em> (nítida), <em>principal</em>, <em>diffuse</em> (difusa) y <em>fundamental</em>. Después de $F$ se sigue alfabéticamente: $G$, $H$, etc.
+  </div>
+
+  <!-- ============================================ -->
+  <h2 id="s5">5. El desplazamiento de Lamb</h2>
+
+  <p>La fórmula de Dirac predice que $2s_{1/2}$ y $2p_{1/2}$ tienen exactamente la misma energía. Sin embargo, en 1947 Willis Lamb y Robert Retherford demostraron experimentalmente que <strong>no están degenerados</strong>: el $2s_{1/2}$ está ligeramente por encima del $2p_{1/2}$, con una diferencia de aproximadamente <strong>1057 MHz</strong> (≈ $4.4\times10^{-6}\ \text{eV}$).</p>
+
+  <p>Este desplazamiento se debe a efectos de electrodinámica cuántica (QED): la interacción del electrón con el campo electromagnético cuántico del vacío. Los diagramas de Feynman relevantes incluyen la emisión y reabsorción de fotones virtuales y la creación de pares electrón-positrón virtuales.</p>
+
+  <div class="math-box">
+    $$ \Delta E_{\rm Lamb}(n) \approx \frac{4\alpha^5 m_e c^2}{3\pi n^3} \ln\left(\frac{1}{\alpha}\right) \quad \text{(aproximación de Bethe)}. $$
+  </div>
+
+  <p>Para $n=2$, este cálculo da un valor cercano a los 1057 MHz observados. Para $n=3$, el desplazamiento es aproximadamente $1/n^3$ veces menor (~314 MHz).</p>
+
+  <div class="warning-box">
+    <strong>Importancia conceptual.</strong> El desplazamiento de Lamb fue crucial para el desarrollo de la QED. Demostró que la ecuación de Dirac, aunque exitosa, no es la última palabra: las fluctuaciones cuánticas del vacío modifican las energías atómicas. Bethe, Feynman, Schwinger y Tomonaga recibieron el Nobel por desarrollar la teoría que explica este efecto.
+  </div>
+
+  <!-- ============================================ -->
+  <h2 id="s6">6. Efecto Zeeman: la ruptura magnética</h2>
+
+  <p>Cuando se aplica un campo magnético externo $\mathbf{B}$, los niveles de energía se desdoblan aún más. Este es el <strong>efecto Zeeman</strong>. La energía de interacción magnética es:</p>
+
+  <div class="math-box">
+    $$ \Delta E_Z = -\boldsymbol{\mu}\cdot\mathbf{B} = g_j \, \mu_B \, B \, m_j, $$
+  </div>
+
+  <p>donde $g_j$ es el <strong>factor de Landé</strong>:</p>
+
+  <div class="math-box">
+    $$ g_j = 1 + \frac{j(j+1) + s(s+1) - l(l+1)}{2j(j+1)}. $$
+  </div>
+
+  <p>Para los niveles del hidrógeno:</p>
+
+  <table class="generic">
+    <thead>
+      <tr><th>Estado</th><th>$l$</th><th>$j$</th><th>$g_j$</th><th>Subniveles $m_j$</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>$1s_{1/2}$</td><td>0</td><td>1/2</td><td>2</td><td>$\pm 1/2$</td></tr>
+      <tr><td>$2s_{1/2}$</td><td>0</td><td>1/2</td><td>2</td><td>$\pm 1/2$</td></tr>
+      <tr><td>$2p_{1/2}$</td><td>1</td><td>1/2</td><td>2/3</td><td>$\pm 1/2$</td></tr>
+      <tr><td>$2p_{3/2}$</td><td>1</td><td>3/2</td><td>4/3</td><td>$\pm 1/2, \pm 3/2$</td></tr>
+      <tr><td>$3d_{5/2}$</td><td>2</td><td>5/2</td><td>6/5</td><td>$\pm 1/2, \pm 3/2, \pm 5/2$</td></tr>
+    </tbody>
+  </table>
+
+  <p>Para campos magnéticos débiles ($B \ll B_c$), el desdoblamiento es lineal en $B$ y el número cuántico $m_j$ es una buena etiqueta (efecto Zeeman anómalo). Para campos fuertes ($B \gg B_c$), el acoplamiento espín-órbita se rompe y $m_l$ y $m_s$ se acoplan por separado al campo (efecto Paschen-Back). El campo crítico para el hidrógeno es $B_c \approx 0.4\ \text{T}$.</p>
+
+  <!-- FIGURA 2: EFECTO ZEEMAN -->
+  <div class="interactive-figure">
+    <div class="figure-title">Figura 2: Efecto Zeeman en los niveles $n=2$ del hidrógeno</div>
+    <div id="plot_Zeeman" class="plot-area"></div>
+    <div class="controls">
+      <div class="control-panel">
+        <h4>Campo magnético</h4>
+        <label class="slider-row">
+          $B$: <span id="v_B_Zee" class="slider-val">1.0 T</span>
+          <input type="range" id="s_B_Zee" min="0" max="5" step="0.1" value="1.0">
+        </label>
+        <label class="checkbox-row" style="margin-top:12px;">
+          <input type="checkbox" id="cb_lamb_Zee" checked>
+          <span>Incluir desplazamiento de Lamb</span>
+        </label>
+      </div>
+      <div class="control-panel">
+        <h4>Lectura</h4>
+        <div id="stats_Zeeman" class="stats"></div>
+      </div>
+    </div>
+
+    <div class="guide-box">
+      <strong>Qué observar en la Figura 2.</strong>
+      <ol>
+        <li>Con $B=0$, los niveles están en sus posiciones de estructura fina (con o sin Lamb).</li>
+        <li>Al aumentar $B$, cada nivel se desdobla en $2j+1$ subniveles, etiquetados por $m_j$.</li>
+        <li>Las pendientes de las líneas son $g_j \mu_B m_j$: cuanto mayor es $g_j$, más rápido se separan los subniveles.</li>
+        <li>Compara las pendientes de $2s_{1/2}$ ($g_j=2$) y $2p_{1/2}$ ($g_j=2/3$): el primero se desdobla tres veces más rápido.</li>
+        <li>A campos altos ($B \gtrsim 2\ \text{T}$), las líneas se cruzan: es el régimen de Paschen-Back, donde el espín y el momento orbital se desacoplan.</li>
+      </ol>
+    </div>
+
+    <div class="caption">
+      <strong>Epígrafe:</strong> Desdoblamiento Zeeman de los niveles $n=2$ del hidrógeno en función del campo magnético $B$. La energía se mide en GHz respecto a la posición de Bohr $-3.
