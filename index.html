@@ -1627,7 +1627,16 @@ function responder(indice){
         '<div class="teoria-body">' + mdLite(t.texto) + '</div>' +
       '</div>';
   }
+  if(current.link && current.link.url){
+    const urlLink = String(current.link.url);
+    const textoLink = String(current.link.texto || '🔗 Abrir recurso');
+    html +=
+      '<div class="recurso-link">' +
+        '<a href="' + urlLink + '" target="_blank" rel="noopener">' + textoLink + '</a>' +
+      '</div>';
+  }
 
+ 
   html +=
     '<div class="elo-line">' +
       '<span class="tema-chip" style="border-color:' + color + '55; color:' + color + '">' + temaActual + '</span>' +
