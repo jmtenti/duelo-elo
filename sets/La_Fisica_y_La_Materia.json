@@ -524,8 +524,8 @@
     },
     {
       "id": 29,
-      "elo": 1080,
       "tema": "Interacción radiación-materia",
+      "elo": 1080,
       "q": "El pico de Bragg en la curva de Bragg de partículas cargadas pesadas se debe a que:",
       "opts": [
         "La partícula se desintegra justo al final de su recorrido",
@@ -533,11 +533,15 @@
         "La sección eficaz de colisión disminuye al aumentar la energía",
         "La pérdida de energía por unidad de longitud crece al bajar la velocidad"
       ],
-      "a": 3,
       "sol": "El poder de frenado $-dE/dx$ es proporcional a $1/v^2$ (según la fórmula de Bethe). A medida que la partícula pierde energía y se frena, la tasa de pérdida de energía aumenta, produciendo un máximo (pico de Bragg) justo antes de detenerse. Esto es importante en hadronterapia.",
+      "a": 3,
       "teoria": {
         "titulo": "Pico de Bragg",
         "texto": "El pico de Bragg es una característica de la curva de pérdida de energía de partículas cargadas pesadas (como protones, partículas alfa o iones) al atravesar la materia. La curva de Bragg representa el poder de frenado $-dE/dx$ en función de la profundidad de penetración (o de la energía de la partícula).\n\nLa fórmula de Bethe-Bloch muestra que el poder de frenado es proporcional a $1/v^2$, donde $v$ es la velocidad de la partícula. A medida que la partícula penetra en el material, pierde energía y se frena, de modo que su velocidad disminuye y la tasa de pérdida de energía aumenta. Esto continúa hasta que la partícula se detiene, momento en el cual la pérdida de energía por unidad de longitud alcanza un máximo. Ese máximo es el pico de Bragg.\n\nDespués del pico, la partícula se detiene abruptamente en una distancia muy corta. La forma característica de la curva de Bragg es: una región de pérdida de energía relativamente baja al principio (cuando la partícula es rápida), seguida de un aumento gradual y luego un pico agudo cerca del final del recorrido.\n\nEl pico de Bragg tiene importantes aplicaciones en hadronterapia (terapia con protones o iones). Al ajustar la energía de los protones, se puede hacer que el pico de Bragg coincida con la profundidad del tumor, depositando la mayor parte de la dosis en el tumor y minimizando el daño al tejido sano circundante. Esta es una de las principales ventajas de la terapia con protones sobre la radioterapia convencional con fotones."
+      },
+      "link": {
+        "url": "interactivos/Pico-de-Bragg-y-Hadronterapia.html",
+        "texto": "🔗 Abrir recurso"
       }
     },
     {
