@@ -1,0 +1,1036 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Estudio Interactivo: Modelos Atómicos — De Thomson a Sommerfeld</title>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']], displayMath: [['$$','$$'], ['\\[','\\]']]},
+    messageStyle: "none"
+  });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script src="https://cdn.plot.ly/plotly-2.24.1.min.js"></script>
+
+<style>
+  :root {
+    --primary-color: #1a252f;
+    --secondary-color: #2c3e50;
+    --accent-color: #c0392b;
+    --link-color: #2980b9;
+    --bg-color: #f8f9fa;
+    --sm-color: #16a085;
+    --ex-color: #8e44ad;
+    --hist-color: #b7791f;
+    --we-color: #6c3483;
+    --intuition-color: #d35400;
+    --warning-color: #c0392b;
+    --thomson-color: #8e44ad;
+    --rutherford-color: #c0392b;
+    --bohr-color: #2980b9;
+    --sommerfeld-color: #16a085;
+  }
+  body {
+    font-family: 'Georgia', serif;
+    background: var(--bg-color);
+    color: #333;
+    line-height: 1.8;
+    margin: 0; padding: 40px 0;
+    font-size: 16px;
+  }
+  .container {
+    max-width: 1000px;
+    margin: auto;
+    background: white;
+    padding: 50px 80px;
+    border-radius: 12px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.06);
+  }
+  h1 { color: var(--primary-color); text-align: center; font-size: 2.1em; font-family: 'Segoe UI', sans-serif; margin-bottom: 10px;}
+  .subtitle { text-align: center; color: #7f8c8d; font-style: italic; margin-bottom: 40px; }
+  h2 { color: var(--secondary-color); margin-top: 55px; border-bottom: 2px solid #ecf0f1; padding-bottom: 5px; font-family: 'Segoe UI', sans-serif;}
+  h3 { color: var(--secondary-color); margin-top: 35px; font-family: 'Segoe UI', sans-serif; font-size: 1.18em;}
+  h4 { color: var(--sm-color); margin-top: 25px; font-family: 'Segoe UI', sans-serif; font-size: 1.02em; font-style: italic;}
+  p { text-align: justify; margin-bottom: 20px; }
+  ul, ol { text-align: justify; }
+  li { margin-bottom: 8px; }
+  .math-box {
+    background: #fdfefe;
+    border-left: 4px solid var(--link-color);
+    padding: 15px 25px;
+    margin: 25px 0;
+    overflow-x: auto;
+    font-size: 1.1em;
+  }
+  .note-box {
+    background: #fef9e7;
+    border-left: 4px solid #f39c12;
+    padding: 12px 20px;
+    margin: 20px 0;
+    font-size: 0.98em;
+  }
+  .sm-box {
+    background: #eafaf1;
+    border-left: 4px solid var(--sm-color);
+    padding: 14px 22px;
+    margin: 22px 0;
+    font-size: 0.97em;
+  }
+  .sm-box strong:first-child { color: var(--sm-color); }
+  .intuition-box {
+    background: #fdf2e9;
+    border-left: 4px solid var(--intuition-color);
+    padding: 14px 22px;
+    margin: 22px 0;
+    font-size: 0.97em;
+  }
+  .intuition-box strong:first-child { color: var(--intuition-color); }
+  .warning-box {
+    background: #fdedec;
+    border-left: 4px solid var(--warning-color);
+    padding: 14px 22px;
+    margin: 22px 0;
+    font-size: 0.97em;
+  }
+  .warning-box strong:first-child { color: var(--warning-color); }
+  .guide-box {
+    background: #eef6fc;
+    border-left: 4px solid var(--link-color);
+    padding: 14px 22px;
+    margin: 22px 0;
+    font-size: 0.96em;
+  }
+  .guide-box strong:first-child { color: var(--link-color); }
+  .guide-box ol { margin: 8px 0 0 0; padding-left: 22px; }
+  .history-box {
+    background: #fbf6e9;
+    border-left: 4px solid var(--hist-color);
+    padding: 14px 22px;
+    margin: 22px 0;
+    font-size: 0.95em;
+    font-style: italic;
+    color: #5b4a1e;
+  }
+  .history-box strong { font-style: normal; }
+  .worked-example {
+    background: #faf7fd;
+    border: 1px solid #d5c8e8;
+    border-left: 5px solid var(--we-color);
+    border-radius: 8px;
+    padding: 22px 30px 24px;
+    margin: 35px 0;
+    font-size: 0.98em;
+  }
+  .worked-example .we-header {
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 0.78em;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--we-color);
+    font-weight: bold;
+    margin-bottom: 6px;
+  }
+  .worked-example .we-title {
+    font-family: 'Segoe UI', sans-serif;
+    color: var(--we-color);
+    font-size: 1.08em;
+    font-weight: 600;
+    margin: 0 0 16px 0;
+    line-height: 1.4;
+  }
+  .worked-example .step {
+    margin: 18px 0;
+    padding-left: 18px;
+    border-left: 2px solid #e3d4f0;
+  }
+  .worked-example .step-label {
+    font-family: 'Segoe UI', sans-serif;
+    font-weight: bold;
+    color: var(--we-color);
+    font-size: 0.86em;
+    display: block;
+    margin-bottom: 4px;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+  }
+  .worked-example .result {
+    background: #efe9f7;
+    border-radius: 5px;
+    padding: 10px 16px;
+    margin-top: 8px;
+    font-weight: 500;
+  }
+  .worked-example .verify {
+    background: #eafaf1;
+    border-left: 3px solid var(--sm-color);
+    padding: 8px 14px;
+    border-radius: 0 5px 5px 0;
+    margin-top: 8px;
+    font-size: 0.95em;
+  }
+  .exercise-box {
+    background: #fdf2f2;
+    border: 1px solid #f5c6c6;
+    border-radius: 8px;
+    padding: 22px 28px;
+    margin: 35px 0;
+  }
+  .exercise-box h4 {
+    color: var(--accent-color);
+    margin-top: 0;
+    font-style: normal;
+    font-size: 1.05em;
+  }
+  .hint {
+    background: #fff8e1;
+    border-radius: 4px;
+    padding: 8px 14px;
+    margin: 10px 0;
+    font-size: 0.92em;
+    color: #6d4c00;
+    border-left: 3px solid #f39c12;
+  }
+  .solution-toggle {
+    background: var(--accent-color);
+    color: white;
+    border: none;
+    padding: 8px 18px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 0.92em;
+    margin-top: 12px;
+    transition: background 0.2s;
+  }
+  .solution-toggle:hover { background: #a02828; }
+  .solution-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s ease, margin 0.3s ease;
+    margin-top: 0;
+  }
+  .solution-content.open {
+    max-height: 6000px;
+    margin-top: 18px;
+  }
+  .interactive-figure {
+    background: #fafafa;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    padding: 25px;
+    margin: 40px 0;
+    font-family: 'Segoe UI', sans-serif;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+  }
+  .figure-title { text-align: center; color: var(--secondary-color); font-weight: bold; font-size: 1.2em; margin-top: 0; }
+  .plot-area { width: 100%; height: 460px; margin-bottom: 15px; }
+  .controls {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    padding: 18px 20px;
+    background: #fff;
+    border-radius: 8px;
+    border: 1px solid #eee;
+    margin-bottom: 15px;
+  }
+  .control-panel h4 {
+    margin-top: 0;
+    color: var(--secondary-color);
+    font-size: 0.9em;
+    font-family: 'Segoe UI', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-style: normal;
+  }
+  .checkbox-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 6px 0;
+    font-size: 0.93em;
+    color: #444;
+    cursor: pointer;
+  }
+  .checkbox-row input[type=checkbox] {
+    width: 16px; height: 16px;
+    accent-color: var(--link-color);
+    cursor: pointer;
+  }
+  .slider-row {
+    display: block;
+    margin: 12px 0;
+    font-size: 0.93em;
+    color: #333;
+  }
+  .slider-row input[type=range] {
+    width: 100%;
+    accent-color: var(--accent-color);
+    cursor: pointer;
+  }
+  .slider-val {
+    font-family: Consolas, monospace;
+    color: var(--accent-color);
+    font-weight: bold;
+  }
+  .select-row {
+    margin: 10px 0;
+    font-size: 0.93em;
+    color: #333;
+  }
+  .select-row select {
+    display: block;
+    width: 100%;
+    margin-top: 6px;
+    padding: 8px 12px;
+    border-radius: 6px;
+    border: 1.5px solid #ccc;
+    font-size: 0.95em;
+    background: white;
+    cursor: pointer;
+  }
+  .select-row select:hover { border-color: var(--link-color); }
+  .stats {
+    margin-top: 12px;
+    padding: 12px 16px;
+    background: #f4f6f7;
+    border-radius: 6px;
+    font-family: Consolas, monospace;
+    font-size: 0.86em;
+    line-height: 1.7;
+    text-align: center;
+  }
+  .stats .stat-item {
+    display: inline-block;
+    margin: 3px 6px;
+    padding: 3px 10px;
+    background: white;
+    border-radius: 4px;
+    border: 1px solid #e0e0e0;
+  }
+  .stats .stat-item .lbl { color: #888; }
+  .stats .stat-item .val { color: var(--accent-color); font-weight: bold; }
+  .caption {
+    font-size: 0.95em; color: #555; text-align: justify;
+    padding: 10px 20px; border-left: 3px solid var(--accent-color);
+    background: #fff;
+  }
+  .legend-swatch {
+    display: inline-block; width: 14px; height: 14px;
+    border-radius: 3px; margin-right: 6px; vertical-align: middle;
+  }
+  .term-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 0.94em;
+  }
+  .term-table th, .term-table td {
+    border: 1px solid #e0e0e0;
+    padding: 10px 14px;
+    text-align: left;
+    vertical-align: top;
+  }
+  .term-table th { background: #ecf0f1; font-family: 'Segoe UI', sans-serif; }
+  .term-table td.symbol { font-family: 'Cambria Math', 'Times New Roman', serif; font-size: 1.08em; text-align: center; width: 90px; background: #fafafa;}
+  table.generic { border-collapse: collapse; width: 100%; margin: 20px 0; font-size: 0.95em;}
+  table.generic th, table.generic td { border: 1px solid #e0e0e0; padding: 8px 12px; text-align: left; vertical-align: top;}
+  table.generic th { background: #ecf0f1; }
+  .toc {
+    background: #f4f6f7;
+    border-radius: 8px;
+    padding: 20px 30px;
+    margin: 30px 0;
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 0.95em;
+  }
+  .toc h3 { margin-top: 0; color: var(--secondary-color); font-size: 1.05em;}
+  .toc ol { margin: 0; padding-left: 22px;}
+  .toc li { margin: 4px 0;}
+  .toc a { color: var(--link-color); text-decoration: none;}
+  .toc a:hover { text-decoration: underline;}
+  .step-by-step {
+    counter-reset: step-counter;
+    list-style: none;
+    padding-left: 0;
+    margin: 25px 0;
+  }
+  .step-by-step li {
+    position: relative;
+    padding: 12px 18px 12px 60px;
+    margin: 10px 0;
+    background: #f8f9fa;
+    border-radius: 6px;
+    border-left: 3px solid var(--link-color);
+  }
+  .step-by-step li::before {
+    counter-increment: step-counter;
+    content: counter(step-counter);
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 32px;
+    height: 32px;
+    background: var(--link-color);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Segoe UI', sans-serif;
+    font-weight: bold;
+    font-size: 0.95em;
+  }
+  @media (max-width: 800px) {
+    .container { padding: 30px 20px; }
+    .controls { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h1>Modelos Atómicos</h1>
+  <div class="subtitle">De la esfera de Thomson al átomo cuántico de Bohr y Sommerfeld: cómo la física descubrió la estructura del átomo</div>
+
+  <div class="note-box">
+    <strong>Notación.</strong> $Z$: número atómico (carga nuclear). $e$: carga elemental. $m_e$: masa del electrón. $k = 1/(4\pi\epsilon_0)$: constante de Coulomb. $\hbar = h/(2\pi)$: constante reducida de Planck. $a_0 = 0.529\ \text{Å}$: radio de Bohr. $E_0 = 13.6\ \text{eV}$: energía de ionización del hidrógeno. $n$: número cuántico principal. $k$ (o $l$): número cuántico azimutal. $\alpha \approx 1/137$: constante de estructura fina.
+  </div>
+
+  <div class="intuition-box">
+    <strong>La idea en una frase.</strong> Un átomo es casi todo espacio vacío con una carga positiva minúscula y pesada en el centro (núcleo) y electrones ligeros alrededor. Pero si los electrones giraran como planetas clásicos, radiarían y caerían al núcleo en una fracción de segundo. La solución —que los electrones solo pueden ocupar ciertas órbitas o niveles de energía sin radiar— fue el primer paso de la revolución cuántica.
+  </div>
+
+  <div class="toc">
+    <h3>Contenido</h3>
+    <ol>
+      <li><a href="#s1">El problema: los espectros atómicos</a></li>
+      <li><a href="#s2">Modelo de Thomson (1904): el pudín de pasas</a></li>
+      <li><a href="#s3">Modelo de Rutherford (1911): el núcleo</a></li>
+      <li><a href="#s4">Modelo de Bohr (1913): órbitas cuantizadas</a></li>
+      <li><a href="#s5">Modelo de Sommerfeld (1916): órbitas elípticas y estructura fina</a></li>
+      <li><a href="#s6">Comparación y límites de los modelos</a></li>
+      <li><a href="#s7">Ejemplos resueltos</a></li>
+      <li><a href="#s8">Ejercicios propuestos</a></li>
+      <li><a href="#s9">Conclusiones</a></li>
+    </ol>
+  </div>
+
+  <!-- ============================================ -->
+  <h2 id="s1">1. El problema: los espectros atómicos</h2>
+
+  <p>A finales del siglo XIX, la espectroscopía había revelado un hecho desconcertante: los átomos excitados emiten luz solo en longitudes de onda muy concretas, formando <strong>líneas espectrales</strong> nítidas, no un espectro continuo. Para el hidrógeno, Balmer (1885) encontró una fórmula empírica que predecía las líneas visibles:</p>
+
+  <div class="math-box">
+    $$ \lambda_n = 346.6\ \frac{n^2}{n^2 - 4}\ \text{nm}, \qquad n = 3, 4, 5, \dots $$
+  </div>
+
+  <p>Rydberg y Ritz generalizaron la fórmula para todo el espectro del hidrógeno:</p>
+
+  <div class="math-box">
+    $$ \frac{1}{\lambda_{mn}} = R_H \left( \frac{1}{m^2} - \frac{1}{n^2} \right), \qquad n > m, $$
+  </div>
+
+  <p>donde $R_H = 1.096776 \times 10^7\ \text{m}^{-1}$ es la constante de Rydberg. La física clásica no tenía explicación para estas regularidades numéricas. Los modelos atómicos del siglo XX nacieron, precisamente, para explicarlas.</p>
+
+  <div class="history-box">
+    <strong>Contexto histórico.</strong> El descubrimiento del electrón por J. J. Thomson en 1897 y la caracterización de la radiactividad (partículas alfa y beta) abrieron la puerta a los primeros modelos con estructura interna. La pregunta era: ¿cómo se distribuyen esas cargas dentro del átomo?
+  </div>
+
+  <!-- ============================================ -->
+  <h2 id="s2">2. Modelo de Thomson (1904): el pudín de pasas</h2>
+
+  <p>J. J. Thomson propuso que el átomo era una <strong>esfera maciza de carga positiva</strong> de unos $10^{-10}\ \text{m}$ de radio, con los electrones (cargas negativas) incrustados en ella como pasas en un pudín. La carga positiva total neutralizaba exactamente la carga de los electrones, de modo que el átomo era eléctricamente neutro.</p>
+
+  <div class="intuition-box">
+    <strong>Analogía.</strong> Imagina una gelatina esférica con carga positiva uniforme y pequeñas semillas negativas (electrones) repartidas dentro. Las semillas pueden vibrar alrededor de sus posiciones de equilibrio, y esas vibraciones podrían, en principio, emitir radiación de ciertas frecuencias.
+  </div>
+
+  <p>El modelo de Thomson fue un primer intento valiente, pero tenía problemas graves:</p>
+  <ul>
+    <li>No explicaba las líneas espectrales discretas: las frecuencias de vibración de los electrones en la esfera no coincidían con las observadas.</li>
+    <li>No era estable frente a perturbaciones: las configuraciones de electrones en una esfera de carga positiva uniforme no reproducían los espectros atómicos reales.</li>
+    <li>El experimento de Rutherford (1911) lo refutó directamente.</li>
+  </ul>
+
+  <div class="warning-box">
+    <strong>Error común.</strong> "El modelo de Thomson fue descartado porque los electrones caían al núcleo." No exactamente. En el modelo de Thomson no había un núcleo puntual; la carga positiva estaba distribuida. El problema era que no podía explicar los espectros discretos ni la dispersión a grandes ángulos observada por Rutherford.
+  </div>
+
+  <!-- ============================================ -->
+  <h2 id="s3">3. Modelo de Rutherford (1911): el núcleo</h2>
+
+  <p>Ernest Rutherford, junto con Geiger y Marsden, bombardeó una lámina muy fina de oro con partículas alfa (núcleos de helio, carga $+2e$). Si el modelo de Thomson fuera correcto, las partículas alfa atravesarían la lámina con desviaciones mínimas. Pero observaron algo sorprendente: <strong>algunas partículas se desviaban a ángulos mayores de $90^\circ$</strong>, como si rebotaran contra algo muy pequeño y muy pesado.</p>
+
+  <div class="intuition-box">
+    <strong>Analogía.</strong> Es como disparar balas a una nube: casi todas pasan sin desviarse. Pero si de vez en cuando una bala rebota y vuelve hacia ti, es porque dentro de la nube hay un objeto duro y masivo (un núcleo) que ocupa una fracción ínfima del volumen.
+  </div>
+
+  <p>Rutherford concluyó que la carga positiva y casi toda la masa del átomo estaban concentradas en un <strong>núcleo</strong> de radio $\sim 10^{-15}\ \text{m}$, mientras que los electrones ocupaban el resto del átomo ($\sim 10^{-10}\ \text{m}$). La mayor parte del átomo era espacio vacío.</p>
+
+  <h3>3.1 La fórmula de dispersión de Rutherford</h3>
+
+  <p>La distribución angular de las partículas dispersas por un núcleo puntual de carga $Ze$ sigue la fórmula de Rutherford (en el límite no relativista):</p>
+
+  <div class="math-box">
+    $$ \frac{d\sigma}{d\Omega} = \left( \frac{Z_1 Z_2 e^2}{16\pi\epsilon_0 T} \right)^2 \frac{1}{\sin^4(\theta/2)}, $$
+  </div>
+
+  <p>donde $Z_1$ es la carga de la partícula incidente (para una alfa, $Z_1=2$), $Z_2$ la del núcleo blanco (para el oro, $Z_2=79$), $T$ la energía cinética de la partícula incidente y $\theta$ el ángulo de dispersión. La dependencia $\propto 1/\sin^4(\theta/2)$ implica que las dispersiones a ángulos grandes son muy raras, pero no imposibles.</p>
+
+  <p>La relación entre el <strong>parámetro de impacto</strong> $b$ (distancia a la que pasaría la partícula si no hubiera interacción) y el ángulo de dispersión $\theta$ es:</p>
+
+  <div class="math-box">
+    $$ b = \frac{Z_1 Z_2 e^2}{8\pi\epsilon_0 T} \cot(\theta/2). $$
+  </div>
+
+  <div class="warning-box">
+    <strong>El problema del modelo de Rutherford.</strong> Según el electromagnetismo de Maxwell, una carga acelerada (como un electrón en órbita circular) radia energía continuamente. Un electrón clásico orbitando el núcleo perdería energía y caería en espiral al núcleo en una fracción de segundo ($\sim 10^{-11}\ \text{s}$). El átomo de Rutherford era, por tanto, inestable. Además, no explicaba las líneas espectrales discretas.
+  </div>
+
+  <!-- FIGURA 1: DISPERSIÓN DE RUTHERFORD -->
+  <div class="interactive-figure">
+    <div class="figure-title">Figura 1: Dispersión de Rutherford — trayectorias de partículas alfa</div>
+    <div id="plot_Rutherford" class="plot-area"></div>
+    <div class="controls">
+      <div class="control-panel">
+        <h4>Parámetro de impacto $b$ (unidades arbitrarias)</h4>
+        <label class="slider-row">
+          $b$: <span id="v_b_Ruth" class="slider-val">2.0</span>
+          <input type="range" id="s_b_Ruth" min="0.1" max="8" step="0.1" value="2.0">
+        </label>
+        <p style="font-size:0.88em; color:#666; margin-top:8px;">
+          $b$ pequeño $\Rightarrow$ dispersión grande ($\theta$ grande).<br>
+          $b$ grande $\Rightarrow$ dispersión pequeña (la partícula pasa de largo).
+        </p>
+      </div>
+      <div class="control-panel">
+        <h4>Lectura</h4>
+        <div id="stats_Rutherford" class="stats"></div>
+      </div>
+    </div>
+
+    <div class="guide-box">
+      <strong>Qué observar en la Figura 1.</strong>
+      <ol>
+        <li>Con $b$ grande (cerca de 8), la trayectoria es casi recta: la partícula apenas se desvía.</li>
+        <li>Al reducir $b$, la trayectoria se curva cada vez más. Para $b \to 0$ (choque frontal), la partícula retrocede ($\theta \to 180^\circ$).</li>
+        <li>El núcleo (punto rojo en el origen) ocupa una fracción ínfima del espacio: la mayoría de las partículas pasan lejos y no sienten más que una pequeña fuerza de Coulomb.</li>
+        <li>La curva de la trayectoria es una <strong>hipérbola</strong>, consecuencia de la fuerza coulombiana repulsiva $F \propto 1/r^2$.</li>
+      </ol>
+    </div>
+
+    <div class="caption">
+      <strong>Epígrafe:</strong> Trayectorias de partículas alfa dispersadas por un núcleo puntual de oro ($Z=79$). La línea roja es la trayectoria para el parámetro de impacto seleccionado; las líneas grises punteadas muestran otras trayectorias de referencia. La hipérbola se calcula resolviendo el problema de Kepler repulsivo. A menor $b$, mayor ángulo de dispersión $\theta$.
+    </div>
+  </div>
+
+  <!-- ============================================ -->
+  <h2 id="s4">4. Modelo de Bohr (1913): órbitas cuantizadas</h2>
+
+  <p>Niels Bohr resolvió el problema de la estabilidad atómica introduciendo tres postulados revolucionarios, que combinaban la física clásica con la cuantización de Planck y Einstein:</p>
+
+  <ol class="step-by-step">
+    <li><strong>Órbitas estacionarias.</strong> El electrón solo puede moverse en ciertas órbitas circulares, llamadas <em>estados estacionarios</em>, en las que <strong>no emite radiación</strong> a pesar de estar acelerado.</li>
+    <li><strong>Cuantización del momento angular.</strong> Las órbitas permitidas son aquellas en las que el momento angular del electrón es un múltiplo entero de $\hbar$:
+      $$ L = m_e v r = n\hbar, \qquad n = 1, 2, 3, \dots $$
+    </li>
+    <li><strong>Transiciones cuánticas.</strong> El átomo solo emite o absorbe energía cuando el electrón salta de una órbita a otra. La frecuencia del fotón emitido/absorbido cumple:
+      $$ h\nu = E_i - E_f. $$
+    </li>
+  </ol>
+
+  <h3>4.1 Radios y energías de las órbitas</h3>
+
+  <p>Igualando la fuerza centrípeta con la fuerza de Coulomb e imponiendo la cuantización del momento angular, Bohr obtuvo:</p>
+
+  <div class="math-box">
+    $$ r_n = \frac{n^2 \hbar^2}{m_e k Z e^2} = a_0 \frac{n^2}{Z}, \qquad a_0 = \frac{\hbar^2}{m_e k e^2} \approx 0.529\ \text{Å}. $$
+  </div>
+
+  <p>La energía total del electrón en la órbita $n$ es negativa (ligado al núcleo) y vale:</p>
+
+  <div class="math-box">
+    $$ E_n = -\frac{m_e k^2 Z^2 e^4}{2\hbar^2} \frac{1}{n^2} = -E_0 \frac{Z^2}{n^2}, \qquad E_0 = 13.6\ \text{eV}. $$
+  </div>
+
+  <p>Para el hidrógeno ($Z=1$), el estado fundamental ($n=1$) tiene $E_1 = -13.6\ \text{eV}$ y radio $r_1 = a_0$. Los niveles superiores se acercan a $0$ a medida que $n$ crece.</p>
+
+  <h3>4.2 Las líneas espectrales del hidrógeno</h3>
+
+  <p>Cuando el electrón salta de un nivel $n_i$ a un nivel inferior $n_f$, emite un fotón de energía:</p>
+
+  <div class="math-box">
+    $$ \Delta E = E_{n_i} - E_{n_f} = E_0 Z^2 \left( \frac{1}{n_f^2} - \frac{1}{n_i^2} \right) = \frac{hc}{\lambda}. $$
+  </div>
+
+  <p>Despejando $1/\lambda$ se recupera exactamente la fórmula de Rydberg:</p>
+
+  <div class="math-box">
+    $$ \frac{1}{\lambda} = \frac{E_0 Z^2}{hc} \left( \frac{1}{n_f^2} - \frac{1}{n_i^2} \right). $$
+  </div>
+
+  <p>La constante de Rydberg predicha por Bohr, $R_\infty = E_0/hc$, coincide con el valor experimental para el hidrógeno. Este fue un triunfo espectacular del modelo.</p>
+
+  <div class="sm-box">
+    <strong>Series espectrales.</strong> Las transiciones que terminan en $n_f=1$ forman la serie de Lyman (ultravioleta); las que terminan en $n_f=2$, la serie de Balmer (visible); en $n_f=3$, la serie de Paschen (infrarrojo). La fórmula de Bohr las unifica todas.
+  </div>
+
+  <!-- FIGURA 2: NIVELES DE ENERGÍA Y TRANSICIONES DE BOHR -->
+  <div class="interactive-figure">
+    <div class="figure-title">Figura 2: Niveles de energía del hidrógeno y transiciones de Bohr</div>
+    <div id="plot_Bohr" class="plot-area"></div>
+    <div class="controls">
+      <div class="control-panel">
+        <h4>Transición</h4>
+        <div class="select-row">
+          <label>Nivel inicial $n_i$:</label>
+          <select id="sel_ni_Bohr">
+            <option value="2">2</option>
+            <option value="3" selected>3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+          </select>
+        </div>
+        <div class="select-row">
+          <label>Nivel final $n_f$:</label>
+          <select id="sel_nf_Bohr">
+            <option value="1" selected>1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+          </select>
+        </div>
+      </div>
+      <div class="control-panel">
+        <h4>Resultado</h4>
+        <div id="stats_Bohr" class="stats"></div>
+      </div>
+    </div>
+
+    <div class="guide-box">
+      <strong>Qué observar en la Figura 2.</strong>
+      <ol>
+        <li>Los niveles de energía son negativos y se hacen más densos a medida que $n$ crece (convergen a $E=0$).</li>
+        <li>La flecha muestra la transición seleccionada. Si $n_i > n_f$, el átomo <strong>emite</strong> un fotón; si $n_i < n_f$, lo <strong>absorbe</strong>.</li>
+        <li>La energía del fotón es la diferencia entre los dos niveles. Para $n_i=3 \to n_f=1$, $\Delta E = 12.09\ \text{eV}$, que corresponde a $\lambda \approx 102.6\ \text{nm}$ (ultravioleta, serie de Lyman).</li>
+        <li>Para $n_i=3 \to n_f=2$, $\Delta E = 1.89\ \text{eV}$, $\lambda \approx 656\ \text{nm}$ (rojo, serie de Balmer).</li>
+        <li>Prueba $n_i=4 \to n_f=2$: la línea es azul-verdosa ($\lambda \approx 486\ \text{nm}$). Son las líneas visibles del hidrógeno.</li>
+      </ol>
+    </div>
+
+    <div class="caption">
+      <strong>Epígrafe:</strong> Diagrama de niveles de energía del átomo de hidrógeno según el modelo de Bohr. Las líneas horizontales son los niveles $E_n = -13.6/n^2\ \text{eV}$. La flecha roja indica la transición seleccionada. El panel de resultados muestra la energía del fotón y la longitud de onda correspondiente, calculadas con $\lambda = hc/\Delta E$.
+    </div>
+  </div>
+
+  <!-- ============================================ -->
+  <h2 id="s5">5. Modelo de Sommerfeld (1916): órbitas elípticas y estructura fina</h2>
+
+  <p>El modelo de Bohr explicaba el espectro grueso del hidrógeno, pero no la <strong>estructura fina</strong>: un desdoblamiento muy pequeño de las líneas espectrales, observado con espectroscopios de alta resolución. Arnold Sommerfeld generalizó el modelo introduciendo dos ideas:</p>
+
+  <ul>
+    <li><strong>Órbitas elípticas</strong> (no solo circulares), con el núcleo en uno de los focos.</li>
+    <li><strong>Efectos relativistas</strong>: a velocidades cercanas a $c$ (como en átomos pesados), la masa del electrón aumenta, modificando la energía de la órbita.</li>
+  </ul>
+
+  <p>Sommerfeld introdujo un segundo número cuántico, el <strong>número cuántico azimutal</strong> $k$ (o $l$ en notación moderna), que determina la forma de la elipse. Para un nivel $n$ dado, $k$ puede tomar los valores $k = 1, 2, \dots, n$. La órbita circular de Bohr corresponde a $k=n$; las elipses más excéntricas tienen $k$ pequeño.</p>
+
+  <h3>5.1 La fórmula de estructura fina</h3>
+
+  <p>La energía de los niveles, incluyendo la corrección relativista de primer orden, es:</p>
+
+  <div class="math-box">
+    $$ E_{n,k} = -\frac{13.6\,Z^2}{n^2} \left[ 1 + \frac{\alpha^2 Z^2}{n} \left( \frac{1}{k} - \frac{3}{4n} \right) \right], $$
+  </div>
+
+  <p>donde $\alpha \approx 1/137$ es la constante de estructura fina. El término entre corchetes es muy pequeño ($\sim \alpha^2 \sim 10^{-4}$), pero suficiente para desdoblar las líneas espectrales en componentes muy próximas.</p>
+
+  <div class="intuition-box">
+    <strong>Analogía.</strong> Imagina que Bohr describió las órbitas como círculos perfectos. Sommerfeld descubrió que, en realidad, son elipses que se "estiran" y "encogen" ligeramente, y que ese estiramiento altera la energía en una cantidad minúscula. Es como la diferencia entre una cuerda de guitarra afinada exactamente y la misma cuerda con una tensión ligeramente distinta: la nota cambia muy poco, pero cambia.
+  </div>
+
+  <div class="warning-box">
+    <strong>Límite del modelo de Sommerfeld.</strong> Aunque explicaba la estructura fina del hidrógeno, seguía siendo un modelo semiclásico. No podía explicar los espectros de átomos con más de un electrón, ni el efecto Zeeman anómalo, ni la intensidad relativa de las líneas. La solución completa requeriría la mecánica cuántica de Schrödinger y Heisenberg (1925–1926).
+  </div>
+
+  <!-- ============================================ -->
+  <h2 id="s6">6. Comparación y límites de los modelos</h2>
+
+  <table class="generic">
+    <thead>
+      <tr>
+        <th>Modelo</th>
+        <th>Año</th>
+        <th>Imagen del átomo</th>
+        <th>Logros</th>
+        <th>Limitaciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Thomson</strong></td>
+        <td>1904</td>
+        <td>Esfera positiva con electrones incrustados.</td>
+        <td>Primer modelo con estructura interna; explicaba la neutralidad.</td>
+        <td>No explicaba espectros discretos ni dispersión a grandes ángulos.</td>
+      </tr>
+      <tr>
+        <td><strong>Rutherford</strong></td>
+        <td>1911</td>
+        <td>Núcleo positivo pequeño y electrones alrededor.</td>
+        <td>Describió correctamente la dispersión alfa; descubrió el núcleo.</td>
+        <td>Átomo inestable (radiación clásica); no explicaba espectros.</td>
+      </tr>
+      <tr>
+        <td><strong>Bohr</strong></td>
+        <td>1913</td>
+        <td>Órbitas circulares cuantizadas.</td>
+        <td>Explicó el espectro del hidrógeno y la estabilidad atómica.</td>
+        <td>No explicaba átomos polielectrónicos ni estructura fina.</td>
+      </tr>
+      <tr>
+        <td><strong>Sommerfeld</strong></td>
+        <td>1916</td>
+        <td>Órbitas elípticas relativistas.</td>
+        <td>Explicó la estructura fina del hidrógeno; introdujo $k$.</td>
+        <td>Seguía sin explicar átomos multielectrónicos; no daba intensidades.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="sm-box">
+    <strong>El legado.</strong> Aunque hoy el modelo de Bohr-Sommerfeld se considera superado por la mecánica cuántica, sigue siendo una herramienta pedagógica invaluable. Introduce conceptos fundamentales —niveles de energía discretos, cuantización del momento angular, transiciones con emisión/absorción de fotones— que sobreviven en la física actual.
+  </div>
+
+  <!-- ============================================ -->
+  <h2 id="s7">7. Ejemplos resueltos</h2>
+
+  <div class="worked-example">
+    <div class="we-header">Ejemplo desarrollado 7.1</div>
+    <div class="we-title">Radio y energía del estado fundamental del hidrógeno según Bohr</div>
+    <p>Calcula el radio de la órbita $n=1$ y la energía del electrón en el átomo de hidrógeno ($Z=1$).</p>
+    <div class="step">
+      <span class="step-label">Paso 1 — Radio</span>
+      <div class="step-body">
+        $$ r_1 = a_0 \frac{1^2}{1} = 0.529\ \text{Å} = 5.29 \times 10^{-11}\ \text{m}. $$
+        <p>El radio de Bohr $a_0$ es la distancia característica del electrón al núcleo en el estado fundamental.</p>
+      </div>
+    </div>
+    <div class="step">
+      <span class="step-label">Paso 2 — Energía</span>
+      <div class="step-body">
+        $$ E_1 = -13.6\ \frac{1^2}{1^2} = -13.6\ \text{eV}. $$
+        <div class="result">El electrón está ligado con una energía de $-13.6\ \text{eV}$. Para ionizar el átomo hay que aportar $+13.6\ \text{eV}$.</div>
+      </div>
+    </div>
+    <div class="verify">
+      Comprobación: el valor experimental de la energía de ionización del hidrógeno es $13.598\ \text{eV}$. La coincidencia es excelente.
+    </div>
+  </div>
+
+  <div class="worked-example">
+    <div class="we-header">Ejemplo desarrollado 7.2</div>
+    <div class="we-title">Longitud de onda de la línea $H_\alpha$ (Balmer-alfa)</div>
+    <p>Calcula la longitud de onda del fotón emitido en la transición $n_i=3 \to n_f=2$ del hidrógeno.</p>
+    <div class="step">
+      <span class="step-label">Paso 1 — Diferencia de energía</span>
+      <div class="step-body">
+        $$ \Delta E = 13.6 \left( \frac{1}{2^2} - \frac{1}{3^2} \right) = 13.6 \left( \frac{1}{4} - \frac{1}{9} \right) = 13.6 \times 0.1389 = 1.889\ \text{eV}. $$
+      </div>
+    </div>
+    <div class="step">
+      <span class="step-label">Paso 2 — Longitud de onda</span>
+      <div class="step-body">
+        $$ \lambda = \frac{hc}{\Delta E} = \frac{1240\ \text{eV}\cdot\text{nm}}{1.889\ \text{eV}} \approx 656\ \text{nm}. $$
+        <div class="result">La línea $H_\alpha$ tiene $\lambda \approx 656\ \text{nm}$, en el rojo del espectro visible. Es la línea más intensa del hidrógeno en nebulosas y estrellas.</div>
+      </div>
+    </div>
+    <div class="verify">
+      El valor experimental es $656.3\ \text{nm}$. La pequeña diferencia se debe a la masa finita del protón (corrección de masa reducida).
+    </div>
+  </div>
+
+  <div class="worked-example">
+    <div class="we-header">Ejemplo desarrollado 7.3</div>
+    <div class="we-title">Ángulo de dispersión de Rutherford para un parámetro de impacto dado</div>
+    <p>Una partícula alfa de $5\ \text{MeV}$ incide sobre un núcleo de oro ($Z=79$) con un parámetro de impacto $b = 2.0 \times 10^{-14}\ \text{m}$. Calcula el ángulo de dispersión $\theta$.</p>
+    <div class="step">
+      <span class="step-label">Paso 1 — Constante de la fórmula</span>
+      <div class="step-body">
+        $$ b_0 = \frac{Z_1 Z_2 e^2}{8\pi\epsilon_0 T} = \frac{2 \times 79 \times (1.44\ \text{MeV}\cdot\text{fm})}{2 \times 5\ \text{MeV}} \approx 22.75\ \text{fm} = 2.275 \times 10^{-14}\ \text{m}. $$
+        <p>(Se usó $e^2/(4\pi\epsilon_0) = 1.44\ \text{MeV}\cdot\text{fm}$.)</p>
+      </div>
+    </div>
+    <div class="step">
+      <span class="step-label">Paso 2 — Ángulo</span>
+      <div class="step-body">
+        $$ \cot(\theta/2) = \frac{b}{b_0} = \frac{2.0}{2.275} = 0.879 \quad \Rightarrow \quad \theta/2 \approx 48.7^\circ \quad \Rightarrow \quad \theta \approx 97.4^\circ. $$
+        <div class="result">La partícula se dispersa casi $100^\circ$: un rebote significativo, imposible en el modelo de Thomson.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================ -->
+  <h2 id="s8">8. Ejercicios propuestos</h2>
+
+  <div class="exercise-box">
+    <h4>Ejercicio 1 — Radio de la órbita $n=2$ del hidrógeno</h4>
+    <p>Calcula el radio de la segunda órbita de Bohr para el hidrógeno. ¿Cuántas veces mayor es que el radio de la primera órbita?</p>
+    <div class="hint"><strong>Pista:</strong> usa $r_n = a_0 n^2 / Z$. Para $Z=1$ y $n=2$.</div>
+    <button class="solution-toggle" onclick="toggleSolution(this)">Mostrar solución</button>
+    <div class="solution-content">
+      <p>$r_2 = a_0 \times 2^2 = 4a_0 = 4 \times 0.529\ \text{Å} = 2.116\ \text{Å}$.</p>
+      <p>Es exactamente 4 veces el radio de la primera órbita.</p>
+    </div>
+  </div>
+
+  <div class="exercise-box">
+    <h4>Ejercicio 2 — Energía de ionización del He⁺</h4>
+    <p>El ion He⁺ es un átomo hidrogenoide con $Z=2$ y un solo electrón. Calcula su energía de ionización desde el estado fundamental.</p>
+    <div class="hint"><strong>Pista:</strong> la energía del estado fundamental es $E_1 = -13.6\,Z^2\ \text{eV}$. La energía de ionización es $-E_1$.</div>
+    <button class="solution-toggle" onclick="toggleSolution(this)">Mostrar solución</button>
+    <div class="solution-content">
+      <p>$E_1 = -13.6 \times 2^2 = -54.4\ \text{eV}$. La energía de ionización es $54.4\ \text{eV}$, cuatro veces la del hidrógeno.</p>
+    </div>
+  </div>
+
+  <div class="exercise-box">
+    <h4>Ejercicio 3 — La serie de Lyman</h4>
+    <p>¿A qué región del espectro pertenecen las transiciones que terminan en $n_f=1$ (serie de Lyman)? Calcula la longitud de onda de la transición $n_i=2 \to n_f=1$.</p>
+    <div class="hint"><strong>Pista:</strong> usa $\Delta E = 13.6 (1/1^2 - 1/2^2)\ \text{eV}$ y luego $\lambda = 1240/\Delta E\ \text{nm}$.</div>
+    <button class="solution-toggle" onclick="toggleSolution(this)">Mostrar solución</button>
+    <div class="solution-content">
+      <p>La serie de Lyman está en el <strong>ultravioleta</strong>.</p>
+      <p>$\Delta E = 13.6 \times (1 - 1/4) = 10.2\ \text{eV}$. $\lambda = 1240/10.2 \approx 121.6\ \text{nm}$ (ultravioleta lejano).</p>
+    </div>
+  </div>
+
+  <div class="exercise-box">
+    <h4>Ejercicio 4 — El límite de la serie de Balmer</h4>
+    <p>¿Cuál es la longitud de onda límite (la más corta) de la serie de Balmer ($n_f=2$) cuando $n_i \to \infty$?</p>
+    <div class="hint"><strong>Pista:</strong> cuando $n_i \to \infty$, $1/n_i^2 \to 0$. La energía del fotón es $13.6 \times (1/4 - 0) = 3.4\ \text{eV}$.</div>
+    <button class="solution-toggle" onclick="toggleSolution(this)">Mostrar solución</button>
+    <div class="solution-content">
+      <p>$\Delta E_{\max} = 13.6/4 = 3.4\ \text{eV}$. $\lambda_{\min} = 1240/3.4 \approx 365\ \text{nm}$, en el límite entre el visible y el ultravioleta.</p>
+    </div>
+  </div>
+
+  <div class="exercise-box">
+    <h4>Ejercicio 5 — La constante de estructura fina</h4>
+    <p>Explica en una frase qué es la constante de estructura fina $\alpha$ y por qué aparece en el modelo de Sommerfeld.</p>
+    <div class="hint"><strong>Pista:</strong> $\alpha = e^2/(4\pi\epsilon_0\hbar c) \approx 1/137$. Aparece al incluir la corrección relativista a la energía cinética del electrón.</div>
+    <button class="solution-toggle" onclick="toggleSolution(this)">Mostrar solución</button>
+    <div class="solution-content">
+      <p>$\alpha$ es una constante adimensional que mide la intensidad de la interacción electromagnética. En el modelo de Sommerfeld aparece porque la velocidad del electrón en órbitas cercanas al núcleo es una fracción apreciable de $c$ (para $Z$ grande), y hay que usar la energía relativista. La corrección es del orden de $\alpha^2 Z^2 \sim 10^{-4} Z^2$, lo que produce el desdoblamiento de estructura fina.</p>
+    </div>
+  </div>
+
+  <!-- ============================================ -->
+  <h2 id="s9">9. Conclusiones</h2>
+
+  <ol>
+    <li><strong>El átomo es casi vacío.</strong> El experimento de Rutherford demostró que la carga positiva y casi toda la masa están concentradas en un núcleo $\sim 10^5$ veces más pequeño que el átomo.</li>
+    <li><strong>La estabilidad atómica exige cuantización.</strong> El modelo de Bohr introdujo órbitas estacionarias y cuantización del momento angular, explicando por qué los electrones no radian y caen al núcleo.</li>
+    <li><strong>Las líneas espectrales son transiciones entre niveles.</strong> La fórmula de Bohr reproduce exactamente la fórmula de Rydberg para el hidrógeno: un triunfo histórico de la física teórica.</li>
+    <li><strong>El modelo de Sommerfeld refinó el de Bohr</strong> introduciendo órbitas elípticas y correcciones relativistas, explicando la estructura fina del espectro.</li>
+    <li><strong>Los modelos semiclásicos tienen límites.</strong> No explican átomos polielectrónicos ni intensidades espectrales. La mecánica cuántica de Schrödinger y Heisenberg (1925–1926) los reemplazó, pero los conceptos de niveles discretos y transiciones sobrevivieron.</li>
+    <li><strong>La física atómica es acumulativa.</strong> Thomson, Rutherford, Bohr y Sommerfeld construyeron sobre las ruinas de los modelos anteriores. Cada fracaso iluminó el camino hacia el siguiente.</li>
+  </ol>
+
+  <p>Los modelos atómicos son un ejemplo perfecto de cómo la física progresa: un modelo exitoso no es el que “dice la verdad final”, sino el que hace predicciones verificables y señala, con sus propios límites, dónde hay que buscar la siguiente pieza del rompecabezas.</p>
+
+</div>
+
+<script>
+  // ============================================================
+  // CONSTANTES Y UTILIDADES
+  // ============================================================
+  const PHYS = {
+    E0: 13.6,        // eV
+    a0: 0.529,       // Å
+    hc: 1240,        // eV·nm
+    alpha: 1/137.036
+  };
+
+  // ============================================================
+  // FIGURA 1: DISPERSIÓN DE RUTHERFORD
+  // ============================================================
+  function drawRutherford() {
+    const b = parseFloat(document.getElementById('s_b_Ruth').value);
+    document.getElementById('v_b_Ruth').innerText = b.toFixed(1);
+
+    // Constante de escala para visualización (unidades arbitrarias)
+    const b0 = 2.275; // fm, para alfa 5 MeV sobre oro
+    const theta = 2 * Math.atan2(b0, b); // en radianes
+    const thetaDeg = theta * 180 / Math.PI;
+
+    // Generar trayectoria hiperbólica
+    // Ecuación en coordenadas polares: r = p / (1 + e cos(phi))
+    // Para repulsión, la rama es la que se curva alejándose.
+    // Usamos una aproximación paramétrica simple para visualización.
+    const e = Math.sqrt(1 + (b / b0) * (b / b0)); // excentricidad
+    const p = b * Math.sqrt(e * e - 1); // semilado recto
+
+    const phiMax = Math.acos(-1 / e) - 0.05;
+    const phiMin = -phiMax;
+
+    const x = [], y = [];
+    const N = 200;
+    for (let i = 0; i <= N; i++) {
+      const phi = phiMin + (phiMax - phiMin) * i / N;
+      const r = p / (1 + e * Math.cos(phi));
+      // Rotar para que la asíntota de entrada sea horizontal
+      const rot = Math.PI - Math.acos(-1 / e); // rotación para alinear
+      const xr = r * Math.cos(phi + rot);
+      const yr = r * Math.sin(phi + rot);
+      x.push(xr);
+      y.push(yr);
+    }
+
+    // Trayectorias de referencia (grises)
+    const refB = [0.5, 1.5, 4, 7];
+    const refTraces = refB.map(bb => {
+      const ee = Math.sqrt(1 + (bb / b0) * (bb / b0));
+      const pp = bb * Math.sqrt(ee * ee - 1);
+      const phMax = Math.acos(-1 / ee) - 0.05;
+      const xr = [], yr = [];
+      for (let i = 0; i <= 100; i++) {
+        const ph = -phMax + 2 * phMax * i / 100;
+        const rr = pp / (1 + ee * Math.cos(ph));
+        const rot = Math.PI - Math.acos(-1 / ee);
+        xr.push(rr * Math.cos(ph + rot));
+        yr.push(rr * Math.sin(ph + rot));
+      }
+      return {
+        x: xr, y: yr, type: 'scatter', mode: 'lines',
+        line: { color: '#bbb', width: 1, dash: 'dot' },
+        showlegend: false, hoverinfo: 'skip'
+      };
+    });
+
+    const traces = [
+      ...refTraces,
+      {
+        x: [0], y: [0], type: 'scatter', mode: 'markers',
+        marker: { color: '#c0392b', size: 14, symbol: 'circle',
+                  line: { color: 'white', width: 2 } },
+        name: 'Núcleo (Au)',
+        hovertemplate: 'Núcleo de oro'
+      },
+      {
+        x: x, y: y, type: 'scatter', mode: 'lines',
+        line: { color: '#c0392b', width: 3 },
+        name: 'Trayectoria (b = ' + b.toFixed(1) + ')'
+      }
+    ];
+
+    Plotly.react('plot_Rutherford', traces, {
+      xaxis: { title: 'x (unidades arbitrarias)', range: [-6, 6], zeroline: false, fixedrange: false },
+      yaxis: { title: 'y (unidades arbitrarias)', range: [-6, 6], zeroline: false, fixedrange: false,
+               scaleanchor: 'x', scaleratio: 1 },
+      margin: { l: 60, r: 20, t: 15, b: 55 },
+      showlegend: true,
+      legend: { x: 0.02, y: 0.98, bgcolor: 'rgba(255,255,255,0.92)', font: { size: 10 } }
+    });
+
+    document.getElementById('stats_Rutherford').innerHTML =
+      `<span class="stat-item"><span class="lbl">b:</span> <span class="val">${b.toFixed(1)}</span></span>` +
+      `<span class="stat-item"><span class="lbl">θ:</span> <span class="val">${thetaDeg.toFixed(1)}°</span></span>` +
+      `<br><span style="font-size:0.85em; color:#888;">b₀ = ${b0.toFixed(2)} fm (alfa 5 MeV → Au)</span>`;
+  }
+
+  // ============================================================
+  // FIGURA 2: NIVELES DE BOHR Y TRANSICIONES
+  // ============================================================
+  function drawBohr() {
+    const ni = parseInt(document.getElementById('sel_ni_Bohr').value);
+    const nf = parseInt(document.getElementById('sel_nf_Bohr').value);
+
+    const nMax = 7;
+    const levels = [];
+    for (let n = 1; n <= nMax; n++) {
+      levels.push({ n: n, E: -PHYS.E0 / (n * n) });
+    }
+
+    const traces = [];
+
+    // Líneas de niveles
+    levels.forEach(lv => {
+      traces.push({
+        x: [0, 1], y: [lv.E, lv.E],
+        type: 'scatter', mode: 'lines',
+        line: { color: '#2c3e50', width: 2.5 },
+        showlegend: false, hoverinfo: 'skip'
+      });
+      traces.push({
+        x: [1.05], y: [lv.E],
+        type: 'scatter', mode: 'text',
+        text: [`n=${lv.n}`],
+        textposition: 'middle right',
+        textfont: { size: 11, color: '#2c3e50' },
+        showlegend: false, hoverinfo: 'skip'
+      });
+    });
+
+    // Transición
+    const Ei = -PHYS.E0 / (ni * ni);
+    const Ef = -PHYS.E0 / (nf * nf);
+    const dE = Math.abs(Ei - Ef);
+    const lambda = PHYS.hc / dE; // nm
+    const tipo = ni > nf ? 'Emisión' : 'Absorción';
+
+    traces.push({
+      x: [0.5, 0.5], y: [Ei, Ef],
+      type: 'scatter', mode: 'lines+markers',
+      line: { color: '#c0392b', width: 3 },
+      marker: { color: '#c0392b', size: 8, symbol: ['circle', 'arrow'] },
+      name: `Transición ${ni}→${nf}`,
+      hovertemplate: `${tipo}: ΔE = ${dE.toFixed(2)} eV<br>λ = ${lambda.toFixed(0)} nm`
+    });
+
+    Plotly.react('plot_Bohr', traces, {
+      xaxis: { title: '', range: [0, 1.3], showticklabels: false, zeroline: false, fixedrange: false },
+      yaxis: { title: 'Energía (eV)', range: [-14.5, 1.5], zeroline: true,
+               zerolinecolor: '#aaa', zerolinewidth: 1, fixedrange: false },
+      margin: { l: 70, r: 20, t: 15, b: 40 },
+      showlegend: true,
+      legend: { x: 0.02, y: 0.98, bgcolor: 'rgba(255,255,255,0.92)', font: { size: 10 } }
+    });
+
+    const serie = nf === 1 ? 'Lyman (UV)' : nf === 2 ? 'Balmer (visible)' : nf === 3 ? 'Paschen (IR)' : 'Otra';
+    document.getElementById('stats_Bohr').innerHTML =
+      `<span class="stat-item"><span class="lbl">ΔE:</span> <span class="val">${dE.toFixed(2)} eV</span></span>` +
+      `<span class="stat-item"><span class="lbl">λ:</span> <span class="val">${lambda.toFixed(0)} nm</span></span>` +
+      `<span class="stat-item"><span class="lbl">Tipo:</span> <span class="val">${tipo}</span></span>` +
+      `<br><span class="stat-item"><span class="lbl">Serie:</span> <span class="val">${serie}</span></span>`;
+  }
+
+  // ============================================================
+  // SOLUCIONES
+  // ============================================================
+  function toggleSolution(btn) {
+    const content = btn.nextElementSibling;
+    content.classList.toggle('open');
+    btn.innerText = content.classList.contains('open') ? 'Ocultar solución' : 'Mostrar solución';
+    if (window.MathJax && window.MathJax.Hub) {
+      window.MathJax.Hub.Queue(["Typeset", window.MathJax.Hub, content]);
+    }
+  }
+  window.toggleSolution = toggleSolution;
+
+  // ============================================================
+  // EVENTOS E INICIALIZACIÓN
+  // ============================================================
+  document.getElementById('s_b_Ruth').addEventListener('input', drawRutherford);
+  document.getElementById('sel_ni_Bohr').addEventListener('change', drawBohr);
+  document.getElementById('sel_nf_Bohr').addEventListener('change', drawBohr);
+
+  drawRutherford();
+  drawBohr();
+</script>
+</body>
+</html>
