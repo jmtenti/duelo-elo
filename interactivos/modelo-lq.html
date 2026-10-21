@@ -1,0 +1,1051 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Estudio Interactivo: Modelo Lineal-Cuadrático (LQ) y Dosis Efectiva Biológica</title>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']], displayMath: [['$$','$$'], ['\\[','\\]']]},
+    messageStyle: "none"
+  });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script src="https://cdn.plot.ly/plotly-2.24.1.min.js"></script>
+
+<style>
+  :root {
+    --primary-color: #1a252f;
+    --secondary-color: #2c3e50;
+    --accent-color: #c0392b;
+    --link-color: #2980b9;
+    --bg-color: #f8f9fa;
+    --sm-color: #16a085;
+    --we-color: #6c3483;
+    --intuition-color: #d35400;
+    --warning-color: #c0392b;
+    --hist-color: #b7791f;
+  }
+  body {
+    font-family: 'Georgia', serif;
+    background: var(--bg-color); color: #333;
+    line-height: 1.8; margin: 0; padding: 40px 0; font-size: 16px;
+  }
+  .container {
+    max-width: 1000px; margin: auto; background: white;
+    padding: 50px 80px; border-radius: 12px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.06);
+  }
+  h1 { color: var(--primary-color); text-align: center; font-size: 2.1em; font-family: 'Segoe UI', sans-serif; margin-bottom: 10px;}
+  .subtitle { text-align: center; color: #7f8c8d; font-style: italic; margin-bottom: 40px; }
+  h2 { color: var(--secondary-color); margin-top: 55px; border-bottom: 2px solid #ecf0f1; padding-bottom: 5px; font-family: 'Segoe UI', sans-serif;}
+  h3 { color: var(--secondary-color); margin-top: 35px; font-family: 'Segoe UI', sans-serif; font-size: 1.18em;}
+  h4 { color: var(--sm-color); margin-top: 25px; font-family: 'Segoe UI', sans-serif; font-size: 1.02em; font-style: italic;}
+  p { text-align: justify; margin-bottom: 20px; }
+  ul, ol { text-align: justify; }
+  li { margin-bottom: 8px; }
+  .math-box {
+    background: #fdfefe; border-left: 4px solid var(--link-color);
+    padding: 15px 25px; margin: 25px 0; overflow-x: auto; font-size: 1.1em;
+  }
+  .note-box {
+    background: #fef9e7; border-left: 4px solid #f39c12;
+    padding: 12px 20px; margin: 20px 0; font-size: 0.98em;
+  }
+  .sm-box {
+    background: #eafaf1; border-left: 4px solid var(--sm-color);
+    padding: 14px 22px; margin: 22px 0; font-size: 0.97em;
+  }
+  .sm-box strong:first-child { color: var(--sm-color); }
+  .intuition-box {
+    background: #fdf2e9; border-left: 4px solid var(--intuition-color);
+    padding: 14px 22px; margin: 22px 0; font-size: 0.97em;
+  }
+  .intuition-box strong:first-child { color: var(--intuition-color); }
+  .warning-box {
+    background: #fdedec; border-left: 4px solid var(--warning-color);
+    padding: 14px 22px; margin: 22px 0; font-size: 0.97em;
+  }
+  .warning-box strong:first-child { color: var(--warning-color); }
+  .guide-box {
+    background: #eef6fc; border-left: 4px solid var(--link-color);
+    padding: 14px 22px; margin: 22px 0; font-size: 0.96em;
+  }
+  .guide-box strong:first-child { color: var(--link-color); }
+  .guide-box ol { margin: 8px 0 0 0; padding-left: 22px; }
+  .history-box {
+    background: #fbf6e9; border-left: 4px solid var(--hist-color);
+    padding: 14px 22px; margin: 22px 0; font-size: 0.95em;
+    font-style: italic; color: #5b4a1e;
+  }
+  .history-box strong { font-style: normal; }
+  .worked-example {
+    background: #faf7fd; border: 1px solid #d5c8e8;
+    border-left: 5px solid var(--we-color); border-radius: 8px;
+    padding: 22px 30px 24px; margin: 35px 0; font-size: 0.98em;
+  }
+  .worked-example .we-header {
+    font-family: 'Segoe UI', sans-serif; font-size: 0.78em;
+    text-transform: uppercase; letter-spacing: 0.14em;
+    color: var(--we-color); font-weight: bold; margin-bottom: 6px;
+  }
+  .worked-example .we-title {
+    font-family: 'Segoe UI', sans-serif; color: var(--we-color);
+    font-size: 1.08em; font-weight: 600; margin: 0 0 16px 0;
+  }
+  .worked-example .step {
+    margin: 18px 0; padding-left: 18px;
+    border-left: 2px solid #e3d4f0;
+  }
+  .worked-example .step-label {
+    font-family: 'Segoe UI', sans-serif; font-weight: bold;
+    color: var(--we-color); font-size: 0.86em;
+    display: block; margin-bottom: 4px;
+    text-transform: uppercase;
+  }
+  .worked-example .result {
+    background: #efe9f7; border-radius: 5px;
+    padding: 10px 16px; margin-top: 8px; font-weight: 500;
+  }
+  .exercise-box {
+    background: #fdf2f2; border: 1px solid #f5c6c6;
+    border-radius: 8px; padding: 22px 28px; margin: 35px 0;
+  }
+  .exercise-box h4 {
+    color: var(--accent-color); margin-top: 0;
+    font-style: normal; font-size: 1.05em;
+  }
+  .hint {
+    background: #fff8e1; border-radius: 4px;
+    padding: 8px 14px; margin: 10px 0;
+    font-size: 0.92em; color: #6d4c00;
+    border-left: 3px solid #f39c12;
+  }
+  .solution-toggle {
+    background: var(--accent-color); color: white;
+    border: none; padding: 8px 18px; border-radius: 4px;
+    cursor: pointer; font-family: 'Segoe UI', sans-serif;
+    font-size: 0.92em; margin-top: 12px;
+  }
+  .solution-toggle:hover { background: #a02828; }
+  .solution-content {
+    max-height: 0; overflow: hidden;
+    transition: max-height 0.5s ease, margin 0.3s ease;
+    margin-top: 0;
+  }
+  .solution-content.open {
+    max-height: 6000px; margin-top: 18px;
+  }
+  .interactive-figure {
+    background: #fafafa; border: 1px solid #e0e0e0;
+    border-radius: 10px; padding: 25px; margin: 40px 0;
+    font-family: 'Segoe UI', sans-serif;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+  }
+  .figure-title {
+    text-align: center; color: var(--secondary-color);
+    font-weight: bold; font-size: 1.2em; margin-top: 0;
+  }
+  .plot-area { width: 100%; height: 460px; margin-bottom: 15px; }
+  .controls {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 20px;
+    padding: 18px 20px; background: #fff;
+    border-radius: 8px; border: 1px solid #eee; margin-bottom: 15px;
+  }
+  .control-panel h4 {
+    margin-top: 0; color: var(--secondary-color);
+    font-size: 0.9em; text-transform: uppercase;
+    letter-spacing: 0.08em; font-style: normal;
+  }
+  .slider-row {
+    display: block; margin: 12px 0;
+    font-size: 0.93em; color: #333;
+  }
+  .slider-row input[type=range] {
+    width: 100%; accent-color: var(--accent-color); cursor: pointer;
+  }
+  .slider-val {
+    font-family: Consolas, monospace;
+    color: var(--accent-color); font-weight: bold;
+  }
+  select {
+    width: 100%; padding: 6px 10px; border-radius: 5px;
+    border: 1px solid #ccc; font-family: 'Segoe UI', sans-serif;
+    font-size: 0.93em; margin-top: 4px;
+  }
+  .stats {
+    margin-top: 12px; padding: 12px 16px;
+    background: #f4f6f7; border-radius: 6px;
+    font-family: Consolas, monospace; font-size: 0.86em;
+    line-height: 1.7; text-align: center;
+  }
+  .stats .stat-item {
+    display: inline-block; margin: 3px 6px;
+    padding: 3px 10px; background: white;
+    border-radius: 4px; border: 1px solid #e0e0e0;
+  }
+  .stats .stat-item .lbl { color: #888; }
+  .stats .stat-item .val { color: var(--accent-color); font-weight: bold; }
+  .caption {
+    font-size: 0.95em; color: #555; text-align: justify;
+    padding: 10px 20px; border-left: 3px solid var(--accent-color);
+    background: #fff;
+  }
+  table.generic { border-collapse: collapse; width: 100%; margin: 20px 0; font-size: 0.95em;}
+  table.generic th, table.generic td {
+    border: 1px solid #e0e0e0; padding: 8px 12px;
+    text-align: left; vertical-align: top;
+  }
+  table.generic th { background: #ecf0f1; }
+  .toc {
+    background: #f4f6f7; border-radius: 8px;
+    padding: 20px 30px; margin: 30px 0;
+    font-family: 'Segoe UI', sans-serif; font-size: 0.95em;
+  }
+  .toc h3 { margin-top: 0; color: var(--secondary-color); font-size: 1.05em;}
+  .toc ol { margin: 0; padding-left: 22px;}
+  .toc li { margin: 4px 0;}
+  .toc a { color: var(--link-color); text-decoration: none;}
+  .toc a:hover { text-decoration: underline;}
+  .calculation-display {
+    background: #fdfefe; border: 1px dashed #b0c4de;
+    border-radius: 6px; padding: 14px 20px; margin: 15px 0;
+    font-size: 1.02em; text-align: center; overflow-x: auto;
+  }
+  .calculation-display .eq-line {
+    margin: 6px 0;
+  }
+  @media (max-width: 800px) {
+    .container { padding: 30px 20px; }
+    .controls { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h1>Modelo Lineal-Cuadrático (LQ) y Dosis Efectiva Biológica</h1>
+  <div class="subtitle">Supervivencia celular, el parámetro α/β, la dosis efectiva biológica (BED) y la dosis equivalente en 2 Gy (EQD₂): fundamentos, aplicaciones clínicas y límites de validez</div>
+
+  <div class="note-box">
+    <strong>Notación.</strong> $S$: fracción de supervivencia celular. $D$: dosis absorbida (Gy). $d$: dosis por fracción (Gy). $n$: número de fracciones. $\alpha$: coeficiente de daño letal por evento único (Gy⁻¹). $\beta$: coeficiente de daño por dos eventos (Gy⁻²). $\alpha/\beta$: dosis a la que los componentes lineal y cuadrático contribuyen por igual (Gy). $\text{BED}$: dosis efectiva biológica (Gy). $\text{EQD}_2$: dosis equivalente en fracciones de 2 Gy (Gy).
+  </div>
+
+  <div class="intuition-box">
+    <strong>La idea en una frase.</strong> El modelo LQ describe cómo la supervivencia celular decae con la dosis de forma exponencial-cuadrática: $S = e^{-\alpha D - \beta D^2}$. El parámetro clave es la relación $\alpha/\beta$, que cuantifica la sensibilidad al fraccionamiento. De aquí surgen las herramientas clínicas BED y EQD₂, que permiten comparar esquemas de irradiación con distintas dosis por fracción.
+  </div>
+
+  <div class="toc">
+    <h3>Contenido</h3>
+    <ol>
+      <li><a href="#s1">¿Qué es el modelo LQ?</a></li>
+      <li><a href="#s2">La ecuación de supervivencia y el significado de α y β</a></li>
+      <li><a href="#s3">El parámetro α/β: la sensibilidad al fraccionamiento</a></li>
+      <li><a href="#s4">Dosis Efectiva Biológica (BED)</a></li>
+      <li><a href="#s5">Dosis Equivalente en 2 Gy (EQD₂)</a></li>
+      <li><a href="#s6">Exploración interactiva: curvas de supervivencia</a></li>
+      <li><a href="#s7">Supervivencia y equivalencia biológica: calculadora interactiva</a></li>
+      <li><a href="#s8">Comparación de esquemas: isocurvas de EQD₂</a></li>
+      <li><a href="#s9">Limitaciones del modelo LQ</a></li>
+      <li><a href="#s10">Ejemplos resueltos</a></li>
+      <li><a href="#s11">Ejercicios propuestos</a></li>
+      <li><a href="#s12">Conclusiones</a></li>
+    </ol>
+  </div>
+
+  <!-- ============================================ -->
+  <h2 id="s1">1. ¿Qué es el modelo LQ?</h2>
+
+  <p>El <strong>modelo lineal-cuadrático (LQ)</strong> es el formalismo radiobiológico más utilizado en radioterapia para describir la relación entre la dosis de radiación y la supervivencia celular. Fue desarrollado a partir de las observaciones de que las curvas de supervivencia celular en coordenadas semilogarítmicas presentan un "hombro" a bajas dosis y una tendencia a la linealidad a dosis altas. El modelo LQ captura este comportamiento con solo dos parámetros ajustables, lo que lo hace extremadamente práctico para la clínica.</p>
+
+  <p>Su relevancia clínica es enorme: permite comparar distintos esquemas de fraccionamiento (dosis por fracción × número de fracciones) y predecir el efecto biológico de un tratamiento sobre el tumor y sobre los tejidos normales. Las herramientas derivadas del modelo LQ, como la <strong>dosis efectiva biológica (BED)</strong> y la <strong>dosis equivalente en 2 Gy (EQD₂)</strong>, son de uso rutinario en los protocolos de radioterapia modernos.</p>
+
+  <div class="history-box">
+    <strong>Contexto histórico.</strong> El modelo LQ surgió en la década de 1970-1980 como una descripción fenomenológica de las curvas de supervivencia celular. Douglas y Fowler (1976) y Barendsen (1982) fueron pioneros en su formalización. En 1989, Withers, en la Failla Memorial Lecture, estableció las bases clínicas del fraccionamiento moderno. Desde entonces, el modelo LQ se convirtió en la herramienta estándar para el diseño de esquemas de fraccionamiento.
+  </div>
+
+  <!-- ============================================ -->
+  <h2 id="s2">2. La ecuación de supervivencia y el significado de α y β</h2>
+
+  <p>Para una dosis única $D$, la fracción de células que sobreviven (clonógenas) según el modelo LQ es:</p>
+
+  <div class="math-box">
+    $$ S(D) = e^{-\alpha D - \beta D^2} \tag{1} $$
+  </div>
+
+  <p>El exponente tiene dos términos:</p>
+  <ul>
+    <li><strong>$\alpha D$</strong> (término lineal): describe el daño letal producido por un único evento de radiación. Es dominante a <strong>bajas dosis</strong>.</li>
+    <li><strong>$\beta D^2$</strong> (término cuadrático): describe el daño letal producido por la combinación de dos eventos subletales. Es dominante a <strong>dosis altas</strong>.</li>
+  </ul>
+
+  <p>$\alpha$ (Gy⁻¹) y $\beta$ (Gy⁻²) son parámetros radiobiológicos que dependen del tipo celular. Un $\alpha$ alto implica una curva de supervivencia más recta (menos hombro); un $\alpha$ bajo implica un hombro más pronunciado.</p>
+
+  <div class="sm-box">
+    <strong>La forma con número de fracciones.</strong> Para un esquema de $n$ fracciones de dosis $d$ (dosis total $D = nd$), la supervivencia se generaliza a:
+    $$ S = e^{-n(\alpha d + \beta d^2)} $$
+    Esta es la forma que se usa en la práctica clínica, porque la mayoría de los tratamientos son fraccionados.
+  </div>
+
+  <!-- ============================================ -->
+  <h2 id="s3">3. El parámetro α/β: la sensibilidad al fraccionamiento</h2>
+
+  <p>La relación $\alpha/\beta$ (en Gy) es el parámetro más importante del modelo LQ desde el punto de vista clínico. Se define como la dosis a la que la contribución del término lineal ($\alpha D$) y del término cuadrático ($\beta D^2$) son iguales:</p>
+
+  <div class="math-box">
+    $$ \alpha D = \beta D^2 \quad \Rightarrow \quad D = \frac{\alpha}{\beta} $$
+  </div>
+
+  <p>El valor de $\alpha/\beta$ determina la <strong>sensibilidad del tejido al tamaño de la fracción</strong>:</p>
+
+  <table class="generic">
+    <thead>
+      <tr><th>Tejido / Efecto</th><th>$\alpha/\beta$ típico (Gy)</th><th>Comportamiento</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>Tejidos de respuesta aguda</strong> (piel, mucosa, intestino)</td><td>8–12</td><td>Curva casi lineal. Poco sensible al fraccionamiento.</td></tr>
+      <tr><td><strong>Tumores</strong> (mayoría)</td><td>8–10</td><td>Similar a tejidos agudos. El fraccionamiento convencional (2 Gy) es favorable.</td></tr>
+      <tr><td><strong>Tejidos de respuesta tardía</strong> (médula, riñón, SNC)</td><td>2–3</td><td>Curva con hombro pronunciado. Muy sensible al tamaño de la fracción.</td></tr>
+      <tr><td><strong>Próstata</strong> (valores controvertidos)</td><td>~1.5–3</td><td>Bajo $\alpha/\beta$, lo que justifica hipofraccionamiento (SBRT).</td></tr>
+    </tbody>
+  </table>
+
+  <div class="warning-box">
+    <strong>La paradoja clínica.</strong> Los tejidos tardíos tienen $\alpha/\beta$ bajo, por lo que son muy sensibles a fracciones grandes. Por eso la radioterapia convencional usa fracciones pequeñas (1.8–2 Gy): maximiza el daño tumoral mientras mantiene el daño tardío dentro de límites tolerables. El hipofraccionamiento solo es seguro si el tumor tiene $\alpha/\beta$ bajo (como la próstata) o si se reduce la dosis total para compensar.
+  </div>
+
+  <!-- ============================================ -->
+  <h2 id="s4">4. Dosis Efectiva Biológica (BED)</h2>
+
+  <p>La <strong>dosis efectiva biológica (BED)</strong> es una medida del efecto biológico de un esquema de irradiación, independiente del fraccionamiento. Se define como:</p>
+
+  <div class="math-box">
+    $$ \text{BED} = D \left(1 + \frac{d}{\alpha/\beta}\right) \tag{2} $$
+  </div>
+
+  <p>donde $D = nd$ es la dosis total. La BED tiene unidades de Gy, pero no es una dosis física: es una dosis "equivalente" que mide el efecto biológico. El factor entre paréntesis se llama <strong>eficacia relativa</strong> y es mayor cuanto mayor es la dosis por fracción y menor es $\alpha/\beta$.</p>
+
+  <div class="sm-box">
+    <strong>Relación fundamental.</strong> La supervivencia de un esquema fraccionado se puede escribir exactamente como $S = e^{-\alpha \cdot \text{BED}}$. Esta relación es exacta y es la clave de la interpretación geométrica que usaremos en las Figuras 2 y 3: todos los esquemas con la misma BED tienen la misma supervivencia, independientemente de cómo se fraccionen.
+  </div>
+
+  <!-- ============================================ -->
+  <h2 id="s5">5. Dosis Equivalente en 2 Gy (EQD₂)</h2>
+
+  <p>La <strong>dosis equivalente en 2 Gy (EQD₂)</strong> es la dosis total que, administrada en fracciones de 2 Gy, produciría el mismo efecto biológico que el esquema considerado. Se obtiene igualando la BED del esquema problema a la BED de un esquema con $d = 2$ Gy:</p>
+
+  <div class="math-box">
+    $$ \text{EQD}_2 = \frac{\text{BED}}{1 + \frac{2}{\alpha/\beta}} = D \left(\frac{d + \alpha/\beta}{2 + \alpha/\beta}\right) \tag{3} $$
+  </div>
+
+  <p>La EQD₂ permite responder preguntas clínicas como: "¿A qué dosis en 2 Gy equivale un esquema de 20 Gy en 5 fracciones (4 Gy/fracción) para la médula espinal ($\alpha/\beta = 2$ Gy)?" La respuesta es:</p>
+
+  <div class="math-box">
+    $$ \text{EQD}_2 = 20 \left(\frac{4 + 2}{2 + 2}\right) = 20 \times 1.5 = 30\ \text{Gy} $$
+  </div>
+
+  <p>Es decir, 20 Gy en 5 fracciones de 4 Gy equivalen, para la médula, a 30 Gy en fracciones de 2 Gy.</p>
+
+  <!-- ============================================ -->
+  <h2 id="s6">6. Exploración interactiva: curvas de supervivencia</h2>
+
+  <p>La Figura 1 permite explorar cómo la elección de $\alpha$ y $\beta$ modifica la forma de la curva de supervivencia. Se comparan cuatro tejidos típicos.</p>
+
+  <div class="interactive-figure">
+    <div class="figure-title">Figura 1: Curvas de supervivencia celular según el modelo LQ</div>
+    <div id="plot_surv" class="plot-area"></div>
+    <div class="controls" style="grid-template-columns: 1fr 1fr 1fr;">
+      <div class="control-panel">
+        <h4>Tejido / Línea celular</h4>
+        <select id="sel_tissue_surv">
+          <option value="tumor">Tumor (α/β = 10 Gy)</option>
+          <option value="acute">Tejido agudo (α/β = 10 Gy, α alto)</option>
+          <option value="late" selected>Tejido tardío (α/β = 2 Gy)</option>
+          <option value="prostate">Próstata (α/β = 1.5 Gy)</option>
+        </select>
+      </div>
+      <div class="control-panel">
+        <h4>Dosis única</h4>
+        <label class="slider-row">
+          $D$: <span id="v_D_surv" class="slider-val">2.0 Gy</span>
+          <input type="range" id="s_D_surv" min="0.1" max="20" step="0.1" value="2.0">
+        </label>
+      </div>
+      <div class="control-panel">
+        <h4>Supervivencia en el punto</h4>
+        <div id="stats_surv" class="stats"></div>
+      </div>
+    </div>
+    <div class="guide-box">
+      <strong>Qué observar en la Figura 1.</strong>
+      <ol>
+        <li>Los tejidos con <strong>$\alpha/\beta$ alto</strong> (tumor, tejido agudo) tienen curvas casi rectas en semilog.</li>
+        <li>Los tejidos con <strong>$\alpha/\beta$ bajo</strong> (tejido tardío, próstata) tienen un "hombro" más pronunciado a bajas dosis.</li>
+        <li>Mueve el slider de dosis para ver la supervivencia en distintos puntos. El panel de estadísticas muestra la contribución relativa de los términos lineal y cuadrático.</li>
+      </ol>
+    </div>
+    <div class="caption">
+      <strong>Epígrafe:</strong> Curvas de supervivencia celular según el modelo LQ. El eje $y$ está en escala logarítmica. La forma del hombro depende de $\alpha/\beta$: cuanto menor es $\alpha/\beta$, más pronunciado es el hombro y más sensible es el tejido al tamaño de la fracción. Los parámetros son aproximados.
+    </div>
+  </div>
+
+  <!-- ============================================ -->
+  <h2 id="s7">7. Supervivencia y equivalencia biológica: calculadora interactiva</h2>
+
+  <p>La Figura 2 usa la relación fundamental $S = e^{-\alpha \cdot \text{BED}}$ para mostrar visualmente la equivalencia entre el esquema actual y su equivalente en 2 Gy. Se grafican <strong>dos líneas de supervivencia</strong> en semilog:</p>
+  <ul>
+    <li>La línea del <strong>esquema actual</strong> (color azul), con pendiente proporcional a $1 + d/(\alpha/\beta)$, donde $d$ es la dosis por fracción elegida.</li>
+    <li>La línea de <strong>referencia en 2 Gy</strong> (color verde), con pendiente proporcional a $1 + 2/(\alpha/\beta)$.</li>
+  </ul>
+  <p>Ambas líneas pasan por el punto $(0, 1)$. La línea del esquema actual es más empinada cuando $d > 2$ Gy: significa que cada Gy es biológicamente más efectivo. La <strong>línea horizontal punteada</strong> es el nivel de isoefecto: los dos marcadores (esquema actual en $D$ y equivalente en 2 Gy) caen exactamente sobre esa misma altura, demostrando la isoefectividad. La diferencia horizontal entre los marcadores es el ahorro (o sobreexposición) de dosis total.</p>
+
+  <div class="interactive-figure">
+    <div class="figure-title">Figura 2: Supervivencia e isoefecto — esquema actual vs equivalente 2 Gy</div>
+    <div id="plot_bed" class="plot-area"></div>
+    <div class="controls" style="grid-template-columns: 1fr 1fr 1fr;">
+      <div class="control-panel">
+        <h4>Tejido</h4>
+        <select id="sel_tissue_bed">
+          <option value="10">Tumor / tejido agudo (α/β = 10 Gy)</option>
+          <option value="3">Tejido tardío (α/β = 3 Gy)</option>
+          <option value="2" selected>Médula espinal (α/β = 2 Gy)</option>
+          <option value="1.5">Próstata (α/β = 1.5 Gy)</option>
+        </select>
+      </div>
+      <div class="control-panel">
+        <h4>Dosis por fracción</h4>
+        <label class="slider-row">
+          $d$: <span id="v_d_bed" class="slider-val">3.0 Gy</span>
+          <input type="range" id="s_d_bed" min="0.5" max="10" step="0.1" value="3.0">
+        </label>
+      </div>
+      <div class="control-panel">
+        <h4>Número de fracciones</h4>
+        <label class="slider-row">
+          $n$: <span id="v_n_bed" class="slider-val">20</span>
+          <input type="range" id="s_n_bed" min="1" max="40" step="1" value="20">
+        </label>
+      </div>
+    </div>
+    <div id="calc_display_bed" class="calculation-display"></div>
+    <div id="stats_bed" class="stats" style="margin-top:10px;"></div>
+    <div class="guide-box">
+      <strong>Cómo usar la Figura 2.</strong>
+      <ol>
+        <li>Elige el tejido (fija $\alpha/\beta$ y $\alpha$).</li>
+        <li>Ajusta $d$ y $n$. Observa cómo la línea del esquema actual (azul) se empina o aplana.</li>
+        <li>La <strong>línea horizontal punteada</strong> es el nivel de isoefecto: los dos marcadores (D del esquema actual y su EQD₂) están siempre sobre la misma altura, porque son isoefectivos por construcción.</li>
+        <li>La <strong>distancia horizontal</strong> entre los dos marcadores es la diferencia entre $D$ y $\text{EQD}_2$. Si $d > 2$, EQD₂ < D: el mismo efecto se logra con menos dosis total usando fracciones grandes.</li>
+        <li>Si $d = 2$, las dos líneas coinciden: el esquema ya está en fracciones de 2 Gy.</li>
+        <li>El panel de abajo muestra el cálculo numérico y el "ahorro de dosis" que representa la diferencia $D - \text{EQD}_2$.</li>
+      </ol>
+    </div>
+    <div class="caption">
+      <strong>Epígrafe:</strong> Supervivencia en función de la dosis total. La línea azul es la del esquema actual (con dosis por fracción $d$); la verde, la del esquema de referencia en 2 Gy. Ambas son rectas en el gráfico semilogarítmico, con pendiente proporcional a $1 + d/(\alpha/\beta)$. La línea horizontal punteada marca el nivel de isoefecto: los dos marcadores (esquema actual y su EQD₂) están a la misma altura, demostrando la equivalencia biológica. La diferencia horizontal es el "ahorro" de dosis total que permite el hipofraccionamiento.
+    </div>
+  </div>
+
+  <!-- ============================================ -->
+  <h2 id="s8">8. Comparación de esquemas: isocurvas de EQD₂</h2>
+
+  <p>La Figura 3 es la herramienta clásica de comparación radiobiológica: un gráfico en el plano (dosis por fracción $d$, dosis total $D$) con <strong>isocurvas de EQD₂</strong>. Cada hipérbola corresponde a un nivel fijo de efecto biológico (una EQD₂ dada). Todos los esquemas que caen sobre la misma curva son isoefectivos. Los dos esquemas (A y B) se muestran como puntos; sus isocurvas se resaltan con su color.</p>
+
+  <p>La ecuación de la isocurva es:</p>
+
+  <div class="math-box">
+    $$ D(d) = \text{EQD}_2 \cdot \frac{2 + \alpha/\beta}{d + \alpha/\beta} $$
+  </div>
+
+  <p>Para un $\text{EQD}_2$ fijo, la dosis total $D$ necesaria <strong>disminuye</strong> a medida que aumenta la dosis por fracción $d$: es el efecto del fraccionamiento. La forma de la hipérbola depende de $\alpha/\beta$: cuanto menor es $\alpha/\beta$, más pronunciada es la caída (mayor sensibilidad al fraccionamiento).</p>
+
+  <div class="interactive-figure">
+    <div class="figure-title">Figura 3: Isocurvas de EQD₂ — comparación de dos esquemas</div>
+    <div id="plot_compare" class="plot-area"></div>
+    <div class="controls" style="grid-template-columns: 1fr 1fr;">
+      <div class="control-panel">
+        <h4>Esquema A</h4>
+        <label class="slider-row">
+          $d_A$: <span id="v_dA" class="slider-val">2.0 Gy</span>
+          <input type="range" id="s_dA" min="0.5" max="10" step="0.1" value="2.0">
+        </label>
+        <label class="slider-row">
+          $n_A$: <span id="v_nA" class="slider-val">30</span>
+          <input type="range" id="s_nA" min="1" max="40" step="1" value="30">
+        </label>
+      </div>
+      <div class="control-panel">
+        <h4>Esquema B</h4>
+        <label class="slider-row">
+          $d_B$: <span id="v_dB" class="slider-val">4.0 Gy</span>
+          <input type="range" id="s_dB" min="0.5" max="10" step="0.1" value="4.0">
+        </label>
+        <label class="slider-row">
+          $n_B$: <span id="v_nB" class="slider-val">15</span>
+          <input type="range" id="s_nB" min="1" max="40" step="1" value="15">
+        </label>
+      </div>
+    </div>
+    <div class="controls" style="grid-template-columns: 1fr;">
+      <div class="control-panel">
+        <h4>Tejido de referencia</h4>
+        <select id="sel_tissue_compare">
+          <option value="10">Tumor / tejido agudo (α/β = 10 Gy)</option>
+          <option value="3">Tejido tardío (α/β = 3 Gy)</option>
+          <option value="2" selected>Médula espinal (α/β = 2 Gy)</option>
+          <option value="1.5">Próstata (α/β = 1.5 Gy)</option>
+        </select>
+      </div>
+    </div>
+    <div id="stats_compare" class="stats"></div>
+    <div class="guide-box">
+      <strong>Cómo usar la Figura 3.</strong>
+      <ol>
+        <li>Las curvas grises son isocurvas de EQD₂ de referencia (10, 20, 30, ..., 100 Gy). Cualquier punto sobre una curva tiene esa EQD₂.</li>
+        <li>La curva azul pasa por el esquema A; la roja, por el esquema B. El valor de EQD₂ de cada una se muestra en la leyenda.</li>
+        <li>Si A y B están <strong>sobre la misma isocurva</strong>, son isoefectivos: el panel de estadísticas lo indicará.</li>
+        <li>Si están en isocurvas distintas, la <strong>distancia vertical</strong> entre ellas es la diferencia de dosis total necesaria para lograr el mismo efecto. La diferencia de EQD₂ es la diferencia biológica real.</li>
+        <li>Cambia el tejido en el selector: para $\alpha/\beta$ alto (tumor), las isocurvas son más planas (poca dependencia con $d$); para $\alpha/\beta$ bajo (médula), son más empinadas (mucha dependencia).</li>
+        <li>Observa el caso clásico: 30×2 Gy (A) y 15×4 Gy (B) tienen la misma dosis total (60 Gy), pero para la médula ($\alpha/\beta = 2$) el esquema B tiene una EQD₂ de 90 Gy frente a 60 Gy del A: un 50 % más de efecto biológico. Por eso el hipofraccionamiento es peligroso para tejidos tardíos.</li>
+      </ol>
+    </div>
+    <div class="caption">
+      <strong>Epígrafe:</strong> Isocurvas de EQD₂ en el plano dosis por fracción vs dosis total. Cada hipérbola agrupa todos los esquemas isoefectivos para un mismo tejido. Los esquemas A y B se ubican como puntos; sus isocurvas se resaltan. La distancia entre isocurvas mide la diferencia de efecto biológico. Para $\alpha/\beta$ bajo (tejidos tardíos), las isocurvas son empinadas y pequeños cambios en $d$ producen grandes cambios en EQD₂; para $\alpha/\beta$ alto (tumores, tejidos agudos), son planas y el fraccionamiento importa poco.
+    </div>
+  </div>
+
+  <!-- ============================================ -->
+  <h2 id="s9">9. Limitaciones del modelo LQ</h2>
+
+  <p>El modelo LQ es una herramienta poderosa, pero no es una ley universal. Sus principales limitaciones son:</p>
+
+  <table class="generic">
+    <thead>
+      <tr><th>Limitación</th><th>Descripción</th><th>Consecuencia clínica</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Dosis por fracción altas</strong></td>
+        <td>El modelo LQ predice una curvatura continua. Experimentalmente, a dosis altas (>6–10 Gy) la curva tiende a ser lineal en semilog. El LQ puede sobreestimar o subestimar el efecto según el rango.</td>
+        <td>En SBRT y radiocirugía (dosis por fracción de 10–25 Gy), las predicciones del LQ son inciertas. Se han propuesto modelos alternativos (USC, LQ-L).</td>
+      </tr>
+      <tr>
+        <td><strong>Ignora la proliferación</strong></td>
+        <td>La BED clásica no incluye el tiempo total de tratamiento ni la proliferación tumoral.</td>
+        <td>Se usan correcciones con el tiempo de duplicación potencial ($T_{\rm pot}$) para incorporar la proliferación.</td>
+      </tr>
+      <tr>
+        <td><strong>Heterogeneidad tumoral</strong></td>
+        <td>El modelo asume una población celular homogénea. Los tumores reales tienen subpoblaciones con distinta radiosensibilidad, hipoxia, etc.</td>
+        <td>Las predicciones de control tumoral pueden ser optimistas o pesimistas según la biología del tumor.</td>
+      </tr>
+      <tr>
+        <td><strong>Variabilidad de parámetros</strong></td>
+        <td>Los valores de $\alpha$, $\beta$ y $\alpha/\beta$ varían entre pacientes y dentro del mismo tumor.</td>
+        <td>La individualización de parámetros es un área de investigación activa.</td>
+      </tr>
+      <tr>
+        <td><strong>Efectos de dosis baja</strong></td>
+        <td>A dosis muy bajas (<0.5 Gy) se ha observado hipersensibilidad (HRS), no descrita por el LQ.</td>
+        <td>Relevante en técnicas como TBI o radioprotección.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="warning-box">
+    <strong>La lección.</strong> El modelo LQ es excelente para el rango de dosis por fracción de la radioterapia convencional (0.5–6 Gy, con cautela hasta 10 Gy). Para dosis por fracción muy altas (SBRT, radiocirugía), sus predicciones deben tomarse con precaución. Las isocurvas de la Figura 3 son válidas dentro de ese rango; para dosis por fracción >10 Gy, los valores de EQD₂ deben interpretarse con cautela.
+  </div>
+
+  <!-- ============================================ -->
+  <h2 id="s10">10. Ejemplos resueltos</h2>
+
+  <div class="worked-example">
+    <div class="we-header">Ejemplo desarrollado 10.1</div>
+    <div class="we-title">Supervivencia celular para una dosis única</div>
+    <p>Para un tejido con $\alpha = 0.3\ \text{Gy}^{-1}$ y $\beta = 0.03\ \text{Gy}^{-2}$, calcula la fracción de supervivencia después de una dosis única de 2 Gy.</p>
+    <div class="step">
+      <span class="step-label">Paso 1 — Aplicar la ecuación LQ</span>
+      <div class="step-body">
+        $$ S = e^{-\alpha D - \beta D^2} = e^{-0.3 \times 2 - 0.03 \times 2^2} $$
+      </div>
+    </div>
+    <div class="step">
+      <span class="step-label">Paso 2 — Calcular el exponente</span>
+      <div class="step-body">
+        $$ -0.6 - 0.12 = -0.72 $$
+        $$ S = e^{-0.72} \approx 0.487 $$
+        <div class="result">Sobrevive aproximadamente el 48.7 % de las células.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="worked-example">
+    <div class="we-header">Ejemplo desarrollado 10.2</div>
+    <div class="we-title">Cálculo de BED y EQD₂ para un esquema hipofraccionado</div>
+    <p>Un esquema de 20 Gy en 5 fracciones (4 Gy/fracción) se aplica a un tejido con $\alpha/\beta = 2$ Gy. Calcula la BED y la EQD₂.</p>
+    <div class="step">
+      <span class="step-label">Paso 1 — BED</span>
+      <div class="step-body">
+        $$ \text{BED} = D \left(1 + \frac{d}{\alpha/\beta}\right) = 20 \left(1 + \frac{4}{2}\right) = 20 \times 3 = 60\ \text{Gy} $$
+      </div>
+    </div>
+    <div class="step">
+      <span class="step-label">Paso 2 — EQD₂</span>
+      <div class="step-body">
+        $$ \text{EQD}_2 = \frac{\text{BED}}{1 + \frac{2}{\alpha/\beta}} = \frac{60}{1 + 1} = 30\ \text{Gy} $$
+        <div class="result">La BED es 60 Gy y la EQD₂ es 30 Gy. El esquema equivale, para este tejido, a 30 Gy en fracciones de 2 Gy.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="worked-example">
+    <div class="we-header">Ejemplo desarrollado 10.3</div>
+    <div class="we-title">Comparación de dos esquemas isoefectivos para un tumor</div>
+    <p>Para un tumor con $\alpha/\beta = 10$ Gy, ¿qué dosis total en fracciones de 2 Gy es isoefectiva con un esquema de 15 fracciones de 3 Gy (45 Gy)?</p>
+    <div class="step">
+      <span class="step-label">Paso 1 — BED del esquema de 3 Gy/fracción</span>
+      <div class="step-body">
+        $$ \text{BED} = 45 \left(1 + \frac{3}{10}\right) = 45 \times 1.3 = 58.5\ \text{Gy} $$
+      </div>
+    </div>
+    <div class="step">
+      <span class="step-label">Paso 2 — EQD₂</span>
+      <div class="step-body">
+        $$ \text{EQD}_2 = \frac{58.5}{1 + \frac{2}{10}} = \frac{58.5}{1.2} = 48.75\ \text{Gy} $$
+        <div class="result">El esquema de 45 Gy en 15 fracciones de 3 Gy es isoefectivo, para el tumor, con 48.75 Gy en fracciones de 2 Gy.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================ -->
+  <h2 id="s11">11. Ejercicios propuestos</h2>
+
+  <div class="exercise-box">
+    <h4>Ejercicio 1 — Interpretación de α/β</h4>
+    <p>Un tejido tiene $\alpha/\beta = 2$ Gy y otro tiene $\alpha/\beta = 10$ Gy. ¿Cuál de los dos es más sensible a un aumento en la dosis por fracción? Justifica.</p>
+    <div class="hint"><strong>Pista:</strong> piensa en cómo cambia la BED al aumentar $d$ para un mismo valor de $D$.</div>
+    <button class="solution-toggle" onclick="toggleSolution(this)">Mostrar solución</button>
+    <div class="solution-content">
+      <p>El tejido con $\alpha/\beta = 2$ Gy es mucho más sensible. La BED es $D(1 + d/(\alpha/\beta))$. Para un mismo $D$, al aumentar $d$, el factor entre paréntesis crece más rápidamente cuanto menor es $\alpha/\beta$.</p>
+    </div>
+  </div>
+
+  <div class="exercise-box">
+    <h4>Ejercicio 2 — Cálculo de supervivencia</h4>
+    <p>Con $\alpha = 0.35\ \text{Gy}^{-1}$ y $\beta = 0.035\ \text{Gy}^{-2}$, calcula la supervivencia después de 1.8 Gy.</p>
+    <div class="hint"><strong>Pista:</strong> $S = e^{-\alpha d - \beta d^2}$.</div>
+    <button class="solution-toggle" onclick="toggleSolution(this)">Mostrar solución</button>
+    <div class="solution-content">
+      <p>Exponente: $-0.35 \times 1.8 - 0.035 \times 1.8^2 = -0.63 - 0.1134 = -0.7434$. $S = e^{-0.7434} \approx 0.475$. La supervivencia es aproximadamente 47.5 %.</p>
+    </div>
+  </div>
+
+  <div class="exercise-box">
+    <h4>Ejercicio 3 — BED y EQD₂ para la médula espinal</h4>
+    <p>Un esquema de paliación es 20 Gy en 5 fracciones. Para la médula espinal ($\alpha/\beta = 2$ Gy), calcula la BED y la EQD₂. ¿Es seguro si el límite de tolerancia es 45 Gy en 2 Gy?</p>
+    <div class="hint"><strong>Pista:</strong> BED = $20(1 + 4/2)$; EQD₂ = BED / (1 + 2/2).</div>
+    <button class="solution-toggle" onclick="toggleSolution(this)">Mostrar solución</button>
+    <div class="solution-content">
+      <p>BED = $20(1 + 2) = 60$ Gy. EQD₂ = $60 / (1 + 1) = 30$ Gy. Como 30 Gy < 45 Gy, el esquema es seguro para la médula.</p>
+    </div>
+  </div>
+
+  <div class="exercise-box">
+    <h4>Ejercicio 4 — Limitación en dosis altas</h4>
+    <p>¿Por qué el modelo LQ puede no ser fiable en radiocirugía (dosis por fracción de 15–25 Gy)?</p>
+    <div class="hint"><strong>Pista:</strong> piensa en la forma de la curva de supervivencia a dosis muy altas.</div>
+    <button class="solution-toggle" onclick="toggleSolution(this)">Mostrar solución</button>
+    <div class="solution-content">
+      <p>El modelo LQ predice una curvatura continua, pero experimentalmente a dosis muy altas la curva tiende a ser lineal en semilog. Por eso el LQ puede sobreestimar o subestimar el efecto. En radiocirugía, las dosis por fracción superan el rango validado del LQ (aproximadamente 0.5–10 Gy).</p>
+    </div>
+  </div>
+
+  <div class="exercise-box">
+    <h4>Ejercicio 5 — Diferencia entre BED y EQD₂</h4>
+    <p>Explica la diferencia conceptual entre BED y EQD₂. ¿Cuándo usarías cada una?</p>
+    <div class="hint"><strong>Pista:</strong> una es una dosis "equivalente" a fracciones infinitesimales; la otra, a fracciones de 2 Gy.</div>
+    <button class="solution-toggle" onclick="toggleSolution(this)">Mostrar solución</button>
+    <div class="solution-content">
+      <p>La BED es una medida del efecto biológico independiente del fraccionamiento, definida como $E/\alpha$, y equivale a la dosis que produciría el mismo efecto si se administrara en fracciones infinitamente pequeñas. La EQD₂ es la dosis total que, en fracciones de 2 Gy, produciría el mismo efecto. La EQD₂ es más intuitiva clínicamente. Se usa BED para comparaciones radiobiológicas y EQD₂ para comparaciones clínicas y para verificar tolerancias.</p>
+    </div>
+  </div>
+
+  <!-- ============================================ -->
+  <h2 id="s12">12. Conclusiones</h2>
+  <ol>
+    <li><strong>El modelo LQ</strong> describe la supervivencia celular como $S = e^{-\alpha D - \beta D^2}$, con un término lineal y un término cuadrático.</li>
+    <li><strong>La relación $\alpha/\beta$</strong> cuantifica la sensibilidad al fraccionamiento: valores bajos (2–3 Gy) indican tejidos muy sensibles a fracciones grandes; valores altos (8–12 Gy) indican tejidos poco sensibles.</li>
+    <li><strong>La BED</strong> mide el efecto biológico de un esquema fraccionado, independientemente del tiempo.</li>
+    <li><strong>La EQD₂</strong> traduce cualquier esquema a su equivalente en 2 Gy/fracción, la métrica más usada en la clínica.</li>
+    <li><strong>La relación $S = e^{-\alpha \cdot \text{BED}}$</strong> es exacta y fundamenta las isocurvas de EQD₂: todos los esquemas con la misma EQD₂ tienen la misma supervivencia.</li>
+    <li><strong>Las limitaciones del LQ</strong> aparecen a dosis por fracción muy altas (SBRT, radiocirugía), en tratamientos largos y por heterogeneidad tumoral.</li>
+  </ol>
+
+  <p>El modelo LQ es un ejemplo notable de cómo una descripción matemática relativamente sencilla puede capturar la esencia de un fenómeno biológico complejo y convertirse en una herramienta de decisión clínica cotidiana.</p>
+
+</div>
+
+<script>
+// ============================================================
+// UTILIDADES
+// ============================================================
+function toggleSolution(btn) {
+  const content = btn.nextElementSibling;
+  content.classList.toggle('open');
+  btn.innerText = content.classList.contains('open') ? 'Ocultar solución' : 'Mostrar solución';
+  if (window.MathJax && window.MathJax.Hub) {
+    window.MathJax.Hub.Queue(["Typeset", window.MathJax.Hub, content]);
+  }
+}
+window.toggleSolution = toggleSolution;
+
+// ============================================================
+// PARÁMETROS DE TEJIDOS (para Figura 1)
+// ============================================================
+const TISSUES = {
+  tumor:   { label: 'Tumor', alpha: 0.30, beta: 0.030, ab: 10 },
+  acute:   { label: 'Tejido agudo', alpha: 0.35, beta: 0.035, ab: 10 },
+  late:    { label: 'Tejido tardío', alpha: 0.15, beta: 0.075, ab: 2 },
+  prostate:{ label: 'Próstata', alpha: 0.10, beta: 0.067, ab: 1.5 }
+};
+
+const TISSUE_COLORS = {
+  tumor: '#c0392b', acute: '#e67e22', late: '#2980b9', prostate: '#16a085'
+};
+
+// ============================================================
+// PARÁMETROS PARA FIG 2 (α y β separados)
+// ============================================================
+const TISSUE_PARAMS_BED = {
+  '10':  { alpha: 0.35, beta: 0.035 },  // α/β = 10
+  '3':   { alpha: 0.20, beta: 0.067 },  // α/β ≈ 3
+  '2':   { alpha: 0.15, beta: 0.075 },  // α/β = 2
+  '1.5': { alpha: 0.10, beta: 0.067 }   // α/β ≈ 1.5
+};
+
+// ============================================================
+// FIGURA 1: CURVAS DE SUPERVIVENCIA
+// ============================================================
+function buildFig1() {
+  const tissues = ['tumor', 'acute', 'late', 'prostate'];
+  const doses = [];
+  for (let i = 0; i <= 200; i++) doses.push(i * 0.1);
+
+  const traces = tissues.map(key => {
+    const t = TISSUES[key];
+    const S = doses.map(D => Math.exp(-t.alpha * D - t.beta * D * D));
+    return {
+      x: doses, y: S, type: 'scatter', mode: 'lines',
+      name: t.label + ` (α/β = ${t.ab} Gy)`,
+      line: { color: TISSUE_COLORS[key], width: 2.5 }
+    };
+  });
+
+  const Dsel = parseFloat(document.getElementById('s_D_surv').value);
+  const shapes = [{
+    type: 'line', x0: Dsel, x1: Dsel, y0: 0, y1: 1, yref: 'paper',
+    line: { color: '#7f8c8d', width: 1.5, dash: 'dot' }
+  }];
+
+  Plotly.newPlot('plot_surv', traces, {
+    xaxis: { title: 'Dosis única D (Gy)', range: [0, 20], fixedrange: false },
+    yaxis: { title: 'Fracción de supervivencia S', type: 'log', range: [-5, 0], fixedrange: false },
+    shapes,
+    legend: { x: 1.02, y: 1, xanchor: 'left' },
+    margin: { l: 70, r: 220, t: 20, b: 55 },
+    hovermode: 'closest',
+    plot_bgcolor: '#fafafa', paper_bgcolor: '#fafafa'
+  }, { responsive: true, displayModeBar: false });
+
+  updateFig1Stats();
+}
+
+function updateFig1Stats() {
+  const Dsel = parseFloat(document.getElementById('s_D_surv').value);
+  document.getElementById('v_D_surv').innerText = Dsel.toFixed(1) + ' Gy';
+  const tissueKey = document.getElementById('sel_tissue_surv').value;
+  const t = TISSUES[tissueKey];
+
+  const S = Math.exp(-t.alpha * Dsel - t.beta * Dsel * Dsel);
+  const logS = Math.log10(S);
+  const linContrib = t.alpha * Dsel;
+  const quadContrib = t.beta * Dsel * Dsel;
+  const totalContrib = linContrib + quadContrib;
+  const linPct = totalContrib > 0 ? (linContrib / totalContrib * 100).toFixed(0) : 0;
+  const quadPct = totalContrib > 0 ? (quadContrib / totalContrib * 100).toFixed(0) : 0;
+
+  document.getElementById('stats_surv').innerHTML =
+    `<span class="stat-item"><span class="lbl">S:</span> <span class="val">${S.toExponential(2)}</span></span>` +
+    `<span class="stat-item"><span class="lbl">log₁₀ S:</span> <span class="val">${logS.toFixed(2)}</span></span>` +
+    `<br><span class="stat-item"><span class="lbl">Lineal:</span> <span class="val">${linPct}%</span></span>` +
+    `<span class="stat-item"><span class="lbl">Cuadrático:</span> <span class="val">${quadPct}%</span></span>`;
+
+  const plotDiv = document.getElementById('plot_surv');
+  if (plotDiv && plotDiv.layout) {
+    Plotly.relayout(plotDiv, { 'shapes[0].x0': Dsel, 'shapes[0].x1': Dsel });
+  }
+}
+
+// ============================================================
+// FIGURA 2: SUPERVIVENCIA E ISOEFECTO
+// ============================================================
+function updateFig2() {
+  const ab = parseFloat(document.getElementById('sel_tissue_bed').value);
+  const params = TISSUE_PARAMS_BED[ab.toString()];
+  const alpha = params.alpha;
+
+  const d = parseFloat(document.getElementById('s_d_bed').value);
+  const n = parseInt(document.getElementById('s_n_bed').value);
+  document.getElementById('v_d_bed').innerText = d.toFixed(1) + ' Gy';
+  document.getElementById('v_n_bed').innerText = n;
+
+  const D = n * d;
+  const BED = D * (1 + d / ab);
+  const EQD2 = BED / (1 + 2 / ab);
+
+  // Pendientes en el espacio semilog (base e)
+  const slopeCur = alpha * (1 + d / ab);
+  const slopeRef = alpha * (1 + 2 / ab);
+
+  // Supervivencia isoefecto (S = exp(-α·BED))
+  const Siso = Math.exp(-alpha * BED);
+  const logSiso = Math.log10(Math.max(Siso, 1e-300));
+
+  // Rango de D para el gráfico
+  const DmaxPlot = Math.max(D, EQD2, 10) * 1.12;
+
+  // Construir curvas
+  const N = 200;
+  const Darr = [], ScurArr = [], SrefArr = [];
+  for (let i = 0; i <= N; i++) {
+    const Di = DmaxPlot * i / N;
+    Darr.push(Di);
+    ScurArr.push(Math.exp(-slopeCur * Di));
+    SrefArr.push(Math.exp(-slopeRef * Di));
+  }
+
+  const traces = [
+    {
+      x: Darr, y: SrefArr, type: 'scatter', mode: 'lines',
+      name: 'Referencia 2 Gy/fx',
+      line: { color: '#16a085', width: 2.5, dash: 'dash' }
+    },
+    {
+      x: Darr, y: ScurArr, type: 'scatter', mode: 'lines',
+      name: `Esquema actual (${d.toFixed(1)} Gy/fx)`,
+      line: { color: '#2980b9', width: 3 }
+    },
+    {
+      x: [D], y: [Siso], type: 'scatter', mode: 'markers',
+      name: `Esquema actual (D = ${D.toFixed(1)} Gy)`,
+      marker: { color: '#2980b9', size: 16, symbol: 'circle', line: { color: 'white', width: 2 } }
+    },
+    {
+      x: [EQD2], y: [Siso], type: 'scatter', mode: 'markers',
+      name: `Equivalente 2 Gy (EQD₂ = ${EQD2.toFixed(1)} Gy)`,
+      marker: { color: '#16a085', size: 16, symbol: 'diamond', line: { color: 'white', width: 2 } }
+    }
+  ];
+
+  // Formas
+  const shapes = [
+    { type: 'line', x0: 0, x1: DmaxPlot, y0: Siso, y1: Siso,
+      line: { color: '#e67e22', width: 2, dash: 'dot' } }
+  ];
+
+  // Anotaciones
+  const annotations = [
+    { x: D, y: Siso, text: `D = ${D.toFixed(1)} Gy`, showarrow: true, arrowhead: 2,
+      ax: 40, ay: -35, font: { size: 11, color: '#2980b9' } },
+    { x: EQD2, y: Siso, text: `EQD₂ = ${EQD2.toFixed(1)} Gy`, showarrow: true, arrowhead: 2,
+      ax: -40, ay: 35, font: { size: 11, color: '#16a085' } }
+  ];
+
+  const yMin = Math.max(logSiso - 0.5, -16);
+  const yMax = 0.25;
+
+  Plotly.react('plot_bed', traces, {
+    xaxis: { title: 'Dosis total D (Gy)', fixedrange: false, range: [0, DmaxPlot] },
+    yaxis: { title: 'Supervivencia S', type: 'log', range: [yMin, yMax], fixedrange: false },
+    shapes, annotations,
+    legend: { x: 0.02, y: 0.98, xanchor: 'left', bgcolor: 'rgba(255,255,255,0.85)' },
+    margin: { l: 70, r: 30, t: 30, b: 55 },
+    plot_bgcolor: '#fafafa', paper_bgcolor: '#fafafa'
+  }, { responsive: true, displayModeBar: false });
+
+  // Cálculo mostrado
+  const calcHTML =
+    `<div class="eq-line">$$D = n \\cdot d = ${n} \\times ${d.toFixed(1)} = ${D.toFixed(1)}\\ \\text{Gy}$$</div>` +
+    `<div class="eq-line">$$\\text{BED} = D\\left(1 + \\frac{d}{\\alpha/\\beta}\\right) = ${D.toFixed(1)}\\left(1 + \\frac{${d.toFixed(1)}}{${ab}}\\right) = \\color{#2980b9}{${BED.toFixed(2)}\\ \\text{Gy}}$$</div>` +
+    `<div class="eq-line">$$\\text{EQD}_2 = \\frac{\\text{BED}}{1 + \\frac{2}{\\alpha/\\beta}} = \\frac{${BED.toFixed(2)}}{1 + \\frac{2}{${ab}}} = \\color{#16a085}{${EQD2.toFixed(2)}\\ \\text{Gy}}$$</div>`;
+  const calcDiv = document.getElementById('calc_display_bed');
+  calcDiv.innerHTML = calcHTML;
+  if (window.MathJax && window.MathJax.Hub) {
+    window.MathJax.Hub.Queue(["Typeset", window.MathJax.Hub, calcDiv]);
+  }
+
+  // Diferencia y ahorro
+  const diff = D - EQD2;
+  const diffPct = D > 0 ? (diff / D * 100) : 0;
+  const efficiencyRatio = slopeCur / slopeRef;
+  const sameEff = Math.abs(diffPct) < 2;
+  let comparisonNote;
+  if (sameEff) {
+    comparisonNote = `D ≈ EQD₂ (el esquema ya está cerca de 2 Gy/fx)`;
+  } else if (diff > 0) {
+    comparisonNote = `El esquema actual ahorra ${diff.toFixed(1)} Gy (${diffPct.toFixed(1)} %) respecto del equivalente en 2 Gy`;
+  } else {
+    comparisonNote = `El esquema actual requiere ${(-diff).toFixed(1)} Gy más (${(-diffPct).toFixed(1)} %) que el equivalente en 2 Gy`;
+  }
+
+  document.getElementById('stats_bed').innerHTML =
+    `<span class="stat-item"><span class="lbl">S en el isoefecto:</span> <span class="val">${Siso.toExponential(2)}</span></span>` +
+    `<span class="stat-item"><span class="lbl">Ratio de pendientes:</span> <span class="val">${efficiencyRatio.toFixed(3)}</span></span>` +
+    `<br><span class="stat-item"><span class="lbl">D:</span> <span class="val">${D.toFixed(1)} Gy</span></span>` +
+    `<span class="stat-item"><span class="lbl">EQD₂:</span> <span class="val">${EQD2.toFixed(1)} Gy</span></span>` +
+    `<span class="stat-item"><span class="lbl">Δ = D − EQD₂:</span> <span class="val" style="color:${sameEff ? '#16a085' : '#c0392b'};">${diff.toFixed(1)} Gy</span></span>` +
+    `<br><span class="stat-item" style="background:transparent;border:none;color:#555;font-style:italic;font-size:0.9em;">${comparisonNote}</span>`;
+}
+
+// ============================================================
+// FIGURA 3: ISOCURVAS DE EQD2
+// ============================================================
+function updateFig3() {
+  const ab = parseFloat(document.getElementById('sel_tissue_compare').value);
+  const dA = parseFloat(document.getElementById('s_dA').value);
+  const nA = parseInt(document.getElementById('s_nA').value);
+  const dB = parseFloat(document.getElementById('s_dB').value);
+  const nB = parseInt(document.getElementById('s_nB').value);
+
+  document.getElementById('v_dA').innerText = dA.toFixed(1) + ' Gy';
+  document.getElementById('v_nA').innerText = nA;
+  document.getElementById('v_dB').innerText = dB.toFixed(1) + ' Gy';
+  document.getElementById('v_nB').innerText = nB;
+
+  const DA = nA * dA;
+  const DB = nB * dB;
+  const EQD2A = DA * (dA + ab) / (2 + ab);
+  const EQD2B = DB * (dB + ab) / (2 + ab);
+
+  // Rango de d
+  const dMin = 0.5, dMax = 10;
+  const N = 200;
+  const dArr = [];
+  for (let i = 0; i <= N; i++) dArr.push(dMin + i * (dMax - dMin) / N);
+
+  // Isocurvas de fondo (referencia)
+  const refValues = [10, 20, 30, 40, 50, 60, 70, 80, 100];
+  const refTraces = refValues.map(eq => ({
+    x: dArr, y: dArr.map(d => eq * (2 + ab) / (d + ab)),
+    type: 'scatter', mode: 'lines',
+    line: { color: 'rgba(180,180,180,0.45)', width: 1 },
+    showlegend: false, hoverinfo: 'skip'
+  }));
+
+  // Isocurva por A y B (resaltadas)
+  const curveA = {
+    x: dArr, y: dArr.map(d => EQD2A * (2 + ab) / (d + ab)),
+    type: 'scatter', mode: 'lines',
+    name: `EQD₂(A) = ${EQD2A.toFixed(1)} Gy`,
+    line: { color: '#2980b9', width: 3 }
+  };
+  const curveB = {
+    x: dArr, y: dArr.map(d => EQD2B * (2 + ab) / (d + ab)),
+    type: 'scatter', mode: 'lines',
+    name: `EQD₂(B) = ${EQD2B.toFixed(1)} Gy`,
+    line: { color: '#c0392b', width: 3 }
+  };
+
+  // Puntos A y B
+  const pointA = {
+    x: [dA], y: [DA], type: 'scatter', mode: 'markers+text',
+    name: `A (${nA}×${dA.toFixed(1)} = ${DA.toFixed(1)} Gy)`,
+    marker: { color: '#2980b9', size: 18, symbol: 'circle', line: { color: 'white', width: 2 } },
+    text: ['A'], textposition: 'top center',
+    textfont: { size: 14, color: '#2980b9', family: 'Segoe UI, sans-serif' }
+  };
+  const pointB = {
+    x: [dB], y: [DB], type: 'scatter', mode: 'markers+text',
+    name: `B (${nB}×${dB.toFixed(1)} = ${DB.toFixed(1)} Gy)`,
+    marker: { color: '#c0392b', size: 18, symbol: 'square', line: { color: 'white', width: 2 } },
+    text: ['B'], textposition: 'top center',
+    textfont: { size: 14, color: '#c0392b', family: 'Segoe UI, sans-serif' }
+  };
+
+  // Rango y
+  const yMaxPlot = Math.max(DA, DB, 20) * 1.35;
+
+  Plotly.react('plot_compare', [...refTraces, curveA, curveB, pointA, pointB], {
+    xaxis: { title: 'Dosis por fracción d (Gy)', range: [dMin, dMax], fixedrange: false },
+    yaxis: { title: 'Dosis total D (Gy)', range: [0, yMaxPlot], fixedrange: false },
+    legend: { x: 1.02, y: 1, xanchor: 'left', bgcolor: 'rgba(255,255,255,0.9)' },
+    margin: { l: 70, r: 240, t: 20, b: 55 },
+    plot_bgcolor: '#fafafa', paper_bgcolor: '#fafafa'
+  }, { responsive: true, displayModeBar: false });
+
+  // Estadísticas
+  const diffEQD2 = EQD2B - EQD2A;
+  const ratio = EQD2A > 0 ? EQD2B / EQD2A : Infinity;
+  const diffPct = (ratio - 1) * 100;
+  const sameEffect = Math.abs(diffPct) < 5;
+
+  let verdict, verdictColor;
+  if (sameEffect) {
+    verdict = `Isoefectivos (diferencia < 5 %)`;
+    verdictColor = '#16a085';
+  } else if (diffEQD2 > 0) {
+    verdict = `B es ${diffPct.toFixed(0)} % más efectivo biológicamente`;
+    verdictColor = '#c0392b';
+  } else {
+    verdict = `A es ${(-diffPct).toFixed(0)} % más efectivo biológicamente`;
+    verdictColor = '#c0392b';
+  }
+
+  document.getElementById('stats_compare').innerHTML =
+    `<span class="stat-item"><span class="lbl">D_A:</span> <span class="val">${DA.toFixed(1)} Gy</span></span>` +
+    `<span class="stat-item"><span class="lbl">D_B:</span> <span class="val">${DB.toFixed(1)} Gy</span></span>` +
+    `<span class="stat-item"><span class="lbl">EQD₂(A):</span> <span class="val" style="color:#2980b9;">${EQD2A.toFixed(1)} Gy</span></span>` +
+    `<span class="stat-item"><span class="lbl">EQD₂(B):</span> <span class="val" style="color:#c0392b;">${EQD2B.toFixed(1)} Gy</span></span>` +
+    `<br><span class="stat-item"><span class="lbl">ΔEQD₂ (B−A):</span> <span class="val" style="color:${verdictColor};">${diffEQD2.toFixed(1)} Gy</span></span>` +
+    `<span class="stat-item" style="background:${sameEffect ? '#eafaf1' : '#fdedec'};"><span class="lbl">Veredicto:</span> <span class="val" style="color:${verdictColor};">${verdict}</span></span>`;
+}
+
+// ============================================================
+// EVENT HANDLERS
+// ============================================================
+function attachHandlers() {
+  document.getElementById('s_D_surv').addEventListener('input', updateFig1Stats);
+  document.getElementById('sel_tissue_surv').addEventListener('change', updateFig1Stats);
+
+  document.getElementById('s_d_bed').addEventListener('input', updateFig2);
+  document.getElementById('s_n_bed').addEventListener('input', updateFig2);
+  document.getElementById('sel_tissue_bed').addEventListener('change', updateFig2);
+
+  document.getElementById('s_dA').addEventListener('input', updateFig3);
+  document.getElementById('s_nA').addEventListener('input', updateFig3);
+  document.getElementById('s_dB').addEventListener('input', updateFig3);
+  document.getElementById('s_nB').addEventListener('input', updateFig3);
+  document.getElementById('sel_tissue_compare').addEventListener('change', updateFig3);
+}
+
+// ============================================================
+// INICIALIZACIÓN
+// ============================================================
+function initAll() {
+  if (typeof Plotly === 'undefined') {
+    setTimeout(initAll, 100);
+    return;
+  }
+  buildFig1();
+  updateFig2();
+  updateFig3();
+  attachHandlers();
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initAll);
+} else {
+  initAll();
+}
+</script>
+</body>
+</html>
