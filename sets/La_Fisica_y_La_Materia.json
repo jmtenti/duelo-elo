@@ -1068,8 +1068,8 @@
     },
     {
       "id": 59,
-      "elo": 680,
       "tema": "Física atómica",
+      "elo": 680,
       "q": "La energía de ionización de un átomo tiende a:",
       "opts": [
         "Depende solo del número másico del elemento",
@@ -1077,11 +1077,15 @@
         "Aumenta en un período y disminuye al bajar en un grupo",
         "Disminuye en un período y aumenta al bajar en un grupo"
       ],
-      "a": 2,
       "sol": "La energía de ionización aumenta a lo largo de un período (mayor $Z$ efectivo, electrones más ligados) y disminuye al bajar en un grupo (electrones más alejados del núcleo y apantallados). Los gases nobles tienen las energías de ionización más altas y los metales alcalinos las más bajas.",
+      "a": 2,
       "teoria": {
         "titulo": "Energía de ionización",
         "texto": "La energía de ionización es la energía mínima necesaria para arrancar un electrón de un átomo neutro en estado gaseoso, dejando un ion positivo:\n\n$$X(g) \\to X^+(g) + e^-$$\n\nSe mide típicamente en electrón-voltios (eV) o en kilojulios por mol (kJ/mol). Para el hidrógeno, la energía de ionización es $13{,}6\\,$eV, que coincide con la energía del nivel fundamental del modelo de Bohr.\n\nLas tendencias periódicas de la energía de ionización son:\n\n1. A lo largo de un período (de izquierda a derecha), la energía de ionización aumenta. Esto se debe a que el número atómico efectivo crece (más protones en el núcleo, con electrones agregados en la misma capa), atrayendo más fuertemente a los electrones externos. Por ejemplo, $E_i(\\text{Li}) \\approx 5{,}4\\,$eV y $E_i(\\text{Ne}) \\approx 21{,}6\\,$eV.\n\n2. Al bajar en un grupo, la energía de ionización disminuye. Los electrones externos están en capas más alejadas del núcleo y más apantallados por los electrones internos, por lo que están menos ligados. Por ejemplo, $E_i(\\text{Li}) \\approx 5{,}4\\,$eV y $E_i(\\text{Cs}) \\approx 3{,}9\\,$eV.\n\n3. Los gases nobles tienen las energías de ionización más altas (capa cerrada), y los metales alcalinos las más bajas (un solo electrón en la capa externa, muy apantallado).\n\nLa energía de ionización es una medida directa de la fuerza con que el núcleo atrae a los electrones externos, y es clave para entender la reactividad química: los átomos con baja energía de ionización tienden a ceder electrones (metales), y los de alta energía de ionización tienden a retenerlos o capturarlos (no metales)."
+      },
+      "link": {
+        "url": "interactivos/Periodos-Atomicos.html",
+        "texto": "🔗 Abrir recurso"
       }
     },
     {
