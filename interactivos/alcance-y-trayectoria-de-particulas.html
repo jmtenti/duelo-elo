@@ -1,0 +1,967 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Estudio Interactivo: Alcance y Trayectoria de Partículas</title>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']], displayMath: [['$$','$$'], ['\\[','\\]']]},
+    messageStyle: "none"
+  });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script src="https://cdn.plot.ly/plotly-2.24.1.min.js"></script>
+
+<style>
+  :root {
+    --primary-color: #1a252f; --secondary-color: #2c3e50;
+    --accent-color: #c0392b; --link-color: #2980b9;
+    --bg-color: #f8f9fa; --sm-color: #16a085; --we-color: #6c3483;
+    --intuition-color: #d35400; --warning-color: #c0392b; --hist-color: #b7791f;
+  }
+  body { font-family: 'Georgia', serif; background: var(--bg-color); color: #333;
+    line-height: 1.8; margin: 0; padding: 40px 0; font-size: 16px; }
+  .container { max-width: 1000px; margin: auto; background: white;
+    padding: 50px 80px; border-radius: 12px; box-shadow: 0 8px 30px rgba(0,0,0,0.06); }
+  h1 { color: var(--primary-color); text-align: center; font-size: 2.1em;
+    font-family: 'Segoe UI', sans-serif; margin-bottom: 10px;}
+  .subtitle { text-align: center; color: #7f8c8d; font-style: italic; margin-bottom: 40px; }
+  h2 { color: var(--secondary-color); margin-top: 55px; border-bottom: 2px solid #ecf0f1;
+    padding-bottom: 5px; font-family: 'Segoe UI', sans-serif;}
+  h3 { color: var(--secondary-color); margin-top: 35px; font-family: 'Segoe UI', sans-serif; font-size: 1.18em;}
+  h4 { color: var(--sm-color); margin-top: 25px; font-family: 'Segoe UI', sans-serif;
+    font-size: 1.02em; font-style: italic;}
+  p { text-align: justify; margin-bottom: 20px; }
+  ul, ol { text-align: justify; }
+  li { margin-bottom: 8px; }
+  .math-box { background: #fdfefe; border-left: 4px solid var(--link-color);
+    padding: 15px 25px; margin: 25px 0; overflow-x: auto; font-size: 1.1em; }
+  .note-box { background: #fef9e7; border-left: 4px solid #f39c12;
+    padding: 12px 20px; margin: 20px 0; font-size: 0.98em; }
+  .sm-box { background: #eafaf1; border-left: 4px solid var(--sm-color);
+    padding: 14px 22px; margin: 22px 0; font-size: 0.97em; }
+  .sm-box strong:first-child { color: var(--sm-color); }
+  .intuition-box { background: #fdf2e9; border-left: 4px solid var(--intuition-color);
+    padding: 14px 22px; margin: 22px 0; font-size: 0.97em; }
+  .intuition-box strong:first-child { color: var(--intuition-color); }
+  .warning-box { background: #fdedec; border-left: 4px solid var(--warning-color);
+    padding: 14px 22px; margin: 22px 0; font-size: 0.97em; }
+  .warning-box strong:first-child { color: var(--warning-color); }
+  .guide-box { background: #eef6fc; border-left: 4px solid var(--link-color);
+    padding: 14px 22px; margin: 22px 0; font-size: 0.96em; }
+  .guide-box strong:first-child { color: var(--link-color); }
+  .guide-box ol { margin: 8px 0 0 0; padding-left: 22px; }
+  .history-box { background: #fbf6e9; border-left: 4px solid var(--hist-color);
+    padding: 14px 22px; margin: 22px 0; font-size: 0.95em;
+    font-style: italic; color: #5b4a1e; }
+  .history-box strong { font-style: normal; }
+  .worked-example { background: #faf7fd; border: 1px solid #d5c8e8;
+    border-left: 5px solid var(--we-color); border-radius: 8px;
+    padding: 22px 30px 24px; margin: 35px 0; font-size: 0.98em; }
+  .worked-example .we-header { font-family: 'Segoe UI', sans-serif; font-size: 0.78em;
+    text-transform: uppercase; letter-spacing: 0.14em; color: var(--we-color);
+    font-weight: bold; margin-bottom: 6px; }
+  .worked-example .we-title { font-family: 'Segoe UI', sans-serif; color: var(--we-color);
+    font-size: 1.08em; font-weight: 600; margin: 0 0 16px 0; }
+  .worked-example .step { margin: 18px 0; padding-left: 18px; border-left: 2px solid #e3d4f0; }
+  .worked-example .step-label { font-family: 'Segoe UI', sans-serif; font-weight: bold;
+    color: var(--we-color); font-size: 0.86em; display: block; margin-bottom: 4px;
+    text-transform: uppercase; }
+  .worked-example .result { background: #efe9f7; border-radius: 5px;
+    padding: 10px 16px; margin-top: 8px; font-weight: 500; }
+  .exercise-box { background: #fdf2f2; border: 1px solid #f5c6c6;
+    border-radius: 8px; padding: 22px 28px; margin: 35px 0; }
+  .exercise-box h4 { color: var(--accent-color); margin-top: 0;
+    font-style: normal; font-size: 1.05em; }
+  .hint { background: #fff8e1; border-radius: 4px; padding: 8px 14px; margin: 10px 0;
+    font-size: 0.92em; color: #6d4c00; border-left: 3px solid #f39c12; }
+  .solution-toggle { background: var(--accent-color); color: white; border: none;
+    padding: 8px 18px; border-radius: 4px; cursor: pointer;
+    font-family: 'Segoe UI', sans-serif; font-size: 0.92em; margin-top: 12px; }
+  .solution-toggle:hover { background: #a02828; }
+  .solution-content { max-height: 0; overflow: hidden;
+    transition: max-height 0.5s ease, margin 0.3s ease; margin-top: 0; }
+  .solution-content.open { max-height: 6000px; margin-top: 18px; }
+  .interactive-figure { background: #fafafa; border: 1px solid #e0e0e0;
+    border-radius: 10px; padding: 25px; margin: 40px 0;
+    font-family: 'Segoe UI', sans-serif; box-shadow: 0 4px 12px rgba(0,0,0,0.03); }
+  .figure-title { text-align: center; color: var(--secondary-color);
+    font-weight: bold; font-size: 1.2em; margin-top: 0; }
+  .plot-area { width: 100%; height: 460px; margin-bottom: 15px; }
+  .controls { display: grid; gap: 14px;
+    padding: 14px 18px; background: #fff; border-radius: 8px;
+    border: 1px solid #eee; margin-bottom: 12px; }
+  .control-panel h4 { margin-top: 0; color: var(--secondary-color); font-size: 0.9em;
+    text-transform: uppercase; letter-spacing: 0.08em; font-style: normal; }
+  .particle-header {
+    display: flex; align-items: center; gap: 6px;
+    margin: 0 0 8px 0; cursor: pointer;
+    font-family: 'Segoe UI', sans-serif; font-size: 0.85em;
+    font-weight: bold; color: var(--secondary-color);
+    text-transform: uppercase; letter-spacing: 0.05em;
+    user-select: none;
+  }
+  .particle-header input[type=checkbox] {
+    width: 15px; height: 15px;
+    accent-color: var(--accent-color); cursor: pointer; margin: 0;
+  }
+  .particle-header .swatch {
+    width: 12px; height: 12px; border-radius: 3px;
+    border: 1px solid rgba(0,0,0,0.2); display: inline-block;
+  }
+  .particle-header .pname { flex: 1; }
+  .slider-row { display: block; margin: 6px 0 0 0;
+    font-size: 0.88em; color: #333; }
+  .slider-row input[type=range] {
+    width: 100%; accent-color: var(--accent-color); cursor: pointer;
+    margin-top: 4px;
+  }
+  .slider-val { font-family: Consolas, monospace;
+    color: var(--accent-color); font-weight: bold;
+    font-size: 0.95em; }
+  .slider-row .slider-val { display: block; text-align: center; }
+  .auto-check { display: inline-flex; align-items: center; gap: 6px;
+    font-size: 0.9em; color: #555; cursor: pointer; }
+  .auto-check input[type=checkbox] { accent-color: var(--accent-color); cursor: pointer; }
+  .stats { margin-top: 12px; padding: 12px 16px; background: #f4f6f7;
+    border-radius: 6px; font-family: Consolas, monospace; font-size: 0.84em;
+    line-height: 1.9; text-align: center; }
+  .stats .stat-item { display: inline-block; margin: 3px 6px;
+    padding: 3px 10px; background: white; border-radius: 4px;
+    border: 1px solid #e0e0e0; }
+  .stats .stat-item .lbl { color: #555; }
+  .stats .stat-item .val { color: var(--accent-color); font-weight: bold; }
+  .stats .stat-item .swatch-inline {
+    display: inline-block; width: 10px; height: 10px;
+    border-radius: 2px; margin-right: 5px; vertical-align: middle;
+  }
+  .caption { font-size: 0.95em; color: #555; text-align: justify;
+    padding: 10px 20px; border-left: 3px solid var(--accent-color); background: #fff; }
+  table.generic { border-collapse: collapse; width: 100%; margin: 20px 0; font-size: 0.95em;}
+  table.generic th, table.generic td { border: 1px solid #e0e0e0; padding: 8px 12px;
+    text-align: left; vertical-align: top; }
+  table.generic th { background: #ecf0f1; }
+  .toc { background: #f4f6f7; border-radius: 8px; padding: 20px 30px; margin: 30px 0;
+    font-family: 'Segoe UI', sans-serif; font-size: 0.95em; }
+  .toc h3 { margin-top: 0; color: var(--secondary-color); font-size: 1.05em;}
+  .toc ol { margin: 0; padding-left: 22px;}
+  .toc li { margin: 4px 0;}
+  .toc a { color: var(--link-color); text-decoration: none;}
+  .toc a:hover { text-decoration: underline;}
+  .energy-controls { grid-template-columns: repeat(5, 1fr); }
+  .depth-controls { grid-template-columns: 2fr 1fr; align-items: center; }
+  @media (max-width: 800px) {
+    .container { padding: 30px 20px; }
+    .energy-controls { grid-template-columns: 1fr 1fr; }
+    .depth-controls { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h1>Alcance y Trayectoria de Partículas</h1>
+  <div class="subtitle">Cómo penetran en la materia los electrones, fotones, protones, partículas alfa e iones pesados: poder de frenado, pico de Bragg, alcance CSDA y dispersión lateral</div>
+
+  <div class="note-box">
+    <strong>Notación.</strong> $R$: alcance (rango) de la partícula en el material. $S = -dE/dx$: poder de frenado. $z$: profundidad. $\mu$: coeficiente de atenuación lineal para fotones. $\sigma$: anchura (dispersión) del pico o del haz. $E$: energía inicial.
+  </div>
+
+  <div class="intuition-box">
+    <strong>La idea en una frase.</strong> Las partículas cargadas pierden energía por colisiones con los electrones atómicos. Las partículas ligeras (electrones) sufren muchas deflexiones y tienen trayectorias tortuosas, pero penetran mucho. Las partículas pesadas (protones, alfa, iones) siguen trayectorias casi rectas y depositan la mayor parte de su energía al final del recorrido, en el <strong>pico de Bragg</strong>. Los fotones no tienen pico de Bragg: su dosis sigue una curva de buildup + atenuación exponencial sin un alcance definido.
+  </div>
+
+  <div class="toc">
+    <h3>Contenido</h3>
+    <ol>
+      <li><a href="#s1">Poder de frenado y la fórmula de Bethe-Bloch</a></li>
+      <li><a href="#s2">El pico de Bragg (y la curva de electrones y fotones)</a></li>
+      <li><a href="#s3">Figura 1 interactiva: curvas superpuestas con energía ajustable</a></li>
+      <li><a href="#s4">Alcance CSDA y su dependencia con la energía</a></li>
+      <li><a href="#s5">Figura 2 interactiva: alcance vs energía</a></li>
+      <li><a href="#s6">Trayectoria y dispersión: electrones vs partículas pesadas</a></li>
+      <li><a href="#s7">Figura 3 interactiva: dispersión lateral y straggling</a></li>
+      <li><a href="#s8">Ejemplos resueltos</a></li>
+      <li><a href="#s9">Ejercicios propuestos</a></li>
+      <li><a href="#s10">Conclusiones</a></li>
+    </ol>
+  </div>
+
+  <!-- ============================================ -->
+  <h2 id="s1">1. Poder de frenado y la fórmula de Bethe-Bloch</h2>
+  <p>Cuando una partícula cargada atraviesa un material, pierde energía por <strong>colisiones inelásticas con los electrones atómicos</strong>. La energía perdida por unidad de longitud se llama <strong>poder de frenado</strong>:</p>
+  <div class="math-box">
+    $$ S = -\frac{dE}{dx} $$
+  </div>
+  <p>Para partículas pesadas no relativistas, la <strong>fórmula de Bethe-Bloch</strong> simplificada es:</p>
+  <div class="math-box">
+    $$ -\frac{dE}{dx} = \frac{4\pi n Z z^2 e^4}{m_e v^2} \ln\left(\frac{2m_e v^2}{I}\right) $$
+  </div>
+  <p>donde $z$ es la carga de la partícula incidente, $Z$ la del material, $n$ la densidad electrónica, $v$ la velocidad e $I$ el potencial de ionización medio. La dependencia clave es <strong>$S \propto z^2 / v^2$</strong>: cuanto más lenta es la partícula, más energía pierde por unidad de longitud. Eso es lo que produce el pico de Bragg.</p>
+  <div class="sm-box">
+    <strong>Para electrones</strong> la fórmula cambia: además de las colisiones, pierden energía por radiación de frenado (bremsstrahlung), importante a altas energías y en materiales de alto $Z$. Por eso sus trayectorias son erráticas y su alcance, para una misma energía, es mucho mayor.
+  </div>
+
+  <!-- ============================================ -->
+  <h2 id="s2">2. El pico de Bragg (y la curva de electrones y fotones)</h2>
+  <p>Como $S \propto 1/v^2$, una partícula pesada deposita poca energía al entrar y mucha más cerca del final de su recorrido. El resultado es la <strong>curva de Bragg</strong>: dosis de entrada baja, pico pronunciado justo antes de detenerse, y caída abrupta a cero más allá del alcance.</p>
+  <div class="math-box">
+    $$ D(z) \approx D_{\text{entrada}} + D_{\text{pico}} \, e^{-\frac{(z - R)^2}{2\sigma^2}} $$
+  </div>
+  <p>Los <strong>electrones</strong> no tienen pico de Bragg: su curva muestra un <strong>buildup</strong> rápido hasta $d_{\max}$ y una caída suave hasta el alcance práctico $R_p$. Los <strong>fotones</strong> tampoco: su dosis sigue buildup + atenuación exponencial.</p>
+  <div class="math-box">
+    $$ D_{\text{fotones}}(z) \approx \left(1 - e^{-z/z_{\text{build}}}\right) \cdot e^{-\mu z} $$
+  </div>
+  <p>donde $\mu$ es el coeficiente de atenuación lineal efectivo (depende de la energía) y $z_{\text{build}}$ es la profundidad característica de buildup (también dependiente de la energía). El máximo de la curva está en $z_{\text{peak}} = z_{\text{build}} \ln(1 + 1/(\mu z_{\text{build}}))$. A diferencia de las partículas cargadas, los fotones <strong>nunca se detienen por completo</strong>: su dosis decae exponencialmente sin un alcance finito.</p>
+
+  <div class="history-box">
+    <strong>Contexto histórico.</strong> Bragg descubrió en 1903 que las partículas alfa depositaban la mayor parte de su energía al final del recorrido. La aplicación terapéutica de protones fue propuesta por Wilson en 1946. Las primeras instalaciones de protonterapia se construyeron en los años 1990, y la terapia con iones de carbono empezó en Japón y Alemania en la misma década.
+  </div>
+
+  <!-- ============================================ -->
+  <h2 id="s3">3. Figura 1 interactiva: curvas superpuestas con energía ajustable</h2>
+  <p>La Figura 1 muestra las <strong>cinco curvas superpuestas</strong>, cada una con su propio slider de energía. Los checkboxes activan/desactivan la visualización. El slider de <strong>profundidad mostrada</strong> (escala logarítmica) permite pasar de μm a cientos de cm, y el checkbox de <strong>auto-escala</strong> ajusta el rango al alcance de las partículas activas.</p>
+
+  <div class="interactive-figure">
+    <div class="figure-title">Figura 1: Curvas de dosis en profundidad — energía ajustable por partícula</div>
+    <div id="plot_bragg" class="plot-area"></div>
+
+    <div class="controls energy-controls">
+      <div class="control-panel">
+        <div class="particle-header">
+          <input type="checkbox" id="cb_photons" checked>
+          <span class="swatch" style="background:#7f8c8d;"></span>
+          <span class="pname">Fotones</span>
+        </div>
+        <label class="slider-row">
+          <span id="v_E_photons" class="slider-val">6 MV</span>
+          <input type="range" id="s_E_photons" min="0.5" max="25" step="0.5" value="6">
+        </label>
+      </div>
+
+      <div class="control-panel">
+        <div class="particle-header">
+          <input type="checkbox" id="cb_electrons" checked>
+          <span class="swatch" style="background:#e67e22;"></span>
+          <span class="pname">Electrones</span>
+        </div>
+        <label class="slider-row">
+          <span id="v_E_electrons" class="slider-val">10 MeV</span>
+          <input type="range" id="s_E_electrons" min="0.5" max="25" step="0.5" value="10">
+        </label>
+      </div>
+
+      <div class="control-panel">
+        <div class="particle-header">
+          <input type="checkbox" id="cb_protons" checked>
+          <span class="swatch" style="background:#2980b9;"></span>
+          <span class="pname">Protones</span>
+        </div>
+        <label class="slider-row">
+          <span id="v_E_protons" class="slider-val">150 MeV</span>
+          <input type="range" id="s_E_protons" min="10" max="300" step="5" value="150">
+        </label>
+      </div>
+
+      <div class="control-panel">
+        <div class="particle-header">
+          <input type="checkbox" id="cb_alpha" checked>
+          <span class="swatch" style="background:#c0392b;"></span>
+          <span class="pname">Alfa</span>
+        </div>
+        <label class="slider-row">
+          <span id="v_E_alpha" class="slider-val">5 MeV</span>
+          <input type="range" id="s_E_alpha" min="0.5" max="10" step="0.5" value="5">
+        </label>
+      </div>
+
+      <div class="control-panel">
+        <div class="particle-header">
+          <input type="checkbox" id="cb_carbon" checked>
+          <span class="swatch" style="background:#16a085;"></span>
+          <span class="pname">Carbono</span>
+        </div>
+        <label class="slider-row">
+          <span id="v_E_carbon" class="slider-val">200 MeV/u</span>
+          <input type="range" id="s_E_carbon" min="50" max="400" step="10" value="200">
+        </label>
+      </div>
+    </div>
+
+    <div class="controls depth-controls">
+      <div class="control-panel">
+        <h4>Profundidad mostrada</h4>
+        <label class="slider-row">
+          <span id="v_xrange_bragg" class="slider-val">20 cm</span>
+          <input type="range" id="s_xrange_bragg" min="-3" max="2.5" step="0.02" value="1.3">
+        </label>
+      </div>
+      <div class="control-panel">
+        <h4>Escala</h4>
+        <label class="auto-check">
+          <input type="checkbox" id="cb_auto" checked>
+          Auto-escala al alcance de las partículas activas
+        </label>
+      </div>
+    </div>
+
+    <div id="stats_bragg" class="stats"></div>
+
+    <div class="guide-box">
+      <strong>Qué observar en la Figura 1.</strong>
+      <ol>
+        <li><strong>Fotones</strong> (gris): buildup inicial y atenuación exponencial. <em>No tienen alcance definido</em>. Al mover su slider de energía, la curva cambia de forma (más MV → menos atenuación → penetra más).</li>
+        <li><strong>Electrones</strong> (naranja): buildup rápido hasta $d_{\max}$ y caída suave hasta $R_p$. No tienen pico de Bragg.</li>
+        <li><strong>Protones</strong> (azul): meseta de entrada baja y pico pronunciado antes de $R$. Al subir la energía, el pico se desplaza a mayor profundidad.</li>
+        <li><strong>Alfas</strong> (rojo): alcance muy corto (μm). Si la ventana es grande, aparecen como un pico en el origen. Bajá la profundidad a ~100 μm para verlas en detalle.</li>
+        <li><strong>Carbono</strong> (verde): pico más estrecho que los protones y una pequeña cola de fragmentación.</li>
+        <li><strong>Auto-escala:</strong> ajusta el eje al alcance máximo de las partículas cargadas activas. Si solo están activos los fotones, usa una profundidad de referencia de ~35 cm.</li>
+        <li>Si comparás alfas con fotones con auto-escala, la ventana se achica a μm y la curva de fotones parece plana. Desactivá las alfas o subí manualmente la profundidad a cm para ver los fotones completos.</li>
+      </ol>
+    </div>
+    <div class="caption">
+      <strong>Epígrafe:</strong> Curvas de dosis relativa en profundidad para distintos tipos de radiación en agua. Cada partícula tiene su propio slider de energía y su curva se modela con una forma físicamente apropiada: fotones con buildup + atenuación exponencial (μ dependiente de MV); electrones con buildup + caída sigmoidea; partículas pesadas con meseta + gaussiana en R; carbono con cola de fragmentación. Los datos de alcance provienen de NIST PSTAR/ASTAR/ESTAR e ICRU con interpolación log-log y extrapolación por ley de potencia fuera de rango.
+    </div>
+  </div>
+
+  <!-- ============================================ -->
+  <h2 id="s4">4. Alcance CSDA y su dependencia con la energía</h2>
+  <p>El <strong>alcance CSDA</strong> (Continuous Slowing Down Approximation) es la distancia media que recorre una partícula hasta detenerse:</p>
+  <div class="math-box">
+    $$ R_{\text{CSDA}} = \int_0^{E_0} \frac{dE}{S(E)} $$
+  </div>
+  <p>Para partículas pesadas no relativistas, $R \propto E^p$ con $p \approx 1.7$–$1.8$ para protones y $p \approx 2.1$ para iones de carbono (por la dependencia $z^2/v^2$). Para electrones, el bremsstrahlung hace que el alcance crezca más lentamente a altas energías. La Figura 2 muestra estas dependencias.</p>
+
+  <!-- ============================================ -->
+  <h2 id="s5">5. Figura 2 interactiva: alcance vs energía</h2>
+  <p>La Figura 2 es un gráfico log-log del alcance CSDA en agua en función de la energía cinética, para electrones, protones, partículas alfa e iones de carbono.</p>
+
+  <div class="interactive-figure">
+    <div class="figure-title">Figura 2: Alcance CSDA en agua vs energía cinética</div>
+    <div id="plot_range" class="plot-area"></div>
+    <div class="guide-box">
+      <strong>Qué observar en la Figura 2.</strong>
+      <ol>
+        <li>Para una misma energía, los <strong>electrones</strong> penetran más que los protones, estos más que las alfas, y las alfas más que los iones de carbono.</li>
+        <li>La pendiente de cada curva refleja el exponente $p$ de $R \propto E^p$: electrones $\sim 1$, protones $\sim 1.7$, carbono $\sim 2.1$.</li>
+        <li>Las <strong>alfas</strong> tienen alcance de decenas de micras: a 5.3 MeV, apenas 38 μm en agua.</li>
+        <li>Los <strong>iones de carbono</strong> necesitan cientos de MeV/u para llegar a profundidades clínicas: 400 MeV/u ≈ 27 cm.</li>
+      </ol>
+    </div>
+    <div class="caption">
+      <strong>Epígrafe:</strong> Alcance CSDA en agua en función de la energía cinética. Datos de NIST PSTAR/ASTAR/ESTAR (para electrones, protones y alfas) y de simulaciones Monte Carlo (para iones de carbono). Eje log-log para abarcar varios órdenes de magnitud.
+    </div>
+  </div>
+
+  <!-- ============================================ -->
+  <h2 id="s6">6. Trayectoria y dispersión: electrones vs partículas pesadas</h2>
+  <ul>
+    <li><strong>Electrones:</strong> muy ligeros, sufren grandes deflexiones en cada colisión. Trayectoria en zigzag errático; dispersión lateral enorme.</li>
+    <li><strong>Partículas alfa:</strong> masa 4 u, carga +2. Trayectoria casi recta; alcance muy corto y dispersión pequeña.</li>
+    <li><strong>Protones:</strong> trayectoria casi recta, con dispersión lateral que crece con la profundidad, sobre todo al final del recorrido (donde $v$ es baja y el scattering aumenta).</li>
+    <li><strong>Iones de carbono:</strong> masa 12 u. La dispersión lateral es mucho menor que la de los protones. Haces más finos, picos más estrechos.</li>
+  </ul>
+  <div class="warning-box">
+    <strong>Dispersión lateral vs straggling.</strong> La <strong>dispersión lateral</strong> es la anchura del haz perpendicular a la dirección de incidencia. El <strong>straggling</strong> es la dispersión estadística de las pérdidas de energía, que ensancha el pico de Bragg en la dirección longitudinal. Los iones más pesados tienen menos dispersión lateral y menos straggling.
+  </div>
+
+  <!-- ============================================ -->
+  <h2 id="s7">7. Figura 3 interactiva: dispersión lateral y straggling</h2>
+  <p>La Figura 3 compara la anchura lateral $\sigma_{\text{lat}}$ y la anchura longitudinal $\sigma_{\text{long}}$ en función de la profundidad relativa $z/R$, para protones e iones de carbono.</p>
+
+  <div class="interactive-figure">
+    <div class="figure-title">Figura 3: Dispersión lateral y straggling — protones vs iones de carbono</div>
+    <div id="plot_scatter" class="plot-area"></div>
+    <div class="controls" style="grid-template-columns: 1fr 1fr;">
+      <div class="control-panel">
+        <h4>Partícula</h4>
+        <select id="sel_particle_scatter">
+          <option value="protons" selected>Protones</option>
+          <option value="carbon">Iones de carbono</option>
+        </select>
+      </div>
+      <div class="control-panel">
+        <h4>Profundidad relativa</h4>
+        <label class="slider-row">
+          $z/R$: <span id="v_z_scatter" class="slider-val">0.50</span>
+          <input type="range" id="s_z_scatter" min="0" max="1" step="0.01" value="0.5">
+        </label>
+      </div>
+    </div>
+    <div id="stats_scatter" class="stats"></div>
+    <div class="guide-box">
+      <strong>Qué observar en la Figura 3.</strong>
+      <ol>
+        <li>Los <strong>protones</strong> tienen mayor dispersión lateral (haz más ancho) y mayor straggling (pico menos definido).</li>
+        <li>Los <strong>iones de carbono</strong> mantienen un haz más estrecho y un pico más fino.</li>
+        <li>Mueve el slider para ver el valor de $\sigma_{\text{lat}}$ y $\sigma_{\text{long}}$ en cada profundidad.</li>
+      </ol>
+    </div>
+    <div class="caption">
+      <strong>Epígrafe:</strong> Dispersión lateral y straggling para protones e iones de carbono. Los iones de carbono, por su mayor masa, sufren menos scattering múltiple y tienen menos straggling: haz más estrecho, pico más definido. Valores aproximados, de carácter didáctico.
+    </div>
+  </div>
+
+  <!-- ============================================ -->
+  <h2 id="s8">8. Ejemplos resueltos</h2>
+
+  <div class="worked-example">
+    <div class="we-header">Ejemplo desarrollado 8.1</div>
+    <div class="we-title">Alcance de una partícula alfa en tejido</div>
+    <p>Una alfa de 5.3 MeV tiene un alcance en agua de aproximadamente 38 μm. ¿Cuánto penetra en tejido blando (ρ ≈ 1.04 g/cm³)?</p>
+    <div class="step">
+      <span class="step-label">Paso 1 — Ajustar por densidad</span>
+      <div class="step-body">
+        $$ R_{\text{tejido}} \approx 38\ \mu\text{m} \cdot \frac{1.00}{1.04} \approx 36.5\ \mu\text{m} $$
+        <div class="result">La alfa penetra solo ~36.5 μm. Por eso son peligrosas solo si se internalizan.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="worked-example">
+    <div class="we-header">Ejemplo desarrollado 8.2</div>
+    <div class="we-title">Energía de protones para una profundidad dada</div>
+    <p>Para tratar un tumor a 10 cm de profundidad en agua, ¿qué energía de protones se necesita? Usa $R \approx 0.0022\,E^{1.77}$ (R en cm, E en MeV).</p>
+    <div class="step">
+      <span class="step-label">Paso 1 — Despejar E</span>
+      <div class="step-body">
+        $$ 10 = 0.0022\,E^{1.77} \Rightarrow E \approx 117\ \text{MeV} $$
+        <div class="result">~117 MeV. Coherente con la literatura: para 10 cm en agua se necesitan ~117 MeV de protones.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="worked-example">
+    <div class="we-header">Ejemplo desarrollado 8.3</div>
+    <div class="we-title">¿Por qué los fotones no tienen alcance?</div>
+    <p>Explica por qué los fotones no tienen un alcance definido como las partículas cargadas.</p>
+    <div class="step">
+      <span class="step-label">Razonamiento</span>
+      <div class="step-body">
+        <p>Los fotones no tienen carga ni masa en reposo: no pierden energía de forma continua como las partículas cargadas. En cambio, interactúan de forma probabilística (efecto fotoeléctrico, Compton, producción de pares) y su intensidad decae exponencialmente con la profundidad: $I(z) = I_0 e^{-\mu z}$. La atenuación nunca llega a cero de forma abrupta, por lo que no existe una profundidad de "alcance" finita. Se habla en cambio de capa hemirreductora (HVL) o de coeficiente de atenuación $\mu$.</p>
+        <div class="result">Por eso en la Figura 1 los fotones no tienen anotación "R" en el eje superior: su curva decae exponencialmente sin un punto final.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================ -->
+  <h2 id="s9">9. Ejercicios propuestos</h2>
+
+  <div class="exercise-box">
+    <h4>Ejercicio 1 — Alcance de electrones en aire</h4>
+    <p>Un electrón de 2 MeV tiene un alcance CSDA en agua de ~1 cm. ¿Cuál sería su alcance aproximado en aire (ρ ≈ 0.0012 g/cm³)?</p>
+    <div class="hint"><strong>Pista:</strong> el alcance másico ($R\cdot\rho$) es casi el mismo en materiales de bajo $Z$.</div>
+    <button class="solution-toggle" onclick="toggleSolution(this)">Mostrar solución</button>
+    <div class="solution-content">
+      <p>$R_{\text{aire}} \approx 1\ \text{cm} \cdot (1/0.0012) \approx 833\ \text{cm} \approx 8.3\ \text{m}$. Coincide con el dato de que una beta de 2 MeV recorre varios metros en aire.</p>
+    </div>
+  </div>
+
+  <div class="exercise-box">
+    <h4>Ejercicio 2 — Escalado del alcance con la energía</h4>
+    <p>Si se duplica la energía de un haz de protones, ¿el alcance se duplica? Justifica con $R \propto E^{1.77}$.</p>
+    <div class="hint"><strong>Pista:</strong> aplicá la relación de potencia.</div>
+    <button class="solution-toggle" onclick="toggleSolution(this)">Mostrar solución</button>
+    <div class="solution-content">
+      <p>$R(2E)/R(E) = 2^{1.77} \approx 3.4$. El alcance aumenta ~3.4 veces, más del doble.</p>
+    </div>
+  </div>
+
+  <div class="exercise-box">
+    <h4>Ejercicio 3 — ¿Por qué las alfas son peligrosas solo internamente?</h4>
+    <p>Explica, con el concepto de alcance, por qué una fuente alfa externa no es peligrosa pero una interna sí.</p>
+    <div class="hint"><strong>Pista:</strong> compará el alcance (decenas de μm) con el espesor de la capa muerta de la piel.</div>
+    <button class="solution-toggle" onclick="toggleSolution(this)">Mostrar solución</button>
+    <div class="solution-content">
+      <p>El alcance de las alfas en agua es de decenas de μm para energías típicas. La capa muerta de la piel (estrato córneo) es más gruesa y las detiene. Pero si un emisor alfa se internaliza, deposita toda su energía en un volumen muy pequeño de tejido vivo, causando daño local intenso.</p>
+    </div>
+  </div>
+
+  <div class="exercise-box">
+    <h4>Ejercicio 4 — Fotones y capa hemirreductora</h4>
+    <p>Un haz de 6 MV tiene $\mu \approx 0.034\ \text{cm}^{-1}$ en agua. ¿Cuál es la capa hemirreductora (HVL)?</p>
+    <div class="hint"><strong>Pista:</strong> HVL = $\ln(2)/\mu$.</div>
+    <button class="solution-toggle" onclick="toggleSolution(this)">Mostrar solución</button>
+    <div class="solution-content">
+      <p>HVL = $\ln(2)/0.034 \approx 20.4\ \text{cm}$. Es decir, cada ~20 cm de agua, la intensidad del haz se reduce a la mitad.</p>
+    </div>
+  </div>
+
+  <!-- ============================================ -->
+  <h2 id="s10">10. Conclusiones</h2>
+  <ol>
+    <li><strong>El poder de frenado</strong> $S = -dE/dx$ describe la energía perdida por unidad de longitud. Para partículas pesadas, $S \propto z^2/v^2$, lo que produce el pico de Bragg.</li>
+    <li><strong>El pico de Bragg</strong> es la concentración de dosis al final del recorrido. Es la base física de la protonterapia y la terapia con iones de carbono.</li>
+    <li><strong>Los electrones</strong> no tienen pico de Bragg: su curva muestra buildup rápido hasta $d_{\max}$ y caída suave hasta $R_p$.</li>
+    <li><strong>Los fotones</strong> tampoco tienen pico ni alcance definido: su dosis sigue buildup + atenuación exponencial, con un coeficiente $\mu$ que depende de la energía.</li>
+    <li><strong>El alcance CSDA</strong> escala como $R \propto E^p$ con $p$ entre 1 (electrones) y 2.1 (iones de carbono).</li>
+    <li><strong>La dispersión lateral</strong> y el <strong>straggling</strong> determinan la finura del haz. Los iones más pesados tienen menor dispersión y picos más estrechos.</li>
+  </ol>
+
+  <p>Comprender el alcance y la trayectoria de las distintas partículas es esencial para entender por qué la hadronterapia ofrece ventajas dosimétricas sobre la radioterapia con fotones, y por qué la elección de partícula y energía es una decisión clínica de primer orden.</p>
+</div>
+
+<script>
+// ============================================================
+// UTILIDADES
+// ============================================================
+function toggleSolution(btn) {
+  const content = btn.nextElementSibling;
+  content.classList.toggle('open');
+  btn.innerText = content.classList.contains('open') ? 'Ocultar solución' : 'Mostrar solución';
+  if (window.MathJax && window.MathJax.Hub) {
+    window.MathJax.Hub.Queue(["Typeset", window.MathJax.Hub, content]);
+  }
+}
+window.toggleSolution = toggleSolution;
+
+// ============================================================
+// INTERPOLACIÓN LOG-LOG (con extrapolación por ley de potencia)
+// ============================================================
+function interpLogLog(x, xArr, yArr) {
+  if (x <= xArr[0]) return yArr[0];
+  if (x >= xArr[xArr.length - 1]) return yArr[yArr.length - 1];
+  for (let i = 0; i < xArr.length - 1; i++) {
+    if (x >= xArr[i] && x <= xArr[i + 1]) {
+      const t = (Math.log(x) - Math.log(xArr[i])) / (Math.log(xArr[i + 1]) - Math.log(xArr[i]));
+      return Math.exp(Math.log(yArr[i]) + t * (Math.log(yArr[i + 1]) - Math.log(yArr[i])));
+    }
+  }
+  return yArr[yArr.length - 1];
+}
+
+// ============================================================
+// DATOS: ALCANCE CSDA EN AGUA (cm)
+// ============================================================
+const RANGE_DATA = {
+  electrons: {
+    energies: [0.5, 1, 2, 5, 10, 20],
+    ranges:   [0.18, 0.44, 1.0, 2.6, 5.0, 9.5]
+  },
+  protons: {
+    energies: [10, 30, 70, 100, 150, 200, 300],
+    ranges:   [0.125, 0.896, 4.41, 7.8, 15.5, 25.0, 51.9]
+  },
+  alpha: {
+    energies: [1, 2, 3, 5.3, 7.7, 10],
+    ranges:   [0.00028, 0.00075, 0.0014, 0.0038, 0.0065, 0.0103]
+  },
+  carbon: {
+    energies: [100, 150, 200, 300, 400],
+    ranges:   [1.5, 4.5, 8.7, 17.2, 27.4]
+  }
+};
+
+// Tabla de coeficientes de atenuación lineal efectivos para fotones en agua
+const PHOTON_MU_TABLE = {
+  energies: [0.5, 1, 2, 4, 6, 10, 15, 20, 25],
+  mus:      [0.100, 0.065, 0.052, 0.040, 0.034, 0.028, 0.024, 0.021, 0.019]
+};
+
+function getPhotonMu(E) {
+  if (E <= PHOTON_MU_TABLE.energies[0]) return PHOTON_MU_TABLE.mus[0];
+  const n = PHOTON_MU_TABLE.energies.length;
+  if (E >= PHOTON_MU_TABLE.energies[n - 1]) return PHOTON_MU_TABLE.mus[n - 1];
+  return interpLogLog(E, PHOTON_MU_TABLE.energies, PHOTON_MU_TABLE.mus);
+}
+
+function getPhotonBuildup(E) {
+  return 0.4 + 0.12 * E;
+}
+
+// Configuración de sliders por partícula
+const E_CONFIG = {
+  photons:   { min: 0.5, max: 25,  step: 0.5, default: 6,   unit: 'MV'    },
+  electrons: { min: 0.5, max: 25,  step: 0.5, default: 10,  unit: 'MeV'   },
+  protons:   { min: 10,  max: 300, step: 5,   default: 150, unit: 'MeV'   },
+  alpha:     { min: 0.5, max: 10,  step: 0.5, default: 5,   unit: 'MeV'   },
+  carbon:    { min: 50,  max: 400, step: 10,  default: 200, unit: 'MeV/u' }
+};
+
+const ALL_PARTICLES = ['photons', 'electrons', 'protons', 'alpha', 'carbon'];
+
+const PARTICLE_COLORS = {
+  photons: '#7f8c8d', electrons: '#e67e22', protons: '#2980b9',
+  alpha: '#c0392b', carbon: '#16a085'
+};
+
+const PARTICLE_NAMES = {
+  photons: 'Fotones', electrons: 'Electrones', protons: 'Protones',
+  alpha: 'Partículas alfa', carbon: 'Iones de carbono'
+};
+
+// ============================================================
+// ALCANCE CON EXTRAPOLACIÓN
+// ============================================================
+function getRange(particle, E) {
+  if (particle === 'photons') return null;
+  const d = RANGE_DATA[particle];
+  if (!d) return null;
+  const eArr = d.energies;
+  const rArr = d.ranges;
+  const n = eArr.length;
+
+  if (E <= eArr[0]) {
+    // Extrapolación por ley de potencia hacia E más bajas
+    const p = Math.log(rArr[1] / rArr[0]) / Math.log(eArr[1] / eArr[0]);
+    return rArr[0] * Math.pow(E / eArr[0], p);
+  }
+  if (E >= eArr[n - 1]) {
+    // Extrapolación por ley de potencia hacia E más altas
+    const p = Math.log(rArr[n - 1] / rArr[n - 2]) / Math.log(eArr[n - 1] / eArr[n - 2]);
+    return rArr[n - 1] * Math.pow(E / eArr[n - 1], p);
+  }
+  return interpLogLog(E, eArr, rArr);
+}
+
+function formatLength(cm) {
+  if (cm < 0.01) return (cm * 10000).toFixed(1) + ' μm';
+  if (cm < 1)    return (cm * 10).toFixed(2) + ' mm';
+  return cm.toFixed(2) + ' cm';
+}
+
+function formatLengthShort(cm) {
+  if (cm < 0.01) return (cm * 10000).toFixed(0) + ' μm';
+  if (cm < 1)    return (cm * 10).toFixed(1) + ' mm';
+  return cm.toFixed(0) + ' cm';
+}
+
+// ============================================================
+// MODELO DE CURVA DE DOSIS EN PROFUNDIDAD
+// ============================================================
+function depthDose(particle, E, zArr) {
+  // Fotones: buildup + atenuación exponencial (μ y buildup dependen de E)
+  if (particle === 'photons') {
+    const mu = getPhotonMu(E);
+    const buildup = getPhotonBuildup(E);
+    const D = zArr.map(z => (1 - Math.exp(-z / buildup)) * Math.exp(-mu * z));
+    const maxD = Math.max(...D, 1e-12);
+    return D.map(v => v / maxD);
+  }
+
+  const R = getRange(particle, E);
+  if (R === null || R <= 0) return zArr.map(() => 0);
+
+  // Electrones: buildup rápido + caída sigmoidea
+  if (particle === 'electrons') {
+    const d_max = 0.4 * R;
+    const b = 0.03 * R;
+    const z50 = 0.85 * R;
+    const w  = 0.05 * R;
+    return zArr.map(z => {
+      if (z < d_max) return 1 - Math.exp(-z / b);
+      return 1 / (1 + Math.exp((z - z50) / w));
+    });
+  }
+
+  // Partículas pesadas: meseta + gaussiana en R
+  let sigma, entrance, tailAmp;
+  if (particle === 'protons') {
+    sigma = Math.max(0.05 * R, 0.1); entrance = 0.25; tailAmp = 0.0;
+  } else if (particle === 'alpha') {
+    sigma = Math.max(0.03 * R, 0.0005); entrance = 0.15; tailAmp = 0.0;
+  } else {
+    sigma = Math.max(0.03 * R, 0.05); entrance = 0.20; tailAmp = 0.05;
+  }
+
+  const D = zArr.map(z => {
+    if (z > R) return tailAmp * Math.exp(-(z - R) / (0.1 * R + 0.1));
+    return entrance + Math.exp(-Math.pow(z - R, 2) / (2 * sigma * sigma));
+  });
+  const maxD = Math.max(...D, 1e-12);
+  return D.map(v => v / maxD);
+}
+
+// ============================================================
+// FIGURA 1
+// ============================================================
+function getEnergy(p) {
+  return parseFloat(document.getElementById('s_E_' + p).value);
+}
+
+function getEnabledParticles() {
+  return ALL_PARTICLES.filter(p => document.getElementById('cb_' + p).checked);
+}
+
+function getMaxRangeOfEnabled() {
+  const enabled = getEnabledParticles();
+  let maxCharged = 0;
+  let hasCharged = false;
+  let hasPhotons = false;
+
+  for (const p of enabled) {
+    if (p === 'photons') { hasPhotons = true; continue; }
+    const R = getRange(p, getEnergy(p));
+    if (R !== null && R > 0) {
+      maxCharged = Math.max(maxCharged, R);
+      hasCharged = true;
+    }
+  }
+
+  if (hasCharged) {
+    // Si conviven fotones y partículas cargadas de rango muy corto,
+    // forzar al menos 5 cm para que el buildup de fotones sea visible
+    if (hasPhotons && maxCharged < 5) return 5;
+    return maxCharged;
+  }
+
+  if (hasPhotons) {
+    // Solo fotones: profundidad de referencia según μ
+    const mu = getPhotonMu(getEnergy('photons'));
+    return Math.min(2.3 / mu, 35);
+  }
+
+  return 20;
+}
+
+function updateAutoScale() {
+  const auto = document.getElementById('cb_auto').checked;
+  const slider = document.getElementById('s_xrange_bragg');
+  slider.disabled = auto;
+
+  if (auto) {
+    const maxR = getMaxRangeOfEnabled();
+    let target = maxR * 1.15;
+    if (target <= 0) target = 20;
+    const logVal = Math.max(-3, Math.min(2.5, Math.log10(target)));
+    slider.value = logVal;
+  }
+  document.getElementById('v_xrange_bragg').innerText =
+    formatLengthShort(Math.pow(10, parseFloat(slider.value)));
+}
+
+function redrawFig1() {
+  const xMax = Math.pow(10, parseFloat(document.getElementById('s_xrange_bragg').value));
+  document.getElementById('v_xrange_bragg').innerText = formatLengthShort(xMax);
+
+  const xUnit   = xMax < 0.01 ? 'μm' : (xMax < 1 ? 'mm' : 'cm');
+  const xFactor = xMax < 0.01 ? 10000 : (xMax < 1 ? 10 : 1);
+
+  const N = 800;
+  const zArrCm = [];
+  for (let i = 0; i <= N; i++) zArrCm.push(i * xMax / N);
+
+  const enabled = getEnabledParticles();
+  const traces = [];
+
+  for (const p of enabled) {
+    const E = getEnergy(p);
+    const D = depthDose(p, E, zArrCm);
+    const xDisplay = zArrCm.map(v => v * xFactor);
+    traces.push({
+      x: xDisplay, y: D, type: 'scatter', mode: 'lines',
+      name: `${PARTICLE_NAMES[p]} (${E} ${E_CONFIG[p].unit})`,
+      line: { color: PARTICLE_COLORS[p], width: 2.5 },
+      hovertemplate: `<b>${PARTICLE_NAMES[p]}</b><br>z = %{x:.3g} ${xUnit}<br>D = %{y:.3f}<extra></extra>`
+    });
+  }
+
+  const annotations = [];
+  for (const p of enabled) {
+    if (p === 'photons') continue;
+    const R = getRange(p, getEnergy(p));
+    if (R === null || R <= 0) continue;
+    if (R <= xMax && R >= xMax * 0.001) {
+      annotations.push({
+        x: R * xFactor, y: 1.02, yref: 'paper',
+        text: 'R', showarrow: false,
+        font: { size: 10, color: PARTICLE_COLORS[p] }
+      });
+    }
+  }
+
+  if (traces.length === 0) {
+    annotations.push({
+      x: 0.5, y: 0.5, xref: 'paper', yref: 'paper',
+      text: 'Activá al menos una partícula',
+      showarrow: false,
+      font: { size: 14, color: '#999' }
+    });
+  }
+
+  Plotly.react('plot_bragg', traces, {
+    xaxis: {
+      title: 'Profundidad (' + xUnit + ')',
+      range: [0, xMax * xFactor], fixedrange: false
+    },
+    yaxis: { title: 'Dosis relativa', range: [0, 1.08], fixedrange: false },
+    annotations,
+    legend: {
+      x: 1.02, y: 1,
+      xanchor: 'left', yanchor: 'top',
+      bgcolor: 'rgba(255,255,255,0.95)',
+      bordercolor: '#d0d0d0', borderwidth: 1
+    },
+    margin: { l: 70, r: 210, t: 20, b: 55 },
+    plot_bgcolor: '#fafafa', paper_bgcolor: '#fafafa'
+  }, { responsive: true, displayModeBar: false });
+
+  let statsHTML = '';
+  for (const p of enabled) {
+    const E = getEnergy(p);
+    let info;
+    if (p === 'photons') {
+      const mu = getPhotonMu(E);
+      const hvl = Math.log(2) / mu;
+      info = `HVL ≈ ${formatLength(hvl)}`;
+    } else {
+      const R = getRange(p, E);
+      info = R === null ? '—' : `R ≈ ${formatLength(R)}`;
+    }
+    statsHTML +=
+      `<span class="stat-item">` +
+        `<span class="swatch-inline" style="background:${PARTICLE_COLORS[p]};"></span>` +
+        `<span class="lbl">${PARTICLE_NAMES[p]} (${E} ${E_CONFIG[p].unit}):</span> ` +
+        `<span class="val">${info}</span>` +
+      `</span>`;
+  }
+  if (!statsHTML) statsHTML = '<span class="stat-item"><span class="lbl">Ninguna partícula activa</span></span>';
+  document.getElementById('stats_bragg').innerHTML = statsHTML;
+}
+
+function onEnergyChange(p) {
+  const E = getEnergy(p);
+  document.getElementById('v_E_' + p).innerText = E + ' ' + E_CONFIG[p].unit;
+  if (document.getElementById('cb_auto').checked) updateAutoScale();
+  redrawFig1();
+}
+
+function onCheckboxChange(p) {
+  const enabled = document.getElementById('cb_' + p).checked;
+  document.getElementById('s_E_' + p).disabled = !enabled;
+  document.getElementById('v_E_' + p).style.opacity = enabled ? '1' : '0.4';
+  document.getElementById('cb_' + p).parentElement.style.opacity = enabled ? '1' : '0.5';
+  if (document.getElementById('cb_auto').checked) updateAutoScale();
+  redrawFig1();
+}
+
+function onSliderChange() {
+  if (document.getElementById('cb_auto').checked) {
+    document.getElementById('cb_auto').checked = false;
+  }
+  document.getElementById('s_xrange_bragg').disabled = false;
+  redrawFig1();
+}
+
+function onAutoChange() {
+  updateAutoScale();
+  redrawFig1();
+}
+
+// ============================================================
+// FIGURA 2
+// ============================================================
+function buildFig2() {
+  const traces = [];
+  for (const key of ['electrons', 'protons', 'alpha', 'carbon']) {
+    const d = RANGE_DATA[key];
+    traces.push({
+      x: d.energies, y: d.ranges,
+      type: 'scatter', mode: 'lines+markers',
+      name: PARTICLE_NAMES[key],
+      line: { color: PARTICLE_COLORS[key], width: 2.5 },
+      marker: { size: 8, color: PARTICLE_COLORS[key] }
+    });
+  }
+
+  Plotly.newPlot('plot_range', traces, {
+    xaxis: { title: 'Energía cinética (MeV o MeV/u)', type: 'log', range: [-1, 3], fixedrange: false },
+    yaxis: { title: 'Alcance CSDA en agua (cm)', type: 'log', range: [-4, 2.5], fixedrange: false },
+    legend: { x: 1.02, y: 1, xanchor: 'left', yanchor: 'top',
+              bgcolor: 'rgba(255,255,255,0.9)' },
+    margin: { l: 70, r: 180, t: 20, b: 55 },
+    plot_bgcolor: '#fafafa', paper_bgcolor: '#fafafa'
+  }, { responsive: true, displayModeBar: false });
+}
+
+// ============================================================
+// FIGURA 3
+// ============================================================
+function updateFig3() {
+  const particle = document.getElementById('sel_particle_scatter').value;
+  const zRel = parseFloat(document.getElementById('s_z_scatter').value);
+  document.getElementById('v_z_scatter').innerText = zRel.toFixed(2);
+
+  let sigmaLatBase, sigmaLongBase;
+  if (particle === 'protons') {
+    sigmaLatBase = 0.15; sigmaLongBase = 0.08;
+  } else {
+    sigmaLatBase = 0.04; sigmaLongBase = 0.03;
+  }
+
+  const sigmaLat = sigmaLatBase * (1 + 2.5 * zRel * zRel);
+  const sigmaLong = sigmaLongBase * (1 + 1.5 * zRel);
+
+  const zArr = [];
+  for (let i = 0; i <= 100; i++) zArr.push(i / 100);
+
+  const traces = [
+    { x: zArr, y: zArr.map(z => sigmaLatBase * (1 + 2.5 * z * z)),
+      type: 'scatter', mode: 'lines', name: 'σ lateral (cm)',
+      line: { color: '#2980b9', width: 2.5 } },
+    { x: zArr, y: zArr.map(z => sigmaLongBase * (1 + 1.5 * z)),
+      type: 'scatter', mode: 'lines', name: 'σ longitudinal (cm)',
+      line: { color: '#c0392b', width: 2.5, dash: 'dash' } },
+    { x: [zRel], y: [sigmaLat], type: 'scatter', mode: 'markers',
+      marker: { color: '#2980b9', size: 14, symbol: 'circle', line: { color: 'white', width: 2 } },
+      showlegend: false },
+    { x: [zRel], y: [sigmaLong], type: 'scatter', mode: 'markers',
+      marker: { color: '#c0392b', size: 14, symbol: 'diamond', line: { color: 'white', width: 2 } },
+      showlegend: false }
+  ];
+
+  Plotly.react('plot_scatter', traces, {
+    xaxis: { title: 'Profundidad relativa z/R', range: [0, 1], fixedrange: false },
+    yaxis: { title: 'Anchura σ (cm)', range: [0, 0.6], fixedrange: false },
+    legend: { x: 1.02, y: 1, xanchor: 'left', yanchor: 'top',
+              bgcolor: 'rgba(255,255,255,0.9)' },
+    margin: { l: 70, r: 180, t: 20, b: 55 },
+    plot_bgcolor: '#fafafa', paper_bgcolor: '#fafafa'
+  }, { responsive: true, displayModeBar: false });
+
+  const particleName = particle === 'protons' ? 'Protones' : 'Iones de carbono';
+  document.getElementById('stats_scatter').innerHTML =
+    `<span class="stat-item"><span class="lbl">Partícula:</span> <span class="val">${particleName}</span></span>` +
+    `<span class="stat-item"><span class="lbl">σ lateral:</span> <span class="val">${sigmaLat.toFixed(3)} cm</span></span>` +
+    `<span class="stat-item"><span class="lbl">σ longitudinal:</span> <span class="val">${sigmaLong.toFixed(3)} cm</span></span>`;
+}
+
+// ============================================================
+// HANDLERS E INICIALIZACIÓN
+// ============================================================
+function attachHandlers() {
+  for (const p of ALL_PARTICLES) {
+    document.getElementById('cb_' + p).addEventListener('change', () => onCheckboxChange(p));
+    document.getElementById('s_E_' + p).addEventListener('input', () => onEnergyChange(p));
+  }
+  document.getElementById('s_xrange_bragg').addEventListener('input', onSliderChange);
+  document.getElementById('cb_auto').addEventListener('change', onAutoChange);
+
+  document.getElementById('sel_particle_scatter').addEventListener('change', updateFig3);
+  document.getElementById('s_z_scatter').addEventListener('input', updateFig3);
+}
+
+function initAll() {
+  if (typeof Plotly === 'undefined') { setTimeout(initAll, 100); return; }
+
+  for (const p of ALL_PARTICLES) {
+    const E = getEnergy(p);
+    document.getElementById('v_E_' + p).innerText = E + ' ' + E_CONFIG[p].unit;
+  }
+
+  updateAutoScale();
+  redrawFig1();
+  buildFig2();
+  updateFig3();
+  attachHandlers();
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initAll);
+} else {
+  initAll();
+}
+</script>
+</body>
+</html>
