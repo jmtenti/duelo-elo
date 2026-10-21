@@ -2141,6 +2141,180 @@
         "titulo": "Calibración de cámaras de ionización: el factor $N_{D,w}$",
         "texto": "En dosimetría de referencia de radioterapia, la dosis absorbida en agua se determina con una cámara de ionización calibrada en un laboratorio de metrología. El factor de calibración que relaciona la lectura del instrumento con la dosis absorbida en agua es el **factor $N_{D,w}$** (o $N_{D,w,Q_0}$, donde $Q_0$ es la calidad de referencia).\n\nEl protocolo de calibración (por ejemplo, el TRS-398 del OIEA) se basa en la relación $D_w = M \\cdot N_{D,w}$, donde $D_w$ es la dosis absorbida en agua en el punto de medición, y $M$ es la lectura del electrómetro (en unidades de carga, como nC) corregida por una serie de factores:\n\n$M = M_{lect} \\cdot k_{TP} \\cdot k_{pol} \\cdot k_s \\cdot k_{elec} \\cdot k_{ion}$\n\nLos factores de corrección típicos son: $k_{TP}$ (temperatura y presión), $k_{pol}$ (polaridad), $k_s$ (recombinación/saturación), $k_{elec}$ (calibración del electrómetro) y $k_{ion}$ (recombinación iónica, dependiente de la dosis por pulso).\n\nEl factor $N_{D,w}$ es específico de cada cámara y de cada calidad de haz de referencia. Se determina experimentalmente en un laboratorio de metrología (como un laboratorio nacional de física de radiaciones) calibrando la cámara contra un patrón primario (por ejemplo, una cámara de aire libre o un calorímetro de agua).\n\nPara usar la cámara en una calidad de haz clínica $Q$ distinta de la de calibración $Q_0$, se aplica un factor de corrección por calidad del haz $k_{Q,Q_0}$:\n\n$D_{w,Q} = M_Q \\cdot N_{D,w,Q_0} \\cdot k_{Q,Q_0}$\n\nLos factores $k_{Q,Q_0}$ se tabulan en los protocolos para distintas energías de fotones y electrones, y dependen del tipo de cámara (cilíndrica o de placas paralelas).\n\nEl protocolo TRS-398 del OIEA (2000) es el estándar internacional para la dosimetría de referencia en radioterapia, y el TG-51 de la AAPM es el equivalente estadounidense. Ambos se basan en el mismo principio de calibración con $N_{D,w}$. La calibración debe renovarse periódicamente (típicamente cada 2-3 años) y verificarse con auditorías dosimétricas (por ejemplo, con TLD o alanina) para garantizar la trazabilidad y la precisión de la dosimetría clínica."
       }
+    },
+    {
+      "id": 117,
+      "elo": 2690,
+      "tema": "Detección y dosimetría",
+      "q": "El efecto de pared en una cámara de ionización se refiere a:",
+      "opts": [
+        "La diferencia entre la respuesta de la cámara y la dosis en el medio circundante cuando los materiales de la pared y del gas no son tejido-equivalentes",
+        "La atenuación del haz por la pared externa de la cámara",
+        "La reflexión de la radiación en las paredes del laboratorio",
+        "La carga acumulada en las paredes aislantes de la cámara"
+      ],
+      "a": 0,
+      "sol": "El efecto de pared aparece cuando el material de la pared de la cámara tiene un número atómico distinto al del medio circundante (agua o tejido). Los electrones secundarios generados en la pared pueden tener una fluencia o un espectro distinto al que existiría en el medio, alterando la lectura. Para minimizarlo, las cámaras de dosimetría de referencia se construyen con paredes de grafito, plástico conductor o material tejido-equivalente, o se aplican factores de corrección.",
+      "teoria": {
+        "titulo": "Efecto de pared y teoría de la cavidad",
+        "texto": "El efecto de pared es uno de los conceptos más importantes en dosimetría con cámaras de ionización. Aparece cuando los materiales que rodean el volumen gaseoso (pared, electrodo central, ventana) no son tejido-equivalentes, es decir, cuando su número atómico efectivo $Z_{eff}$ difiere del del medio en el que se quiere medir la dosis (agua o tejido).\n\nLa base teórica es la **teoría de la cavidad de Bragg-Gray**: si la cavidad gaseosa es pequeña comparada con el alcance de los electrones secundarios, la dosis en el gas está relacionada con la dosis en el medio por el cociente de poderes de frenado másicos:\n\n$$D_{medio} = D_{gas} \\cdot \\frac{(S/\\rho)_{medio}}{(S/\\rho)_{gas}}$$\n\nSin embargo, esta relación supone que el espectro de electrones que atraviesa la cavidad es el mismo que existiría en el medio sin la cavidad. Si la pared tiene un $Z$ distinto, los electrones secundarios generados en ella tienen un espectro diferente (más electrones de baja energía en paredes de alto $Z$, por ejemplo), y la lectura de la cámara se desvía de la dosis real.\n\nExisten dos casos límite:\n\n- **Cavidad grande** (pared dominante): la respuesta depende del material de la pared, porque los electrones que ionizan el gas provienen casi todos de la pared. Se corrige con el factor $k_{wall}$ o construyendo la pared tejido-equivalente.\n- **Cavidad pequeña** (medio dominante): los electrones provienen del medio externo, y la respuesta es casi independiente de la pared. Corresponde a la teoría de Bragg-Gray.\n\nPara minimizar el efecto de pared, las cámaras de referencia se construyen con paredes de grafito (bajo $Z$) o de plástico conductor tejido-equivalente (como A-150 o RW-1). Además, se aplican factores de corrección calculados con códigos de Monte Carlo o tabulados en protocolos (como el TRS-398 del OIEA). En haces de baja energía (< 100 keV), el efecto de pared es especialmente importante, y las cámaras deben elegirse cuidadosamente."
+      },
+      "link": {
+        "url": "interactivos/camaras-de-ionizacion.html",
+        "texto": "🔗 Abrir recurso"
+      }
+    },
+    {
+      "id": 118,
+      "elo": 2720,
+      "tema": "Detección y dosimetría",
+      "q": "La cámara Farmer, estándar en dosimetría de radioterapia, se caracteriza por:",
+      "opts": [
+        "Ser una cámara cilíndrica de ~0.6 cm³ con paredes de grafito o plástico conductor, diseñada para haces de fotones y electrones de alta energía",
+        "Ser una cámara esférica de gran volumen para medir radiación ambiental",
+        "Ser una cámara de placas paralelas de 1 mm de separación para dosimetría superficial",
+        "Ser una cámara de pozo con cavidad central para braquiterapia"
+      ],
+      "a": 0,
+      "sol": "La cámara Farmer es una cámara de ionización cilíndrica (tipo dedal) de aproximadamente 0.6 cm³ de volumen, con paredes de grafito o plástico conductor y electrodo central de aluminio. Es el instrumento de referencia para la calibración de haces de fotones y electrones de alta energía en radioterapia (energías de ⁶⁰Co o superiores), y está diseñada para tener una respuesta estable, lineal y relativamente independiente de la energía.",
+      "teoria": {
+        "titulo": "Cámara Farmer",
+        "texto": "La cámara Farmer es una cámara de ionización cilíndrica (tipo dedal) que se ha convertido en el estándar de facto para la dosimetría de referencia en radioterapia de alta energía. Debe su nombre a F. T. Farmer, quien la desarrolló en la década de 1950.\n\nCaracterísticas constructivas típicas:\n\n- **Volumen activo**: ~0.6 cm³ (0.5-0.7 cm³). El volumen es un compromiso: lo bastante grande para dar una señal medible en dosis clínicas (~nC por Gy), y lo bastante pequeño para tener buena resolución espacial.\n- **Forma**: cilíndrica, de aproximadamente 6-7 mm de longitud y 6-7 mm de diámetro exterior, con el electrodo central de ~1 mm de diámetro.\n- **Pared**: grafito, plástico conductor o material tejido-equivalente (como C552, A-150). Se busca bajo $Z$ para minimizar el efecto de pared y aproximar la respuesta a la del agua.\n- **Electrodo central**: aluminio, grafito o material de bajo $Z$.\n- **Conexión**: cable triaxial al electrómetro, con guarda activa para eliminar corrientes de fuga.\n- **Ventilada**: la mayoría son ventiladas (abiertas al aire ambiente) y requieren corrección por temperatura y presión ($k_{TP}$).\n\nLa cámara Farmer se usa con un electrómetro de alta precisión (resolución de ~pC o mejor), y su calibración se realiza en un laboratorio de metrología, con trazabilidad al patrón primario. El factor de calibración $N_{D,w}$ (dosis en agua por unidad de lectura) se aplica junto con correcciones por temperatura, presión, polaridad, recombinación, calibración del electrómetro y calidad del haz.\n\nDiseños modernos incluyen la cámara \"Farmer-like\" sellada (con gas a presión), que evita la corrección por temperatura y presión, y cámaras con volumen reducido (0.1-0.3 cm³) para haces pequeños o técnicas de alta conformación. Sin embargo, la cámara Farmer cilíndrica de 0.6 cm³ sigue siendo el instrumento de referencia de los protocolos TRS-398 (OIEA) y TG-51 (AAPM).\n\nSu geometría cilíndrica la hace adecuada para haces de fotones y electrones de alta energía (≥ ⁶⁰Co), donde la respuesta es relativamente plana con la energía. Para haces de baja energía (< 100 keV) o para dosimetría superficial, se prefieren cámaras de placas paralelas o de ventana fina."
+      },
+      "link": {
+        "url": "interactivos/camaras-de-ionizacion.html",
+        "texto": "🔗 Abrir recurso"
+      }
+    },
+    {
+      "id": 119,
+      "elo": 2750,
+      "tema": "Detección y dosimetría",
+      "q": "El factor de corrección por temperatura y presión $k_{TP}$ en una cámara de ionización ventilada se calcula como:",
+      "opts": [
+        "$k_{TP} = \\frac{P_0}{P} \\cdot \\frac{T}{T_0}$ con $T$ en kelvin y $P_0$, $T_0$ las condiciones de referencia (101,3 kPa y 293,15 K)",
+        "$k_{TP} = \\frac{P}{P_0} \\cdot \\frac{T_0}{T}$",
+        "$k_{TP} = \\frac{T - T_0}{P - P_0}$",
+        "$k_{TP} = P \\cdot T$ con $T$ en kelvin"
+      ],
+      "a": 0,
+      "sol": "La masa de aire en el volumen sensible de una cámara ventilada cambia con la temperatura y la presión según la ley de los gases ideales: $m \\propto P/T$. Si la cámara se calibró a $P_0 = 101{,}3$ kPa y $T_0 = 293{,}15$ K (20 °C), la corrección para medir en otras condiciones es $k_{TP} = (P_0/P)(T/T_0)$ con $T$ en kelvin. La lectura medida se multiplica por $k_{TP}$ para obtener la lectura equivalente en condiciones de referencia.",
+      "teoria": {
+        "titulo": "Corrección por temperatura y presión",
+        "texto": "Las cámaras de ionización ventiladas (abiertas al aire) tienen su volumen sensible lleno de aire a la presión y temperatura ambientales. Como la masa de aire dentro de la cavidad depende de $P$ y $T$ (ley de los gases ideales), la respuesta de la cámara cambia con las condiciones ambientales, y debe corregirse para referir las medidas a las condiciones de calibración.\n\nLa masa de aire en el volumen $V$ es $m = \\rho V = \\frac{P M}{RT} V$, donde $M$ es la masa molar del aire y $R$ la constante de los gases. Si la cámara se calibró en condiciones de referencia $(P_0, T_0)$ y se usa en condiciones $(P, T)$, la relación de masas es:\n\n$$\\frac{m}{m_0} = \\frac{P/T}{P_0/T_0} = \\frac{P \\cdot T_0}{P_0 \\cdot T}$$\n\nLa lectura de la cámara es proporcional a la masa de aire (para la misma dosis en el punto). Por lo tanto, la lectura medida $M_{med}$ debe multiplicarse por el factor de corrección:\n\n$$k_{TP} = \\frac{P_0}{P} \\cdot \\frac{T}{T_0}$$\n\npara obtener la lectura equivalente a condiciones de referencia: $M_{corr} = M_{med} \\cdot k_{TP}$.\n\nLas condiciones de referencia típicas son $P_0 = 101{,}3$ kPa (760 mmHg) y $T_0 = 293{,}15$ K (20 °C), aunque algunos protocolos usan 22 °C (295,15 K). La temperatura debe expresarse siempre en kelvin, no en grados Celsius.\n\nEjemplo: si la cámara se calibra a 20 °C y 101,3 kPa, y se usa a 25 °C y 98,0 kPa, el factor es:\n\n$$k_{TP} = \\frac{101{,}3}{98{,}0} \\cdot \\frac{298{,}15}{293{,}15} \\approx 1{,}034 \\cdot 1{,}017 \\approx 1{,}052$$\n\nEs decir, la lectura medida debe multiplicarse por ~1,05 para obtener la lectura en condiciones de referencia. Esto refleja que a mayor temperatura y menor presión, hay menos masa de aire y, por tanto, menos señal.\n\nLas cámaras selladas (con gas a presión encerrado) no requieren esta corrección, porque la masa de gas es constante. Por eso son preferidas en condiciones donde $T$ y $P$ varían mucho (por ejemplo, en laboratorios sin climatización estricta o en aplicaciones de campo)."
+      },
+      "link": {
+        "url": "interactivos/camaras-de-ionizacion.html",
+        "texto": "🔗 Abrir recurso"
+      }
+    },
+    {
+      "id": 120,
+      "elo": 2780,
+      "tema": "Detección y dosimetría",
+      "q": "La eficiencia de colección de carga $f$ en una cámara de ionización se define como:",
+      "opts": [
+        "El cociente entre la carga colectada y la carga total producida por la radiación en el volumen sensible",
+        "El cociente entre la carga colectada y la carga inyectada por el electrómetro",
+        "El número de electrones colectados por unidad de tiempo",
+        "El cociente entre la corriente de saturación y la corriente de fuga"
+      ],
+      "a": 0,
+      "sol": "La eficiencia de colección $f$ es la fracción de la carga total producida por la radiación en el volumen sensible que efectivamente se colecta en los electrodos, antes de que se pierda por recombinación. $f = Q_{colectada}/Q_{producida}$. En la región de saturación $f \\to 1$; en la región de recombinación $f < 1$. Se corrige con el factor $k_s = 1/f$.",
+      "teoria": {
+        "titulo": "Eficiencia de colección de carga y recombinación",
+        "texto": "En una cámara de ionización, no todos los pares ión-electrón producidos por la radiación llegan a los electrodos: una fracción se recombina en el volumen gaseoso antes de ser colectada. La **eficiencia de colección de carga** $f$ cuantifica esta pérdida:\n\n$$f = \\frac{Q_{colectada}}{Q_{producida}} \\leq 1$$\n\nEn la región de saturación, el campo eléctrico es suficientemente intenso para que todos los pares se separen y lleguen a los electrodos, y $f \\approx 1$. En la región de recombinación, $f < 1$, y la corriente medida es menor que la corriente de saturación.\n\nLa fracción de carga perdida depende de:\n\n- **Tensión aplicada** $V$: mayor tensión reduce la recombinación.\n- **Tasa de dosis** (o densidad de ionización): mayor tasa produce más pares por unidad de volumen y tiempo, aumentando la probabilidad de recombinación.\n- **Geometría de la cámara** (distancia entre electrodos, radio del electrodo central).\n- **Tipo de radiación** (continua o pulsada).\n- **Gas** (tipo, presión).\n\nPara corregir la lectura por recombinación, se aplica el factor $k_s = 1/f$. Existen dos regímenes:\n\n1. **Radiación continua** (por ejemplo, fuentes de ⁶⁰Co, rayos X): la teoría de Boag da\n\n$$f_v = \\frac{1}{1 + \\frac{a \\cdot I}{V^2}} \\quad \\text{(aproximación)}$$\n\ndonde $a$ es un parámetro empírico y $I$ la corriente medida.\n\n2. **Radiación pulsada** (aceleradores lineales): la carga se produce en pulsos cortos (~μs), y la recombinación inicial (durante el pulso) es la dominante. La teoría de Boag da\n\n$$f = \\frac{\\ln(1+u)}{u}, \\qquad u = \\frac{\\mu \\, r \\, d^2}{V}$$\n\ndonde $\\mu$ depende del gas, $r$ es la densidad de ionización por pulso y $d$ la distancia entre electrodos.\n\nEn la práctica clínica, el factor $k_s$ se determina experimentalmente con el método de las dos tensiones: se mide la carga a la tensión de operación $V_H$ y a una tensión menor $V_L$ (típicamente $V_H/2$), y se extrapola a tensión infinita usando la fórmula de Boag o el método de Jaffé. Para cámaras que operan bien dentro de la meseta de saturación, $k_s$ es típicamente 1,00-1,02."
+      }
+    },
+    {
+      "id": 121,
+      "elo": 2810,
+      "tema": "Detección y dosimetría",
+      "q": "Los dosímetros de luminiscencia ópticamente estimulada (OSL) se leen mediante:",
+      "opts": [
+        "Estimulación con luz de una longitud de onda específica, que libera electrones atrapados y produce luz de fluorescencia proporcional a la dosis",
+        "Calentamiento controlado del dosímetro, que libera luz termoluminiscente",
+        "Disolución del dosímetro y medida espectrofotométrica",
+        "Medición de la corriente eléctrica inducida por la radiación"
+      ],
+      "a": 0,
+      "sol": "Los dosímetros OSL (como el Al₂O₃:C o el BeO) almacenan energía de la radiación en trampas metaestables, igual que los TLD. Pero en lugar de calentarlos para leerlos, se estimulan con luz de una longitud de onda específica (por ejemplo, LED azul), que libera los electrones atrapados y produce luz de fluorescencia (OSL) proporcional a la dosis. La lectura es óptica y puede ser repetida (aunque con pérdida de señal), y el dosímetro puede reutilizarse.",
+      "teoria": {
+        "titulo": "Dosímetros OSL (luminiscencia ópticamente estimulada)",
+        "texto": "Los dosímetros de luminiscencia ópticamente estimulada (OSL, del inglés *Optically Stimulated Luminescence*) son dosímetros pasivos de estado sólido que, al igual que los TLD, almacenan energía de la radiación en trampas metaestables. La diferencia está en el método de lectura: en lugar de calentar el material, se estimula con luz.\n\nEl mecanismo es el siguiente:\n\n1. La radiación ionizante promueve electrones a la banda de conducción, que son atrapados en niveles metaestables creados por defectos o impurezas (por ejemplo, vacantes de oxígeno en Al$_2$O$_3$:C).\n2. Los electrones atrapados permanecen estables a temperatura ambiente durante largos períodos.\n3. Para leer el dosímetro, se ilumina con luz de una longitud de onda específica (estimulación óptica). Los electrones atrapados absorben la energía de los fotones y escapan de las trampas.\n4. Al recombinarse con los centros de luminiscencia, emiten luz (fluorescencia OSL) cuya intensidad es proporcional al número de electrones atrapados y, por tanto, a la dosis absorbida.\n5. La luz emitida se mide con un tubo fotomultiplicador (PMT), filtrada para separar la luz de estimulación de la luz OSL.\n\nMateriales típicos: Al$_2$O$_3$:C (óxido de aluminio dopado con carbono, el más usado), BeO (óxido de berilio) y algunos sulfuros. El Al$_2$O$_3$:C es especialmente sensible y tejido-equivalente en ciertos rangos.\n\nVentajas frente a los TLD:\n\n- **Lectura óptica rápida** (~1 s por dosímetro) sin necesidad de calentar el material.\n- **Reutilizable**: el dosímetro puede borrarse con una estimulación óptica intensa y reutilizarse muchas veces.\n- **Lectura no destructiva** (aunque con pérdida parcial de señal en cada lectura).\n- **Sensibilidad** comparable o superior a los TLD para dosis bajas.\n- **Diseño compacto** y posibilidad de lectura automatizada.\n\nAplicaciones: dosimetría personal, dosimetría ambiental, dosimetría clínica *in vivo*, monitoreo de radón y dosimetría en astronautas (por ejemplo, en la ISS). El OSL es uno de los dosímetros más usados en programas de dosimetría personal en todo el mundo, junto con los TLD."
+      }
+    },
+    {
+      "id": 122,
+      "elo": 2840,
+      "tema": "Detección y dosimetría",
+      "q": "Las películas radiocrómicas se caracterizan por:",
+      "opts": [
+        "Cambiar de color o de densidad óptica al irradiarse, con una respuesta casi independiente de la energía y de la tasa de dosis, y posibilidad de lectura óptica 2D",
+        "Ser películas fotográficas convencionales que se ennegrecen por la radiación",
+        "Ser dosímetros de estado sólido que emiten luz al calentarse",
+        "Ser dosímetros químicos líquidos que cambian de pH al irradiarse"
+      ],
+      "a": 0,
+      "sol": "Las películas radiocrómicas (como EBT3, EBT-XD) contienen un monómero que polimeriza al irradiarse, cambiando el color de la película (típicamente de amarillo a azul). La densidad óptica resultante es proporcional a la dosis, y puede leerse con un escáner de documentos o un densitómetro, obteniendo una imagen 2D de la distribución de dosis. Su respuesta es casi independiente de la energía y de la tasa de dosis, lo que las hace muy útiles en radioterapia.",
+      "teoria": {
+        "titulo": "Películas radiocrómicas",
+        "texto": "Las películas radiocrómicas son dosímetros de estado sólido, en forma de película delgada, que cambian de color al irradiarse. Fueron desarrolladas como alternativa a las películas fotográficas convencionales, que tienen una respuesta dependiente de la energía (por el alto $Z$ de la plata) y problemas de manejo (revelado químico, sensibilidad a la luz).\n\nComposición y mecanismo:\n\n- La capa activa contiene un **monómero** (como un diacetileno) dispersado en una matriz polimérica.\n- Al irradiarse, el monómero **polimeriza** formando cadenas largas, lo que cambia el espectro de absorción de la película (típicamente de amarillo a azul).\n- El cambio de color es proporcional a la dosis absorbida, y puede medirse como cambio de densidad óptica con un escáner de documentos o un densitómetro.\n- La película se puede leer en 2D con un escáner de alta resolución, obteniendo un mapa de dosis.\n\nCaracterísticas clave:\n\n1. **Respuesta casi independiente de la energía**: la capa activa tiene un $Z_{eff}$ cercano al del tejido (~6-7), a diferencia de las películas radiográficas (con plata, $Z$ alto). Esto las hace útiles en haces de fotones de distintas energías y en haces de electrones.\n2. **Respuesta casi independiente de la tasa de dosis**: no hay dependencia significativa con la tasa, lo que simplifica las correcciones.\n3. **Alta resolución espacial**: la capa activa es muy delgada (~30 μm), lo que permite resolver gradientes de dosis con resolución sub-milimétrica.\n4. **Lectura 2D**: con un escáner se obtiene una imagen completa de la distribución de dosis, sin necesidad de escanear punto por punto.\n5. **Tejido-equivalente**: la respuesta es similar a la del agua/tejido, lo que evita correcciones de efecto de pared.\n\nTipos comerciales: EBT (primera generación), EBT2, EBT3, EBT-XD (para dosis altas), y películas para haces de protones y de partículas. La lectura requiere un escáner de documentos de alta calidad, calibrado con una curva dosis-respuesta (densidad óptica vs dosis) obtenida con una cámara de ionización de referencia.\n\nAplicaciones: verificación de planes de tratamiento en radioterapia (IMRT, VMAT, SBRT, protones), dosimetría de haces pequeños, control de calidad de aceleradores, dosimetría en maniquíes y dosimetría *in vivo* (con películas esterilizables). Su principal desventaja es que la respuesta puede tener cierta dependencia con la humedad y con la temperatura, y que requiere un escáner calibrado."
+      }
+    },
+    {
+      "id": 123,
+      "elo": 2870,
+      "tema": "Detección y dosimetría",
+      "q": "¿Cuál es la principal ventaja de los detectores semiconductores (como el HPGe o el Si) frente a los centelleadores para espectroscopía gamma?",
+      "opts": [
+        "Su resolución energética es mucho mejor porque la energía necesaria para crear un par electrón-hueco es mucho menor (~3 eV) que la necesaria para producir luz en un centelleador",
+        "Su eficiencia geométrica es mayor porque tienen mayor volumen",
+        "No requieren enfriamiento en ningún caso",
+        "Su tiempo de respuesta es más lento, lo que mejora la estadística"
+      ],
+      "a": 0,
+      "sol": "En un semiconductor, la energía necesaria para crear un par electrón-hueco es de ~3 eV (Ge) o ~3.6 eV (Si), mientras que en un centelleador se necesitan ~30-100 eV por fotón de luz, y en el fotomultiplicador se necesita aún más energía para producir un fotoelectrón. Como la resolución energética mejora con el número de portadores (estadística de Poisson), los semiconductores tienen una resolución mucho mejor: típicamente ~0.1% a 1 MeV para HPGe, frente a ~6-8% para NaI(Tl).",
+      "teoria": {
+        "titulo": "Detectores semiconductores vs centelleadores",
+        "texto": "Los detectores semiconductores y los centelleadores son los dos tipos principales de detectores para espectroscopía gamma. Ambos convierten la energía de la radiación en una señal eléctrica medible, pero lo hacen por mecanismos distintos y con prestaciones muy diferentes.\n\n**Centelleadores** (NaI(Tl), CsI(Tl), BGO, plásticos): la radiación excita el material, que emite luz al desexcitarse. La luz se convierte en señal eléctrica con un tubo fotomultiplicador o un fotodiodo. La energía necesaria para producir un fotón de luz es de ~30-100 eV, y el fotomultiplicador necesita más energía aún para producir un fotoelectrón útil. La resolución energética típica del NaI(Tl) es de ~6-8% a 662 keV (⁶⁰Co), limitada por la estadística de los fotones de luz y por la eficiencia de conversión del PMT.\n\n**Semiconductores** (HPGe, Si, CdTe, CZT): la radiación crea pares electrón-hueco directamente. La energía necesaria para crear un par es de ~3 eV en Ge y ~3.6 eV en Si, mucho menor que en un centelleador. Esto significa que, para una misma energía depositada, se producen muchos más portadores de carga. La resolución energética, limitada por la estadística de Poisson, mejora como $1/\\sqrt{N}$, donde $N$ es el número de portadores. Por eso los semiconductores tienen una resolución mucho mejor: ~0.1% a 1 MeV para HPGe, ~1-2% para CZT.\n\nVentajas de los semiconductores:\n- Mejor resolución energética (permite separar líneas gamma muy cercanas).\n- Mejor linealidad con la energía.\n- Posibilidad de medir la energía con precisión (espectroscopía fina).\n\nDesventajas:\n- El HPGe requiere enfriamiento con nitrógeno líquido (o enfriador mecánico) para reducir el ruido térmico.\n- Menor eficiencia (volumen limitado por la dificultad de fabricar cristales grandes y puros).\n- Más caros y complejos.\n\nVentajas de los centelleadores:\n- Mayor eficiencia (se pueden fabricar cristales grandes).\n- No requieren enfriamiento.\n- Más económicos y robustos.\n- Tiempos de respuesta más rápidos.\n\nDesventajas:\n- Peor resolución energética.\n- Respuesta no lineal con la energía (en algunos materiales).\n\nEn la práctica, los centelleadores se usan cuando se necesita alta eficiencia y no se requiere alta resolución (monitoreo, dosimetría, gammacámaras); los semiconductores se usan cuando se necesita alta resolución (espectroscopía gamma de precisión, análisis de isótopos, salvaguardias nucleares)."
+      }
+    },
+    {
+      "id": 124,
+      "elo": 2900,
+      "tema": "Detección y dosimetría",
+      "q": "La dosimetría de haces de electrones de alta energía difiere de la de fotones principalmente porque:",
+      "opts": [
+        "Los electrones tienen un alcance finito bien definido y depositán su dosis máxima cerca de la superficie, mientras que los fotones tienen un build-up y una atenuación exponencial",
+        "Los electrones no ionizan el medio y solo producen radiación de frenado",
+        "Los electrones requieren cámaras de pozo para su medición",
+        "Los electrones no se ven afectados por el efecto de pared de la cámara"
+      ],
+      "a": 0,
+      "sol": "Los haces de electrones de alta energía (típicos de 6-20 MeV en radioterapia) tienen un alcance finito en agua (unos pocos cm, dependiente de la energía) y depositan su dosis máxima cerca de la superficie (a ~1-3 cm de profundidad), seguida de una caída abrupta. Los fotones, en cambio, tienen un build-up (región de aumento de dosis hasta el máximo, a ~1-3 cm para ⁶⁰Co, más profundo para altas energías) y luego una atenuación aproximadamente exponencial. Además, los electrones tienen mayor LET y producen más radiación de frenado en materiales de alto Z.",
+      "teoria": {
+        "titulo": "Dosimetría de electrones vs fotones",
+        "texto": "La dosimetría de haces de electrones de alta energía presenta diferencias importantes respecto a la de fotones, tanto en la forma de la curva de dosis en profundidad como en los requisitos de los detectores y en las correcciones necesarias.\n\n**Curva de dosis en profundidad**\n\n- **Fotones**: la dosis en profundidad muestra una región de *build-up* (aumento inicial) hasta un máximo a una profundidad que depende de la energía (1-3 cm para ⁶⁰Co, 2-4 cm para 6-18 MV), seguida de una atenuación aproximadamente exponencial. El máximo está por debajo de la superficie porque los electrones secundarios generados en el material necesitan cierto recorrido para alcanzar el equilibrio electrónico.\n\n- **Electrones**: la dosis en profundidad muestra un máximo cerca de la superficie (a ~0.5-1.5 cm para 6-20 MeV), seguido de una caída casi lineal hasta un alcance máximo bien definido (unos pocos cm, dependiente de la energía). La caída distal es abrupta, similar al pico de Bragg de las partículas pesadas, pero menos marcada. Esto se debe a que los electrones tienen un alcance finito y bien definido, y la dispersión múltiple los desvía pero no los detiene antes del alcance máximo.\n\n**Detectores adecuados**\n\n- Para fotones de alta energía: cámaras cilíndricas tipo Farmer (0.6 cm³) con paredes de grafito o tejido-equivalente.\n- Para electrones: se prefieren cámaras de placas paralelas (volumen delgado, ventana fina) porque la cámara cilíndrica perturba más el haz (mayor efecto de pared y de desplazamiento del punto de medida). El protocolo TRS-398 recomienda cámaras de placas paralelas para electrones de energía < 10 MeV, y permite cámaras cilíndricas para energías mayores.\n\n**Correcciones específicas**\n\n- **Factor de calidad del haz $k_Q$**: para electrones, depende de $R_{50}$ (el alcance al 50% de la dosis máxima), que es un indicador de la energía. El protocolo TRS-398 tabula $k_Q$ para distintas cámaras y valores de $R_{50}$.\n- **Efecto de pared**: más importante en electrones de baja energía, donde los electrones secundarios tienen alcances cortos y la pared de la cámara puede dominar.\n- **Radiación de frenado**: los electrones de alta energía producen bremsstrahlung en el material, lo que puede contribuir a la dosis en profundidad más allá del alcance máximo (\"cola de bremsstrahlung\").\n- **Desplazamiento del punto de medida**: el volumen de la cámara cilíndrica desplaza el punto efectivo de medida hacia el interior (gradiente de dosis), lo que requiere una corrección $P_{dis}$.\n\n**Aplicaciones clínicas**\n\nLos haces de electrones se usan en radioterapia para tratar lesiones superficiales (tumores de piel, cáncer de mama en la pared torácica, lesiones de cabeza y cuello superficiales), porque su alcance finito permite tratar la superficie sin irradiar tejidos profundos. Los haces de fotones se usan para tumores profundos. La dosimetría precisa de electrones es esencial para garantizar la cobertura del tumor y la protección de los tejidos sanos."
+      }
+    },
+    {
+      "id": 125,
+      "elo": 2930,
+      "tema": "Detección y dosimetría",
+      "q": "La dosimetría *in vivo* en radioterapia tiene como objetivo principal:",
+      "opts": [
+        "Verificar que la dosis administrada al paciente coincide con la dosis prescrita por el sistema de planificación, detectando posibles errores en la preparación o ejecución del tratamiento",
+        "Medir la actividad de las fuentes radiactivas implantadas",
+        "Calibrar el acelerador lineal antes de cada tratamiento",
+        "Determinar la energía del haz de radiación en tiempo real"
+      ],
+      "a": 0,
+      "sol": "La dosimetría *in vivo* consiste en medir la dosis absorbida en el paciente durante (o inmediatamente antes/después de) el tratamiento, para verificar que coincide con la dosis prescrita. Se usan detectores como TLD, OSL, películas radiocrómicas, diodos semiconductores o cámaras de ionización pequeñas, colocados en la superficie del paciente o en cavidades naturales. Permite detectar errores de posicionamiento, de cálculo, de configuración del acelerador o de ejecución del plan.",
+      "teoria": {
+        "titulo": "Dosimetría in vivo",
+        "texto": "La dosimetría *in vivo* es la medición de la dosis absorbida en el paciente (o en un maniquí que lo representa) durante la radioterapia, con el objetivo de verificar que la dosis administrada coincide con la prescrita por el sistema de planificación. Es una herramienta de control de calidad de última línea, que detecta errores que podrían pasar desapercibidos en las verificaciones previas.\n\n**Objetivos**\n\n1. Verificar la dosis en puntos de referencia (por ejemplo, en la entrada del haz, en la superficie del paciente, o en un punto interno accesible).\n2. Detectar errores en el posicionamiento del paciente, en la configuración del acelerador, en la ejecución del plan o en la calibración del sistema de planificación.\n3. Documentar la dosis administrada para estudios retrospectivos y auditorías.\n4. Cumplir con requisitos regulatorios en algunos países.\n\n**Detectores utilizados**\n\n- **Diodos semiconductores**: pequeños, sensibles, en tiempo real. Se colocan en la superficie del paciente (por ejemplo, en la piel del campo de entrada) y miden la dosis en tiempo real. Requieren corrección por temperatura y por dependencia angular.\n- **TLD y OSL**: pequeños, pasivos, se colocan en la superficie o en cavidades (por ejemplo, en la vagina durante braquiterapia ginecológica, o en el recto). Su lectura se realiza después del tratamiento.\n- **Películas radiocrómicas**: se colocan en la superficie del paciente, proporcionan una imagen 2D de la dosis.\n- **Cámaras de ionización pequeñas**: en algunos casos, se usan detectores de transmisión en el cabezal del acelerador para verificar la dosis en tiempo real (dosimetría *in vivo* de transmisión).\n- **Sistemas electrónicos de dosimetría *in vivo* (EPID)**: los paneles planos del acelerador pueden usarse para verificar la dosis durante el tratamiento, comparando la imagen adquirida con la calculada.\n\n**Desafíos**\n\n- La colocación del detector debe ser reproducible y no debe perturbar el haz de forma significativa.\n- El detector debe ser calibrado en las condiciones de uso (energía, tasa de dosis, temperatura).\n- La interpretación de la lectura requiere un modelo que relacione la dosis en el detector con la dosis en el punto de interés del paciente.\n- La dosimetría *in vivo* de transmisión requiere algoritmos de reconstrucción para estimar la dosis en el paciente a partir de la señal medida en el detector.\n\n**Aplicaciones**\n\n- Radioterapia externa (IMRT, VMAT, SBRT, protones): verificación de la dosis en la superficie o en un punto de referencia.\n- Braquiterapia: verificación de la dosis en órganos críticos (recto, vejiga) con TLD o detectores *in vivo*.\n- Radioterapia intraoperatoria (IORT): verificación de la dosis en la superficie del lecho tumoral.\n- Total Body Irradiation (TBI): verificación de la dosis en múltiples puntos del cuerpo.\n\nLa dosimetría *in vivo* es una práctica recomendada por las sociedades profesionales (AAPM, ESTRO, IAEA) y, en algunos países, es obligatoria para ciertos tratamientos."
+      }
     }
   ],
   "datasetId": null,
