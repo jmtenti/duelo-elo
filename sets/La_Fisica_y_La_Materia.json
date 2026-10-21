@@ -74,7 +74,7 @@
     },
     {
       "id": 4,
-      "elo": 650,
+      "elo": 644.172646209992,
       "tema": "Física nuclear",
       "q": "En el decaimiento alfa, el núcleo emite:",
       "opts": [
@@ -92,7 +92,7 @@
     },
     {
       "id": 5,
-      "elo": 660,
+      "elo": 637.708369741474,
       "tema": "Física nuclear",
       "q": "En el decaimiento $\\beta^-$, el núcleo emite:",
       "opts": [
@@ -146,7 +146,7 @@
     },
     {
       "id": 8,
-      "elo": 690,
+      "elo": 664.7539280045597,
       "tema": "Física nuclear",
       "q": "La unidad SI de actividad radiactiva es el becquerel (Bq). Un Bq equivale a:",
       "opts": [
@@ -218,7 +218,7 @@
     },
     {
       "id": 12,
-      "elo": 730,
+      "elo": 700.5717945297858,
       "tema": "Interacción radiación-materia",
       "q": "En el efecto Compton, un fotón de energía $E$ interactúa con un electrón libre y:",
       "opts": [
@@ -236,7 +236,7 @@
     },
     {
       "id": 13,
-      "elo": 740,
+      "elo": 710.9779079307854,
       "tema": "Interacción radiación-materia",
       "q": "La producción de pares (creación de un par electrón-positrón por un fotón) requiere una energía mínima del fotón de:",
       "opts": [
@@ -254,7 +254,7 @@
     },
     {
       "id": 14,
-      "elo": 750,
+      "elo": 631.2860563559507,
       "tema": "Interacción radiación-materia",
       "q": "La radiación de frenado (bremsstrahlung) se produce cuando:",
       "opts": [
@@ -525,7 +525,7 @@
     {
       "id": 29,
       "tema": "Interacción radiación-materia",
-      "elo": 1080,
+      "elo": 1084.9819818970618,
       "q": "El pico de Bragg en la curva de Bragg de partículas cargadas pesadas se debe a que:",
       "opts": [
         "La partícula se desintegra justo al final de su recorrido",
@@ -763,7 +763,7 @@
     {
       "id": 42,
       "tema": "Detección y dosimetría",
-      "elo": 1700,
+      "elo": 1368.8045689572805,
       "q": "Un contador Geiger-Müller detecta radiación ionizante mediante:",
       "opts": [
         "Producción de pares electrón-hueco en un semiconductor",
@@ -785,7 +785,7 @@
     {
       "id": 43,
       "tema": "Detección y dosimetría",
-      "elo": 1750,
+      "elo": 1814.6421082685288,
       "q": "Una cámara de ionización de gas mide la radiación ionizante mediante:",
       "opts": [
         "Centelleo producido en un cristal acoplado a un fotomultiplicador",
@@ -806,7 +806,7 @@
     },
     {
       "id": 44,
-      "elo": 1800,
+      "elo": 1689.7236743244318,
       "tema": "Detección y dosimetría",
       "q": "En un detector de centelleo, la radiación ionizante:",
       "opts": [
@@ -824,7 +824,7 @@
     },
     {
       "id": 45,
-      "elo": 1850,
+      "elo": 1914.3443577895493,
       "tema": "Detección y dosimetría",
       "q": "Los detectores semiconductores de radiación (como el de germanio hiperpuro) funcionan detectando:",
       "opts": [
@@ -842,7 +842,7 @@
     },
     {
       "id": 46,
-      "elo": 1900,
+      "elo": 1708.2026364609658,
       "tema": "Detección y dosimetría",
       "q": "La dosis absorbida se define como:",
       "opts": [
@@ -860,7 +860,7 @@
     },
     {
       "id": 47,
-      "elo": 1950,
+      "elo": 1758.213500113097,
       "tema": "Detección y dosimetría",
       "q": "La dosis equivalente se define como:",
       "opts": [
@@ -878,7 +878,7 @@
     },
     {
       "id": 48,
-      "elo": 2000,
+      "elo": 1808.1319525168806,
       "tema": "Detección y dosimetría",
       "q": "El factor de ponderación de la radiación $w_R$ para partículas alfa es aproximadamente:",
       "opts": [
@@ -896,7 +896,7 @@
     },
     {
       "id": 49,
-      "elo": 2100,
+      "elo": 1908.0778783414155,
       "tema": "Detección y dosimetría",
       "q": "La capa hemirreductora (HVL) de un material para una radiación dada es:",
       "opts": [
@@ -1077,7 +1077,7 @@
     {
       "id": 59,
       "tema": "Física atómica",
-      "elo": 680,
+      "elo": 561.8334133660031,
       "q": "La energía de ionización de un átomo tiende a:",
       "opts": [
         "Depende solo del número másico del elemento",
@@ -1098,7 +1098,7 @@
     },
     {
       "id": 60,
-      "elo": 690,
+      "elo": 830.7525920964392,
       "tema": "Física atómica",
       "q": "El radio atómico tiende a:",
       "opts": [
@@ -1134,7 +1134,7 @@
     },
     {
       "id": 62,
-      "elo": 710,
+      "elo": 593.4341814282902,
       "tema": "Física atómica",
       "q": "La electronegatividad de Pauling mide:",
       "opts": [
@@ -1152,7 +1152,7 @@
     },
     {
       "id": 63,
-      "elo": 720,
+      "elo": 596.1001150707743,
       "tema": "Física atómica",
       "q": "En el efecto fotoeléctrico, la energía cinética máxima de los electrones emitidos depende de:",
       "opts": [
@@ -1170,7 +1170,7 @@
     },
     {
       "id": 64,
-      "elo": 730,
+      "elo": 765.2289537579557,
       "tema": "Física atómica",
       "q": "La serie de Lyman del hidrógeno corresponde a transiciones que terminan en:",
       "opts": [
@@ -1189,7 +1189,7 @@
     {
       "id": 65,
       "tema": "Física atómica",
-      "elo": 740,
+      "elo": 878.3952286510662,
       "q": "En el modelo de Bohr, la energía del nivel $n$ del hidrógeno es:",
       "opts": [
         "$E_n = -13{,}6\\ \\text{eV} / n$",
@@ -1228,7 +1228,7 @@
     },
     {
       "id": 67,
-      "elo": 760,
+      "elo": 632.0891226991096,
       "tema": "Física atómica",
       "q": "El experimento de Franck-Hertz demostró:",
       "opts": [
@@ -1247,7 +1247,7 @@
     {
       "id": 68,
       "tema": "Física atómica",
-      "elo": 770,
+      "elo": 895.4081802830354,
       "q": "La estructura fina del espectro del hidrógeno se debe a:",
       "opts": [
         "Presencia de otros átomos y campos externos",
@@ -1394,7 +1394,7 @@
     },
     {
       "id": 76,
-      "elo": 670,
+      "elo": 709.309415160032,
       "tema": "Física cuántica",
       "q": "Los niveles de energía de una partícula en una caja 1D de longitud $L$ son:",
       "opts": [
@@ -1430,7 +1430,7 @@
     },
     {
       "id": 78,
-      "elo": 690,
+      "elo": 580.0268397795185,
       "tema": "Física cuántica",
       "q": "El efecto túnel cuántico consiste en:",
       "opts": [
@@ -1484,7 +1484,7 @@
     },
     {
       "id": 81,
-      "elo": 720,
+      "elo": 871.4489572161697,
       "tema": "Física cuántica",
       "q": "El principio de superposición cuántica establece que:",
       "opts": [
@@ -1520,7 +1520,7 @@
     },
     {
       "id": 83,
-      "elo": 740,
+      "elo": 620.9098100547036,
       "tema": "Física cuántica",
       "q": "El gato de Schrödinger es una paradoja que ilustra:",
       "opts": [
@@ -1538,7 +1538,7 @@
     },
     {
       "id": 84,
-      "elo": 750,
+      "elo": 632.8268815011286,
       "tema": "Física cuántica",
       "q": "La cuantización de la energía significa que:",
       "opts": [
@@ -1790,7 +1790,7 @@
     },
     {
       "id": 98,
-      "elo": 710,
+      "elo": 682.5697703643976,
       "tema": "Química cuántica",
       "q": "El puente de hidrógeno es:",
       "opts": [
@@ -1809,7 +1809,7 @@
     {
       "id": 99,
       "tema": "Química cuántica",
-      "elo": 720,
+      "elo": 871.7841717863847,
       "q": "Las fuerzas de Van der Waals incluyen:",
       "opts": [
         "Solo interacciones electrostáticas entre iones",
@@ -1830,7 +1830,7 @@
     },
     {
       "id": 100,
-      "elo": 730,
+      "elo": 618.9801622481245,
       "tema": "Química cuántica",
       "q": "La regla de Hückel establece que un compuesto cíclico plano es aromático si tiene:",
       "opts": [
