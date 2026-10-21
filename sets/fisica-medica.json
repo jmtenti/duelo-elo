@@ -978,8 +978,8 @@
     },
     {
       "id": 54,
-      "elo": 1200,
       "tema": "Interacción radiación-materia",
+      "elo": 1200,
       "q": "A igual energía inicial, un electrón en agua tiene respecto a un protón:",
       "opts": [
         "Mayor alcance porque su masa es menor y su velocidad inicial es mayor",
@@ -987,11 +987,15 @@
         "El mismo alcance, porque ambos dependen solo de la energía inicial",
         "Mayor alcance porque no experimenta dispersión coulombiana con los núcleos"
       ],
-      "a": 0,
       "sol": "El electrón tiene **mayor alcance**. Al ser ~1836 veces más liviano que el protón, a igual energía cinética su velocidad es ~43 veces mayor. Como el poder de frenado va como $S \\propto z^2/v^2$, el electrón pierde mucha menos energía por unidad de longitud y penetra más. Ejemplo a 10 MeV: electrón ≈ 5 cm, protón ≈ 0,13 cm (el electrón llega ~38 veces más lejos). La dispersión múltiple y el bremsstrahlung modifican su trayectoria y la forma de la curva de dosis, pero no invierten esta relación.",
+      "a": 0,
       "teoria": {
         "titulo": "Alcance y trayectoria: electrones vs protones",
         "texto": "## La idea clave\n\n**A igual energía inicial, un electrón penetra MUCHO MÁS que un protón en agua**, no menos. Para 10 MeV: electrón ≈ 5 cm, protón ≈ 0,13 cm — el electrón llega unas **38 veces más lejos**.\n\n### ¿Por qué?\n\nA igual energía cinética $E$, la velocidad depende de la masa:\n\n$$v = \\sqrt{\\frac{2E}{m}}$$\n\nEl electrón es ~1836 veces más liviano, así que se mueve ~43 veces más rápido que el protón. Y como el poder de frenado va como $S \\propto z^2/v^2$, el electrón pierde mucha menos energía por unidad de longitud. **Esa es la causa dominante de su mayor alcance**, no el bremsstrahlung.\n\n---\n\n## Electrones en agua\n\n- **Masa pequeña** → gran dispersión múltiple por colisiones coulombianas con los núcleos. La trayectoria es errática y el \"alcance\" es una distribución estadística, no un valor único.\n- **Bremsstrahlung**: a energías clínicas se lleva ~8–15% de la energía en agua (fracción aproximada $f \\approx EZ/(EZ + 800)$, con $Z_{\\rm eff} \\approx 7{,}4$). Los fotones emitidos viajan mucho más lejos que el electrón, generando una **cola de dosis más allá del alcance electrónico**.\n- **Alcance práctico** en agua: $R_p \\approx E/2$ (cm, con $E$ en MeV) hasta ~20 MeV. Para 10 MeV → ~5 cm.\n- **Curva de dosis en profundidad**: buildup rápido hasta $d_{\\max} \\approx 0{,}4\\,R$, **máximo de dosis en $d_{\\max}$** (no en la superficie), luego caída suave hasta $R_p$. **No hay pico de Bragg**.\n\n## Protones en agua\n\n- **Masa grande** (1836 × electrón) → apenas se desvían. Trayectoria casi recta.\n- **Bremsstrahlung despreciable**: proporcional a $1/m^2$, unas $10^6$ veces menor que para electrones.\n- **Alcance CSDA bien definido**, dado por la regla de Bragg-Kleeman: $R \\approx 0{,}0023\\,E^{1{,}75}$ (R en g/cm², E en MeV). Para 150 MeV → ~15,8 cm en agua.\n- **Curva de dosis en profundidad**: meseta de entrada baja, **pico de Bragg** al final del recorrido, caída distal abrupta. Base de la protonterapia.\n\n---\n\n## Comparación directa\n\n| Energía | Alcance electrón | Alcance protón | Ratio e⁻/p⁺ |\n|:---:|:---:|:---:|:---:|\n| 10 MeV | **5,0 cm** | **0,13 cm** | **38×** |\n| 20 MeV | 9,5 cm | 0,44 cm | ~22× |\n| 100 MeV | 26,5 cm | 7,8 cm | 3,4× |\n\nEl ratio se reduce a altas energías porque el bremsstrahlung achica el alcance del electrón, pero **nunca se invierte**: el electrón siempre penetra más a igual energía.\n\n---\n\n## Relevancia clínica\n\n| | Electrones | Protones |\n|---|---|---|\n| **Uso** | Lesiones superficiales (piel, pared torácica, hasta 5–6 cm) | Tumores profundos, junto a órganos críticos |\n| **Ventaja dosimétrica** | Depositan dosis en los primeros cm, ahorran tejido profundo | Pico de Bragg concentra dosis en el tumor, ahorra tejido sano proximal y distal |\n| **Energía típica** | 6–20 MeV | 70–230 MeV |\n| **Dispersión lateral** | Alta (penumbra grande) | Baja (penumbra pequeña) |"
+      },
+      "link": {
+        "url": "interactivos/alcance-y-trayectoria-de-particulas.html",
+        "texto": "🔗 Abrir recurso"
       }
     },
     {
