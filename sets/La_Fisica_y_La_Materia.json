@@ -780,8 +780,8 @@
     },
     {
       "id": 43,
-      "elo": 1750,
       "tema": "Detección y dosimetría",
+      "elo": 1750,
       "q": "Una cámara de ionización de gas mide la radiación ionizante mediante:",
       "opts": [
         "Centelleo producido en un cristal acoplado a un fotomultiplicador",
@@ -789,11 +789,15 @@
         "Avalancha de electrones en la región de descarga",
         "Producción de pares electrón-hueco en un semiconductor"
       ],
-      "a": 1,
       "sol": "La cámara de ionización opera en la región de saturación, donde todos los pares ión-electrón producidos por la radiación son colectados por el campo eléctrico, generando una corriente proporcional a la tasa de dosis. Se usa en dosimetría y monitoreo de radiación.",
+      "a": 1,
       "teoria": {
         "titulo": "Cámara de ionización",
         "texto": "La cámara de ionización es un detector de radiación gaseoso que opera en la región de saturación de la curva de respuesta. Consiste en una cámara llena de gas (aire, argón, etc.) con dos electrodos a los que se aplica un voltaje moderado (típicamente entre 50 y 500 V).\n\nCuando la radiación ionizante atraviesa el gas, produce pares ión-electrón. El campo eléctrico entre los electrodos los separa y los colecta, generando una corriente eléctrica. Si el voltaje es suficientemente alto, todos los pares producidos son colectados antes de recombinarse, y la corriente medida es proporcional a la tasa de ionización, es decir, a la tasa de dosis absorbida en el gas.\n\nEn la región de saturación, la corriente no depende del voltaje aplicado (dentro de un rango), porque todos los portadores de carga son colectados. Esto permite una medida estable y reproducible. La cámara de ionización no amplifica la señal (no hay avalancha), por lo que la corriente es muy pequeña y requiere un electrómetro sensible.\n\nLas cámaras de ionización se usan ampliamente en dosimetría de radiación, monitoreo de reactores nucleares, y en equipos de radioterapia para verificar la dosis administrada. Son precisas, tienen una respuesta relativamente plana con la energía (si están diseñadas adecuadamente) y pueden calibrarse con fuentes patrón.\n\nLa cámara de ionización de dedal es el instrumento estándar para la dosimetría de referencia en radioterapia. Su pared está construida con un material de número atómico similar al tejido (como grafito o plástico conductor) para asegurar que la dosis medida en el gas sea proporcional a la dosis en el tejido."
+      },
+      "link": {
+        "url": "interactivos/camaras-de-ionizacion.html",
+        "texto": "🔗 Abrir recurso"
       }
     },
     {
