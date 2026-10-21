@@ -426,12 +426,14 @@ main{display:grid;grid-template-columns:1fr 360px;gap:18px;align-items:start}
    SECCIÓN 3 · CONFIGURACIÓN
    ═══════════════════════════════════════════════════════════════ */
 
-const GIST_ID = "5367c035bcf515d11a9c1b14f60563dd";
 const WORKER_URL = "https://dry-dawn-b655.jmtenti.workers.dev";
-const PROBLEM_ELO_FILE = '_problem-elo.json';
-  
+
+// Repo y carpeta donde viven los datasets
+const REPO_OWNER   = "jmtenti";
+const REPO_NAME    = "duelo-elo";
+const DATASETS_DIR = "sets";
+
 let REMOTE_URL = "";
-const GIST_API_URL = GIST_ID ? ("https://api.github.com/gists/" + GIST_ID) : null;
 
 const AUTOSAVE_MS = 20000;
 const RECENT_HISTORY_MAX = 40;
@@ -751,33 +753,26 @@ async function workerSendProblemElo(dataset, problemId, elo){
    ═══════════════════════════════════════════════════════════════ */
 
 async function listGistFiles(){
-  if(!GIST_API_URL) return [];
   try{
-    const resp = await fetch(GIST_API_URL, {
+    const url = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${DATASETS_DIR}`;
+    const resp = await fetch(url, {
       headers: { 'Accept': 'application/vnd.github+json' }
     });
     if(!resp.ok) return [];
-    const data = await resp.json();
-    return Object.values(data.files || [])
-      .filter(f =>
-        /\.json$/i.test(f.filename) &&
-        f.filename !== 'users.json' &&
-        !f.filename.startsWith('_')       // ← excluye _problem-elo.json
-      )
+    const files = await resp.json();
+    if(!Array.isArray(files)) return [];
+    return files
+      .filter(f => f.type === 'file' && /\.json$/i.test(f.name))
       .map(f => ({
-        filename: f.filename,
-        nombre: prettyName(f.filename),
-        url: f.raw_url,
+        filename: f.name,
+        nombre: prettyName(f.name),
+        url: f.download_url,  // URL raw directa al archivo
         size: f.size
       }));
-  }catch(e){ return []; }
-}
-
-function prettyName(filename){
-  return filename
-    .replace(/\.json$/i, '')
-    .replace(/[_-]+/g, ' ')
-    .replace(/(^|\s)(\p{L})/gu, (_, sep, c) => sep + c.toUpperCase());
+  }catch(e){
+    console.warn('Error listando datasets:', e);
+    return [];
+  }
 }
 
 /* ═══════════════════════════════════════════════════════════════
