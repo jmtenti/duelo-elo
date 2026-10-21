@@ -1828,6 +1828,8 @@
     "titulo": "Elo - Física Nuclear e Interacción de la Radiación",
     "eloMin": 200,
     "eloMax": 2500,
-    "kProbTau": 2
+    "kProbTau": 2,
+    "kProbNew": 256,
+    "kProbBase": 32
   }
 }
