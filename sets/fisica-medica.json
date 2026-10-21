@@ -758,8 +758,8 @@
     },
     {
       "id": 42,
-      "elo": 950,
       "tema": "Fundamentos y radiobiología",
+      "elo": 950,
       "q": "La dosis biológica efectiva (BED) para un esquema de n fracciones de dosis d, con cociente (α/β), es:",
       "opts": [
         "BED = n·d·(1 − d/(α/β))",
@@ -767,11 +767,15 @@
         "BED = n·d²·(α/β)",
         "BED = d/(α/β) · n²"
       ],
-      "a": 1,
       "sol": "BED = n·d·[1 + d/(α/β)] permite comparar esquemas de fraccionamiento distintos en unidades de dosis biológicamente equivalentes para un tejido dado.",
+      "a": 1,
       "teoria": {
         "titulo": "Dosis biológica efectiva (BED)",
         "texto": "La BED permite comparar esquemas de fraccionamiento distintos en términos del efecto biológico producido en un tejido con un cociente $\\alpha/\\beta$ determinado. Se define como:\n\n$$\\text{BED} = n \\cdot d \\cdot \\left(1 + \\frac{d}{\\alpha/\\beta}\\right)$$\n\ndonde $n$ es el número de fracciones, $d$ la dosis por fracción (Gy) y $\\alpha/\\beta$ el cociente característico del tejido.\n\nLa BED se expresa en unidades de Gy con una $\\alpha/\\beta$ especificada (por ejemplo, Gy$_3$ o Gy$_{10}$). Es una herramienta esencial en la práctica clínica:\n\n- **Comparar esquemas**: 30 × 2 Gy (BED$_{10}$ = 72 Gy$_{10}$) no es equivalente a 20 × 3 Gy (BED$_{10}$ = 78 Gy$_{10}$).\n- **Diseñar hipofraccionamiento**: en próstata ($\\alpha/\\beta \\approx 1{,}5$ Gy), 20 × 3 Gy tiene mayor BED que el convencional.\n- **Calcular dosis acumulada en reirradiación**: sumando las BED de cada curso, con correcciones por recuperación parcial.\n\nLa BED se deriva del modelo LQ y es válida para dosis por fracción donde el modelo sigue siendo aplicable (típicamente hasta ~8-10 Gy por fracción)."
+      },
+      "link": {
+        "url": "interactivos/modelo-lq.html",
+        "texto": "🔗 Abrir recurso"
       }
     },
     {
@@ -983,11 +987,11 @@
         "El mismo alcance, porque ambos dependen solo de la energía inicial",
         "Mayor alcance porque no experimenta dispersión coulombiana con los núcleos"
       ],
-      "a": 1,
-      "sol": "El electrón sufre mucha más dispersión múltiple y bremsstrahlung. Por eso su alcance es mucho menor y su trayectoria errática, a diferencia del protón que sigue una traza casi recta con alcance bien definido.",
+      "a": 0,
+      "sol": "El electrón tiene **mayor alcance**. Al ser ~1836 veces más liviano que el protón, a igual energía cinética su velocidad es ~43 veces mayor. Como el poder de frenado va como $S \\propto z^2/v^2$, el electrón pierde mucha menos energía por unidad de longitud y penetra más. Ejemplo a 10 MeV: electrón ≈ 5 cm, protón ≈ 0,13 cm (el electrón llega ~38 veces más lejos). La dispersión múltiple y el bremsstrahlung modifican su trayectoria y la forma de la curva de dosis, pero no invierten esta relación.",
       "teoria": {
         "titulo": "Alcance y trayectoria: electrones vs protones",
-        "texto": "A igual energía inicial, electrones y protones se comportan de forma radicalmente distinta al atravesar materia:\n\n**Electrones**:\n\n- **Masa pequeña** → gran dispersión múltiple por colisiones coulombianas con los núcleos. La trayectoria es errática y el alcance es una distribución, no un valor único.\n- **Bremsstrahlung** significativo (> 10% de la energía a energías clínicas en agua): parte de la energía se emite como fotones y puede escaparse del material.\n- **Alcance** en agua: aproximadamente $R_p \\approx E/2$ (cm, con $E$ en MeV), hasta ~20 MeV. Para 10 MeV, ~5 cm.\n- **Curva de dosis en profundidad**: máxima dosis superficial, caída abrupta al final (aunque menos abrupta que el pico de Bragg de protones), cola de bremsstrahlung más allá del alcance.\n\n**Protones**:\n\n- **Masa grande** → apenas se desvían; trayectoria casi recta.\n- **Bremsstrahlung** despreciable (proporcional a $1/m^2$, ~$10^6$ veces menor que para electrones).\n- **Alcance** bien definido (rango CSDA), con la regla de Bragg-Kleeman: $R \\approx 0{,}0023\\,E^{1{,}75}$ (g/cm², con $E$ en MeV). Para 150 MeV, ~15,8 cm en agua.\n- **Curva de dosis en profundidad**: pico de Bragg al final del recorrido, con dosis baja en la entrada y caída abrupta distal. Es la base de la protonterapia.\n\nEste contraste es fundamental en radioterapia: los electrones se usan para tratar lesiones superficiales (hasta 5-6 cm de profundidad) y los protones para lesiones profundas y tumores junto a órganos críticos."
+        "texto": "## La idea clave\n\n**A igual energía inicial, un electrón penetra MUCHO MÁS que un protón en agua**, no menos. Para 10 MeV: electrón ≈ 5 cm, protón ≈ 0,13 cm — el electrón llega unas **38 veces más lejos**.\n\n### ¿Por qué?\n\nA igual energía cinética $E$, la velocidad depende de la masa:\n\n$$v = \\sqrt{\\frac{2E}{m}}$$\n\nEl electrón es ~1836 veces más liviano, así que se mueve ~43 veces más rápido que el protón. Y como el poder de frenado va como $S \\propto z^2/v^2$, el electrón pierde mucha menos energía por unidad de longitud. **Esa es la causa dominante de su mayor alcance**, no el bremsstrahlung.\n\n---\n\n## Electrones en agua\n\n- **Masa pequeña** → gran dispersión múltiple por colisiones coulombianas con los núcleos. La trayectoria es errática y el \"alcance\" es una distribución estadística, no un valor único.\n- **Bremsstrahlung**: a energías clínicas se lleva ~8–15% de la energía en agua (fracción aproximada $f \\approx EZ/(EZ + 800)$, con $Z_{\\rm eff} \\approx 7{,}4$). Los fotones emitidos viajan mucho más lejos que el electrón, generando una **cola de dosis más allá del alcance electrónico**.\n- **Alcance práctico** en agua: $R_p \\approx E/2$ (cm, con $E$ en MeV) hasta ~20 MeV. Para 10 MeV → ~5 cm.\n- **Curva de dosis en profundidad**: buildup rápido hasta $d_{\\max} \\approx 0{,}4\\,R$, **máximo de dosis en $d_{\\max}$** (no en la superficie), luego caída suave hasta $R_p$. **No hay pico de Bragg**.\n\n## Protones en agua\n\n- **Masa grande** (1836 × electrón) → apenas se desvían. Trayectoria casi recta.\n- **Bremsstrahlung despreciable**: proporcional a $1/m^2$, unas $10^6$ veces menor que para electrones.\n- **Alcance CSDA bien definido**, dado por la regla de Bragg-Kleeman: $R \\approx 0{,}0023\\,E^{1{,}75}$ (R en g/cm², E en MeV). Para 150 MeV → ~15,8 cm en agua.\n- **Curva de dosis en profundidad**: meseta de entrada baja, **pico de Bragg** al final del recorrido, caída distal abrupta. Base de la protonterapia.\n\n---\n\n## Comparación directa\n\n| Energía | Alcance electrón | Alcance protón | Ratio e⁻/p⁺ |\n|:---:|:---:|:---:|:---:|\n| 10 MeV | **5,0 cm** | **0,13 cm** | **38×** |\n| 20 MeV | 9,5 cm | 0,44 cm | ~22× |\n| 100 MeV | 26,5 cm | 7,8 cm | 3,4× |\n\nEl ratio se reduce a altas energías porque el bremsstrahlung achica el alcance del electrón, pero **nunca se invierte**: el electrón siempre penetra más a igual energía.\n\n---\n\n## Relevancia clínica\n\n| | Electrones | Protones |\n|---|---|---|\n| **Uso** | Lesiones superficiales (piel, pared torácica, hasta 5–6 cm) | Tumores profundos, junto a órganos críticos |\n| **Ventaja dosimétrica** | Depositan dosis en los primeros cm, ahorran tejido profundo | Pico de Bragg concentra dosis en el tumor, ahorra tejido sano proximal y distal |\n| **Energía típica** | 6–20 MeV | 70–230 MeV |\n| **Dispersión lateral** | Alta (penumbra grande) | Baja (penumbra pequeña) |"
       }
     },
     {
