@@ -428,10 +428,11 @@ main{display:grid;grid-template-columns:1fr 360px;gap:18px;align-items:start}
 
 const WORKER_URL = "https://dry-dawn-b655.jmtenti.workers.dev";
 
-// Repo y carpeta donde viven los datasets
+// Repo de GitHub donde viven los datasets
 const REPO_OWNER   = "jmtenti";
 const REPO_NAME    = "duelo-elo";
 const DATASETS_DIR = "sets";
+const REPO_BRANCH  = "main";
 
 let REMOTE_URL = "";
 
@@ -692,11 +693,11 @@ function parsearToken(str){
    ═══════════════════════════════════════════════════════════════ */
 
 async function workerLoadUser(token){
-  if(!WORKER_URL || !GIST_ID) return null;
+  if(!WORKER_URL) return null;
   const resp = await fetch(WORKER_URL + '/user/load', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ gistId: GIST_ID, token })
+    body: JSON.stringify({ token })
   });
   const data = await resp.json();
   if(!resp.ok) throw new Error(data.error || ('HTTP ' + resp.status));
@@ -704,11 +705,11 @@ async function workerLoadUser(token){
 }
 
 async function workerSaveUser(token, user){
-  if(!WORKER_URL || !GIST_ID) throw new Error('Worker no configurado');
+  if(!WORKER_URL) throw new Error('Worker no configurado');
   const resp = await fetch(WORKER_URL + '/user/save', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ gistId: GIST_ID, token, user })
+    body: JSON.stringify({ token, user })
   });
   const data = await resp.json();
   if(!resp.ok) throw new Error(data.error || ('HTTP ' + resp.status));
@@ -716,12 +717,12 @@ async function workerSaveUser(token, user){
 }
 
 async function workerLoadProblemElos(dataset){
-  if(!WORKER_URL || !GIST_ID || !dataset) return {};
+  if(!WORKER_URL || !dataset) return {};
   try{
     const resp = await fetchWithTimeout(WORKER_URL + '/problems/load', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ gistId: GIST_ID, dataset })
+      body: JSON.stringify({ dataset })
     }, 8000);
     if(!resp.ok) return {};
     const data = await resp.json();
@@ -733,28 +734,29 @@ async function workerLoadProblemElos(dataset){
 }
 
 async function workerSendProblemElo(dataset, problemId, elo){
-  if(!WORKER_URL || !GIST_ID || !dataset) return;
+  if(!WORKER_URL || !dataset) return;
   try{
     await fetch(WORKER_URL + '/problems/set', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        gistId: GIST_ID, dataset, problemId, elo
-      }),
+      body: JSON.stringify({ dataset, problemId, elo }),
       keepalive: true
     });
   }catch(e){
     console.warn('ELO global no guardado:', e);
   }
-}  
+}
   
 /* ═══════════════════════════════════════════════════════════════
    SECCIÓN 11 · GIST FILES
    ═══════════════════════════════════════════════════════════════ */
+/* ═══════════════════════════════════════════════════════════════
+   SECCIÓN 11 · LISTA DE DATASETS (desde GitHub)
+   ═══════════════════════════════════════════════════════════════ */
 
 async function listGistFiles(){
   try{
-    const url = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${DATASETS_DIR}`;
+    const url = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${DATASETS_DIR}?ref=${REPO_BRANCH}`;
     const resp = await fetch(url, {
       headers: { 'Accept': 'application/vnd.github+json' }
     });
@@ -766,7 +768,8 @@ async function listGistFiles(){
       .map(f => ({
         filename: f.name,
         nombre: prettyName(f.name),
-        url: f.download_url,  // URL raw directa al archivo
+        // encodeURIComponent protege los acentos (Análisis, Física, etc.)
+        url: `https://raw.githubusercontent.com/${REPO_OWNER}/${REPO_NAME}/${REPO_BRANCH}/${DATASETS_DIR}/${encodeURIComponent(f.name)}`,
         size: f.size
       }));
   }catch(e){
@@ -897,7 +900,6 @@ window.addEventListener('beforeunload', () => {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          gistId: GIST_ID,
           token: currentUser.token,
           user: currentUser.data
         }),
@@ -1039,16 +1041,13 @@ function renderTokenConfirmacion(token, userData){
   });
 }
 
-async function entrarAlJuego(){
-  /* Cargar gist files */
-  gistFiles = await listGistFiles();
-  if(!gistFiles.length){
+if(!gistFiles.length){
     document.getElementById('app').innerHTML = `
       <div class="loading">
-        <div style="color:var(--bad);font-size:18px;font-weight:800">⚠ No se pudo cargar el gist</div>
+        <div style="color:var(--bad);font-size:18px;font-weight:800">⚠ No se pudieron cargar los datasets</div>
         <div style="color:var(--muted);font-size:13px;text-align:center;max-width:460px;line-height:1.6">
-          Revisá tu conexión o el ID del gist.<br>
-          Gist ID: <code style="color:var(--accent)">${GIST_ID}</code>
+          Revisá tu conexión o el repo de GitHub.<br>
+          Repo: <code style="color:var(--accent)">${REPO_OWNER}/${REPO_NAME}/${DATASETS_DIR}</code>
         </div>
         <button class="mini-btn" onclick="location.reload()">🔄 Reintentar</button>
       </div>
@@ -1143,11 +1142,10 @@ function buildUI(){
   updateHUD();
   renderRound();
 }
-
 function renderStatusBar(){
   const el = document.getElementById('statusBar');
   const userName = currentUser?.data?.nombreCorto || '—';
-  const srcTxt = `Dataset del gist · <span class="pill">${state.problemas.length} problemas</span>`;
+  const srcTxt = `Dataset del repo · <span class="pill">${state.problemas.length} problemas</span>`;
 
   el.innerHTML = `
     <div class="src">
@@ -1176,7 +1174,7 @@ function renderStatusBar(){
 function renderDatasetBar(){
   const bar = document.getElementById('datasetBar');
   if(!bar) return;
-  if(!GIST_ID || gistFiles.length === 0){ bar.hidden = true; return; }
+  if(gistFiles.length === 0){ bar.hidden = true; return; }
   bar.hidden = false;
   bar.innerHTML = '';
 
