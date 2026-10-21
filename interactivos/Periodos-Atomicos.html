@@ -1,0 +1,1345 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Estudio Interactivo: Períodos Atómicos</title>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']], displayMath: [['$$','$$'], ['\\[','\\]']]},
+    messageStyle: "none"
+  });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script src="https://cdn.plot.ly/plotly-2.24.1.min.js"></script>
+
+<style>
+  :root {
+    --primary-color: #1a252f;
+    --secondary-color: #2c3e50;
+    --accent-color: #c0392b;
+    --link-color: #2980b9;
+    --bg-color: #f8f9fa;
+    --sm-color: #16a085;
+    --we-color: #6c3483;
+    --intuition-color: #d35400;
+    --warning-color: #c0392b;
+    --hist-color: #b7791f;
+    --s-color: #fce4e4;
+    --s-text: #922b21;
+    --p-color: #e8f5e9;
+    --p-text: #1e8449;
+    --d-color: #e3f2fd;
+    --d-text: #1f618d;
+    --f-color: #f3e5f5;
+    --f-text: #7d3c98;
+  }
+  body {
+    font-family: 'Georgia', serif;
+    background: var(--bg-color); color: #333;
+    line-height: 1.8; margin: 0; padding: 40px 0; font-size: 16px;
+  }
+  .container {
+    max-width: 1100px; margin: auto; background: white;
+    padding: 50px 70px; border-radius: 12px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.06);
+  }
+  h1 { color: var(--primary-color); text-align: center; font-size: 2.1em; font-family: 'Segoe UI', sans-serif; margin-bottom: 10px;}
+  .subtitle { text-align: center; color: #7f8c8d; font-style: italic; margin-bottom: 40px; }
+  h2 { color: var(--secondary-color); margin-top: 55px; border-bottom: 2px solid #ecf0f1; padding-bottom: 5px; font-family: 'Segoe UI', sans-serif;}
+  h3 { color: var(--secondary-color); margin-top: 35px; font-family: 'Segoe UI', sans-serif; font-size: 1.18em;}
+  h4 { color: var(--sm-color); margin-top: 25px; font-family: 'Segoe UI', sans-serif; font-size: 1.02em; font-style: italic;}
+  p { text-align: justify; margin-bottom: 20px; }
+  ul, ol { text-align: justify; }
+  li { margin-bottom: 8px; }
+  .math-box {
+    background: #fdfefe; border-left: 4px solid var(--link-color);
+    padding: 15px 25px; margin: 25px 0; overflow-x: auto; font-size: 1.1em;
+  }
+  .note-box {
+    background: #fef9e7; border-left: 4px solid #f39c12;
+    padding: 12px 20px; margin: 20px 0; font-size: 0.98em;
+  }
+  .sm-box {
+    background: #eafaf1; border-left: 4px solid var(--sm-color);
+    padding: 14px 22px; margin: 22px 0; font-size: 0.97em;
+  }
+  .sm-box strong:first-child { color: var(--sm-color); }
+  .intuition-box {
+    background: #fdf2e9; border-left: 4px solid var(--intuition-color);
+    padding: 14px 22px; margin: 22px 0; font-size: 0.97em;
+  }
+  .intuition-box strong:first-child { color: var(--intuition-color); }
+  .warning-box {
+    background: #fdedec; border-left: 4px solid var(--warning-color);
+    padding: 14px 22px; margin: 22px 0; font-size: 0.97em;
+  }
+  .warning-box strong:first-child { color: var(--warning-color); }
+  .guide-box {
+    background: #eef6fc; border-left: 4px solid var(--link-color);
+    padding: 14px 22px; margin: 22px 0; font-size: 0.96em;
+  }
+  .guide-box strong:first-child { color: var(--link-color); }
+  .guide-box ol { margin: 8px 0 0 0; padding-left: 22px; }
+  .history-box {
+    background: #fbf6e9; border-left: 4px solid var(--hist-color);
+    padding: 14px 22px; margin: 22px 0; font-size: 0.95em;
+    font-style: italic; color: #5b4a1e;
+  }
+  .history-box strong { font-style: normal; }
+  .worked-example {
+    background: #faf7fd; border: 1px solid #d5c8e8;
+    border-left: 5px solid var(--we-color); border-radius: 8px;
+    padding: 22px 30px 24px; margin: 35px 0; font-size: 0.98em;
+  }
+  .worked-example .we-header {
+    font-family: 'Segoe UI', sans-serif; font-size: 0.78em;
+    text-transform: uppercase; letter-spacing: 0.14em;
+    color: var(--we-color); font-weight: bold; margin-bottom: 6px;
+  }
+  .worked-example .we-title {
+    font-family: 'Segoe UI', sans-serif; color: var(--we-color);
+    font-size: 1.08em; font-weight: 600; margin: 0 0 16px 0;
+  }
+  .worked-example .step {
+    margin: 18px 0; padding-left: 18px;
+    border-left: 2px solid #e3d4f0;
+  }
+  .worked-example .step-label {
+    font-family: 'Segoe UI', sans-serif; font-weight: bold;
+    color: var(--we-color); font-size: 0.86em;
+    display: block; margin-bottom: 4px;
+    text-transform: uppercase;
+  }
+  .worked-example .result {
+    background: #efe9f7; border-radius: 5px;
+    padding: 10px 16px; margin-top: 8px; font-weight: 500;
+  }
+  .worked-example .verify {
+    background: #eafaf1; border-left: 3px solid var(--sm-color);
+    padding: 8px 14px; border-radius: 0 5px 5px 0;
+    margin-top: 8px; font-size: 0.95em;
+  }
+  .exercise-box {
+    background: #fdf2f2; border: 1px solid #f5c6c6;
+    border-radius: 8px; padding: 22px 28px; margin: 35px 0;
+  }
+  .exercise-box h4 {
+    color: var(--accent-color); margin-top: 0;
+    font-style: normal; font-size: 1.05em;
+  }
+  .hint {
+    background: #fff8e1; border-radius: 4px;
+    padding: 8px 14px; margin: 10px 0;
+    font-size: 0.92em; color: #6d4c00;
+    border-left: 3px solid #f39c12;
+  }
+  .solution-toggle {
+    background: var(--accent-color); color: white;
+    border: none; padding: 8px 18px; border-radius: 4px;
+    cursor: pointer; font-family: 'Segoe UI', sans-serif;
+    font-size: 0.92em; margin-top: 12px;
+  }
+  .solution-toggle:hover { background: #a02828; }
+  .solution-content {
+    max-height: 0; overflow: hidden;
+    transition: max-height 0.5s ease, margin 0.3s ease;
+    margin-top: 0;
+  }
+  .solution-content.open {
+    max-height: 6000px; margin-top: 18px;
+  }
+  .interactive-figure {
+    background: #fafafa; border: 1px solid #e0e0e0;
+    border-radius: 10px; padding: 25px; margin: 40px 0;
+    font-family: 'Segoe UI', sans-serif;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+  }
+  .figure-title {
+    text-align: center; color: var(--secondary-color);
+    font-weight: bold; font-size: 1.2em; margin-top: 0;
+  }
+  .plot-area { width: 100%; height: 460px; margin-bottom: 15px; }
+  .controls {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 20px;
+    padding: 18px 20px; background: #fff;
+    border-radius: 8px; border: 1px solid #eee; margin-bottom: 15px;
+  }
+  .control-panel h4 {
+    margin-top: 0; color: var(--secondary-color);
+    font-size: 0.9em; text-transform: uppercase;
+    letter-spacing: 0.08em; font-style: normal;
+  }
+  .checkbox-row {
+    display: flex; align-items: center; gap: 10px;
+    margin: 6px 0; font-size: 0.93em; color: #444; cursor: pointer;
+  }
+  .checkbox-row input[type=checkbox] {
+    width: 16px; height: 16px;
+    accent-color: var(--link-color); cursor: pointer;
+  }
+  .select-row {
+    margin: 10px 0; font-size: 0.93em; color: #333;
+  }
+  .select-row select {
+    display: block; width: 100%; margin-top: 6px;
+    padding: 8px 12px; border-radius: 6px;
+    border: 1.5px solid #ccc; font-size: 0.95em;
+    background: white; cursor: pointer;
+  }
+  .select-row select:hover { border-color: var(--link-color); }
+  .stats {
+    margin-top: 12px; padding: 12px 16px;
+    background: #f4f6f7; border-radius: 6px;
+    font-family: Consolas, monospace; font-size: 0.86em;
+    line-height: 1.7; text-align: center;
+  }
+  .stats .stat-item {
+    display: inline-block; margin: 3px 6px;
+    padding: 3px 10px; background: white;
+    border-radius: 4px; border: 1px solid #e0e0e0;
+  }
+  .stats .stat-item .lbl { color: #888; }
+  .stats .stat-item .val { color: var(--accent-color); font-weight: bold; }
+  .caption {
+    font-size: 0.95em; color: #555; text-align: justify;
+    padding: 10px 20px; border-left: 3px solid var(--accent-color);
+    background: #fff;
+  }
+  table.generic { border-collapse: collapse; width: 100%; margin: 20px 0; font-size: 0.95em;}
+  table.generic th, table.generic td {
+    border: 1px solid #e0e0e0; padding: 8px 12px;
+    text-align: left; vertical-align: top;
+  }
+  table.generic th { background: #ecf0f1; }
+  .toc {
+    background: #f4f6f7; border-radius: 8px;
+    padding: 20px 30px; margin: 30px 0;
+    font-family: 'Segoe UI', sans-serif; font-size: 0.95em;
+  }
+  .toc h3 { margin-top: 0; color: var(--secondary-color); font-size: 1.05em;}
+  .toc ol { margin: 0; padding-left: 22px;}
+  .toc li { margin: 4px 0;}
+  .toc a { color: var(--link-color); text-decoration: none;}
+  .toc a:hover { text-decoration: underline;}
+  .step-by-step {
+    counter-reset: step-counter; list-style: none;
+    padding-left: 0; margin: 25px 0;
+  }
+  .step-by-step li {
+    position: relative; padding: 12px 18px 12px 60px;
+    margin: 10px 0; background: #f8f9fa;
+    border-radius: 6px; border-left: 3px solid var(--link-color);
+  }
+  .step-by-step li::before {
+    counter-increment: step-counter;
+    content: counter(step-counter);
+    position: absolute; left: 14px; top: 50%;
+    transform: translateY(-50%);
+    width: 32px; height: 32px;
+    background: var(--link-color); color: white;
+    border-radius: 50%; display: flex;
+    align-items: center; justify-content: center;
+    font-family: 'Segoe UI', sans-serif; font-weight: bold; font-size: 0.95em;
+  }
+
+  /* Tabla periódica */
+  .ptable-wrap {
+    overflow-x: auto;
+    padding-bottom: 10px;
+  }
+  .ptable {
+    display: grid;
+    grid-template-columns: repeat(18, 1fr);
+    grid-template-rows: repeat(10, auto);
+    gap: 3px;
+    min-width: 850px;
+    position: relative;
+  }
+  .cell {
+    aspect-ratio: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Segoe UI', sans-serif;
+    cursor: pointer;
+    border-radius: 4px;
+    position: relative;
+    transition: transform 0.15s ease, box-shadow 0.15s;
+    user-select: none;
+    padding: 2px;
+  }
+  .cell:hover {
+    transform: scale(1.12);
+    z-index: 20;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.25);
+  }
+  .cell.selected {
+    outline: 2.5px solid #1a252f;
+    outline-offset: 1px;
+    z-index: 15;
+  }
+  .cell .sym {
+    font-weight: 700;
+    font-size: 0.85em;
+    line-height: 1;
+  }
+  .cell .z {
+    font-size: 0.6em;
+    opacity: 0.7;
+    line-height: 1;
+    margin-top: 2px;
+  }
+  .cell.block-s { background: var(--s-color); color: var(--s-text); }
+  .cell.block-p { background: var(--p-color); color: var(--p-text); }
+  .cell.block-d { background: var(--d-color); color: var(--d-text); }
+  .cell.block-f { background: var(--f-color); color: var(--f-text); }
+
+  .cell.dimmed { opacity: 0.18; pointer-events: none; }
+  .cell.period-hl {
+    box-shadow: 0 0 0 2.5px #f39c12, 0 0 12px rgba(243,156,18,0.4);
+    z-index: 8;
+  }
+
+  .fblock-label {
+    grid-column: 1 / span 2;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 0.72em;
+    font-weight: bold;
+    color: #666;
+    padding-right: 8px;
+    font-style: italic;
+  }
+
+  .legend-pt {
+    display: flex; gap: 18px; flex-wrap: wrap;
+    justify-content: center; margin-top: 14px;
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 0.85em;
+  }
+  .legend-pt .lg {
+    display: inline-flex; align-items: center; gap: 6px;
+  }
+  .legend-pt .lg .sw {
+    width: 14px; height: 14px; border-radius: 3px;
+    border: 1px solid rgba(0,0,0,0.15);
+  }
+
+  .info-panel {
+    margin-top: 16px;
+    padding: 16px 22px;
+    background: #f4f6f7;
+    border-radius: 8px;
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 0.93em;
+    line-height: 1.7;
+    border-left: 4px solid var(--link-color);
+    min-height: 80px;
+  }
+  .info-panel .elem-name {
+    font-size: 1.3em;
+    font-weight: bold;
+    color: var(--primary-color);
+    font-family: 'Georgia', serif;
+  }
+  .info-panel .elem-sym {
+    display: inline-block;
+    padding: 4px 12px;
+    background: var(--primary-color);
+    color: white;
+    border-radius: 6px;
+    font-weight: bold;
+    font-size: 1.1em;
+    margin-right: 10px;
+    font-family: 'Segoe UI', sans-serif;
+  }
+  .info-panel .config {
+    font-family: 'Consolas', monospace;
+    background: white;
+    padding: 2px 8px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+  }
+  .info-panel .placeholder {
+    color: #999;
+    font-style: italic;
+  }
+
+  /* Aufbau */
+  .aufbau-vis {
+    display: flex; flex-wrap: wrap;
+    gap: 8px 6px;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Segoe UI', sans-serif;
+    margin: 18px 0;
+    padding: 18px;
+    background: white;
+    border-radius: 8px;
+  }
+  .aufbau-chip {
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-family: 'Consolas', monospace;
+    font-weight: bold;
+    font-size: 0.95em;
+    border: 1px solid rgba(0,0,0,0.1);
+  }
+  .aufbau-chip.p1 { background: #fce4e4; color: #922b21; }
+  .aufbau-chip.p2 { background: #d6eaf8; color: #1f618d; }
+  .aufbau-chip.p3 { background: #d5f5e3; color: #196f3d; }
+  .aufbau-chip.p4 { background: #f9e7c4; color: #7d6608; }
+  .aufbau-chip.p5 { background: #e8daef; color: #6c3483; }
+  .aufbau-chip.p6 { background: #fadbd8; color: #943126; }
+  .aufbau-chip.p7 { background: #d1f2eb; color: #0e6655; }
+  .aufbau-arrow {
+    color: #999;
+    font-weight: bold;
+    margin: 0 2px;
+  }
+
+  /* Períodos: barra visual */
+  .period-bars {
+    display: flex; flex-direction: column;
+    gap: 10px; margin: 20px 0;
+    font-family: 'Segoe UI', sans-serif;
+  }
+  .period-bar-row {
+    display: flex; align-items: center; gap: 12px;
+  }
+  .period-bar-label {
+    width: 100px; font-weight: bold; color: #333;
+    font-size: 0.9em;
+    flex-shrink: 0;
+  }
+  .period-bar-track {
+    flex: 1; height: 22px;
+    background: #ecf0f1; border-radius: 11px;
+    overflow: hidden; position: relative;
+  }
+  .period-bar-fill {
+    height: 100%; border-radius: 11px;
+    display: flex; align-items: center;
+    justify-content: flex-end;
+    padding-right: 10px;
+    color: white; font-weight: bold;
+    font-size: 0.85em;
+    transition: width 0.5s ease;
+  }
+  .period-bar-value {
+    width: 50px; text-align: right;
+    font-family: Consolas, monospace;
+    font-weight: bold;
+    color: #333;
+    font-size: 0.95em;
+    flex-shrink: 0;
+  }
+
+  @media (max-width: 800px) {
+    .container { padding: 30px 20px; }
+    .controls { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h1>Períodos Atómicos</h1>
+  <div class="subtitle">Las filas de la tabla periódica y su origen cuántico: por qué los períodos miden 2, 8, 8, 18, 18, 32, 32 elementos</div>
+
+  <div class="note-box">
+    <strong>Notación.</strong> $n$: número cuántico principal. $l$: número cuántico orbital ($0,1,2,3$). $s, p, d, f$: orbitales con $l = 0, 1, 2, 3$. $Z$: número atómico. $Z_{\rm eff}$: carga nuclear efectiva. $r$: radio atómico. $IE$: energía de ionización. $EN$: electronegatividad (Pauling).
+  </div>
+
+  <div class="intuition-box">
+    <strong>La idea en una frase.</strong> Un período es una fila horizontal de la tabla periódica, y su número coincide con el valor de $n$ del nivel de energía más externo que se está llenando. Cuando ese nivel se llena, comienza el siguiente período con un nuevo nivel $n+1$. Por eso los períodos tienen longitudes 2, 8, 8, 18, 18, 32, 32: son los electrones que caben en los orbitales disponibles en cada nivel.
+  </div>
+
+  <div class="toc">
+    <h3>Contenido</h3>
+    <ol>
+      <li><a href="#s1">¿Qué es un período atómico?</a></li>
+      <li><a href="#s2">Tabla periódica interactiva</a></li>
+      <li><a href="#s3">Por qué los períodos tienen esas longitudes</a></li>
+      <li><a href="#s4">El orden de llenado de orbitales (Aufbau)</a></li>
+      <li><a href="#s5">Bloques s, p, d y f</a></li>
+      <li><a href="#s6">Tendencias periódicas</a></li>
+      <li><a href="#s7">Ejemplos resueltos</a></li>
+      <li><a href="#s8">Ejercicios propuestos</a></li>
+      <li><a href="#s9">Conclusiones</a></li>
+    </ol>
+  </div>
+
+  <!-- ============================================ -->
+  <h2 id="s1">1. ¿Qué es un período atómico?</h2>
+
+  <p>Los <strong>períodos atómicos</strong> son las filas horizontales de la tabla periódica. Cada período agrupa los elementos cuyos electrones más externos ocupan el mismo nivel de energía principal $n$. Hay <strong>7 períodos</strong>, y el número del período coincide exactamente con el valor de $n$ del nivel que se está llenando.</p>
+
+  <div class="math-box">
+    $$ \boxed{\text{Período} = n \text{ del nivel de energía más externo}} $$
+  </div>
+
+  <p>Los períodos no son todos iguales: sus longitudes son 2, 8, 8, 18, 18, 32, 32. Esa secuencia no es arbitraria: sale de contar cuántos electrones caben en los orbitales que se van llenando en cada nivel. Un orbital $s$ admite 2 electrones, un $p$ admite 6, un $d$ admite 10 y un $f$ admite 14.</p>
+
+  <div class="history-box">
+    <strong>Contexto histórico.</strong> La tabla periódica de Mendeléyev (1869) ordenó los elementos por masa atómica y propiedades químicas, pero no explicaba por qué existían las filas. La explicación llegó con la mecánica cuántica (Bohr, 1913; Pauli, 1925): los períodos reflejan el llenado de los orbitales atómicos según el principio de Aufbau y el principio de exclusión de Pauli.
+  </div>
+
+  <!-- ============================================ -->
+  <h2 id="s2">2. Tabla periódica interactiva</h2>
+
+  <p>La siguiente tabla muestra los 118 elementos conocidos. Cada celda es un elemento químico, coloreado según su bloque ($s$, $p$, $d$, $f$). Puedes:</p>
+  <ul>
+    <li><strong>Pasar el ratón</strong> por un elemento para ver sus datos básicos.</li>
+    <li><strong>Hacer clic</strong> para fijar la información en el panel inferior.</li>
+    <li><strong>Seleccionar un período</strong> en el menú para resaltar solo los elementos de ese período.</li>
+    <li><strong>Seleccionar un bloque</strong> para resaltar solo los elementos de ese bloque.</li>
+  </ul>
+
+  <div class="interactive-figure">
+    <div class="figure-title">Tabla periódica interactiva</div>
+
+    <div class="controls" style="grid-template-columns: 1fr 1fr;">
+      <div class="control-panel">
+        <h4>Resaltar período</h4>
+        <div class="select-row">
+          <select id="sel_period">
+            <option value="0">Todos los períodos</option>
+            <option value="1">Período 1 (n = 1)</option>
+            <option value="2">Período 2 (n = 2)</option>
+            <option value="3">Período 3 (n = 3)</option>
+            <option value="4">Período 4 (n = 4)</option>
+            <option value="5">Período 5 (n = 5)</option>
+            <option value="6">Período 6 (n = 6)</option>
+            <option value="7">Período 7 (n = 7)</option>
+          </select>
+        </div>
+      </div>
+      <div class="control-panel">
+        <h4>Resaltar bloque</h4>
+        <div class="select-row">
+          <select id="sel_block">
+            <option value="all">Todos los bloques</option>
+            <option value="s">Bloque s</option>
+            <option value="p">Bloque p</option>
+            <option value="d">Bloque d</option>
+            <option value="f">Bloque f</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="ptable-wrap">
+      <div class="ptable" id="ptable"></div>
+    </div>
+
+    <div class="legend-pt">
+      <span class="lg"><span class="sw" style="background:#fce4e4;"></span>Bloque s</span>
+      <span class="lg"><span class="sw" style="background:#e8f5e9;"></span>Bloque p</span>
+      <span class="lg"><span class="sw" style="background:#e3f2fd;"></span>Bloque d</span>
+      <span class="lg"><span class="sw" style="background:#f3e5f5;"></span>Bloque f</span>
+    </div>
+
+    <div class="info-panel" id="info_panel">
+      <span class="placeholder">Haz clic en un elemento de la tabla para ver su información.</span>
+    </div>
+
+    <div class="guide-box">
+      <strong>Qué observar en la tabla.</strong>
+      <ol>
+        <li>El período 1 tiene solo 2 elementos (H, He), porque solo se llena el orbital $1s$ (capacidad 2).</li>
+        <li>Los períodos 2 y 3 tienen 8 elementos cada uno (llenan $s$ y $p$; $2+6=8$).</li>
+        <li>Los períodos 4 y 5 tienen 18 elementos (llenan $s$, $d$ y $p$; $2+10+6=18$). Aquí aparecen los metales de transición.</li>
+        <li>Los períodos 6 y 7 tienen 32 elementos (llenan $s$, $f$, $d$ y $p$; $2+14+10+6=32$). Aquí aparecen los lantánidos y actínidos.</li>
+        <li>Los bloques $s$, $p$, $d$, $f$ corresponden a los orbitales que se llenan en cada zona. El color de cada celda indica el bloque del elemento.</li>
+        <li>Los elementos del mismo <strong>grupo</strong> (columna) tienen la misma configuración electrónica externa, por eso se parecen químicamente. Los del mismo <strong>período</strong> (fila) comparten el nivel $n$ externo.</li>
+      </ol>
+    </div>
+
+    <div class="caption">
+      <strong>Epígrafe:</strong> Tabla periódica de los 118 elementos. Los elementos están posicionados por período (fila) y grupo (columna). Los bloques $s$, $p$, $d$, $f$ están coloreados. Los lantánidos (Ce-Lu) y actínidos (Th-Lr) se muestran en dos filas separadas debajo de la tabla principal, como es habitual, mientras que La y Ac ocupan el grupo 3 del período correspondiente. Pasa el ratón por cualquier celda para ver información; haz clic para fijarla.
+    </div>
+  </div>
+
+  <!-- ============================================ -->
+  <h2 id="s3">3. Por qué los períodos tienen esas longitudes</h2>
+
+  <p>La longitud de cada período está determinada por la <strong>capacidad de electrones</strong> de los orbitales que se llenan en ese nivel. Los orbitales tienen capacidades fijas:</p>
+
+  <table class="generic">
+    <thead>
+      <tr><th>Orbital</th><th>$l$</th><th>N.º de suborbitales ($2l+1$)</th><th>Capacidad total de electrones</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>$s$</td><td>0</td><td>1</td><td>2</td></tr>
+      <tr><td>$p$</td><td>1</td><td>3</td><td>6</td></tr>
+      <tr><td>$d$</td><td>2</td><td>5</td><td>10</td></tr>
+      <tr><td>$f$</td><td>3</td><td>7</td><td>14</td></tr>
+    </tbody>
+  </table>
+
+  <p>Sumando las capacidades de los orbitales que se llenan en cada período, obtenemos las longitudes:</p>
+
+  <div class="period-bars">
+    <div class="period-bar-row">
+      <div class="period-bar-label">Período 1</div>
+      <div class="period-bar-track"><div class="period-bar-fill" style="width:6.25%; background:#c0392b;">2</div></div>
+      <div class="period-bar-value">2</div>
+    </div>
+    <div class="period-bar-row">
+      <div class="period-bar-label">Período 2</div>
+      <div class="period-bar-track"><div class="period-bar-fill" style="width:25%; background:#2980b9;">8</div></div>
+      <div class="period-bar-value">8</div>
+    </div>
+    <div class="period-bar-row">
+      <div class="period-bar-label">Período 3</div>
+      <div class="period-bar-track"><div class="period-bar-fill" style="width:25%; background:#16a085;">8</div></div>
+      <div class="period-bar-value">8</div>
+    </div>
+    <div class="period-bar-row">
+      <div class="period-bar-label">Período 4</div>
+      <div class="period-bar-track"><div class="period-bar-fill" style="width:56.25%; background:#8e44ad;">18</div></div>
+      <div class="period-bar-value">18</div>
+    </div>
+    <div class="period-bar-row">
+      <div class="period-bar-label">Período 5</div>
+      <div class="period-bar-track"><div class="period-bar-fill" style="width:56.25%; background:#d35400;">18</div></div>
+      <div class="period-bar-value">18</div>
+    </div>
+    <div class="period-bar-row">
+      <div class="period-bar-label">Período 6</div>
+      <div class="period-bar-track"><div class="period-bar-fill" style="width:100%; background:#b7791f;">32</div></div>
+      <div class="period-bar-value">32</div>
+    </div>
+    <div class="period-bar-row">
+      <div class="period-bar-label">Período 7</div>
+      <div class="period-bar-track"><div class="period-bar-fill" style="width:100%; background:#c0392b;">32</div></div>
+      <div class="period-bar-value">32</div>
+    </div>
+  </div>
+
+  <p>El desglose por orbitales es:</p>
+
+  <table class="generic">
+    <thead>
+      <tr><th>Período</th><th>Orbitales que se llenan</th><th>Cálculo</th><th>Longitud</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>1</td><td>$1s$</td><td>$2$</td><td>2</td></tr>
+      <tr><td>2</td><td>$2s$, $2p$</td><td>$2 + 6$</td><td>8</td></tr>
+      <tr><td>3</td><td>$3s$, $3p$</td><td>$2 + 6$</td><td>8</td></tr>
+      <tr><td>4</td><td>$4s$, $3d$, $4p$</td><td>$2 + 10 + 6$</td><td>18</td></tr>
+      <tr><td>5</td><td>$5s$, $4d$, $5p$</td><td>$2 + 10 + 6$</td><td>18</td></tr>
+      <tr><td>6</td><td>$6s$, $4f$, $5d$, $6p$</td><td>$2 + 14 + 10 + 6$</td><td>32</td></tr>
+      <tr><td>7</td><td>$7s$, $5f$, $6d$, $7p$</td><td>$2 + 14 + 10 + 6$</td><td>32</td></tr>
+    </tbody>
+  </table>
+
+  <div class="sm-box">
+    <strong>Detalle sutil: el $3d$ se llena después del $4s$.</strong> En el período 3 solo se llenan $3s$ y $3p$ (8 elementos), porque el orbital $3d$ tiene mayor energía que el $4s$ y se llena en el período 4. Por eso los períodos 2 y 3 tienen 8 elementos, pero el 4 y el 5 tienen 18. Este orden de llenado se conoce como regla de Madelung o regla diagonal.
+  </div>
+
+  <!-- ============================================ -->
+  <h2 id="s4">4. El orden de llenado de orbitales (Aufbau)</h2>
+
+  <p>Los electrones se van colocando en el orbital de menor energía disponible según el <strong>principio de Aufbau</strong>. El orden de energía de los orbitales sigue la <strong>regla de Madelung</strong>: se llena primero el orbital con menor $n + l$; si hay empate, el de menor $n$. El resultado es:</p>
+
+  <div class="math-box">
+    $$ 1s \to 2s \to 2p \to 3s \to 3p \to 4s \to 3d \to 4p \to 5s \to 4d \to 5p \to 6s \to 4f \to 5d \to 6p \to 7s \to 5f \to 6d \to 7p $$
+  </div>
+
+  <div class="aufbau-vis" id="aufbau_vis"></div>
+
+  <p>Cada color indica el período en el que se llena ese orbital. Observa cómo el período 4 incluye $4s$, $3d$ y $4p$: tres subniveles, que dan los 18 elementos del período.</p>
+
+  <div class="intuition-box">
+    <strong>Analogía: los pisos de un edificio.</strong> Imagina un edificio con pisos de distintas capacidades. El piso $1s$ tiene 2 habitaciones, el $2s$ tiene 2, el $2p$ tiene 6, el $3s$ tiene 2, etc. Los electrones son huéspedes que ocupan siempre la habitación más barata (menor energía) disponible. El período es el "piso" (nivel $n$) donde se está alojando el último huésped. Cuando el piso $n$ se llena, el siguiente huésped sube al piso $n+1$, y comienza un nuevo período.
+  </div>
+
+  <div class="warning-box">
+    <strong>Error común.</strong> "Los períodos se llenan en orden estrictamente creciente de $n$." Falso: el $4s$ se llena antes que el $3d$, y el $6s$ antes que el $4f$ y el $5d$. Por eso el período 4 incluye el $3d$ y el período 6 incluye el $4f$ y el $5d$. El orden de llenado no es simplemente $1s, 2s, 2p, 3s, 3p, 3d, 4s, \dots$ sino el que dicta la regla de Madelung.
+  </div>
+
+  <!-- ============================================ -->
+  <h2 id="s5">5. Bloques s, p, d y f</h2>
+
+  <p>Los elementos de la tabla periódica se agrupan en cuatro <strong>bloques</strong> según el orbital que se está llenando en su nivel más externo:</p>
+
+  <table class="generic">
+    <thead>
+      <tr><th>Bloque</th><th>Orbital que se llena</th><th>Grupos</th><th>Elementos típicos</th><th>Propiedades</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>s</strong></td>
+        <td>$ns$</td>
+        <td>1 y 2 (más He)</td>
+        <td>Li, Na, K, Mg, Ca</td>
+        <td>Metales alcalinos y alcalinotérreos; muy reactivos.</td>
+      </tr>
+      <tr>
+        <td><strong>p</strong></td>
+        <td>$np$</td>
+        <td>13 a 18</td>
+        <td>B, C, N, O, F, Ne, Cl, Ar</td>
+        <td>Metales, metaloides y no metales; gran variedad química.</td>
+      </tr>
+      <tr>
+        <td><strong>d</strong></td>
+        <td>$(n-1)d$</td>
+        <td>3 a 12</td>
+        <td>Fe, Cu, Zn, Ag, Au</td>
+        <td>Metales de transición; buenos conductores, catalizadores.</td>
+      </tr>
+      <tr>
+        <td><strong>f</strong></td>
+        <td>$(n-2)f$</td>
+        <td>Lantánidos y actínidos</td>
+        <td>La-Lu, Ac-Lr</td>
+        <td>Tierras raras; propiedades magnéticas y ópticas especiales.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="sm-box">
+    <strong>El bloque f y los períodos 6 y 7.</strong> Los 14 elementos del bloque $f$ corresponden a los lantánidos (Ce-Lu) y actínidos (Th-Lr). Como no caben en la tabla principal, se muestran en dos filas separadas debajo. Por eso los períodos 6 y 7 son tan largos: incluyen $s$ (2) + $f$ (14) + $d$ (10) + $p$ (6) = 32 elementos.
+  </div>
+
+  <!-- ============================================ -->
+  <h2 id="s6">6. Tendencias periódicas</h2>
+
+  <p>Al avanzar a lo largo de un período (de izquierda a derecha, aumentando $Z$ con $n$ fijo), las propiedades atómicas cambian de forma regular. Las tres tendencias más importantes son:</p>
+
+  <ul>
+    <li><strong>Radio atómico:</strong> disminuye. La carga nuclear aumenta y atrae más fuerte a los electrones del mismo nivel, contrayendo la nube.</li>
+    <li><strong>Energía de ionización ($IE$):</strong> aumenta. Cuesta más arrancar un electrón porque está más fuertemente ligado.</li>
+    <li><strong>Electronegatividad ($EN$):</strong> aumenta. El átomo atrae más los electrones de un enlace.</li>
+  </ul>
+
+  <p>Al bajar por un grupo, las tendencias se invierten: el radio aumenta, la $IE$ disminuye y la $EN$ disminuye.</p>
+
+  <div class="interactive-figure">
+    <div class="figure-title">Figura: Tendencias periódicas en los períodos 1-4</div>
+    <div id="plot_trends" class="plot-area"></div>
+    <div class="controls" style="grid-template-columns: 1fr 1fr;">
+      <div class="control-panel">
+        <h4>Propiedad a visualizar</h4>
+        <div class="select-row">
+          <select id="sel_trend">
+            <option value="radius">Radio atómico (pm)</option>
+            <option value="IE">Energía de ionización (kJ/mol)</option>
+            <option value="EN">Electronegatividad (Pauling)</option>
+          </select>
+        </div>
+      </div>
+      <div class="control-panel">
+        <h4>Lectura</h4>
+        <div id="stats_trends" class="stats"></div>
+      </div>
+    </div>
+    <div class="guide-box">
+      <strong>Qué observar en la figura.</strong>
+      <ol>
+        <li>Cada color corresponde a un período. Las líneas conectan los elementos de un mismo período, en orden de $Z$ creciente.</li>
+        <li>En el <strong>radio atómico</strong>, la tendencia dentro de cada período es claramente decreciente: los átomos se contraen al avanzar hacia la derecha.</li>
+        <li>En la <strong>energía de ionización</strong>, la tendencia es creciente, con pequeñas irregularidades (por ejemplo, el B y el O son ligeramente menores que sus vecinos, por efectos de apareamiento de electrones).</li>
+        <li>En la <strong>electronegatividad</strong>, la tendencia es creciente, con los gases nobles excluidos (no forman enlaces).</li>
+        <li>Compara los períodos 2 y 3: el período 3 tiene átomos más grandes (más capas), pero la tendencia interna es la misma.</li>
+        <li>El período 4 incluye metales de transición (bloque $d$): la tendencia se aplana en el medio, pero se recupera al final (bloque $p$).</li>
+      </ol>
+    </div>
+    <div class="caption">
+      <strong>Epígrafe:</strong> Tendencias periódicas en los períodos 1-4. Se muestran los elementos hasta Z=36 (Kr). Los colores indican el período: rojo (período 1), azul (2), verde (3), morado (4). En el radio atómico, la tendencia decreciente dentro de cada período es la firma de la carga nuclear efectiva creciente. En la energía de ionización y la electronegatividad, la tendencia es creciente. Las discontinuidades al inicio de cada período corresponden al salto a un nuevo nivel $n$.
+    </div>
+  </div>
+
+  <!-- ============================================ -->
+  <h2 id="s7">7. Ejemplos resueltos</h2>
+
+  <div class="worked-example">
+    <div class="we-header">Ejemplo desarrollado 7.1</div>
+    <div class="we-title">Longitud del período 4 y configuración del K</div>
+    <p>Explica por qué el período 4 tiene 18 elementos y escribe la configuración electrónica del potasio ($Z=19$).</p>
+    <div class="step">
+      <span class="step-label">Paso 1 — Orbitales que se llenan</span>
+      <div class="step-body">
+        <p>En el período 4 se llenan los orbitales $4s$, $3d$ y $4p$. Sus capacidades son 2, 10 y 6 electrones respectivamente.</p>
+        $$ 2 + 10 + 6 = 18 $$
+      </div>
+    </div>
+    <div class="step">
+      <span class="step-label">Paso 2 — Configuración del K (Z=19)</span>
+      <div class="step-body">
+        <p>Siguiendo el orden de Aufbau: $1s^2\,2s^2\,2p^6\,3s^2\,3p^6\,4s^1$. El último electrón entra en $4s$, que es el orbital de menor energía disponible después del $3p^6$.</p>
+        <div class="result">K: $1s^2\,2s^2\,2p^6\,3s^2\,3p^6\,4s^1$. El K abre el período 4 porque su electrón externo está en $n=4$.</div>
+      </div>
+    </div>
+    <div class="verify">
+      Comprobación: el K es un metal alcalino, muy reactivo, porque tiene un solo electrón en $4s$ que pierde fácilmente para formar K⁺.
+    </div>
+  </div>
+
+  <div class="worked-example">
+    <div class="we-header">Ejemplo desarrollado 7.2</div>
+    <div class="we-title">¿Por qué el período 3 tiene 8 elementos y no 18?</div>
+    <p>Si el nivel $n=3$ tiene orbitales $3s$, $3p$ y $3d$, ¿por qué el período 3 solo tiene 8 elementos?</p>
+    <div class="step">
+      <span class="step-label">Paso 1 — Capacidad del nivel $n=3$</span>
+      <div class="step-body">
+        <p>El nivel $n=3$ tiene $3s$ (2), $3p$ (6) y $3d$ (10): capacidad total 18 electrones.</p>
+      </div>
+    </div>
+    <div class="step">
+      <span class="step-label">Paso 2 — Orden de energía</span>
+      <div class="step-body">
+        <p>Por la regla de Madelung, el orbital $4s$ tiene menor energía que el $3d$ (porque $n+l$: $4+0=4$ para $4s$ vs $3+2=5$ para $3d$). Por eso, después de llenar $3p$, el siguiente electrón entra en $4s$, no en $3d$.</p>
+        <div class="result">El período 3 solo llena $3s$ y $3p$: 2 + 6 = 8 elementos. El $3d$ se llena en el período 4, después del $4s$.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="worked-example">
+    <div class="we-header">Ejemplo desarrollado 7.3</div>
+    <div class="we-title">Tendencia del radio atómico en el período 2</div>
+    <p>Ordena los radios atómicos de Li, Be, B, C, N, O, F, Ne y explica la tendencia.</p>
+    <div class="step">
+      <span class="step-label">Paso 1 — Datos</span>
+      <div class="step-body">
+        <p>Li (167 pm), Be (112), B (87), C (67), N (56), O (48), F (42), Ne (38).</p>
+      </div>
+    </div>
+    <div class="step">
+      <span class="step-label">Paso 2 — Explicación</span>
+      <div class="step-body">
+        <p>Todos tienen $n=2$ como nivel externo. Al aumentar $Z$, la carga nuclear crece y atrae más fuertemente a los electrones del mismo nivel $n=2$. La nube se contrae. Por eso el radio disminuye monótonamente de Li a Ne.</p>
+        <div class="result">Li > Be > B > C > N > O > F > Ne. La tendencia es decreciente dentro del período.</div>
+      </div>
+    </div>
+    <div class="verify">
+      El efecto se debe a la <strong>carga nuclear efectiva</strong> $Z_{\rm eff}$: los electrones internos apantallan parcialmente la carga nuclear, pero al añadir protones, $Z_{\rm eff}$ crece y el radio disminuye.
+    </div>
+  </div>
+
+  <!-- ============================================ -->
+  <h2 id="s8">8. Ejercicios propuestos</h2>
+
+  <div class="exercise-box">
+    <h4>Ejercicio 1 — Longitud del período 5</h4>
+    <p>¿Cuántos elementos tiene el período 5? ¿Qué orbitales se llenan en él?</p>
+    <div class="hint"><strong>Pista:</strong> el período 5 llena $5s$, $4d$ y $5p$.</div>
+    <button class="solution-toggle" onclick="toggleSolution(this)">Mostrar solución</button>
+    <div class="solution-content">
+      <p>El período 5 llena $5s$ (2), $4d$ (10) y $5p$ (6). Total: $2 + 10 + 6 = 18$ elementos.</p>
+      <p>Va del Rb ($Z=37$) al Xe ($Z=54$).</p>
+    </div>
+  </div>
+
+  <div class="exercise-box">
+    <h4>Ejercicio 2 — Configuración del hierro</h4>
+    <p>Escribe la configuración electrónica del hierro ($Z=26$) y explica en qué período y bloque se encuentra.</p>
+    <div class="hint"><strong>Pista:</strong> sigue el orden de Aufbau. Después del $4s^2$, se llena el $3d$.</div>
+    <button class="solution-toggle" onclick="toggleSolution(this)">Mostrar solución</button>
+    <div class="solution-content">
+      <p>Fe: $1s^2\,2s^2\,2p^6\,3s^2\,3p^6\,4s^2\,3d^6$, o abreviado $[{\rm Ar}]\,3d^6\,4s^2$.</p>
+      <p>Está en el período 4 (su nivel externo es $n=4$, con $4s^2$) y en el bloque $d$ (se está llenando el $3d$). Es un metal de transición.</p>
+    </div>
+  </div>
+
+  <div class="exercise-box">
+    <h4>Ejercicio 3 — ¿Por qué el He está en el grupo 18?</h4>
+    <p>El helio tiene configuración $1s^2$, no $np^6$. ¿Por qué se coloca en el grupo 18 (gases nobles) y no en el grupo 2?</p>
+    <div class="hint"><strong>Pista:</strong> el grupo se define por el comportamiento químico (capas llenas), no solo por la configuración literal.</div>
+    <button class="solution-toggle" onclick="toggleSolution(this)">Mostrar solución</button>
+    <div class="solution-content">
+      <p>El He tiene su capa $n=1$ completamente llena ($1s^2$). Como la capa $n=1$ solo puede contener 2 electrones, esa configuración ya es de capa cerrada, igual que los demás gases nobles (que tienen $ns^2\,np^6$). Por eso se comporta químicamente como un gas noble y se coloca en el grupo 18.</p>
+    </div>
+  </div>
+
+  <div class="exercise-box">
+    <h4>Ejercicio 4 — Tendencias en un grupo</h4>
+    <p>Ordena de mayor a menor radio atómico: Li, Na, K, Rb. Explica la tendencia.</p>
+    <div class="hint"><strong>Pista:</strong> al bajar por un grupo, se añade una nueva capa electrónica.</div>
+    <button class="solution-toggle" onclick="toggleSolution(this)">Mostrar solución</button>
+    <div class="solution-content">
+      <p>Rb > K > Na > Li.</p>
+      <p>Al bajar por el grupo 1, el número cuántico principal $n$ del electrón externo aumenta ($2, 3, 4, 5$), y se añade una capa electrónica completa. Aunque $Z$ también aumenta, el efecto de apantallamiento de las capas internas hace que el radio crezca.</p>
+    </div>
+  </div>
+
+  <div class="exercise-box">
+    <h4>Ejercicio 5 — Identificar el período y el bloque</h4>
+    <p>Un elemento tiene configuración $[{\rm Ar}]\,4s^2\,3d^{10}\,4p^3$. ¿De qué elemento se trata? ¿En qué período y bloque está?</p>
+    <div class="hint"><strong>Pista:</strong> cuenta los electrones totales y localiza el último orbital que se llena.</div>
+    <button class="solution-toggle" onclick="toggleSolution(this)">Mostrar solución</button>
+    <div class="solution-content">
+      <p>Contando: $[{\rm Ar}]$ = 18 electrones, más $4s^2$ (2), $3d^{10}$ (10) y $4p^3$ (3) = 18 + 2 + 10 + 3 = 33. Es el arsénico (As), $Z=33$.</p>
+      <p>El último orbital que se llena es $4p$, así que está en el período 4 (nivel $n=4$ externo) y en el bloque $p$ (por el $4p^3$).</p>
+    </div>
+  </div>
+
+  <!-- ============================================ -->
+  <h2 id="s9">9. Conclusiones</h2>
+
+  <ol>
+    <li><strong>Un período es una fila horizontal de la tabla periódica</strong>, y su número coincide con el valor de $n$ del nivel de energía más externo que se está llenando.</li>
+    <li><strong>Las longitudes de los períodos (2, 8, 8, 18, 18, 32, 32)</strong> son consecuencia directa de la capacidad de los orbitales $s$, $p$, $d$, $f$ y del orden de llenado de Aufbau-Madelung.</li>
+    <li><strong>El orden de llenado no es simplemente creciente en $n$</strong>: el $4s$ se llena antes que el $3d$, y el $6s$ antes que el $4f$ y el $5d$. Por eso los períodos 4-7 incluyen orbitales $d$ y $f$.</li>
+    <li><strong>Los bloques $s$, $p$, $d$, $f$</strong> agrupan los elementos según el orbital que se está llenando, y determinan sus propiedades químicas generales.</li>
+    <li><strong>Las tendencias periódicas</strong> (radio, energía de ionización, electronegatividad) se explican por la carga nuclear efectiva creciente dentro de un período y por el aumento de capas al bajar por un grupo.</li>
+    <li><strong>La tabla periódica es una consecuencia de la mecánica cuántica</strong>: su estructura de filas y columnas refleja la cuantización de la energía y el principio de exclusión de Pauli.</li>
+  </ol>
+
+  <p>Los períodos atómicos son, en cierto sentido, la "huella dactilar" de la estructura electrónica de los átomos. Entender por qué existen y por qué tienen las longitudes que tienen permite predecir configuraciones electrónicas, explicar tendencias químicas y comprender por qué la tabla periódica tiene la forma que tiene. No es una lista empírica: es una consecuencia directa de las leyes de la física cuántica.</p>
+
+</div>
+
+<script>
+// ============================================================
+// DATOS DE LOS ELEMENTOS
+// [Z, símbolo, nombre, período, grupo, bloque, masa, radio_pm, IE_kJ, EN, configuración]
+// ============================================================
+const EL = [
+  // Período 1
+  [1,'H','Hidrógeno',1,1,'s',1.008,53,1312,2.20,'1s¹'],
+  [2,'He','Helio',1,18,'s',4.003,31,2372,null,'1s²'],
+  // Período 2
+  [3,'Li','Litio',2,1,'s',6.94,167,520,0.98,'[He] 2s¹'],
+  [4,'Be','Berilio',2,2,'s',9.012,112,899,1.57,'[He] 2s²'],
+  [5,'B','Boro',2,13,'p',10.81,87,801,2.04,'[He] 2s² 2p¹'],
+  [6,'C','Carbono',2,14,'p',12.011,67,1086,2.55,'[He] 2s² 2p²'],
+  [7,'N','Nitrógeno',2,15,'p',14.007,56,1402,3.04,'[He] 2s² 2p³'],
+  [8,'O','Oxígeno',2,16,'p',15.999,48,1314,3.44,'[He] 2s² 2p⁴'],
+  [9,'F','Flúor',2,17,'p',18.998,42,1681,3.98,'[He] 2s² 2p⁵'],
+  [10,'Ne','Neón',2,18,'p',20.180,38,2081,null,'[He] 2s² 2p⁶'],
+  // Período 3
+  [11,'Na','Sodio',3,1,'s',22.990,190,496,0.93,'[Ne] 3s¹'],
+  [12,'Mg','Magnesio',3,2,'s',24.305,145,738,1.31,'[Ne] 3s²'],
+  [13,'Al','Aluminio',3,13,'p',26.982,118,578,1.61,'[Ne] 3s² 3p¹'],
+  [14,'Si','Silicio',3,14,'p',28.085,111,786,1.90,'[Ne] 3s² 3p²'],
+  [15,'P','Fósforo',3,15,'p',30.974,98,1012,2.19,'[Ne] 3s² 3p³'],
+  [16,'S','Azufre',3,16,'p',32.06,88,1000,2.58,'[Ne] 3s² 3p⁴'],
+  [17,'Cl','Cloro',3,17,'p',35.45,79,1251,3.16,'[Ne] 3s² 3p⁵'],
+  [18,'Ar','Argón',3,18,'p',39.948,71,1521,null,'[Ne] 3s² 3p⁶'],
+  // Período 4
+  [19,'K','Potasio',4,1,'s',39.098,243,419,0.82,'[Ar] 4s¹'],
+  [20,'Ca','Calcio',4,2,'s',40.078,194,590,1.00,'[Ar] 4s²'],
+  [21,'Sc','Escandio',4,3,'d',44.956,184,633,1.36,'[Ar] 3d¹ 4s²'],
+  [22,'Ti','Titanio',4,4,'d',47.867,176,659,1.54,'[Ar] 3d² 4s²'],
+  [23,'V','Vanadio',4,5,'d',50.942,171,651,1.63,'[Ar] 3d³ 4s²'],
+  [24,'Cr','Cromo',4,6,'d',51.996,166,653,1.66,'[Ar] 3d⁵ 4s¹'],
+  [25,'Mn','Manganeso',4,7,'d',54.938,161,717,1.55,'[Ar] 3d⁵ 4s²'],
+  [26,'Fe','Hierro',4,8,'d',55.845,156,762,1.83,'[Ar] 3d⁶ 4s²'],
+  [27,'Co','Cobalto',4,9,'d',58.933,152,760,1.88,'[Ar] 3d⁷ 4s²'],
+  [28,'Ni','Níquel',4,10,'d',58.693,149,737,1.91,'[Ar] 3d⁸ 4s²'],
+  [29,'Cu','Cobre',4,11,'d',63.546,145,745,1.90,'[Ar] 3d¹⁰ 4s¹'],
+  [30,'Zn','Zinc',4,12,'d',65.38,142,906,1.65,'[Ar] 3d¹⁰ 4s²'],
+  [31,'Ga','Galio',4,13,'p',69.723,136,579,1.81,'[Ar] 3d¹⁰ 4s² 4p¹'],
+  [32,'Ge','Germanio',4,14,'p',72.630,125,762,2.01,'[Ar] 3d¹⁰ 4s² 4p²'],
+  [33,'As','Arsénico',4,15,'p',74.922,114,947,2.18,'[Ar] 3d¹⁰ 4s² 4p³'],
+  [34,'Se','Selenio',4,16,'p',78.971,103,941,2.55,'[Ar] 3d¹⁰ 4s² 4p⁴'],
+  [35,'Br','Bromo',4,17,'p',79.904,94,1140,2.96,'[Ar] 3d¹⁰ 4s² 4p⁵'],
+  [36,'Kr','Kriptón',4,18,'p',83.798,88,1351,3.00,'[Ar] 3d¹⁰ 4s² 4p⁶'],
+  // Período 5
+  [37,'Rb','Rubidio',5,1,'s',85.468,265,403,0.82,'[Kr] 5s¹'],
+  [38,'Sr','Estroncio',5,2,'s',87.62,219,550,0.95,'[Kr] 5s²'],
+  [39,'Y','Itrio',5,3,'d',88.906,212,616,1.22,'[Kr] 4d¹ 5s²'],
+  [40,'Zr','Circonio',5,4,'d',91.224,206,660,1.33,'[Kr] 4d² 5s²'],
+  [41,'Nb','Niobio',5,5,'d',92.906,198,664,1.60,'[Kr] 4d⁴ 5s¹'],
+  [42,'Mo','Molibdeno',5,6,'d',95.95,190,685,2.16,'[Kr] 4d⁵ 5s¹'],
+  [43,'Tc','Tecnecio',5,7,'d',98,183,702,1.90,'[Kr] 4d⁵ 5s²'],
+  [44,'Ru','Rutenio',5,8,'d',101.07,178,710,2.20,'[Kr] 4d⁷ 5s¹'],
+  [45,'Rh','Rodio',5,9,'d',102.906,173,720,2.28,'[Kr] 4d⁸ 5s¹'],
+  [46,'Pd','Paladio',5,10,'d',106.42,169,804,2.20,'[Kr] 4d¹⁰'],
+  [47,'Ag','Plata',5,11,'d',107.868,165,731,1.93,'[Kr] 4d¹⁰ 5s¹'],
+  [48,'Cd','Cadmio',5,12,'d',112.414,161,868,1.69,'[Kr] 4d¹⁰ 5s²'],
+  [49,'In','Indio',5,13,'p',114.818,156,558,1.78,'[Kr] 4d¹⁰ 5s² 5p¹'],
+  [50,'Sn','Estaño',5,14,'p',118.710,145,709,1.96,'[Kr] 4d¹⁰ 5s² 5p²'],
+  [51,'Sb','Antimonio',5,15,'p',121.760,133,834,2.05,'[Kr] 4d¹⁰ 5s² 5p³'],
+  [52,'Te','Telurio',5,16,'p',127.60,123,869,2.10,'[Kr] 4d¹⁰ 5s² 5p⁴'],
+  [53,'I','Yodo',5,17,'p',126.904,115,1008,2.66,'[Kr] 4d¹⁰ 5s² 5p⁵'],
+  [54,'Xe','Xenón',5,18,'p',131.293,108,1170,2.60,'[Kr] 4d¹⁰ 5s² 5p⁶'],
+  // Período 6
+  [55,'Cs','Cesio',6,1,'s',132.905,298,376,0.79,'[Xe] 6s¹'],
+  [56,'Ba','Bario',6,2,'s',137.327,253,503,0.89,'[Xe] 6s²'],
+  [57,'La','Lantano',6,3,'f',138.905,240,538,1.10,'[Xe] 5d¹ 6s²'],
+  [58,'Ce','Cerio',6,3,'f',140.116,235,534,1.12,'[Xe] 4f¹ 5d¹ 6s²'],
+  [59,'Pr','Praseodimio',6,3,'f',140.908,239,527,1.13,'[Xe] 4f³ 6s²'],
+  [60,'Nd','Neodimio',6,3,'f',144.242,229,533,1.14,'[Xe] 4f⁴ 6s²'],
+  [61,'Pm','Prometio',6,3,'f',145,236,540,1.13,'[Xe] 4f⁵ 6s²'],
+  [62,'Sm','Samario',6,3,'f',150.36,229,545,1.17,'[Xe] 4f⁶ 6s²'],
+  [63,'Eu','Europio',6,3,'f',151.964,233,547,1.20,'[Xe] 4f⁷ 6s²'],
+  [64,'Gd','Gadolinio',6,3,'f',157.25,237,593,1.20,'[Xe] 4f⁷ 5d¹ 6s²'],
+  [65,'Tb','Terbio',6,3,'f',158.925,221,566,1.20,'[Xe] 4f⁹ 6s²'],
+  [66,'Dy','Disprosio',6,3,'f',162.500,229,573,1.22,'[Xe] 4f¹⁰ 6s²'],
+  [67,'Ho','Holmio',6,3,'f',164.930,216,581,1.23,'[Xe] 4f¹¹ 6s²'],
+  [68,'Er','Erbio',6,3,'f',167.259,235,589,1.24,'[Xe] 4f¹² 6s²'],
+  [69,'Tm','Tulio',6,3,'f',168.934,227,597,1.25,'[Xe] 4f¹³ 6s²'],
+  [70,'Yb','Iterbio',6,3,'f',173.045,242,603,1.10,'[Xe] 4f¹⁴ 6s²'],
+  [71,'Lu','Lutecio',6,3,'f',174.967,221,524,1.27,'[Xe] 4f¹⁴ 5d¹ 6s²'],
+  [72,'Hf','Hafnio',6,4,'d',178.486,212,659,1.30,'[Xe] 4f¹⁴ 5d² 6s²'],
+  [73,'Ta','Tantalio',6,5,'d',180.948,217,761,1.50,'[Xe] 4f¹⁴ 5d³ 6s²'],
+  [74,'W','Wolframio',6,6,'d',183.84,210,770,2.36,'[Xe] 4f¹⁴ 5d⁴ 6s²'],
+  [75,'Re','Renio',6,7,'d',186.207,217,760,1.90,'[Xe] 4f¹⁴ 5d⁵ 6s²'],
+  [76,'Os','Osmio',6,8,'d',190.23,216,840,2.20,'[Xe] 4f¹⁴ 5d⁶ 6s²'],
+  [77,'Ir','Iridio',6,9,'d',192.217,202,880,2.20,'[Xe] 4f¹⁴ 5d⁷ 6s²'],
+  [78,'Pt','Platino',6,10,'d',195.084,209,870,2.28,'[Xe] 4f¹⁴ 5d⁹ 6s¹'],
+  [79,'Au','Oro',6,11,'d',196.967,166,890,2.54,'[Xe] 4f¹⁴ 5d¹⁰ 6s¹'],
+  [80,'Hg','Mercurio',6,12,'d',200.592,209,1007,2.00,'[Xe] 4f¹⁴ 5d¹⁰ 6s²'],
+  [81,'Tl','Talio',6,13,'p',204.38,196,589,1.62,'[Xe] 4f¹⁴ 5d¹⁰ 6s² 6p¹'],
+  [82,'Pb','Plomo',6,14,'p',207.2,202,716,1.87,'[Xe] 4f¹⁴ 5d¹⁰ 6s² 6p²'],
+  [83,'Bi','Bismuto',6,15,'p',208.980,207,703,2.02,'[Xe] 4f¹⁴ 5d¹⁰ 6s² 6p³'],
+  [84,'Po','Polonio',6,16,'p',209,197,812,2.00,'[Xe] 4f¹⁴ 5d¹⁰ 6s² 6p⁴'],
+  [85,'At','Astato',6,17,'p',210,202,899,2.20,'[Xe] 4f¹⁴ 5d¹⁰ 6s² 6p⁵'],
+  [86,'Rn','Radón',6,18,'p',222,220,1037,2.20,'[Xe] 4f¹⁴ 5d¹⁰ 6s² 6p⁶'],
+  // Período 7
+  [87,'Fr','Francio',7,1,'s',223,348,393,0.70,'[Rn] 7s¹'],
+  [88,'Ra','Radio',7,2,'s',226,283,509,0.90,'[Rn] 7s²'],
+  [89,'Ac','Actinio',7,3,'f',227,260,499,1.10,'[Rn] 6d¹ 7s²'],
+  [90,'Th','Torio',7,3,'f',232.038,237,587,1.30,'[Rn] 6d² 7s²'],
+  [91,'Pa','Protactinio',7,3,'f',231.036,243,568,1.50,'[Rn] 5f² 6d¹ 7s²'],
+  [92,'U','Uranio',7,3,'f',238.029,240,598,1.38,'[Rn] 5f³ 6d¹ 7s²'],
+  [93,'Np','Neptunio',7,3,'f',237,221,605,1.36,'[Rn] 5f⁴ 6d¹ 7s²'],
+  [94,'Pu','Plutonio',7,3,'f',244,243,585,1.28,'[Rn] 5f⁶ 7s²'],
+  [95,'Am','Americio',7,3,'f',243,244,578,1.13,'[Rn] 5f⁷ 7s²'],
+  [96,'Cm','Curio',7,3,'f',247,245,581,1.28,'[Rn] 5f⁷ 6d¹ 7s²'],
+  [97,'Bk','Berkelio',7,3,'f',247,244,601,1.30,'[Rn] 5f⁹ 7s²'],
+  [98,'Cf','Californio',7,3,'f',251,245,608,1.30,'[Rn] 5f¹⁰ 7s²'],
+  [99,'Es','Einstenio',7,3,'f',252,245,619,1.30,'[Rn] 5f¹¹ 7s²'],
+  [100,'Fm','Fermio',7,3,'f',257,null,627,1.30,'[Rn] 5f¹² 7s²'],
+  [101,'Md','Mendelevio',7,3,'f',258,null,635,1.30,'[Rn] 5f¹³ 7s²'],
+  [102,'No','Nobelio',7,3,'f',259,null,642,1.30,'[Rn] 5f¹⁴ 7s²'],
+  [103,'Lr','Lawrencio',7,3,'f',262,null,470,1.30,'[Rn] 5f¹⁴ 7s² 7p¹'],
+  [104,'Rf','Rutherfordio',7,4,'d',267,null,580,null,'[Rn] 5f¹⁴ 6d² 7s²'],
+  [105,'Db','Dubnio',7,5,'d',268,null,665,null,'[Rn] 5f¹⁴ 6d³ 7s²'],
+  [106,'Sg','Seaborgio',7,6,'d',269,null,757,null,'[Rn] 5f¹⁴ 6d⁴ 7s²'],
+  [107,'Bh','Bohrio',7,7,'d',270,null,740,null,'[Rn] 5f¹⁴ 6d⁵ 7s²'],
+  [108,'Hs','Hasio',7,8,'d',269,null,730,null,'[Rn] 5f¹⁴ 6d⁶ 7s²'],
+  [109,'Mt','Meitnerio',7,9,'d',278,null,800,null,'[Rn] 5f¹⁴ 6d⁷ 7s²'],
+  [110,'Ds','Darmstatio',7,10,'d',281,null,960,null,'[Rn] 5f¹⁴ 6d⁸ 7s²'],
+  [111,'Rg','Roentgenio',7,11,'d',282,null,1020,null,'[Rn] 5f¹⁴ 6d⁹ 7s²'],
+  [112,'Cn','Copernicio',7,12,'d',285,null,1155,null,'[Rn] 5f¹⁴ 6d¹⁰ 7s²'],
+  [113,'Nh','Nihonio',7,13,'p',286,null,707,null,'[Rn] 5f¹⁴ 6d¹⁰ 7s² 7p¹'],
+  [114,'Fl','Flerovio',7,14,'p',289,null,832,null,'[Rn] 5f¹⁴ 6d¹⁰ 7s² 7p²'],
+  [115,'Mc','Moscovio',7,15,'p',290,null,538,null,'[Rn] 5f¹⁴ 6d¹⁰ 7s² 7p³'],
+  [116,'Lv','Livermorio',7,16,'p',293,null,663,null,'[Rn] 5f¹⁴ 6d¹⁰ 7s² 7p⁴'],
+  [117,'Ts','Teneso',7,17,'p',294,null,736,null,'[Rn] 5f¹⁴ 6d¹⁰ 7s² 7p⁵'],
+  [118,'Og','Oganesón',7,18,'p',294,null,860,null,'[Rn] 5f¹⁴ 6d¹⁰ 7s² 7p⁶']
+];
+
+// ============================================================
+// UTILIDADES
+// ============================================================
+function toggleSolution(btn) {
+  const content = btn.nextElementSibling;
+  content.classList.toggle('open');
+  btn.innerText = content.classList.contains('open') ? 'Ocultar solución' : 'Mostrar solución';
+  if (window.MathJax && window.MathJax.Hub) {
+    window.MathJax.Hub.Queue(["Typeset", window.MathJax.Hub, content]);
+  }
+}
+window.toggleSolution = toggleSolution;
+
+// ============================================================
+// TABLA PERIÓDICA
+// ============================================================
+let selectedZ = null;
+
+function buildPeriodicTable() {
+  const ptable = document.getElementById('ptable');
+  ptable.innerHTML = '';
+
+  EL.forEach(el => {
+    const [Z, sym, name, period, group, block] = el;
+
+    const div = document.createElement('div');
+    div.className = `cell block-${block}`;
+    div.dataset.Z = Z;
+    div.dataset.period = period;
+    div.dataset.block = block;
+
+    // Determinar posición
+    if (block === 'f' && Z !== 57 && Z !== 89) {
+      // F-block: filas 9 y 10, columnas 3-16
+      if (Z >= 58 && Z <= 71) {
+        div.style.gridRow = 9;
+        div.style.gridColumn = Z - 58 + 3;
+      } else if (Z >= 90 && Z <= 103) {
+        div.style.gridRow = 10;
+        div.style.gridColumn = Z - 90 + 3;
+      }
+    } else {
+      // Main table
+      div.style.gridRow = period;
+      div.style.gridColumn = group;
+    }
+
+    div.innerHTML = `<div class="sym">${sym}</div><div class="z">${Z}</div>`;
+
+    div.addEventListener('click', () => showElement(el, div));
+    div.addEventListener('mouseenter', (evt) => {
+      showElement(el, div, true);
+    });
+
+    ptable.appendChild(div);
+  });
+
+  // Etiquetas para f-block
+  const labLanth = document.createElement('div');
+  labLanth.className = 'fblock-label';
+  labLanth.style.gridRow = 9;
+  labLanth.style.gridColumn = '1 / span 2';
+  labLanth.textContent = 'Lantánidos';
+  ptable.appendChild(labLanth);
+
+  const labAct = document.createElement('div');
+  labAct.className = 'fblock-label';
+  labAct.style.gridRow = 10;
+  labAct.style.gridColumn = '1 / span 2';
+  labAct.textContent = 'Actínidos';
+  ptable.appendChild(labAct);
+}
+
+function showElement(el, div, hoverOnly) {
+  const [Z, sym, name, period, group, block, mass, radius, IE, EN, config] = el;
+
+  const panel = document.getElementById('info_panel');
+  const blockName = { s: 'Bloque s', p: 'Bloque p', d: 'Bloque d', f: 'Bloque f' }[block];
+  const ENstr = EN !== null ? EN.toFixed(2) : '—';
+  const radiusStr = radius !== null ? radius + ' pm' : '—';
+
+  panel.innerHTML = `
+    <div>
+      <span class="elem-sym">${sym}</span>
+      <span class="elem-name">${name}</span>
+      <span style="color:#888; font-size:0.9em;"> (Z = ${Z})</span>
+    </div>
+    <div style="margin-top: 8px;">
+      <strong>Período:</strong> ${period} &nbsp;·&nbsp;
+      <strong>Grupo:</strong> ${group} &nbsp;·&nbsp;
+      <strong>${blockName}</strong>
+    </div>
+    <div style="margin-top: 4px;">
+      <strong>Configuración:</strong> <span class="config">${config}</span>
+    </div>
+    <div style="margin-top: 4px;">
+      <strong>Masa atómica:</strong> ${mass} u &nbsp;·&nbsp;
+      <strong>Radio:</strong> ${radiusStr} &nbsp;·&nbsp;
+      <strong>IE₁:</strong> ${IE} kJ/mol &nbsp;·&nbsp;
+      <strong>EN:</strong> ${ENstr}
+    </div>
+  `;
+
+  if (!hoverOnly) {
+    // Marcar como seleccionado
+    document.querySelectorAll('.cell.selected').forEach(c => c.classList.remove('selected'));
+    div.classList.add('selected');
+    selectedZ = Z;
+  }
+}
+
+// Filtros de período / bloque
+function applyFilters() {
+  const period = document.getElementById('sel_period').value;
+  const block = document.getElementById('sel_block').value;
+
+  document.querySelectorAll('.cell').forEach(c => {
+    const cP = c.dataset.period;
+    const cB = c.dataset.block;
+
+    let visible = true;
+    if (period !== '0' && cP !== period) visible = false;
+    if (block !== 'all' && cB !== block) visible = false;
+
+    c.classList.toggle('dimmed', !visible);
+    c.classList.toggle('period-hl', visible && period !== '0');
+  });
+}
+
+document.getElementById('sel_period').addEventListener('change', applyFilters);
+document.getElementById('sel_block').addEventListener('change', applyFilters);
+
+// ============================================================
+// AUFBAU
+// ============================================================
+const AUFBAU_ORDER = [
+  { sub: '1s', period: 1 },
+  { sub: '2s', period: 2 },
+  { sub: '2p', period: 2 },
+  { sub: '3s', period: 3 },
+  { sub: '3p', period: 3 },
+  { sub: '4s', period: 4 },
+  { sub: '3d', period: 4 },
+  { sub: '4p', period: 4 },
+  { sub: '5s', period: 5 },
+  { sub: '4d', period: 5 },
+  { sub: '5p', period: 5 },
+  { sub: '6s', period: 6 },
+  { sub: '4f', period: 6 },
+  { sub: '5d', period: 6 },
+  { sub: '6p', period: 6 },
+  { sub: '7s', period: 7 },
+  { sub: '5f', period: 7 },
+  { sub: '6d', period: 7 },
+  { sub: '7p', period: 7 }
+];
+
+function buildAufbau() {
+  const container = document.getElementById('aufbau_vis');
+  container.innerHTML = '';
+
+  AUFBAU_ORDER.forEach((item, idx) => {
+    const chip = document.createElement('span');
+    chip.className = `aufbau-chip p${item.period}`;
+    chip.textContent = item.sub;
+    chip.title = `Se llena en el período ${item.period}`;
+    container.appendChild(chip);
+
+    if (idx < AUFBAU_ORDER.length - 1) {
+      const arr = document.createElement('span');
+      arr.className = 'aufbau-arrow';
+      arr.textContent = '→';
+      container.appendChild(arr);
+    }
+  });
+}
+
+// ============================================================
+// TENDENCIAS PERIÓDICAS
+// ============================================================
+const PERIOD_COLORS = {
+  1: '#c0392b',
+  2: '#2980b9',
+  3: '#16a085',
+  4: '#8e44ad'
+};
+
+function drawTrends() {
+  const prop = document.getElementById('sel_trend').value;
+
+  const propName = {
+    radius: 'Radio atómico (pm)',
+    IE: 'Energía de ionización (kJ/mol)',
+    EN: 'Electronegatividad (Pauling)'
+  }[prop];
+
+  // Filtrar elementos con datos y período 1-4
+  const data = EL.filter(el => {
+    const [Z, sym, name, period, group, block, mass, radius, IE, EN] = el;
+    if (period > 4) return false;
+    if (prop === 'radius') return radius !== null;
+    if (prop === 'IE') return IE !== null;
+    if (prop === 'EN') return EN !== null;
+    return false;
+  });
+
+  const traces = [];
+  const periods = [...new Set(data.map(el => el[3]))].sort();
+
+  periods.forEach(p => {
+    const els = data.filter(el => el[3] === p);
+    if (els.length === 0) return;
+
+    const x = els.map(el => el[0]); // Z
+    const y = els.map(el => {
+      if (prop === 'radius') return el[7];
+      if (prop === 'IE') return el[8];
+      return el[9];
+    });
+    const text = els.map(el => el[1]);
+
+    traces.push({
+      x, y,
+      type: 'scatter',
+      mode: 'lines+markers+text',
+      line: { color: PERIOD_COLORS[p], width: 2 },
+      marker: { color: PERIOD_COLORS[p], size: 11,
+                line: { color: 'white', width: 1.5 } },
+      text: text,
+      textposition: 'top center',
+      textfont: { size: 10, color: PERIOD_COLORS[p], family: 'Segoe UI' },
+      name: 'Período ' + p,
+      hovertemplate: '%{text} (Z=%{x})<br>' + propName + ': %{y}<extra></extra>'
+    });
+  });
+
+  // Líneas verticales separando períodos
+  const shapes = [];
+  const separators = [2.5, 10.5, 18.5, 36.5];
+  separators.forEach(s => {
+    if (s < 36) {
+      shapes.push({
+        type: 'line',
+        x0: s, x1: s,
+        y0: 0, y1: 1,
+        xref: 'x', yref: 'paper',
+        line: { color: '#ccc', width: 1, dash: 'dot' }
+      });
+    }
+  });
+
+  let yaxisTitle = propName;
+  if (prop === 'radius') yaxisTitle = 'Radio atómico (pm)';
+
+  Plotly.react('plot_trends', traces, {
+    xaxis: {
+      title: 'Número atómico Z',
+      range: [0, 38],
+      fixedrange: false
+    },
+    yaxis: {
+      title: yaxisTitle,
+      fixedrange: false,
+      zeroline: false
+    },
+    shapes: shapes,
+    margin: { l: 70, r: 20, t: 15, b: 55 },
+    showlegend: true,
+    legend: { x: 0.75, y: 0.98, bgcolor: 'rgba(255,255,255,0.92)', font: { size: 11 } }
+  });
+
+  // Stats
+  let rangeInfo = '';
+  if (data.length > 0) {
+    const vals = data.map(el => {
+      if (prop === 'radius') return el[7];
+      if (prop === 'IE') return el[8];
+      return el[9];
+    });
+    const minV = Math.min(...vals);
+    const maxV = Math.max(...vals);
+    rangeInfo = `Rango: ${minV} – ${maxV}`;
+  }
+
+  document.getElementById('stats_trends').innerHTML =
+    `<span class="stat-item"><span class="lbl">Propiedad:</span> <span class="val">${propName.split(' (')[0]}</span></span>` +
+    `<span class="stat-item"><span class="lbl">Elementos:</span> <span class="val">${data.length}</span></span>` +
+    (rangeInfo ? `<br><span class="stat-item"><span class="lbl">${rangeInfo}</span></span>` : '');
+}
+
+document.getElementById('sel_trend').addEventListener('change', drawTrends);
+
+// ============================================================
+// INICIALIZACIÓN
+// ============================================================
+function initAll() {
+  if (typeof Plotly === 'undefined') {
+    setTimeout(initAll, 100);
+    return;
+  }
+  buildPeriodicTable();
+  buildAufbau();
+  drawTrends();
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initAll);
+} else {
+  initAll();
+}
+</script>
+</body>
+</html>
