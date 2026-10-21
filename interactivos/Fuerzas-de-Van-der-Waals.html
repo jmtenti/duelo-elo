@@ -1,0 +1,1311 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Estudio Interactivo: Fuerzas de Van der Waals</title>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']], displayMath: [['$$','$$'], ['\\[','\\]']]},
+    messageStyle: "none"
+  });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script src="https://cdn.plot.ly/plotly-2.24.1.min.js"></script>
+
+<style>
+  :root {
+    --primary-color: #1a252f;
+    --secondary-color: #2c3e50;
+    --accent-color: #c0392b;
+    --link-color: #2980b9;
+    --bg-color: #f8f9fa;
+    --sm-color: #16a085;
+    --we-color: #6c3483;
+    --intuition-color: #d35400;
+    --warning-color: #c0392b;
+    --hist-color: #b7791f;
+  }
+  body {
+    font-family: 'Georgia', serif;
+    background: var(--bg-color); color: #333;
+    line-height: 1.8; margin: 0; padding: 40px 0; font-size: 16px;
+  }
+  .container {
+    max-width: 1000px; margin: auto; background: white;
+    padding: 50px 80px; border-radius: 12px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.06);
+  }
+  h1 { color: var(--primary-color); text-align: center; font-size: 2.1em; font-family: 'Segoe UI', sans-serif; margin-bottom: 10px;}
+  .subtitle { text-align: center; color: #7f8c8d; font-style: italic; margin-bottom: 40px; }
+  h2 { color: var(--secondary-color); margin-top: 55px; border-bottom: 2px solid #ecf0f1; padding-bottom: 5px; font-family: 'Segoe UI', sans-serif;}
+  h3 { color: var(--secondary-color); margin-top: 35px; font-family: 'Segoe UI', sans-serif; font-size: 1.18em;}
+  h4 { color: var(--sm-color); margin-top: 25px; font-family: 'Segoe UI', sans-serif; font-size: 1.02em; font-style: italic;}
+  p { text-align: justify; margin-bottom: 20px; }
+  ul, ol { text-align: justify; }
+  li { margin-bottom: 8px; }
+  .math-box {
+    background: #fdfefe; border-left: 4px solid var(--link-color);
+    padding: 15px 25px; margin: 25px 0; overflow-x: auto; font-size: 1.1em;
+  }
+  .note-box {
+    background: #fef9e7; border-left: 4px solid #f39c12;
+    padding: 12px 20px; margin: 20px 0; font-size: 0.98em;
+  }
+  .sm-box {
+    background: #eafaf1; border-left: 4px solid var(--sm-color);
+    padding: 14px 22px; margin: 22px 0; font-size: 0.97em;
+  }
+  .sm-box strong:first-child { color: var(--sm-color); }
+  .intuition-box {
+    background: #fdf2e9; border-left: 4px solid var(--intuition-color);
+    padding: 14px 22px; margin: 22px 0; font-size: 0.97em;
+  }
+  .intuition-box strong:first-child { color: var(--intuition-color); }
+  .warning-box {
+    background: #fdedec; border-left: 4px solid var(--warning-color);
+    padding: 14px 22px; margin: 22px 0; font-size: 0.97em;
+  }
+  .warning-box strong:first-child { color: var(--warning-color); }
+  .guide-box {
+    background: #eef6fc; border-left: 4px solid var(--link-color);
+    padding: 14px 22px; margin: 22px 0; font-size: 0.96em;
+  }
+  .guide-box strong:first-child { color: var(--link-color); }
+  .guide-box ol { margin: 8px 0 0 0; padding-left: 22px; }
+  .history-box {
+    background: #fbf6e9; border-left: 4px solid var(--hist-color);
+    padding: 14px 22px; margin: 22px 0; font-size: 0.95em;
+    font-style: italic; color: #5b4a1e;
+  }
+  .history-box strong { font-style: normal; }
+  .worked-example {
+    background: #faf7fd; border: 1px solid #d5c8e8;
+    border-left: 5px solid var(--we-color); border-radius: 8px;
+    padding: 22px 30px 24px; margin: 35px 0; font-size: 0.98em;
+  }
+  .worked-example .we-header {
+    font-family: 'Segoe UI', sans-serif; font-size: 0.78em;
+    text-transform: uppercase; letter-spacing: 0.14em;
+    color: var(--we-color); font-weight: bold; margin-bottom: 6px;
+  }
+  .worked-example .we-title {
+    font-family: 'Segoe UI', sans-serif; color: var(--we-color);
+    font-size: 1.08em; font-weight: 600; margin: 0 0 16px 0;
+  }
+  .worked-example .step {
+    margin: 18px 0; padding-left: 18px;
+    border-left: 2px solid #e3d4f0;
+  }
+  .worked-example .step-label {
+    font-family: 'Segoe UI', sans-serif; font-weight: bold;
+    color: var(--we-color); font-size: 0.86em;
+    display: block; margin-bottom: 4px;
+    text-transform: uppercase;
+  }
+  .worked-example .result {
+    background: #efe9f7; border-radius: 5px;
+    padding: 10px 16px; margin-top: 8px; font-weight: 500;
+  }
+  .worked-example .verify {
+    background: #eafaf1; border-left: 3px solid var(--sm-color);
+    padding: 8px 14px; border-radius: 0 5px 5px 0;
+    margin-top: 8px; font-size: 0.95em;
+  }
+  .exercise-box {
+    background: #fdf2f2; border: 1px solid #f5c6c6;
+    border-radius: 8px; padding: 22px 28px; margin: 35px 0;
+  }
+  .exercise-box h4 {
+    color: var(--accent-color); margin-top: 0;
+    font-style: normal; font-size: 1.05em;
+  }
+  .hint {
+    background: #fff8e1; border-radius: 4px;
+    padding: 8px 14px; margin: 10px 0;
+    font-size: 0.92em; color: #6d4c00;
+    border-left: 3px solid #f39c12;
+  }
+  .solution-toggle {
+    background: var(--accent-color); color: white;
+    border: none; padding: 8px 18px; border-radius: 4px;
+    cursor: pointer; font-family: 'Segoe UI', sans-serif;
+    font-size: 0.92em; margin-top: 12px;
+  }
+  .solution-toggle:hover { background: #a02828; }
+  .solution-content {
+    max-height: 0; overflow: hidden;
+    transition: max-height 0.5s ease, margin 0.3s ease;
+    margin-top: 0;
+  }
+  .solution-content.open {
+    max-height: 6000px; margin-top: 18px;
+  }
+  .interactive-figure {
+    background: #fafafa; border: 1px solid #e0e0e0;
+    border-radius: 10px; padding: 25px; margin: 40px 0;
+    font-family: 'Segoe UI', sans-serif;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+  }
+  .figure-title {
+    text-align: center; color: var(--secondary-color);
+    font-weight: bold; font-size: 1.2em; margin-top: 0;
+  }
+  .plot-area { width: 100%; height: 460px; margin-bottom: 15px; }
+  .controls {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 20px;
+    padding: 18px 20px; background: #fff;
+    border-radius: 8px; border: 1px solid #eee; margin-bottom: 15px;
+  }
+  .control-panel h4 {
+    margin-top: 0; color: var(--secondary-color);
+    font-size: 0.9em; text-transform: uppercase;
+    letter-spacing: 0.08em; font-style: normal;
+  }
+  .checkbox-row {
+    display: flex; align-items: center; gap: 10px;
+    margin: 6px 0; font-size: 0.93em; color: #444; cursor: pointer;
+  }
+  .checkbox-row input[type=checkbox] {
+    width: 16px; height: 16px;
+    accent-color: var(--link-color); cursor: pointer;
+  }
+  .slider-row {
+    display: block; margin: 12px 0;
+    font-size: 0.93em; color: #333;
+  }
+  .slider-row input[type=range] {
+    width: 100%; accent-color: var(--accent-color); cursor: pointer;
+  }
+  .slider-val {
+    font-family: Consolas, monospace;
+    color: var(--accent-color); font-weight: bold;
+  }
+  .stats {
+    margin-top: 12px; padding: 12px 16px;
+    background: #f4f6f7; border-radius: 6px;
+    font-family: Consolas, monospace; font-size: 0.86em;
+    line-height: 1.7; text-align: center;
+  }
+  .stats .stat-item {
+    display: inline-block; margin: 3px 6px;
+    padding: 3px 10px; background: white;
+    border-radius: 4px; border: 1px solid #e0e0e0;
+  }
+  .stats .stat-item .lbl { color: #888; }
+  .stats .stat-item .val { color: var(--accent-color); font-weight: bold; }
+  .caption {
+    font-size: 0.95em; color: #555; text-align: justify;
+    padding: 10px 20px; border-left: 3px solid var(--accent-color);
+    background: #fff;
+  }
+  .legend-swatch {
+    display: inline-block; width: 14px; height: 14px;
+    border-radius: 3px; margin-right: 6px; vertical-align: middle;
+  }
+  table.generic { border-collapse: collapse; width: 100%; margin: 20px 0; font-size: 0.95em;}
+  table.generic th, table.generic td {
+    border: 1px solid #e0e0e0; padding: 8px 12px;
+    text-align: left; vertical-align: top;
+  }
+  table.generic th { background: #ecf0f1; }
+  .toc {
+    background: #f4f6f7; border-radius: 8px;
+    padding: 20px 30px; margin: 30px 0;
+    font-family: 'Segoe UI', sans-serif; font-size: 0.95em;
+  }
+  .toc h3 { margin-top: 0; color: var(--secondary-color); font-size: 1.05em;}
+  .toc ol { margin: 0; padding-left: 22px;}
+  .toc li { margin: 4px 0;}
+  .toc a { color: var(--link-color); text-decoration: none;}
+  .toc a:hover { text-decoration: underline;}
+  .step-by-step {
+    counter-reset: step-counter; list-style: none;
+    padding-left: 0; margin: 25px 0;
+  }
+  .step-by-step li {
+    position: relative; padding: 12px 18px 12px 60px;
+    margin: 10px 0; background: #f8f9fa;
+    border-radius: 6px; border-left: 3px solid var(--link-color);
+  }
+  .step-by-step li::before {
+    counter-increment: step-counter;
+    content: counter(step-counter);
+    position: absolute; left: 14px; top: 50%;
+    transform: translateY(-50%);
+    width: 32px; height: 32px;
+    background: var(--link-color); color: white;
+    border-radius: 50%; display: flex;
+    align-items: center; justify-content: center;
+    font-family: 'Segoe UI', sans-serif; font-weight: bold; font-size: 0.95em;
+  }
+  #sim_canvas {
+    display: block;
+    width: 100%;
+    max-width: 520px;
+    aspect-ratio: 1;
+    margin: 0 auto;
+    border-radius: 8px;
+    background: #fafafa;
+    border: 1px solid #e0e0e0;
+    cursor: grab;
+  }
+  .sim-buttons {
+    display: flex; gap: 10px; justify-content: center;
+    margin-top: 12px; margin-bottom: 12px; flex-wrap: wrap;
+  }
+  .sim-btn {
+    background: var(--link-color); color: white;
+    border: none; padding: 8px 18px; border-radius: 6px;
+    cursor: pointer; font-family: 'Segoe UI', sans-serif;
+    font-size: 0.9em; transition: background 0.2s;
+  }
+  .sim-btn:hover { background: #1f6391; }
+  .sim-btn.paused { background: #e67e22; }
+  .sim-btn.paused:hover { background: #b8651a; }
+  @media (max-width: 800px) {
+    .container { padding: 30px 20px; }
+    .controls { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h1>Fuerzas de Van der Waals</h1>
+  <div class="subtitle">Por qué las moléculas neutras se atraen, cómo se apilan los gases nobles y qué mantiene unida a una gota de agua</div>
+
+  <div class="note-box">
+    <strong>Notación.</strong> $r$: distancia entre moléculas. $U$: energía potencial. $\epsilon$: profundidad del pozo de potencial (energía característica). $\sigma$: distancia a la que la energía se anula (diámetro molecular efectivo). $r_{\min} = 2^{1/6}\sigma$: distancia de equilibrio. $\mu$: momento dipolar. $\alpha$: polarizabilidad. $k_B T$: energía térmica. $\hbar$: constante reducida de Planck. $I$: potencial de ionización. $k = 1/(4\pi\epsilon_0)$: constante de Coulomb.
+  </div>
+
+  <div class="intuition-box">
+    <strong>La idea en una frase.</strong> Aunque dos moléculas neutras no se atraen por fuerzas electrostáticas simples (no tienen carga neta), sí se atraen débilmente por <em>correlaciones</em> entre sus nubes electrónicas: la fluctuación instantánea de una induce una respuesta en la otra, y el resultado neto es una fuerza atractiva de corto alcance. Ese es el origen de las fuerzas de van der Waals.
+  </div>
+
+  <div class="toc">
+    <h3>Contenido</h3>
+    <ol>
+      <li><a href="#s1">¿Qué son las fuerzas de van der Waals?</a></li>
+      <li><a href="#s2">Los tres componentes: Keesom, Debye y London</a></li>
+      <li><a href="#s3">El potencial de Lennard-Jones</a></li>
+      <li><a href="#s4">Simulación: moléculas interactuando</a></li>
+      <li><a href="#s5">Comparación con otros enlaces</a></li>
+      <li><a href="#s6">Ejemplos resueltos</a></li>
+      <li><a href="#s7">Ejercicios propuestos</a></li>
+      <li><a href="#s8">Conclusiones</a></li>
+    </ol>
+  </div>
+
+  <!-- ============================================ -->
+  <h2 id="s1">1. ¿Qué son las fuerzas de van der Waals?</h2>
+
+  <p>Las <strong>fuerzas de van der Waals</strong> son interacciones atractivas (y a corta distancia repulsivas) entre átomos o moléculas eléctricamente neutros. Reciben su nombre del físico neerlandés Johannes Diderik van der Waals (1837-1923), quien en 1873 las postuló para explicar las desviaciones del comportamiento ideal de los gases reales.</p>
+
+  <p>A diferencia del enlace iónico (atracción entre cargas opuestas) o del enlace covalente (compartir electrones), las fuerzas de van der Waals son:</p>
+
+  <ul>
+    <li><strong>Débiles</strong>: típicamente entre $0.1$ y $40\ \text{kJ/mol}$, comparadas con los $200\text{–}1000\ \text{kJ/mol}$ de un enlace covalente.</li>
+    <li><strong>De corto alcance</strong>: decaen rápidamente con la distancia, como $1/r^6$ en el caso más simple.</li>
+    <li><strong>Universales</strong>: existen entre cualquier par de átomos o moléculas, incluyendo los gases nobles, que no forman enlaces químicos convencionales.</li>
+    <li><strong>No direccionales</strong> (en su componente dominante): a diferencia del enlace de hidrógeno, no imponen una geometría fija.</li>
+  </ul>
+
+  <div class="intuition-box">
+    <strong>Analogía: los pasajeros del metro.</strong> Imagina dos pasajeros en un vagón de metro. No se conocen ni se hablan, pero cuando el tren frena, ambos se inclinan en la misma dirección y terminan apretados uno contra otro. No hay atracción "real" entre ellos: es una consecuencia de las fluctuaciones del entorno. Algo parecido pasa con las nubes electrónicas de dos moléculas: fluctúan, se correlacionan, y el resultado promedio es una atracción débil.
+  </div>
+
+  <div class="history-box">
+    <strong>Contexto histórico.</strong> Van der Waals recibió el Nobel en 1910 por su ecuación de estado para gases reales, que introducía dos parámetros: $a$ (atracción entre moléculas) y $b$ (volumen excluido). La explicación microscópica de la atracción llegó después: Keesom (1921) para dipolos permanentes, Debye (1920) para dipolo-dipolo inducido, y London (1930) para la dispersión, la más universal de todas.
+  </div>
+
+  <!-- ============================================ -->
+  <h2 id="s2">2. Los tres componentes: Keesom, Debye y London</h2>
+
+  <p>Las fuerzas de van der Waals tienen tres contribuciones distintas, según el tipo de moléculas involucradas:</p>
+
+  <h3>2.1 Fuerza de Keesom (dipolo permanente – dipolo permanente)</h3>
+
+  <p>Si ambas moléculas tienen un <strong>momento dipolar permanente</strong> $\mu_1$ y $\mu_2$, sus dipolos se orientan mutuamente para minimizar la energía. La energía promedio (promediada sobre orientaciones térmicas) es:</p>
+
+  <div class="math-box">
+    $$ U_{\rm Keesom}(r) = -\frac{\mu_1^2 \mu_2^2}{3(4\pi\epsilon_0)^2 k_B T} \frac{1}{r^6}. $$
+  </div>
+
+  <p>Es atractiva, decae como $1/r^6$, y es <strong>más fuerte a bajas temperaturas</strong> (porque las orientaciones se alinean mejor). Ejemplo: moléculas de HCl, agua, amoníaco.</p>
+
+  <h3>2.2 Fuerza de Debye (dipolo permanente – dipolo inducido)</h3>
+
+  <p>Si una molécula tiene dipolo permanente $\mu_1$ y la otra es polarizable ($\alpha_2$), el campo de la primera induce un dipolo en la segunda, produciendo una atracción:</p>
+
+  <div class="math-box">
+    $$ U_{\rm Debye}(r) = -\frac{\mu_1^2 \alpha_2 + \mu_2^2 \alpha_1}{(4\pi\epsilon_0)^2} \frac{1}{r^6}. $$
+  </div>
+
+  <p>También decae como $1/r^6$, pero <strong>no depende de la temperatura</strong> (la inducción es instantánea). Ejemplo: HCl (dipolo) interactuando con Ar (polarizable).</p>
+
+  <h3>2.3 Fuerza de London (dispersión)</h3>
+
+  <p>Incluso si ambas moléculas son <strong>apolares</strong> y no tienen dipolo permanente, sus nubes electrónicas fluctúan constantemente. Estas fluctuaciones crean dipolos instantáneos que se correlacionan entre moléculas vecinas, produciendo una atracción neta. La fórmula de London (1930) es:</p>
+
+  <div class="math-box">
+    $$ U_{\rm London}(r) = -\frac{3}{2} \frac{I_1 I_2}{I_1 + I_2} \frac{\alpha_1 \alpha_2}{(4\pi\epsilon_0)^2} \frac{1}{r^6}, $$
+  </div>
+
+  <p>donde $I_1$, $I_2$ son los potenciales de ionización. Es la <strong>contribución universal</strong>: existe entre cualquier par de átomos, incluyendo los gases nobles. Es la responsable de que el argón se licúe a 87 K o de que el grafeno se apile en capas.</p>
+
+  <div class="intuition-box">
+    <strong>Analogía de la dispersión de London.</strong> Imagina dos átomos de argón, cada uno con su nube electrónica esférica. En un instante dado, los electrones de uno de ellos se han desplazado ligeramente hacia un lado, creando un dipolo instantáneo. Ese dipolo induce un dipolo en el otro átomo, y ambos se atraen. Al instante siguiente la fluctuación cambia de signo, pero también lo hace la respuesta del vecino. El promedio temporal es una atracción neta.
+  </div>
+
+  <div class="warning-box">
+    <strong>Error común.</strong> "Las fuerzas de van der Waals solo actúan entre moléculas polares." Falso. La contribución de London existe entre <em>cualquier</em> par de átomos, polares o no. De hecho, en moléculas pequeñas y poco polares (como el metano o los gases nobles), la dispersión de London es la contribución dominante.
+  </div>
+
+  <div class="sm-box">
+    <strong>¿Cuál domina?</strong> En general, para moléculas pequeñas y muy polares (agua), Keesom y Debye son importantes. Para moléculas grandes y apolares (alcanos, fullerenos, proteínas), London domina porque crece con la polarizabilidad, es decir, con el volumen molecular. Por eso los alcanos de cadena larga tienen puntos de ebullición más altos: más electrones → más dispersión de London → más atracción.
+  </div>
+
+  <!-- ============================================ -->
+  <h2 id="s3">3. El potencial de Lennard-Jones</h2>
+
+  <p>Las tres contribuciones atractivas decaen como $-1/r^6$. A distancias muy cortas, en cambio, aparece una <strong>repulsión fuerte</strong> debida al principio de exclusión de Pauli (las nubes electrónicas no pueden solaparse). El potencial efectivo más usado para modelar esta competencia es el <strong>potencial de Lennard-Jones</strong> (1924):</p>
+
+  <div class="math-box">
+    $$ U_{\rm LJ}(r) = 4\epsilon \left[ \left(\frac{\sigma}{r}\right)^{12} - \left(\frac{\sigma}{r}\right)^{6} \right]. $$
+  </div>
+
+  <p>Los dos parámetros son:</p>
+
+  <ul>
+    <li><strong>$\epsilon$</strong>: profundidad del pozo de potencial (energía característica de la atracción).</li>
+    <li><strong>$\sigma$</strong>: distancia a la que $U = 0$ (diámetro molecular efectivo).</li>
+  </ul>
+
+  <p>El potencial tiene un mínimo en $r_{\min} = 2^{1/6}\sigma \approx 1.122\,\sigma$, donde $U = -\epsilon$. La fuerza entre dos moléculas es:</p>
+
+  <div class="math-box">
+    $$ F(r) = -\frac{dU}{dr} = \frac{24\epsilon}{r}\left[ 2\left(\frac{\sigma}{r}\right)^{12} - \left(\frac{\sigma}{r}\right)^{6} \right]. $$
+  </div>
+
+  <p>Es repulsiva para $r < \sigma$ (las nubes electrónicas se solapan) y atractiva para $r > \sigma$ (dominancia de la cola de van der Waals).</p>
+
+  <!-- FIGURA 1: POTENCIAL DE LENNARD-JONES -->
+  <div class="interactive-figure">
+    <div class="figure-title">Figura 1: El potencial de Lennard-Jones</div>
+    <div id="plot_LJ" class="plot-area" style="height: 420px;"></div>
+    <div class="controls">
+      <div class="control-panel">
+        <h4>Opciones</h4>
+        <label class="checkbox-row">
+          <input type="checkbox" id="cb_force_LJ">
+          <span>Mostrar también la fuerza $F(r)$</span>
+        </label>
+        <label class="checkbox-row">
+          <input type="checkbox" id="cb_log_LJ">
+          <span>Escala logarítmica en $|U|$</span>
+        </label>
+      </div>
+      <div class="control-panel">
+        <h4>Lectura</h4>
+        <div id="stats_LJ" class="stats"></div>
+      </div>
+    </div>
+
+    <div class="guide-box">
+      <strong>Qué observar en la Figura 1.</strong>
+      <ol>
+        <li>El pozo de potencial tiene su mínimo en $r_{\min} = 2^{1/6}\sigma \approx 1.122\,\sigma$, con $U = -\epsilon$.</li>
+        <li>A distancias grandes ($r > 2\sigma$), la cola atractiva $\propto -1/r^6$ domina: es la firma de van der Waals.</li>
+        <li>A distancias cortas ($r < \sigma$), el término $+1/r^{12}$ explota: es la repulsión de Pauli.</li>
+        <li>La fuerza cambia de signo en $r = 2^{1/6}\sigma$: atractiva fuera, repulsiva dentro.</li>
+        <li>Activa la escala logarítmica para ver mejor la cola atractiva.</li>
+      </ol>
+    </div>
+
+    <div class="caption">
+      <strong>Epígrafe:</strong> Potencial de Lennard-Jones $U(r)/\epsilon$ y su fuerza asociada, en función de $r/\sigma$. El mínimo está en $r = 1.122\,\sigma$ con $U = -\epsilon$. La repulsión a corta distancia modela el principio de exclusión de Pauli; la atracción a larga distancia modela las fuerzas de van der Waals.
+    </div>
+  </div>
+
+  <!-- ============================================ -->
+  <h2 id="s4">4. Simulación: moléculas interactuando</h2>
+
+  <p>La siguiente simulación muestra un conjunto pequeño de moléculas (modeladas como esferas de Lennard-Jones) en una caja bidimensional. Cada molécula siente la fuerza de todas las demás y responde según las leyes de Newton. El objetivo es visualizar cómo las fuerzas de van der Waals hacen que las moléculas se atraigan, formen agregados, o se dispersen según la temperatura.</p>
+
+  <div class="interactive-figure">
+    <div class="figure-title">Figura 2: Dinámica molecular de moléculas con potencial de Lennard-Jones</div>
+
+    <canvas id="sim_canvas"></canvas>
+
+    <div class="sim-buttons">
+      <button class="sim-btn" id="btn_pause">Pausar</button>
+      <button class="sim-btn" id="btn_reset">Reiniciar</button>
+    </div>
+
+    <div class="controls">
+      <div class="control-panel">
+        <h4>Parámetros</h4>
+        <label class="slider-row">
+          N.º de moléculas: <span id="v_N" class="slider-val">20</span>
+          <input type="range" id="s_N" min="5" max="50" step="1" value="20">
+        </label>
+        <label class="slider-row">
+          Temperatura $T$: <span id="v_T" class="slider-val">0.70</span>
+          <input type="range" id="s_T" min="0.1" max="2.0" step="0.05" value="0.7">
+        </label>
+        <label class="slider-row">
+          Fuerza de atracción $\epsilon$: <span id="v_eps" class="slider-val">1.00</span>
+          <input type="range" id="s_eps" min="0.2" max="2.0" step="0.05" value="1.0">
+        </label>
+      </div>
+      <div class="control-panel">
+        <h4>Visualización</h4>
+        <label class="checkbox-row">
+          <input type="checkbox" id="cb_bonds" checked>
+          <span>Mostrar enlaces (interacciones)</span>
+        </label>
+        <label class="checkbox-row">
+          <input type="checkbox" id="cb_trails">
+          <span>Mostrar trayectorias</span>
+        </label>
+        <label class="checkbox-row">
+          <input type="checkbox" id="cb_forces">
+          <span>Mostrar vectores de fuerza</span>
+        </label>
+        <div id="stats_sim" class="stats" style="margin-top: 10px;"></div>
+      </div>
+    </div>
+
+    <div class="guide-box">
+      <strong>Cómo usar la simulación.</strong>
+      <ol>
+        <li><strong>Colores</strong>: cada molécula está coloreada según su velocidad (azul = lenta, roja = rápida). Las moléculas más lentas son las que están "atrapadas" en el pozo de potencial de sus vecinas.</li>
+        <li><strong>Prueba a bajar la temperatura</strong> (slider $T$) hasta $0.2$: verás que las moléculas se agrupan formando un pequeño "líquido" o "clúster". Es la manifestación de la atracción de van der Waals.</li>
+        <li><strong>Sube la temperatura</strong> a $1.5$: la energía térmica supera la energía de atracción y las moléculas se separan. Es el régimen de "gas".</li>
+        <li><strong>Aumenta $\epsilon$</strong>: la atracción se hace más fuerte y las moléculas se agrupan incluso a temperaturas más altas.</li>
+        <li><strong>Activa las trayectorias</strong> para ver el camino que sigue cada molécula. En el clúster, las trayectorias se enroscan en torno a los vecinos.</li>
+        <li><strong>Activa los vectores de fuerza</strong> para ver las atracciones y repulsiones instantáneas. Las flechas rojas muestran la dirección de la fuerza neta sobre cada molécula.</li>
+        <li>Prueba <strong>N = 5</strong> y baja temperatura: verás cómo se forma un pequeño agregado (pentámero, típicamente). Con <strong>N = 40</strong> y baja temperatura, se forma un "líquido" más grande.</li>
+      </ol>
+    </div>
+
+    <div class="caption">
+      <strong>Epígrafe:</strong> Simulación de dinámica molecular 2D con potencial de Lennard-Jones truncado a $r_c = 2.5\sigma$. Cada molécula siente las fuerzas de todas las demás y de las paredes (potencial armónico suave). La integración usa el algoritmo de Velocity Verlet con paso $dt = 0.005$ (unidades de Lennard-Jones), y se aplica un termostato de Berendsen para mantener la temperatura objetivo. Los colores indican la velocidad instantánea de cada molécula.
+    </div>
+  </div>
+
+  <div class="sm-box">
+    <strong>¿Qué está pasando físicamente?</strong> A temperaturas bajas, la energía cinética de las moléculas es menor que la profundidad del pozo de potencial $\epsilon$. Las moléculas que se acercan quedan "atrapadas" en el pozo y forman agregados estables. A temperaturas altas, la agitación térmica es suficiente para escapar del pozo y las moléculas se comportan como un gas. La transición entre estos dos regímenes es, esencialmente, una transición de fase líquido-gas (en 2D).
+  </div>
+
+  <!-- ============================================ -->
+  <h2 id="s5">5. Comparación con otros enlaces</h2>
+
+  <p>Para poner en contexto la magnitud de las fuerzas de van der Waals, conviene compararlas con otros tipos de interacción:</p>
+
+  <!-- FIGURA 3: COMPARACIÓN DE ENERGÍAS -->
+  <div class="interactive-figure">
+    <div class="figure-title">Figura 3: Energías típicas de distintas interacciones</div>
+    <div id="plot_comp" class="plot-area" style="height: 420px;"></div>
+    <div class="guide-box">
+      <strong>Qué observar en la Figura 3.</strong>
+      <ol>
+        <li>La línea vertical gris punteada marca la energía térmica $k_B T$ a 300 K ($\approx 2.5\ \text{kJ/mol}$): las interacciones por debajo de esta línea se rompen fácilmente con agitación térmica.</li>
+        <li>Las fuerzas de van der Waals (Keesom, Debye, London) están típicamente entre $0.1$ y $50\ \text{kJ/mol}$, por debajo o cerca de $k_B T$.</li>
+        <li>El enlace de hidrógeno es más fuerte (10-40 kJ/mol), lo que explica el punto de ebullición anómalamente alto del agua.</li>
+        <li>Los enlaces covalentes e iónicos son 100-1000 veces más fuertes: no se rompen con agitación térmica a temperatura ambiente.</li>
+        <li>Observa que las fuerzas de London crecen con el tamaño molecular: Ar (~1 kJ/mol) es mucho más débil que una cadena larga de carbono (~50 kJ/mol).</li>
+      </ol>
+    </div>
+    <div class="caption">
+      <strong>Epígrafe:</strong> Comparación de energías típicas de interacción (escala logarítmica). La línea gris marca $k_B T$ a 300 K. Las fuerzas de van der Waals son débiles pero universales; el enlace de hidrógeno es más fuerte y direccional; los enlaces covalentes e iónicos son mucho más energéticos.
+    </div>
+  </div>
+
+  <!-- ============================================ -->
+  <h2 id="s6">6. Ejemplos resueltos</h2>
+
+  <div class="worked-example">
+    <div class="we-header">Ejemplo desarrollado 6.1</div>
+    <div class="we-title">Fuerza de London entre dos átomos de argón</div>
+    <p>Estima la energía de atracción de London entre dos átomos de argón a una distancia de $0.4\ \text{nm}$, sabiendo que $\alpha_{\rm Ar} = 1.64\times10^{-30}\ \text{m}^3$ e $I_{\rm Ar} = 15.76\ \text{eV}$.</p>
+    <div class="step">
+      <span class="step-label">Paso 1 — Fórmula de London</span>
+      <div class="step-body">
+        $$ U_{\rm London} = -\frac{3}{2} \frac{I_1 I_2}{I_1 + I_2} \frac{\alpha_1 \alpha_2}{(4\pi\epsilon_0)^2 r^6} $$
+        <p>Para átomos idénticos: $I_1 = I_2 = I$, $\alpha_1 = \alpha_2 = \alpha$.</p>
+        $$ U_{\rm London} = -\frac{3}{4} \frac{I \alpha^2}{(4\pi\epsilon_0)^2 r^6}. $$
+      </div>
+    </div>
+    <div class="step">
+      <span class="step-label">Paso 2 — Convertir unidades</span>
+      <div class="step-body">
+        <p>$I = 15.76\ \text{eV} = 2.52\times10^{-18}\ \text{J}$, $\alpha = 1.64\times10^{-30}\ \text{m}^3$, $r = 4\times10^{-10}\ \text{m}$, $k = 8.99\times10^9\ \text{N·m}^2/\text{C}^2$.</p>
+      </div>
+    </div>
+    <div class="step">
+      <span class="step-label">Paso 3 — Calcular</span>
+      <div class="step-body">
+        $$ U = -\frac{3}{4} \cdot \frac{2.52\times10^{-18} \cdot (1.64\times10^{-30})^2}{(8.99\times10^9)^2 \cdot (4\times10^{-10})^6} $$
+        $$ U \approx -2.7\times10^{-22}\ \text{J} \approx -1.6\ \text{meV} \approx -0.16\ \text{kJ/mol}. $$
+        <div class="result">La energía de London entre dos átomos de argón a 0.4 nm es de aproximadamente $-0.16\ \text{kJ/mol}$.</div>
+      </div>
+    </div>
+    <div class="verify">
+      El valor experimental de la energía de cohesión del argón sólido es de ~1.2 kJ/mol por átomo (sumando sobre todos los vecinos). El valor calculado por par es del orden correcto.
+    </div>
+  </div>
+
+  <div class="worked-example">
+    <div class="we-header">Ejemplo desarrollado 6.2</div>
+    <div class="we-title">Radio de equilibrio y profundidad del pozo en Lennard-Jones</div>
+    <p>Dado el potencial de Lennard-Jones $U(r) = 4\epsilon[(\sigma/r)^{12} - (\sigma/r)^6]$, demuestra que el mínimo está en $r = 2^{1/6}\sigma$ y vale $-\epsilon$.</p>
+    <div class="step">
+      <span class="step-label">Paso 1 — Derivar</span>
+      <div class="step-body">
+        $$ \frac{dU}{dr} = 4\epsilon \left[ -12\frac{\sigma^{12}}{r^{13}} + 6\frac{\sigma^6}{r^7} \right] = 0. $$
+        $$ -12\frac{\sigma^{12}}{r^{13}} + 6\frac{\sigma^6}{r^7} = 0 \quad\Rightarrow\quad 2\frac{\sigma^{12}}{r^{13}} = \frac{\sigma^6}{r^7} \quad\Rightarrow\quad 2\sigma^6 = r^6. $$
+      </div>
+    </div>
+    <div class="step">
+      <span class="step-label">Paso 2 — Resolver</span>
+      <div class="step-body">
+        $$ r_{\min} = 2^{1/6}\,\sigma \approx 1.122\,\sigma. $$
+        Sustituyendo en $U$:
+        $$ U(r_{\min}) = 4\epsilon\left[\frac{1}{4} - \frac{1}{2}\right] = 4\epsilon \cdot \left(-\frac{1}{4}\right) = -\epsilon. $$
+        <div class="result">$r_{\min} = 2^{1/6}\sigma$, $U_{\min} = -\epsilon$.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="worked-example">
+    <div class="we-header">Ejemplo desarrollado 6.3</div>
+    <div class="we-title">Contribución relativa de London y Keesom en el HCl</div>
+    <p>Para el HCl, $\mu = 1.08\ \text{D} = 3.6\times10^{-30}\ \text{C·m}$, $\alpha = 2.6\times10^{-30}\ \text{m}^3$, $I = 12.7\ \text{eV}$. Estima el cociente $U_{\rm Keesom}/U_{\rm London}$ a $T = 300\ \text{K}$.</p>
+    <div class="step">
+      <span class="step-label">Paso 1 — Fórmula de Keesom</span>
+      <div class="step-body">
+        $$ U_{\rm Keesom} = -\frac{\mu^4}{3(4\pi\epsilon_0)^2 k_B T \, r^6}. $$
+      </div>
+    </div>
+    <div class="step">
+      <span class="step-label">Paso 2 — Fórmula de London</span>
+      <div class="step-body">
+        $$ U_{\rm London} = -\frac{3}{4} \frac{I\alpha^2}{(4\pi\epsilon_0)^2 r^6}. $$
+      </div>
+    </div>
+    <div class="step">
+      <span class="step-label">Paso 3 — Cociente</span>
+      <div class="step-body">
+        $$ \frac{U_{\rm Keesom}}{U_{\rm London}} = \frac{4\mu^4}{9 k_B T \, I \alpha^2}. $$
+        <p>Sustituyendo: $\mu^4 = (3.6\times10^{-30})^4 \approx 1.68\times10^{-118}$; $k_B T = 4.14\times10^{-21}\ \text{J}$; $I = 2.03\times10^{-18}\ \text{J}$; $\alpha^2 = 6.76\times10^{-60}$.</p>
+        $$ \frac{U_{\rm Keesom}}{U_{\rm London}} \approx \frac{4 \cdot 1.68\times10^{-118}}{9 \cdot 4.14\times10^{-21} \cdot 2.03\times10^{-18} \cdot 6.76\times10^{-60}} \approx 0.33. $$
+        <div class="result">Para el HCl a 300 K, la contribución de Keesom es aproximadamente un tercio de la de London. La dispersión domina incluso en una molécula polar como el HCl.</div>
+      </div>
+    </div>
+    <div class="verify">
+      Este resultado es general: para moléculas pequeñas, London suele ser la contribución dominante, incluso cuando hay dipolos permanentes.
+    </div>
+  </div>
+
+  <!-- ============================================ -->
+  <h2 id="s7">7. Ejercicios propuestos</h2>
+
+  <div class="exercise-box">
+    <h4>Ejercicio 1 — Dependencia con la distancia</h4>
+    <p>¿Cuánto disminuye la fuerza de London entre dos moléculas si la distancia entre ellas se duplica?</p>
+    <div class="hint"><strong>Pista:</strong> la energía va como $-1/r^6$; la fuerza es la derivada, va como $-1/r^7$.</div>
+    <button class="solution-toggle" onclick="toggleSolution(this)">Mostrar solución</button>
+    <div class="solution-content">
+      <p>La energía disminuye por un factor $2^6 = 64$. La fuerza disminuye por un factor $2^7 = 128$. La atracción de van der Waals cae muy rápidamente con la distancia.</p>
+    </div>
+  </div>
+
+  <div class="exercise-box">
+    <h4>Ejercicio 2 — Por qué el agua hierve a 100 °C</h4>
+    <p>El agua (M = 18 g/mol) hierve a 100 °C, mientras que el metano (M = 16 g/mol), de masa similar, hierve a -161 °C. Explica por qué.</p>
+    <div class="hint"><strong>Pista:</strong> el agua tiene enlaces de hidrógeno además de van der Waals.</div>
+    <button class="solution-toggle" onclick="toggleSolution(this)">Mostrar solución</button>
+    <div class="solution-content">
+      <p>El metano es apolar y solo tiene fuerzas de London (débiles). El agua tiene dos enlaces O-H que pueden formar puentes de hidrógeno (cada uno ~20 kJ/mol, 10 veces más fuerte que London). Además, la molécula de agua es muy polar, así que Keesom y Debye también contribuyen. La energía total de cohesión es mucho mayor, y por eso el punto de ebullición es muchísimo más alto.</p>
+    </div>
+  </div>
+
+  <div class="exercise-box">
+    <h4>Ejercicio 3 — Ordenar puntos de ebullición</h4>
+    <p>Ordena de menor a mayor punto de ebullición: He, Ne, Ar, Kr, Xe. Todos son gases nobles apolares. ¿Qué tendencia esperas y por qué?</p>
+    <div class="hint"><strong>Pista:</strong> la polarizabilidad crece con el número de electrones (y con el tamaño atómico).</div>
+    <button class="solution-toggle" onclick="toggleSolution(this)">Mostrar solución</button>
+    <div class="solution-content">
+      <p>He < Ne < Ar < Kr < Xe.</p>
+      <p>La polarizabilidad aumenta con el número de electrones, y con ella la fuerza de London. Más electrones → nube más deformable → dispersión más fuerte → mayor punto de ebullición.</p>
+      <p>Valores experimentales: He (-269 °C), Ne (-246 °C), Ar (-186 °C), Kr (-153 °C), Xe (-108 °C).</p>
+    </div>
+  </div>
+
+  <div class="exercise-box">
+    <h4>Ejercicio 4 — La cola de van der Waals</h4>
+    <p>En el potencial de Lennard-Jones, ¿qué término domina a distancias grandes, el $1/r^{12}$ o el $1/r^6$? ¿Y a distancias cortas? Justifica.</p>
+    <div class="hint"><strong>Pista:</strong> para $r \gg \sigma$, $\sigma/r$ es pequeño. Para $r \ll \sigma$, es grande. Elevar un número pequeño a una potencia grande lo hace aún más pequeño.</div>
+    <button class="solution-toggle" onclick="toggleSolution(this)">Mostrar solución</button>
+    <div class="solution-content">
+      <p>A distancias grandes ($r \gg \sigma$), $(\sigma/r)^{12} \ll (\sigma/r)^6$, así que domina el término $-(\sigma/r)^6$ (atracción de van der Waals).</p>
+      <p>A distancias cortas ($r \ll \sigma$), $(\sigma/r)^{12} \gg (\sigma/r)^6$, así que domina el término $+(\sigma/r)^{12}$ (repulsión de Pauli).</p>
+      <p>Por eso el potencial tiene un mínimo: a distancias intermedias, ambos términos son comparables y se compensan.</p>
+    </div>
+  </div>
+
+  <div class="exercise-box">
+    <h4>Ejercicio 5 — Interpreta la simulación</h4>
+    <p>En la simulación, baja $T$ a 0.2 y observa cómo las moléculas se agrupan. Luego sube $T$ a 1.5 y observa cómo se dispersan. Explica qué está pasando en términos de la comparación entre $k_B T$ y $\epsilon$.</p>
+    <div class="hint"><strong>Pista:</strong> en unidades de Lennard-Jones, $\epsilon = 1$ y $k_B = 1$, así que la temperatura $T$ es directamente la energía térmica en unidades de $\epsilon$.</div>
+    <button class="solution-toggle" onclick="toggleSolution(this)">Mostrar solución</button>
+    <div class="solution-content">
+      <p>Con $T = 0.2$, la energía térmica $k_B T = 0.2\epsilon$ es menor que la profundidad del pozo $\epsilon$. Las moléculas que caen en el pozo no tienen energía suficiente para escapar, y se quedan atrapadas: se forma un agregado estable (líquido o clúster).</p>
+      <p>Con $T = 1.5$, $k_B T > \epsilon$. La agitación térmica es mayor que la atracción, y las moléculas escapan del pozo. El sistema se comporta como un gas diluido.</p>
+      <p>La transición entre ambos regímenes ocurre cerca de $T \sim \epsilon/k_B$. En la simulación, esto se observa como un cambio de "clúster" a "gas" al aumentar la temperatura.</p>
+    </div>
+  </div>
+
+  <!-- ============================================ -->
+  <h2 id="s8">8. Conclusiones</h2>
+
+  <ol>
+    <li><strong>Las fuerzas de van der Waals son interacciones débiles y universales</strong> entre átomos y moléculas neutros, con energías típicas de $0.1$ a $40\ \text{kJ/mol}$.</li>
+    <li><strong>Tienen tres contribuciones</strong>: Keesom (dipolo-dipolo), Debye (dipolo-dipolo inducido) y London (dispersión). Todas decaen como $1/r^6$ a larga distancia.</li>
+    <li><strong>La dispersión de London es universal</strong>: existe entre cualquier par de átomos, incluso los gases nobles, y suele ser la contribución dominante en moléculas pequeñas o poco polares.</li>
+    <li><strong>El potencial de Lennard-Jones</strong> captura la competencia entre la atracción de van der Waals (a larga distancia) y la repulsión de Pauli (a corta distancia), y es el modelo estándar en simulación molecular.</li>
+    <li><strong>La simulación de dinámica molecular</strong> muestra cómo la temperatura controla la transición entre un gas diluido (alta $T$) y un agregado líquido o sólido (baja $T$).</li>
+    <li><strong>Aunque débiles, las fuerzas de van der Waals son responsables</strong> de la licuación de los gases nobles, de la cohesión en cristales moleculares, de la adhesión entre superficies, de la estructura de proteínas y del plegamiento del ADN. Su papel colectivo es enorme.</li>
+  </ol>
+
+  <p>Las fuerzas de van der Waals son un ejemplo notable de cómo efectos cuánticos sutiles (fluctuaciones del vacío, correlaciones electrónicas) se manifiestan en fenómenos macroscópicos cotidianos, desde la tensión superficial de una gota de agua hasta las propiedades mecánicas de los polímeros y la estabilidad de las espumas. La simulación interactiva permite ver, en tiempo real, cómo esas interacciones débiles pero universales esculpen la materia blanda.</p>
+
+</div>
+
+<script>
+// ============================================================
+// FUNCIONES AUXILIARES
+// ============================================================
+function toggleSolution(btn) {
+  const content = btn.nextElementSibling;
+  content.classList.toggle('open');
+  btn.innerText = content.classList.contains('open') ? 'Ocultar solución' : 'Mostrar solución';
+  if (window.MathJax && window.MathJax.Hub) {
+    window.MathJax.Hub.Queue(["Typeset", window.MathJax.Hub, content]);
+  }
+}
+window.toggleSolution = toggleSolution;
+
+function gaussian(mean, std) {
+  let u = 0, v = 0;
+  while (u === 0) u = Math.random();
+  while (v === 0) v = Math.random();
+  return mean + std * Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v);
+}
+
+// ============================================================
+// FIGURA 1: POTENCIAL DE LENNARD-JONES
+// ============================================================
+function drawLJ() {
+  const showForce = document.getElementById('cb_force_LJ').checked;
+  const useLog = document.getElementById('cb_log_LJ').checked;
+
+  const rs = [];
+  const Us = [];
+  const Fs = [];
+
+  // Rango de r/sigma: 0.9 a 4
+  const rMin = 0.88;
+  const rMax = 4.0;
+  const N = 400;
+
+  for (let i = 0; i <= N; i++) {
+    const r = rMin + (rMax - rMin) * i / N;
+    const r6 = Math.pow(r, 6);
+    const r12 = r6 * r6;
+    const U = 4 * (1 / r12 - 1 / r6);
+    const F = 24 / r * (2 / r12 - 1 / r6);
+    rs.push(r);
+    Us.push(U);
+    Fs.push(F);
+  }
+
+  const traces = [];
+
+  if (useLog) {
+    // En escala log, mostramos |U| con color según signo
+    const rPos = [], uPos = [], rNeg = [], uNeg = [];
+    for (let i = 0; i < rs.length; i++) {
+      if (Us[i] > 0) { rPos.push(rs[i]); uPos.push(Us[i]); }
+      else if (Us[i] < 0) { rNeg.push(rs[i]); uNeg.push(-Us[i]); }
+    }
+    traces.push({
+      x: rPos, y: uPos, type: 'scatter', mode: 'lines',
+      line: { color: '#c0392b', width: 3 },
+      name: 'U > 0 (repulsión)'
+    });
+    traces.push({
+      x: rNeg, y: uNeg, type: 'scatter', mode: 'lines',
+      line: { color: '#2980b9', width: 3 },
+      name: '|U| < 0 (atracción)'
+    });
+  } else {
+    traces.push({
+      x: rs, y: Us, type: 'scatter', mode: 'lines',
+      line: { color: '#2980b9', width: 3 },
+      name: 'U(r)/ε'
+    });
+  }
+
+  if (showForce) {
+    traces.push({
+      x: rs, y: Fs, type: 'scatter', mode: 'lines',
+      line: { color: '#c0392b', width: 2.5, dash: 'dash' },
+      name: 'F(r)·σ/ε'
+    });
+  }
+
+  // Marcador del mínimo
+  const rMin_marker = Math.pow(2, 1/6);
+  traces.push({
+    x: [rMin_marker], y: [-1],
+    type: 'scatter', mode: 'markers',
+    marker: { color: '#16a085', size: 14, symbol: 'diamond',
+              line: { color: 'white', width: 2 } },
+    name: 'Mínimo (r = 2¹ᐟ⁶σ, U = -ε)'
+  });
+
+  // Línea vertical en r = σ
+  traces.push({
+    x: [1, 1], y: [-1.5, 2],
+    type: 'scatter', mode: 'lines',
+    line: { color: '#999', width: 1, dash: 'dot' },
+    name: 'r = σ (U = 0)',
+    showlegend: false, hoverinfo: 'skip'
+  });
+
+  // Línea horizontal en U = 0
+  traces.push({
+    x: [rMin, rMax], y: [0, 0],
+    type: 'scatter', mode: 'lines',
+    line: { color: '#aaa', width: 1, dash: 'dot' },
+    showlegend: false, hoverinfo: 'skip'
+  });
+
+  const yaxis = useLog
+    ? { title: '|U|/ε (escala log)', type: 'log', range: [-2.5, 2.5], fixedrange: false }
+    : { title: 'Energía / fuerza (unidades de ε, ε/σ)', range: [-1.5, 3], zeroline: true, zerolinecolor: '#aaa', fixedrange: false };
+
+  Plotly.react('plot_LJ', traces, {
+    xaxis: { title: 'r / σ', range: [rMin, rMax], fixedrange: false },
+    yaxis: yaxis,
+    margin: { l: 70, r: 20, t: 15, b: 55 },
+    showlegend: true,
+    legend: { x: 0.02, y: 0.98, bgcolor: 'rgba(255,255,255,0.92)', font: { size: 10 } }
+  });
+
+  document.getElementById('stats_LJ').innerHTML =
+    `<span class="stat-item"><span class="lbl">r_min:</span> <span class="val">2¹ᐟ⁶ σ ≈ 1.122 σ</span></span>` +
+    `<span class="stat-item"><span class="lbl">U_min:</span> <span class="val">−ε</span></span>` +
+    `<span class="stat-item"><span class="lbl">Cola:</span> <span class="val">∝ −1/r⁶</span></span>`;
+}
+
+// ============================================================
+// FIGURA 2: SIMULACIÓN DE DINÁMICA MOLECULAR
+// ============================================================
+class LJSimulation {
+  constructor(N, L, epsilon, T) {
+    this.N = N;
+    this.L = L;
+    this.epsilon = epsilon;
+    this.T = T;
+    this.sigma = 1.0;
+    this.rc = 2.5;
+    this.dt = 0.005;
+    this.particles = [];
+    this.init();
+    this.computeForces();
+  }
+
+  init() {
+    const particles = [];
+    let attempts = 0;
+    while (particles.length < this.N && attempts < 20000) {
+      attempts++;
+      const x = 0.6 + Math.random() * (this.L - 1.2);
+      const y = 0.6 + Math.random() * (this.L - 1.2);
+      let ok = true;
+      for (const p of particles) {
+        const dx = p.x - x, dy = p.y - y;
+        if (dx * dx + dy * dy < 0.95 * 0.95) { ok = false; break; }
+      }
+      if (ok) {
+        const vStd = Math.sqrt(this.T);
+        particles.push({
+          x, y,
+          vx: gaussian(0, vStd),
+          vy: gaussian(0, vStd),
+          fx: 0, fy: 0,
+          trail: []
+        });
+      }
+    }
+    // Eliminar velocidad del centro de masa
+    let vxcm = 0, vycm = 0;
+    for (const p of particles) { vxcm += p.vx; vycm += p.vy; }
+    vxcm /= particles.length || 1;
+    vycm /= particles.length || 1;
+    for (const p of particles) { p.vx -= vxcm; p.vy -= vycm; }
+    this.particles = particles;
+  }
+
+  computeForces() {
+    const { particles, L, sigma, epsilon, rc } = this;
+    const rc2 = rc * rc;
+    const sigma6 = Math.pow(sigma, 6);
+    const sigma12 = sigma6 * sigma6;
+    const n = particles.length;
+
+    for (let i = 0; i < n; i++) {
+      particles[i].fx = 0;
+      particles[i].fy = 0;
+    }
+
+    for (let i = 0; i < n; i++) {
+      for (let j = i + 1; j < n; j++) {
+        const dx = particles[i].x - particles[j].x;
+        const dy = particles[i].y - particles[j].y;
+        const r2 = dx * dx + dy * dy;
+        if (r2 < rc2 && r2 > 1e-8) {
+          const r2inv = 1.0 / r2;
+          const r2inv_3 = r2inv * r2inv * r2inv;
+          const r2inv_4 = r2inv_3 * r2inv;
+          const r2inv_7 = r2inv_4 * r2inv_3;
+          const f_r = 24 * epsilon * (2 * sigma12 * r2inv_7 - sigma6 * r2inv_4);
+          let fx = f_r * dx;
+          let fy = f_r * dy;
+          // Cap de fuerza para estabilidad
+          const fmax = 400;
+          const fmag2 = fx * fx + fy * fy;
+          if (fmag2 > fmax * fmax) {
+            const scale = fmax / Math.sqrt(fmag2);
+            fx *= scale;
+            fy *= scale;
+          }
+          particles[i].fx += fx;
+          particles[i].fy += fy;
+          particles[j].fx -= fx;
+          particles[j].fy -= fy;
+        }
+      }
+    }
+
+    // Paredes suaves
+    const kw = 200;
+    for (const p of particles) {
+      if (p.x < 0.5) p.fx += kw * (0.5 - p.x);
+      if (p.x > L - 0.5) p.fx -= kw * (p.x - (L - 0.5));
+      if (p.y < 0.5) p.fy += kw * (0.5 - p.y);
+      if (p.y > L - 0.5) p.fy -= kw * (p.y - (L - 0.5));
+    }
+  }
+
+  step() {
+    const { particles, dt } = this;
+    const n = particles.length;
+    if (n === 0) return;
+
+    for (const p of particles) {
+      p.vx += 0.5 * p.fx * dt;
+      p.vy += 0.5 * p.fy * dt;
+    }
+    for (const p of particles) {
+      p.x += p.vx * dt;
+      p.y += p.vy * dt;
+    }
+    this.computeForces();
+    for (const p of particles) {
+      p.vx += 0.5 * p.fx * dt;
+      p.vy += 0.5 * p.fy * dt;
+    }
+
+    // Termostato de Berendsen
+    let KE = 0;
+    for (const p of particles) {
+      KE += 0.5 * (p.vx * p.vx + p.vy * p.vy);
+    }
+    if (KE > 1e-12) {
+      const targetKE = n * this.T;
+      const lambda = Math.sqrt(1 + 0.02 * (targetKE / KE - 1));
+      for (const p of particles) {
+        p.vx *= lambda;
+        p.vy *= lambda;
+      }
+    }
+
+    // Guardar trayectorias (cada 2 pasos)
+    this._trailCounter = (this._trailCounter || 0) + 1;
+    if (this._trailCounter % 3 === 0) {
+      for (const p of particles) {
+        p.trail.push({ x: p.x, y: p.y });
+        if (p.trail.length > 25) p.trail.shift();
+      }
+    }
+  }
+
+  potentialEnergy() {
+    const { particles, sigma, epsilon, rc } = this;
+    const rc2 = rc * rc;
+    const sigma6 = Math.pow(sigma, 6);
+    const sigma12 = sigma6 * sigma6;
+    let E = 0;
+    const n = particles.length;
+    for (let i = 0; i < n; i++) {
+      for (let j = i + 1; j < n; j++) {
+        const dx = particles[i].x - particles[j].x;
+        const dy = particles[i].y - particles[j].y;
+        const r2 = dx * dx + dy * dy;
+        if (r2 < rc2 && r2 > 1e-8) {
+          const r2inv = 1.0 / r2;
+          const r6inv = r2inv * r2inv * r2inv;
+          E += 4 * epsilon * (sigma12 * r6inv * r6inv - sigma6 * r6inv);
+        }
+      }
+    }
+    return E;
+  }
+
+  kineticTemperature() {
+    if (this.particles.length === 0) return 0;
+    let KE = 0;
+    for (const p of this.particles) {
+      KE += 0.5 * (p.vx * p.vx + p.vy * p.vy);
+    }
+    return KE / this.particles.length; // 2D: <KE>/N = kT, con k=1
+  }
+}
+
+// Variables de la simulación
+let sim = null;
+let simRunning = true;
+let animId = null;
+let lastFrameTime = 0;
+
+// Referencias al canvas
+const simCanvas = document.getElementById('sim_canvas');
+const simCtx = simCanvas.getContext('2d');
+
+function setupCanvas() {
+  const dpr = window.devicePixelRatio || 1;
+  const rect = simCanvas.getBoundingClientRect();
+  simCanvas.width = Math.round(rect.width * dpr);
+  simCanvas.height = Math.round(rect.height * dpr);
+  simCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  return { w: rect.width, h: rect.height };
+}
+
+function createSim() {
+  const N = parseInt(document.getElementById('s_N').value);
+  const T = parseFloat(document.getElementById('s_T').value);
+  const eps = parseFloat(document.getElementById('s_eps').value);
+  const L = 10;
+  sim = new LJSimulation(N, L, eps, T);
+}
+
+function drawSim() {
+  if (!sim) return;
+  const dims = setupCanvas();
+  const W = dims.w, H = dims.h;
+
+  const L = sim.L;
+  const scale = Math.min(W, H) / L;
+  const ox = (W - L * scale) / 2;
+  const oy = (H - L * scale) / 2;
+
+  // Fondo
+  simCtx.fillStyle = '#fafafa';
+  simCtx.fillRect(0, 0, W, H);
+
+  // Caja
+  simCtx.strokeStyle = '#d0d0d0';
+  simCtx.lineWidth = 1.5;
+  simCtx.strokeRect(ox, oy, L * scale, L * scale);
+
+  const showBonds = document.getElementById('cb_bonds').checked;
+  const showTrails = document.getElementById('cb_trails').checked;
+  const showForces = document.getElementById('cb_forces').checked;
+
+  const particles = sim.particles;
+
+  // Trayectorias
+  if (showTrails) {
+    for (const p of particles) {
+      if (!p.trail || p.trail.length < 2) continue;
+      for (let k = 1; k < p.trail.length; k++) {
+        const alpha = k / p.trail.length * 0.5;
+        simCtx.strokeStyle = `rgba(100, 150, 200, ${alpha})`;
+        simCtx.lineWidth = 1;
+        simCtx.beginPath();
+        simCtx.moveTo(ox + p.trail[k - 1].x * scale, oy + p.trail[k - 1].y * scale);
+        simCtx.lineTo(ox + p.trail[k].x * scale, oy + p.trail[k].y * scale);
+        simCtx.stroke();
+      }
+    }
+  }
+
+  // Enlaces (interacciones)
+  if (showBonds) {
+    const sigma = sim.sigma;
+    for (let i = 0; i < particles.length; i++) {
+      for (let j = i + 1; j < particles.length; j++) {
+        const dx = particles[i].x - particles[j].x;
+        const dy = particles[i].y - particles[j].y;
+        const r2 = dx * dx + dy * dy;
+        const r = Math.sqrt(r2);
+        if (r < 1.5 * sigma) {
+          // Color: verde si es atractivo (r>sigma), rojo si es repulsivo (r<sigma)
+          const isRepulsive = r < sigma;
+          const strength = Math.min(1, Math.abs(1.5 * sigma - r) / (0.5 * sigma));
+          const alpha = 0.15 + 0.55 * strength;
+          simCtx.strokeStyle = isRepulsive
+            ? `rgba(192, 57, 43, ${alpha})`
+            : `rgba(22, 160, 133, ${alpha})`;
+          simCtx.lineWidth = 1.2;
+          simCtx.beginPath();
+          simCtx.moveTo(ox + particles[i].x * scale, oy + particles[i].y * scale);
+          simCtx.lineTo(ox + particles[j].x * scale, oy + particles[j].y * scale);
+          simCtx.stroke();
+        }
+      }
+    }
+  }
+
+  // Moléculas
+  const radius = 0.5 * scale;
+  let maxSpeed = 0.1;
+  for (const p of particles) {
+    const s = Math.sqrt(p.vx * p.vx + p.vy * p.vy);
+    if (s > maxSpeed) maxSpeed = s;
+  }
+
+  for (const p of particles) {
+    const speed = Math.sqrt(p.vx * p.vx + p.vy * p.vy);
+    const t = Math.min(1, speed / maxSpeed);
+
+    // Color de azul (lento) a rojo (rápido)
+    const r = Math.floor(40 + 200 * t);
+    const g = Math.floor(90 + 40 * t);
+    const b = Math.floor(220 - 160 * t);
+
+    const cx = ox + p.x * scale;
+    const cy = oy + p.y * scale;
+
+    // Halo suave
+    const grad = simCtx.createRadialGradient(cx - radius * 0.3, cy - radius * 0.3, 1, cx, cy, radius);
+    grad.addColorStop(0, `rgba(${Math.min(255, r + 60)}, ${Math.min(255, g + 60)}, ${Math.min(255, b + 60)}, 1)`);
+    grad.addColorStop(1, `rgb(${r}, ${g}, ${b})`);
+    simCtx.fillStyle = grad;
+
+    simCtx.beginPath();
+    simCtx.arc(cx, cy, radius, 0, 2 * Math.PI);
+    simCtx.fill();
+
+    simCtx.strokeStyle = 'rgba(0, 0, 0, 0.25)';
+    simCtx.lineWidth = 1;
+    simCtx.stroke();
+  }
+
+  // Vectores de fuerza
+  if (showForces) {
+    const fScale = 0.35 * scale / 50;
+    const maxArrowLen = 35;
+    for (const p of particles) {
+      let fx = p.fx * fScale;
+      let fy = p.fy * fScale;
+      const fmag = Math.sqrt(fx * fx + fy * fy);
+      if (fmag > 3) {
+        if (fmag > maxArrowLen) {
+          fx *= maxArrowLen / fmag;
+          fy *= maxArrowLen / fmag;
+        }
+        const x0 = ox + p.x * scale;
+        const y0 = oy + p.y * scale;
+        const x1 = x0 + fx;
+        const y1 = y0 + fy;
+
+        simCtx.strokeStyle = 'rgba(192, 57, 43, 0.7)';
+        simCtx.lineWidth = 1.5;
+        simCtx.beginPath();
+        simCtx.moveTo(x0, y0);
+        simCtx.lineTo(x1, y1);
+        simCtx.stroke();
+
+        // Punta de flecha
+        const angle = Math.atan2(y1 - y0, x1 - x0);
+        const headLen = 5;
+        simCtx.beginPath();
+        simCtx.moveTo(x1, y1);
+        simCtx.lineTo(x1 - headLen * Math.cos(angle - Math.PI / 6),
+                       y1 - headLen * Math.sin(angle - Math.PI / 6));
+        simCtx.moveTo(x1, y1);
+        simCtx.lineTo(x1 - headLen * Math.cos(angle + Math.PI / 6),
+                       y1 - headLen * Math.sin(angle + Math.PI / 6));
+        simCtx.stroke();
+      }
+    }
+  }
+
+  // Actualizar stats
+  const temp = sim.kineticTemperature();
+  const potE = sim.potentialEnergy();
+  document.getElementById('stats_sim').innerHTML =
+    `<span class="stat-item"><span class="lbl">N:</span> <span class="val">${particles.length}</span></span>` +
+    `<span class="stat-item"><span class="lbl">T actual:</span> <span class="val">${temp.toFixed(2)}</span></span>` +
+    `<span class="stat-item"><span class="lbl">U total:</span> <span class="val">${potE.toFixed(2)} ε</span></span>`;
+}
+
+function animate() {
+  if (!sim) return;
+  if (simRunning) {
+    const substeps = 6;
+    for (let k = 0; k < substeps; k++) {
+      sim.step();
+    }
+  }
+  drawSim();
+  animId = requestAnimationFrame(animate);
+}
+
+// ============================================================
+// FIGURA 3: COMPARACIÓN DE ENERGÍAS
+// ============================================================
+function drawComparison() {
+  const labels = [
+    'Debye (HCl–Ar)',
+    'London (Ar–Ar)',
+    'Keesom (HCl–HCl)',
+    'London (molécula grande)',
+    'Puente de H (agua)',
+    'Covalente (C–C)',
+    'Iónico (NaCl)'
+  ];
+  const values = [0.3, 1.0, 3.0, 30.0, 20.0, 350.0, 800.0];
+  const colors = [
+    '#8e44ad', '#8e44ad', '#8e44ad', '#8e44ad',
+    '#16a085', '#c0392b', '#c0392b'
+  ];
+
+  const traces = [
+    {
+      x: values, y: labels,
+      type: 'bar',
+      orientation: 'h',
+      marker: { color: colors, line: { color: 'rgba(0,0,0,0.2)', width: 1 } },
+      text: values.map(v => v + ' kJ/mol'),
+      textposition: 'outside',
+      textfont: { size: 10 },
+      hovertemplate: '%{y}: %{x} kJ/mol<extra></extra>'
+    }
+  ];
+
+  Plotly.react('plot_comp', traces, {
+    xaxis: {
+      title: 'Energía típica (kJ/mol, escala log)',
+      type: 'log',
+      range: [-0.5, 3.5],
+      fixedrange: false
+    },
+    yaxis: {
+      automargin: true,
+      fixedrange: false
+    },
+    margin: { l: 180, r: 60, t: 20, b: 55 },
+    shapes: [
+      {
+        type: 'line',
+        x0: 2.5, x1: 2.5,
+        y0: -0.5, y1: 6.5,
+        line: { color: '#888', width: 1.5, dash: 'dash' }
+      }
+    ],
+    annotations: [
+      {
+        x: 2.5, y: 6.7,
+        text: 'k_B T (300 K)',
+        showarrow: false,
+        font: { size: 11, color: '#666' }
+      }
+    ],
+    showlegend: false
+  });
+}
+
+// ============================================================
+// EVENTOS
+// ============================================================
+function updateN() {
+  document.getElementById('v_N').innerText = document.getElementById('s_N').value;
+}
+function updateT() {
+  const T = parseFloat(document.getElementById('s_T').value);
+  document.getElementById('v_T').innerText = T.toFixed(2);
+  if (sim) sim.T = T;
+}
+function updateEps() {
+  const eps = parseFloat(document.getElementById('s_eps').value);
+  document.getElementById('v_eps').innerText = eps.toFixed(2);
+  if (sim) sim.epsilon = eps;
+}
+
+document.getElementById('s_N').addEventListener('input', () => {
+  updateN();
+  createSim();
+});
+document.getElementById('s_T').addEventListener('input', updateT);
+document.getElementById('s_eps').addEventListener('input', updateEps);
+document.getElementById('cb_force_LJ').addEventListener('change', drawLJ);
+document.getElementById('cb_log_LJ').addEventListener('change', drawLJ);
+
+document.getElementById('btn_reset').addEventListener('click', () => {
+  createSim();
+});
+
+const btnPause = document.getElementById('btn_pause');
+btnPause.addEventListener('click', () => {
+  simRunning = !simRunning;
+  btnPause.innerText = simRunning ? 'Pausar' : 'Reanudar';
+  btnPause.classList.toggle('paused', !simRunning);
+});
+
+// Redibujar al cambiar el tamaño
+window.addEventListener('resize', () => {
+  drawSim();
+});
+
+// ============================================================
+// INICIALIZACIÓN
+// ============================================================
+function initAll() {
+  if (typeof Plotly === 'undefined') {
+    setTimeout(initAll, 100);
+    return;
+  }
+  drawLJ();
+  drawComparison();
+  updateN();
+  updateT();
+  updateEps();
+  createSim();
+  animate();
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initAll);
+} else {
+  initAll();
+}
+</script>
+</body>
+</html>
