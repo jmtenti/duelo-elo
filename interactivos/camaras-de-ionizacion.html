@@ -1,0 +1,992 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Estudio Interactivo: Cámaras de Ionización y Regiones de Operación</title>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']], displayMath: [['$$','$$'], ['\\[','\\]']]},
+    messageStyle: "none"
+  });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script src="https://cdn.plot.ly/plotly-2.24.1.min.js"></script>
+
+<style>
+  :root {
+    --primary-color: #1a252f;
+    --secondary-color: #2c3e50;
+    --accent-color: #c0392b;
+    --link-color: #2980b9;
+    --bg-color: #f8f9fa;
+    --sm-color: #16a085;
+    --we-color: #6c3483;
+    --intuition-color: #d35400;
+    --warning-color: #c0392b;
+    --hist-color: #b7791f;
+  }
+  body {
+    font-family: 'Georgia', serif;
+    background: var(--bg-color); color: #333;
+    line-height: 1.8; margin: 0; padding: 40px 0; font-size: 16px;
+  }
+  .container {
+    max-width: 1000px; margin: auto; background: white;
+    padding: 50px 80px; border-radius: 12px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.06);
+  }
+  h1 { color: var(--primary-color); text-align: center; font-size: 2.1em; font-family: 'Segoe UI', sans-serif; margin-bottom: 10px;}
+  .subtitle { text-align: center; color: #7f8c8d; font-style: italic; margin-bottom: 40px; }
+  h2 { color: var(--secondary-color); margin-top: 55px; border-bottom: 2px solid #ecf0f1; padding-bottom: 5px; font-family: 'Segoe UI', sans-serif;}
+  h3 { color: var(--secondary-color); margin-top: 35px; font-family: 'Segoe UI', sans-serif; font-size: 1.18em;}
+  h4 { color: var(--sm-color); margin-top: 25px; font-family: 'Segoe UI', sans-serif; font-size: 1.02em; font-style: italic;}
+  p { text-align: justify; margin-bottom: 20px; }
+  ul, ol { text-align: justify; }
+  li { margin-bottom: 8px; }
+  .math-box {
+    background: #fdfefe; border-left: 4px solid var(--link-color);
+    padding: 15px 25px; margin: 25px 0; overflow-x: auto; font-size: 1.1em;
+  }
+  .note-box {
+    background: #fef9e7; border-left: 4px solid #f39c12;
+    padding: 12px 20px; margin: 20px 0; font-size: 0.98em;
+  }
+  .sm-box {
+    background: #eafaf1; border-left: 4px solid var(--sm-color);
+    padding: 14px 22px; margin: 22px 0; font-size: 0.97em;
+  }
+  .sm-box strong:first-child { color: var(--sm-color); }
+  .intuition-box {
+    background: #fdf2e9; border-left: 4px solid var(--intuition-color);
+    padding: 14px 22px; margin: 22px 0; font-size: 0.97em;
+  }
+  .intuition-box strong:first-child { color: var(--intuition-color); }
+  .warning-box {
+    background: #fdedec; border-left: 4px solid var(--warning-color);
+    padding: 14px 22px; margin: 22px 0; font-size: 0.97em;
+  }
+  .warning-box strong:first-child { color: var(--warning-color); }
+  .guide-box {
+    background: #eef6fc; border-left: 4px solid var(--link-color);
+    padding: 14px 22px; margin: 22px 0; font-size: 0.96em;
+  }
+  .guide-box strong:first-child { color: var(--link-color); }
+  .guide-box ol { margin: 8px 0 0 0; padding-left: 22px; }
+  .history-box {
+    background: #fbf6e9; border-left: 4px solid var(--hist-color);
+    padding: 14px 22px; margin: 22px 0; font-size: 0.95em;
+    font-style: italic; color: #5b4a1e;
+  }
+  .history-box strong { font-style: normal; }
+  .worked-example {
+    background: #faf7fd; border: 1px solid #d5c8e8;
+    border-left: 5px solid var(--we-color); border-radius: 8px;
+    padding: 22px 30px 24px; margin: 35px 0; font-size: 0.98em;
+  }
+  .worked-example .we-header {
+    font-family: 'Segoe UI', sans-serif; font-size: 0.78em;
+    text-transform: uppercase; letter-spacing: 0.14em;
+    color: var(--we-color); font-weight: bold; margin-bottom: 6px;
+  }
+  .worked-example .we-title {
+    font-family: 'Segoe UI', sans-serif; color: var(--we-color);
+    font-size: 1.08em; font-weight: 600; margin: 0 0 16px 0;
+  }
+  .worked-example .step {
+    margin: 18px 0; padding-left: 18px;
+    border-left: 2px solid #e3d4f0;
+  }
+  .worked-example .step-label {
+    font-family: 'Segoe UI', sans-serif; font-weight: bold;
+    color: var(--we-color); font-size: 0.86em;
+    display: block; margin-bottom: 4px;
+    text-transform: uppercase;
+  }
+  .worked-example .result {
+    background: #efe9f7; border-radius: 5px;
+    padding: 10px 16px; margin-top: 8px; font-weight: 500;
+  }
+  .worked-example .verify {
+    background: #eafaf1; border-left: 3px solid var(--sm-color);
+    padding: 8px 14px; border-radius: 0 5px 5px 0;
+    margin-top: 8px; font-size: 0.95em;
+  }
+  .exercise-box {
+    background: #fdf2f2; border: 1px solid #f5c6c6;
+    border-radius: 8px; padding: 22px 28px; margin: 35px 0;
+  }
+  .exercise-box h4 {
+    color: var(--accent-color); margin-top: 0;
+    font-style: normal; font-size: 1.05em;
+  }
+  .hint {
+    background: #fff8e1; border-radius: 4px;
+    padding: 8px 14px; margin: 10px 0;
+    font-size: 0.92em; color: #6d4c00;
+    border-left: 3px solid #f39c12;
+  }
+  .solution-toggle {
+    background: var(--accent-color); color: white;
+    border: none; padding: 8px 18px; border-radius: 4px;
+    cursor: pointer; font-family: 'Segoe UI', sans-serif;
+    font-size: 0.92em; margin-top: 12px;
+  }
+  .solution-toggle:hover { background: #a02828; }
+  .solution-content {
+    max-height: 0; overflow: hidden;
+    transition: max-height 0.5s ease, margin 0.3s ease;
+    margin-top: 0;
+  }
+  .solution-content.open {
+    max-height: 6000px; margin-top: 18px;
+  }
+  .interactive-figure {
+    background: #fafafa; border: 1px solid #e0e0e0;
+    border-radius: 10px; padding: 25px; margin: 40px 0;
+    font-family: 'Segoe UI', sans-serif;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+  }
+  .figure-title {
+    text-align: center; color: var(--secondary-color);
+    font-weight: bold; font-size: 1.2em; margin-top: 0;
+  }
+  .plot-area { width: 100%; height: 460px; margin-bottom: 15px; }
+  .controls {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 20px;
+    padding: 18px 20px; background: #fff;
+    border-radius: 8px; border: 1px solid #eee; margin-bottom: 15px;
+  }
+  .control-panel h4 {
+    margin-top: 0; color: var(--secondary-color);
+    font-size: 0.9em; text-transform: uppercase;
+    letter-spacing: 0.08em; font-style: normal;
+  }
+  .slider-row {
+    display: block; margin: 12px 0;
+    font-size: 0.93em; color: #333;
+  }
+  .slider-row input[type=range] {
+    width: 100%; accent-color: var(--accent-color); cursor: pointer;
+  }
+  .slider-val {
+    font-family: Consolas, monospace;
+    color: var(--accent-color); font-weight: bold;
+  }
+  .stats {
+    margin-top: 12px; padding: 12px 16px;
+    background: #f4f6f7; border-radius: 6px;
+    font-family: Consolas, monospace; font-size: 0.86em;
+    line-height: 1.7; text-align: center;
+  }
+  .stats .stat-item {
+    display: inline-block; margin: 3px 6px;
+    padding: 3px 10px; background: white;
+    border-radius: 4px; border: 1px solid #e0e0e0;
+  }
+  .stats .stat-item .lbl { color: #888; }
+  .stats .stat-item .val { color: var(--accent-color); font-weight: bold; }
+  .caption {
+    font-size: 0.95em; color: #555; text-align: justify;
+    padding: 10px 20px; border-left: 3px solid var(--accent-color);
+    background: #fff;
+  }
+  table.generic { border-collapse: collapse; width: 100%; margin: 20px 0; font-size: 0.95em;}
+  table.generic th, table.generic td {
+    border: 1px solid #e0e0e0; padding: 8px 12px;
+    text-align: left; vertical-align: top;
+  }
+  table.generic th { background: #ecf0f1; }
+  .toc {
+    background: #f4f6f7; border-radius: 8px;
+    padding: 20px 30px; margin: 30px 0;
+    font-family: 'Segoe UI', sans-serif; font-size: 0.95em;
+  }
+  .toc h3 { margin-top: 0; color: var(--secondary-color); font-size: 1.05em;}
+  .toc ol { margin: 0; padding-left: 22px;}
+  .toc li { margin: 4px 0;}
+  .toc a { color: var(--link-color); text-decoration: none;}
+  .toc a:hover { text-decoration: underline;}
+  .step-by-step {
+    counter-reset: step-counter; list-style: none;
+    padding-left: 0; margin: 25px 0;
+  }
+  .step-by-step li {
+    position: relative; padding: 12px 18px 12px 60px;
+    margin: 10px 0; background: #f8f9fa;
+    border-radius: 6px; border-left: 3px solid var(--link-color);
+  }
+  .step-by-step li::before {
+    counter-increment: step-counter;
+    content: counter(step-counter);
+    position: absolute; left: 14px; top: 50%;
+    transform: translateY(-50%);
+    width: 32px; height: 32px;
+    background: var(--link-color); color: white;
+    border-radius: 50%; display: flex;
+    align-items: center; justify-content: center;
+    font-family: 'Segoe UI', sans-serif; font-weight: bold; font-size: 0.95em;
+  }
+  #sim_canvas {
+    display: block;
+    width: 100%;
+    max-width: 560px;
+    height: 260px;
+    margin: 0 auto;
+    border-radius: 8px;
+    background: #fafafa;
+    border: 1px solid #e0e0e0;
+  }
+  .sim-buttons {
+    display: flex; gap: 10px; justify-content: center;
+    margin-top: 12px; margin-bottom: 12px; flex-wrap: wrap;
+  }
+  .sim-btn {
+    background: var(--link-color); color: white;
+    border: none; padding: 8px 18px; border-radius: 6px;
+    cursor: pointer; font-family: 'Segoe UI', sans-serif;
+    font-size: 0.9em;
+  }
+  .sim-btn:hover { background: #1f6391; }
+  .sim-btn.paused { background: #e67e22; }
+  .sim-btn.paused:hover { background: #b8651a; }
+  .sim-legend {
+    display: flex; gap: 16px; flex-wrap: wrap;
+    justify-content: center; margin: 10px 0 12px;
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 0.82em;
+    color: #555;
+  }
+  .sim-legend .item {
+    display: inline-flex; align-items: center; gap: 6px;
+  }
+  .sim-legend .dot {
+    width: 12px; height: 12px; border-radius: 50%;
+    border: 1px solid rgba(0,0,0,0.3);
+  }
+  @media (max-width: 800px) {
+    .container { padding: 30px 20px; }
+    .controls { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h1>Cámaras de Ionización</h1>
+  <div class="subtitle">Las regiones de operación de los detectores gaseosos: desde la recombinación hasta la descarga continua, y por qué la región de saturación es la reina de la dosimetría</div>
+
+  <div class="note-box">
+    <strong>Notación.</strong> $V$: tensión de polarización entre electrodos. $I$: corriente de ionización medida. $I_s$: corriente de saturación. $f$: eficiencia de colección de carga. $d$: distancia entre electrodos. $W$: energía media para formar un par ión-electrón (≈ 34 eV en aire).
+  </div>
+
+  <div class="intuition-box">
+    <strong>La idea en una frase.</strong> Una cámara de ionización es un volumen de gas entre dos electrodos con una tensión aplicada. La radiación ioniza el gas, creando pares ión-electrón; si la tensión es suficientemente alta, todos los pares se colectan antes de recombinarse, y la corriente medida es proporcional a la dosis. Pero si se sube demasiado la tensión, el detector entra en modos no lineales (proporcional, Geiger, descarga) que ya no sirven para dosimetría.
+  </div>
+
+  <div class="toc">
+    <h3>Contenido</h3>
+    <ol>
+      <li><a href="#s1">¿Qué es una cámara de ionización?</a></li>
+      <li><a href="#s2">La curva característica \(I\)-\(V\) y las cinco regiones</a></li>
+      <li><a href="#s3">La región de saturación (ionización)</a></li>
+      <li><a href="#s4">Simulación: recombinación vs. colección</a></li>
+      <li><a href="#s5">Eficiencia de colección y correcciones</a></li>
+      <li><a href="#s6">Tipos de cámaras de ionización</a></li>
+      <li><a href="#s7">Aplicaciones en dosimetría y radioterapia</a></li>
+      <li><a href="#s8">Ejemplos resueltos</a></li>
+      <li><a href="#s9">Ejercicios propuestos</a></li>
+      <li><a href="#s10">Conclusiones</a></li>
+    </ol>
+  </div>
+
+  <!-- ============================================ -->
+  <h2 id="s1">1. ¿Qué es una cámara de ionización?</h2>
+
+  <p>Una <strong>cámara de ionización</strong> es el detector de radiación más simple y fundamental: un recinto lleno de gas (aire, nitrógeno, argón, etc.) con dos electrodos a los que se aplica una tensión. Cuando la radiación ionizante atraviesa el gas, arranca electrones de los átomos, creando <strong>pares ión-electrón</strong>. El campo eléctrico separa las cargas y las arrastra hacia los electrodos, generando una corriente eléctrica medible.</p>
+
+  <div class="math-box">
+    $$ I = \frac{Q}{t} = \frac{n e}{t} $$
+  </div>
+
+  <p>donde $n$ es el número de pares colectados por unidad de tiempo y $e$ es la carga elemental. Si se colectan <em>todos</em> los pares producidos por la radiación, la corriente es proporcional a la tasa de dosis absorbida en el gas. Esa es la base de la dosimetría.</p>
+
+  <div class="history-box">
+    <strong>Contexto histórico.</strong> Rutherford y Geiger construyeron en 1908 el primer detector gaseoso de este tipo: un cilindro metálico con un alambre central, lleno de aire, al que aplicaban una tensión. Observaron que el comportamiento del detector cambiaba radicalmente según la tensión, y que las partículas α se detectaban a tensiones mucho menores que las β. Ese fue el punto de partida de toda la instrumentación nuclear.
+  </div>
+
+  <!-- ============================================ -->
+  <h2 id="s2">2. La curva característica \(I\)-\(V\) y las cinco regiones</h2>
+
+  <p>Si se representa la corriente medida \(I\) en función de la tensión aplicada \(V\), se obtiene la <strong>curva característica</strong> del detector gaseoso. Esta curva revela cinco regiones distintas:</p>
+
+  <table class="generic">
+    <thead>
+      <tr>
+        <th>Región</th><th>Nombre</th><th>Comportamiento de \(I(V)\)</th><th>Mecanismo físico</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>I</strong></td><td>Recombinación</td><td>\(I\) crece con \(V\)</td><td>Muchos pares se recombina antes de llegar a los electrodos; el campo es débil.</td></tr>
+      <tr><td><strong>II</strong></td><td>Ionización (saturación)</td><td>\(I \approx I_s\) constante</td><td>Todos los pares primarios se colectan; no hay multiplicación. Es la región dosimétrica.</td></tr>
+      <tr><td><strong>III</strong></td><td>Proporcional</td><td>\(I\) crece con \(V\), pero \(I \propto\) energía inicial</td><td>Los electrones ganan energía suficiente para ionizar por impacto (multiplicación gaseosa).</td></tr>
+      <tr><td><strong>IV</strong></td><td>Geiger-Müller</td><td>\(I\) muy alta, independiente de la energía</td><td>Avalancha total en todo el gas; cada evento produce la misma carga.</td></tr>
+      <tr><td><strong>V</strong></td><td>Descarga continua</td><td>\(I\) se dispara sin control</td><td>Ruptura dieléctrica del gas; el detector se daña.</td></tr>
+    </tbody>
+  </table>
+
+  <!-- FIGURA 1 -->
+  <div class="interactive-figure">
+    <div class="figure-title">Figura 1: Curva característica \(I\)-\(V\) de un detector gaseoso</div>
+    <div id="plot_IV" class="plot-area"></div>
+    <div class="controls">
+      <div class="control-panel">
+        <h4>Tensión aplicada</h4>
+        <label class="slider-row">
+          $V$: <span id="v_V" class="slider-val">80 V</span>
+          <input type="range" id="s_V" min="0" max="1400" step="5" value="80">
+        </label>
+        <p style="font-size:0.85em; color:#666; margin-top:8px;">
+          Mueve el slider para ver en qué región opera el detector a cada tensión.
+        </p>
+      </div>
+      <div class="control-panel">
+        <h4>Lectura</h4>
+        <div id="stats_IV" class="stats"></div>
+      </div>
+    </div>
+
+    <div class="guide-box">
+      <strong>Qué observar en la Figura 1.</strong>
+      <ol>
+        <li>Con $V$ entre 0 y ~50 V, la corriente crece: es la <strong>región de recombinación</strong>.</li>
+        <li>Entre ~50 y ~300 V, la corriente se aplana: es la <strong>región de ionización o saturación</strong>. Aquí opera la cámara de ionización.</li>
+        <li>Entre ~300 y ~800 V, la corriente vuelve a crecer: es la <strong>región proporcional</strong>.</li>
+        <li>Entre ~800 y ~1200 V, la corriente es muy alta e independiente de la energía: es la <strong>región Geiger-Müller</strong>.</li>
+        <li>Por encima de ~1200 V, la corriente se dispara: es la <strong>región de descarga continua</strong>.</li>
+      </ol>
+    </div>
+
+    <div class="caption">
+      <strong>Epígrafe:</strong> Curva característica esquemática de un detector gaseoso. Las regiones están coloreadas: recombinación (naranja), ionización/saturación (azul), proporcional (verde), Geiger-Müller (morado) y descarga continua (rojo). La cámara de ionización opera únicamente en la meseta azul.
+    </div>
+  </div>
+
+  <!-- ============================================ -->
+  <h2 id="s3">3. La región de saturación (ionización)</h2>
+
+  <p>En la región de saturación la tensión es suficientemente alta como para separar todos los pares ión-electrón antes de que se recombinen, pero no tanto como para producir ionización secundaria. La corriente medida es entonces:</p>
+
+  <div class="math-box">
+    $$ I_s = \frac{Q_{\rm total}}{t} = \frac{n_0 e}{t} $$
+  </div>
+
+  <p>donde $n_0$ es el número total de pares primarios creados por la radiación por unidad de tiempo. Esta corriente es <strong>proporcional a la tasa de dosis</strong> absorbida en el gas y, por la teoría de la cavidad de Bragg-Gray, también a la dosis en el material circundante.</p>
+
+  <div class="warning-box">
+    <strong>Error común.</strong> "Cuanto mayor sea la tensión, mejor funciona la cámara." Falso. Si se sube demasiado la tensión, se entra en la región proporcional o Geiger, donde la señal ya no es proporcional a la dosis. La cámara de ionización debe operar <em>estrictamente</em> en la meseta de saturación.
+  </div>
+
+  <!-- ============================================ -->
+  <h2 id="s4">4. Simulación: recombinación vs. colección</h2>
+
+  <p>La siguiente simulación muestra, en tiempo real, lo que ocurre dentro de la cámara según la tensión aplicada. Los pares ión-electrón se crean continuamente en el volumen sensible; a baja tensión, muchos se recombinan antes de llegar a los electrodos; a tensión de saturación, la mayoría se colecta.</p>
+
+  <div class="interactive-figure">
+    <div class="figure-title">Figura 2: Destino de los pares ión-electrón según la tensión</div>
+
+    <canvas id="sim_canvas"></canvas>
+
+    <div class="sim-legend">
+      <span class="item"><span class="dot" style="background:#c0392b;"></span>Ion (+)</span>
+      <span class="item"><span class="dot" style="background:#2980b9;"></span>Electrón (−)</span>
+      <span class="item"><span class="dot" style="background:#f39c12;"></span>Recombinación</span>
+      <span class="item"><span class="dot" style="background:#16a085;"></span>Colección</span>
+    </div>
+
+    <div class="sim-buttons">
+      <button class="sim-btn" id="btn_pause_sim">Pausar</button>
+      <button class="sim-btn" id="btn_reset_sim">Reiniciar</button>
+    </div>
+
+    <div class="controls">
+      <div class="control-panel">
+        <h4>Tensión de polarización</h4>
+        <label class="slider-row">
+          $V$: <span id="v_sim" class="slider-val">80 V</span>
+          <input type="range" id="s_sim_V" min="0" max="1200" step="5" value="80">
+        </label>
+      </div>
+      <div class="control-panel">
+        <h4>Estadísticas</h4>
+        <div id="stats_sim" class="stats"></div>
+      </div>
+    </div>
+
+    <div class="guide-box">
+      <strong>Cómo usar la simulación.</strong>
+      <ol>
+        <li>Con $V = 0$ V, no hay campo: los iones y electrones apenas se separan y <strong>casi todos se recombinan</strong> (verás flashes naranjas con una X).</li>
+        <li>Sube a $V \approx 30$–$50$ V: algunos pares empiezan a escapar y llegar a los electrodos, pero la mayoría aún se recombina.</li>
+        <li>Sube a $V \approx 100$–$200$ V: la mayoría de los pares se <strong>colecta</strong> (pulsos verdes en los electrodos) y la eficiencia supera el 80 %. Estás en la <strong>región de saturación</strong>.</li>
+        <li>Sube por encima de $V \approx 300$ V: casi no se ve recombinación, y los pares llegan muy rápido a los electrodos. Estás en la región proporcional (la simulación no muestra la multiplicación, solo la colección rápida).</li>
+        <li>Observa que los iones (rojos) se mueven hacia el cátodo (izquierda) y los electrones (azules) hacia el ánodo (derecha), conectados por una fina línea gris que los identifica como par.</li>
+        <li>El contador de "eficiencia" es el cociente entre pares colectados y (colectados + recombinados). Debería subir hacia el 100 % al aumentar $V$.</li>
+      </ol>
+    </div>
+
+    <div class="caption">
+      <strong>Epígrafe:</strong> Simulación esquemática de una cámara de ionización de placas paralelas. Los pares ión-electrón se crean aleatoriamente y se van separando por el campo (su separación crece proporcionalmente a $V$). La probabilidad de recombinación decae exponencialmente con la separación: a baja tensión, los pares se quedan juntos y se recombinan; a tensión de saturación, se separan rápido y sobreviven hasta los electrodos. Los pares recién creados aparecen cada frame; los recombinados dejan un flash naranja con una X; los colectados dejan dos pulsos verdes.
+    </div>
+  </div>
+
+  <!-- ============================================ -->
+  <h2 id="s5">5. Eficiencia de colección y correcciones</h2>
+
+  <p>En la práctica, la cámara de ionización nunca está perfectamente en saturación. La <strong>eficiencia de colección</strong> $f$ se define como:</p>
+
+  <div class="math-box">
+    $$ f = \frac{I(V)}{I_s} \leq 1 $$
+  </div>
+
+  <p>Para una cámara de placas paralelas, la teoría de Boag da, en el caso de radiación continua:</p>
+
+  <div class="math-box">
+    $$ f_v = \frac{2}{1 + \sqrt{1 + \frac{4 a I_v}{V^2}}} $$
+  </div>
+
+  <p>donde $a$ es un parámetro que depende de la geometría y del gas, e $I_v$ es la corriente medida. En la práctica clínica, las correcciones por recombinación son pequeñas (típicamente < 1 %) si la cámara opera bien dentro de la meseta.</p>
+
+  <div class="sm-box">
+    <strong>Correcciones típicas en dosimetría de referencia.</strong>
+    <ul>
+      <li><strong>Temperatura y presión</strong> ($k_{TP}$): la densidad del gas cambia con $T$ y $P$.</li>
+      <li><strong>Polaridad</strong> ($k_{\rm pol}$): la respuesta puede ser ligeramente distinta al invertir la tensión.</li>
+      <li><strong>Calibración</strong> ($N_{D,w}$): factor del laboratorio de metrología.</li>
+      <li><strong>Calidad del haz</strong> ($k_Q$): dependencia con la energía de los fotones.</li>
+    </ul>
+  </div>
+
+  <!-- ============================================ -->
+  <h2 id="s6">6. Tipos de cámaras de ionización</h2>
+
+  <table class="generic">
+    <thead>
+      <tr><th>Tipo</th><th>Descripción</th><th>Aplicación típica</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>Ventilada (abierta)</strong></td><td>El gas es el aire ambiente; requiere corrección por $T$ y $P$.</td><td>Dosimetría de referencia en radioterapia (cámara Farmer).</td></tr>
+      <tr><td><strong>Sellada</strong></td><td>Gas encerrado a presión; no depende del ambiente.</td><td>Monitores de radiación, detectores de humo.</td></tr>
+      <tr><td><strong>De dedal (cilíndrica)</strong></td><td>Forma cilíndrica pequeña; volumen ~0.1–1 cm³.</td><td>Radioterapia externa, haces de fotones y electrones.</td></tr>
+      <tr><td><strong>De placas paralelas</strong></td><td>Electrodos planos muy próximos; alta resolución espacial.</td><td>Dosimetría superficial, radiodiagnóstico, electrones.</td></tr>
+      <tr><td><strong>De pozo</strong></td><td>Cavidad central donde se introduce la fuente.</td><td>Calibración de fuentes de braquiterapia.</td></tr>
+      <tr><td><strong>De extrapolación</strong></td><td>Distancia entre electrodos ajustable con micrómetro.</td><td>Calibración absoluta de fuentes beta y haces de baja energía.</td></tr>
+      <tr><td><strong>De ar libre</strong></td><td>Patrón primario; volumen de aire definido con precisión.</td><td>Laboratorios de metrología (rayos X de 10–300 kV).</td></tr>
+      <tr><td><strong>Tipo lápiz</strong></td><td>Muy pequeña y alargada.</td><td>Tomografía computarizada (TC), haces estrechos.</td></tr>
+    </tbody>
+  </table>
+
+  <!-- ============================================ -->
+  <h2 id="s7">7. Aplicaciones en dosimetría y radioterapia</h2>
+
+  <ul>
+    <li><strong>Calibración de haces de radioterapia:</strong> determinar la dosis absorbida en agua por unidad de lectura.</li>
+    <li><strong>Dosimetría de referencia:</strong> medir la dosis en condiciones de referencia para comisionar un acelerador lineal.</li>
+    <li><strong>Verificación de planes de tratamiento:</strong> comprobar que la dosis calculada por el sistema de planificación coincide con la medida.</li>
+    <li><strong>Control de calidad:</strong> verificar la estabilidad del acelerador, la linealidad con la dosis, la dependencia con la tasa.</li>
+    <li><strong>Radioprotección:</strong> monitorear dosis ocupacionales y ambientales.</li>
+  </ul>
+
+  <div class="sm-box">
+    <strong>La cámara Farmer.</strong> Es el estándar de facto en radioterapia. Volumen activo ~0.6 cm³, pared de grafito o plástico, electrodo central de aluminio. Su respuesta es lineal con la dosis, estable a largo plazo y relativamente independiente de la energía. Se usa con un electrómetro de alta precisión y se calibra periódicamente en un laboratorio de metrología.
+  </div>
+
+  <!-- ============================================ -->
+  <h2 id="s8">8. Ejemplos resueltos</h2>
+
+  <div class="worked-example">
+    <div class="we-header">Ejemplo desarrollado 8.1</div>
+    <div class="we-title">Número de pares ión-electrón creados por una dosis dada</div>
+    <p>Una cámara de ionización de aire recibe una dosis de 1 mGy. Si $W = 33.97\ \text{eV}$, ¿cuántos pares se crean por gramo de aire?</p>
+    <div class="step">
+      <span class="step-label">Paso 1 — Energía depositada por gramo</span>
+      <div class="step-body">
+        $$ E = 1\ \text{mGy} = 10^{-3}\ \text{J/kg} = 10^{-6}\ \text{J/g} = 6.242\times10^{12}\ \text{eV/g}. $$
+      </div>
+    </div>
+    <div class="step">
+      <span class="step-label">Paso 2 — Número de pares</span>
+      <div class="step-body">
+        $$ n = \frac{E}{W} = \frac{6.242\times10^{12}}{33.97} \approx 1.84\times10^{11}\ \text{pares/g}. $$
+        <div class="result">Se crean aproximadamente $1.84\times10^{11}$ pares ión-electrón por gramo de aire para 1 mGy.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="worked-example">
+    <div class="we-header">Ejemplo desarrollado 8.2</div>
+    <div class="we-title">Corriente de saturación de una cámara</div>
+    <p>Una cámara de 0.6 cm³ de aire recibe 2 Gy/min. Estima la corriente de saturación.</p>
+    <div class="step">
+      <span class="step-label">Paso 1 — Masa de aire</span>
+      <div class="step-body">
+        <p>$m = \rho V = 1.2\times10^{-3} \times 0.6 = 7.2\times10^{-4}\ \text{g} = 7.2\times10^{-7}\ \text{kg}$.</p>
+      </div>
+    </div>
+    <div class="step">
+      <span class="step-label">Paso 2 — Energía por segundo</span>
+      <div class="step-body">
+        <p>$2\ \text{Gy/min} = 0.0333\ \text{J/(kg·s)}$. $P = 0.0333 \times 7.2\times10^{-7} = 2.4\times10^{-8}\ \text{J/s}$.</p>
+      </div>
+    </div>
+    <div class="step">
+      <span class="step-label">Paso 3 — Corriente</span>
+      <div class="step-body">
+        <p>$n/t = P/(W \cdot e) \approx 4.4\times10^{9}$ pares/s.</p>
+        $$ I = (n/t) \cdot e \approx 0.71\ \text{nA}. $$
+        <div class="result">La corriente de saturación es del orden de $0.7\ \text{nA}$, un valor típico y medible con electrómetros de precisión.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================ -->
+  <h2 id="s9">9. Ejercicios propuestos</h2>
+
+  <div class="exercise-box">
+    <h4>Ejercicio 1 — Identificar la región</h4>
+    <p>Una cámara de ionización opera a 200 V y su corriente es prácticamente independiente de pequeñas variaciones de tensión. ¿En qué región está?</p>
+    <div class="hint"><strong>Pista:</strong> la corriente constante con la tensión es la firma de la meseta de saturación.</div>
+    <button class="solution-toggle" onclick="toggleSolution(this)">Mostrar solución</button>
+    <div class="solution-content">
+      <p>Está en la <strong>región de ionización o saturación</strong> (Región II). Es la región adecuada para dosimetría.</p>
+    </div>
+  </div>
+
+  <div class="exercise-box">
+    <h4>Ejercicio 2 — ¿Por qué no usar la región Geiger para dosimetría?</h4>
+    <p>Explica por qué un contador Geiger-Müller no sirve para medir dosis absorbida con precisión.</p>
+    <div class="hint"><strong>Pista:</strong> en la región Geiger, la avalancha es total y la señal es independiente de la energía depositada.</div>
+    <button class="solution-toggle" onclick="toggleSolution(this)">Mostrar solución</button>
+    <div class="solution-content">
+      <p>En la región Geiger-Müller cualquier evento produce una avalancha completa y la carga colectada es siempre la misma, independientemente de la energía. Por eso el pulso no lleva información sobre la dosis. Los contadores Geiger sirven para <em>contar</em> eventos, no para <em>medir</em> dosis.</p>
+    </div>
+  </div>
+
+  <div class="exercise-box">
+    <h4>Ejercicio 3 — Eficiencia de colección</h4>
+    <p>Una cámara mide 95 nA a 100 V y 100 nA a 300 V (saturación). ¿Cuál es la eficiencia a 100 V?</p>
+    <div class="hint"><strong>Pista:</strong> $f = I(V)/I_s$.</div>
+    <button class="solution-toggle" onclick="toggleSolution(this)">Mostrar solución</button>
+    <div class="solution-content">
+      <p>$f = 95/100 = 0.95$. La eficiencia es del 95 %; se pierde un 5 % de carga por recombinación.</p>
+    </div>
+  </div>
+
+  <div class="exercise-box">
+    <h4>Ejercicio 4 — Tipo de cámara adecuada</h4>
+    <p>Para medir la dosis en la superficie de la piel en un haz de electrones, ¿qué tipo de cámara elegirías?</p>
+    <div class="hint"><strong>Pista:</strong> se necesita alta resolución espacial en profundidad y ventana de entrada muy fina.</div>
+    <button class="solution-toggle" onclick="toggleSolution(this)">Mostrar solución</button>
+    <div class="solution-content">
+      <p>Una <strong>cámara de placas paralelas</strong>. Su volumen sensible es muy delgado y permite medir la dosis superficial con alta resolución. Las cilíndricas promedian demasiado en profundidad.</p>
+    </div>
+  </div>
+
+  <div class="exercise-box">
+    <h4>Ejercicio 5 — Corrección por temperatura y presión</h4>
+    <p>Una cámara ventilada se calibra a 20 °C y 101.3 kPa. En una medida se encuentra a 25 °C y 98.0 kPa. ¿La lectura será mayor o menor que la dosis real?</p>
+    <div class="hint"><strong>Pista:</strong> la masa de aire depende de $P/(T)$.</div>
+    <button class="solution-toggle" onclick="toggleSolution(this)">Mostrar solución</button>
+    <div class="solution-content">
+      <p>La lectura será <strong>menor</strong>. Al aumentar $T$ y disminuir $P$, la densidad del aire baja: hay menos masa y menos ionización. El factor de corrección es $k_{TP} = (P_0/P)(T/T_0) \approx 1.05$.</p>
+    </div>
+  </div>
+
+  <!-- ============================================ -->
+  <h2 id="s10">10. Conclusiones</h2>
+
+  <ol>
+    <li><strong>Una cámara de ionización</strong> mide la radiación a través de la corriente producida por los pares ión-electrón creados en el gas.</li>
+    <li><strong>La curva característica \(I\)-\(V\)</strong> revela cinco regiones: recombinación, ionización (saturación), proporcional, Geiger-Müller y descarga continua.</li>
+    <li><strong>La región de saturación</strong> es la única adecuada para dosimetría: la corriente es independiente de la tensión y proporcional a la dosis.</li>
+    <li><strong>La eficiencia de colección</strong> $f = I/I_s$ cuantifica la fracción de carga que se colecta antes de recombinarse.</li>
+    <li><strong>Existen muchos tipos de cámaras</strong> adaptadas a distintas aplicaciones dosimétricas (Farmer, placas paralelas, pozo, extrapolación, ar libre).</li>
+    <li><strong>En radioterapia</strong>, la cámara de ionización es el instrumento de referencia para calibrar haces y verificar planes.</li>
+  </ol>
+
+  <p>Las cámaras de ionización son un ejemplo perfecto de cómo un dispositivo sencillo —dos electrodos y un gas— puede convertirse en un instrumento de precisión si se elige correctamente la región de operación. La diferencia entre medir dosis con exactitud o meramente detectar radiación está, literalmente, en unos cientos de voltios.</p>
+
+</div>
+
+<script>
+// ============================================================
+// UTILIDADES
+// ============================================================
+function toggleSolution(btn) {
+  const content = btn.nextElementSibling;
+  content.classList.toggle('open');
+  btn.innerText = content.classList.contains('open') ? 'Ocultar solución' : 'Mostrar solución';
+  if (window.MathJax && window.MathJax.Hub) {
+    window.MathJax.Hub.Queue(["Typeset", window.MathJax.Hub, content]);
+  }
+}
+window.toggleSolution = toggleSolution;
+
+// ============================================================
+// FIGURA 1: CURVA I-V
+// ============================================================
+function modelCurrent(V) {
+  if (V <= 0) return 0;
+  if (V < 50) return 0.6 * Math.pow(V / 50, 0.6);
+  if (V < 300) return 0.6 + 0.0008 * (V - 50);
+  if (V < 800) {
+    const Is = 0.6 + 0.0008 * 250;
+    return Is * Math.exp((V - 300) / 180);
+  }
+  if (V < 1200) {
+    const I800 = (0.6 + 0.0008 * 250) * Math.exp(500 / 180);
+    return I800 * (1 + 0.2 * (V - 800) / 400);
+  }
+  const I1200 = (0.6 + 0.0008 * 250) * Math.exp(500 / 180) * 1.2;
+  return I1200 * Math.exp((V - 1200) / 40);
+}
+
+let IV_curve_V = [], IV_curve_I = [];
+
+function buildIVCurve() {
+  IV_curve_V = []; IV_curve_I = [];
+  for (let V = 0; V <= 1400; V += 2) {
+    IV_curve_V.push(V);
+    IV_curve_I.push(modelCurrent(V));
+  }
+}
+
+function drawIV() {
+  const Vsel = parseFloat(document.getElementById('s_V').value);
+  document.getElementById('v_V').innerText = Vsel.toFixed(0) + ' V';
+  const Isel = modelCurrent(Vsel);
+
+  let region = '', color = '', detector = '';
+  if (Vsel < 50) { region = 'Recombinación'; color = '#e67e22'; detector = 'No utilizable para detección'; }
+  else if (Vsel < 300) { region = 'Ionización (saturación)'; color = '#2980b9'; detector = 'Cámara de ionización'; }
+  else if (Vsel < 800) { region = 'Proporcional'; color = '#16a085'; detector = 'Contador proporcional'; }
+  else if (Vsel < 1200) { region = 'Geiger-Müller'; color = '#8e44ad'; detector = 'Contador Geiger-Müller'; }
+  else { region = 'Descarga continua'; color = '#c0392b'; detector = '¡No usar! Daña el detector'; }
+
+  const shapes = [
+    { type: 'rect', x0: 0, x1: 50, y0: 0, y1: 1, yref: 'paper', fillcolor: 'rgba(230,126,34,0.12)', line: { width: 0 } },
+    { type: 'rect', x0: 50, x1: 300, y0: 0, y1: 1, yref: 'paper', fillcolor: 'rgba(41,128,185,0.10)', line: { width: 0 } },
+    { type: 'rect', x0: 300, x1: 800, y0: 0, y1: 1, yref: 'paper', fillcolor: 'rgba(22,160,133,0.10)', line: { width: 0 } },
+    { type: 'rect', x0: 800, x1: 1200, y0: 0, y1: 1, yref: 'paper', fillcolor: 'rgba(142,68,173,0.10)', line: { width: 0 } },
+    { type: 'rect', x0: 1200, x1: 1400, y0: 0, y1: 1, yref: 'paper', fillcolor: 'rgba(192,57,43,0.12)', line: { width: 0 } }
+  ];
+  const annotations = [
+    { x: 25, y: 1.02, yref: 'paper', text: 'I', showarrow: false, font: { size: 12, color: '#e67e22' } },
+    { x: 175, y: 1.02, yref: 'paper', text: 'II', showarrow: false, font: { size: 12, color: '#2980b9' } },
+    { x: 550, y: 1.02, yref: 'paper', text: 'III', showarrow: false, font: { size: 12, color: '#16a085' } },
+    { x: 1000, y: 1.02, yref: 'paper', text: 'IV', showarrow: false, font: { size: 12, color: '#8e44ad' } },
+    { x: 1300, y: 1.02, yref: 'paper', text: 'V', showarrow: false, font: { size: 12, color: '#c0392b' } }
+  ];
+
+  Plotly.react('plot_IV', [
+    { x: IV_curve_V, y: IV_curve_I, type: 'scatter', mode: 'lines', line: { color: '#2c3e50', width: 2.5 }, name: 'I(V)' },
+    { x: [Vsel], y: [Isel], type: 'scatter', mode: 'markers',
+      marker: { color: color, size: 14, symbol: 'circle', line: { color: 'white', width: 2 } },
+      name: 'Punto de operación' }
+  ], {
+    xaxis: { title: 'Tensión aplicada V (V)', range: [0, 1400], fixedrange: false },
+    yaxis: { title: 'Corriente I (u.a.)', type: 'log', range: [-1.5, 4], fixedrange: false },
+    shapes, annotations,
+    margin: { l: 70, r: 20, t: 30, b: 55 },
+    showlegend: false
+  });
+
+  document.getElementById('stats_IV').innerHTML =
+    `<span class="stat-item"><span class="lbl">Región:</span> <span class="val" style="color:${color};">${region}</span></span>` +
+    `<span class="stat-item"><span class="lbl">Detector:</span> <span class="val">${detector}</span></span>` +
+    `<br><span class="stat-item"><span class="lbl">I relativa:</span> <span class="val">${Isel.toFixed(3)}</span></span>` +
+    `<span class="stat-item"><span class="lbl">V:</span> <span class="val">${Vsel.toFixed(0)} V</span></span>`;
+}
+
+document.getElementById('s_V').addEventListener('input', drawIV);
+
+// ============================================================
+// FIGURA 2: SIMULACIÓN DE PARES IÓN-ELECTRÓN (CORREGIDA)
+// ============================================================
+const simCanvas = document.getElementById('sim_canvas');
+const simCtx = simCanvas.getContext('2d');
+
+const SIM_W = 560;
+const SIM_H = 260;
+const ELECTRODE_LEFT = 40;
+const ELECTRODE_RIGHT = SIM_W - 40;
+const PADDING_Y = 30;
+
+let simPairs = [];
+let simRunning = true;
+let simAnimId = null;
+let simStats = { collected: 0, recombined: 0 };
+let simFrameCount = 0;
+
+function setupSimCanvas() {
+  const dpr = window.devicePixelRatio || 1;
+  simCanvas.width = SIM_W * dpr;
+  simCanvas.height = SIM_H * dpr;
+  simCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  simCanvas.style.width = SIM_W + 'px';
+  simCanvas.style.height = SIM_H + 'px';
+}
+
+function createPair() {
+  const x = ELECTRODE_LEFT + 30 + Math.random() * (ELECTRODE_RIGHT - ELECTRODE_LEFT - 60);
+  const y = PADDING_Y + 20 + Math.random() * (SIM_H - 2 * PADDING_Y - 40);
+  return {
+    ionX: x - 2, ionY: y,
+    elecX: x + 2, elecY: y,
+    ionCollected: false,
+    elecCollected: false,
+    state: 'alive',
+    fadeAlpha: 1.0,
+    recombX: 0, recombY: 0,
+    ionFinalX: 0, ionFinalY: 0,
+    elecFinalX: 0, elecFinalY: 0
+  };
+}
+
+function initSim() {
+  simPairs = [];
+  simStats = { collected: 0, recombined: 0 };
+  simFrameCount = 0;
+  for (let i = 0; i < 20; i++) simPairs.push(createPair());
+}
+
+function updateSim() {
+  const V = parseFloat(document.getElementById('s_sim_V').value);
+  document.getElementById('v_sim').innerText = V.toFixed(0) + ' V';
+
+  // Velocidades de deriva (proporcionales a V; electrones más rápidos que iones)
+  const driftE = V / 40;
+  const driftI = V / 100;
+
+  // Parámetros de recombinación
+  const p0 = 0.15;
+  const lambdaR = 4.0;
+
+  simPairs.forEach(p => {
+    if (p.state === 'alive') {
+      // Mover ion hacia el cátodo
+      if (!p.ionCollected) {
+        p.ionX -= driftI;
+        if (p.ionX <= ELECTRODE_LEFT + 4) {
+          p.ionX = ELECTRODE_LEFT + 4;
+          p.ionCollected = true;
+        }
+      }
+      // Mover electrón hacia el ánodo
+      if (!p.elecCollected) {
+        p.elecX += driftE;
+        if (p.elecX >= ELECTRODE_RIGHT - 4) {
+          p.elecX = ELECTRODE_RIGHT - 4;
+          p.elecCollected = true;
+        }
+      }
+
+      // Ambos colectados → par completo
+      if (p.ionCollected && p.elecCollected) {
+        p.state = 'collected';
+        p.ionFinalX = p.ionX; p.ionFinalY = p.ionY;
+        p.elecFinalX = p.elecX; p.elecFinalY = p.elecY;
+        simStats.collected++;
+        return;
+      }
+
+      // Recombinación (solo si ambos siguen presentes)
+      if (!p.ionCollected && !p.elecCollected) {
+        const sep = Math.abs(p.elecX - p.ionX);
+        const pRecomb = p0 * Math.exp(-sep / lambdaR);
+        if (Math.random() < pRecomb) {
+          p.state = 'recombined';
+          p.recombX = (p.ionX + p.elecX) / 2;
+          p.recombY = (p.ionY + p.elecY) / 2;
+          simStats.recombined++;
+          return;
+        }
+      }
+    } else {
+      // Fade-out de estados terminados
+      p.fadeAlpha -= 0.03;
+      if (p.fadeAlpha <= 0) p.state = 'dead';
+    }
+  });
+
+  // Spawn continuo
+  const aliveCount = simPairs.filter(p => p.state === 'alive').length;
+  if (aliveCount < 30 && Math.random() < 0.4) simPairs.push(createPair());
+
+  // Limpiar muertos
+  simPairs = simPairs.filter(p => p.state !== 'dead');
+
+  // Limitar total (rendimiento)
+  if (simPairs.length > 100) {
+    const alive = simPairs.filter(p => p.state === 'alive');
+    const terminados = simPairs.filter(p => p.state !== 'alive').slice(-30);
+    simPairs = alive.concat(terminados);
+  }
+
+  simFrameCount++;
+}
+
+function drawSim() {
+  simCtx.clearRect(0, 0, SIM_W, SIM_H);
+  simCtx.fillStyle = '#fafafa';
+  simCtx.fillRect(0, 0, SIM_W, SIM_H);
+
+  // Electrodos
+  simCtx.fillStyle = '#c0392b';
+  simCtx.fillRect(ELECTRODE_LEFT - 8, 5, 8, SIM_H - 10);
+  simCtx.fillStyle = '#2980b9';
+  simCtx.fillRect(ELECTRODE_RIGHT, 5, 8, SIM_H - 10);
+
+  // Etiquetas
+  simCtx.font = 'bold 11px Segoe UI';
+  simCtx.textAlign = 'left';
+  simCtx.fillStyle = '#c0392b';
+  simCtx.fillText('Cátodo (−)', 5, 18);
+  simCtx.textAlign = 'right';
+  simCtx.fillStyle = '#2980b9';
+  simCtx.fillText('Ánodo (+)', SIM_W - 5, 18);
+  simCtx.textAlign = 'left';
+
+  // Dibujar pares
+  simPairs.forEach(p => {
+    if (p.state === 'alive') {
+      // Línea conectora ion-electrón
+      simCtx.strokeStyle = 'rgba(100,100,100,0.25)';
+      simCtx.lineWidth = 1;
+      simCtx.beginPath();
+      simCtx.moveTo(p.ionX, p.ionY);
+      simCtx.lineTo(p.elecX, p.elecY);
+      simCtx.stroke();
+
+      // Ion (rojo, grande)
+      simCtx.fillStyle = '#c0392b';
+      simCtx.beginPath();
+      simCtx.arc(p.ionX, p.ionY, 6, 0, Math.PI * 2);
+      simCtx.fill();
+      simCtx.strokeStyle = 'rgba(0,0,0,0.4)';
+      simCtx.lineWidth = 1;
+      simCtx.stroke();
+
+      // Electrón (azul, pequeño)
+      simCtx.fillStyle = '#2980b9';
+      simCtx.beginPath();
+      simCtx.arc(p.elecX, p.elecY, 4, 0, Math.PI * 2);
+      simCtx.fill();
+      simCtx.stroke();
+
+    } else if (p.state === 'recombined') {
+      simCtx.globalAlpha = p.fadeAlpha;
+
+      // Halo naranja que se expande
+      const haloR = 10 + (1 - p.fadeAlpha) * 20;
+      const grad = simCtx.createRadialGradient(p.recombX, p.recombY, 0, p.recombX, p.recombY, haloR);
+      grad.addColorStop(0, 'rgba(243, 156, 18, 0.8)');
+      grad.addColorStop(1, 'rgba(243, 156, 18, 0)');
+      simCtx.fillStyle = grad;
+      simCtx.beginPath();
+      simCtx.arc(p.recombX, p.recombY, haloR, 0, Math.PI * 2);
+      simCtx.fill();
+
+      // X mark roja
+      simCtx.strokeStyle = '#c0392b';
+      simCtx.lineWidth = 2.5;
+      const s = 6;
+      simCtx.beginPath();
+      simCtx.moveTo(p.recombX - s, p.recombY - s);
+      simCtx.lineTo(p.recombX + s, p.recombY + s);
+      simCtx.moveTo(p.recombX + s, p.recombY - s);
+      simCtx.lineTo(p.recombX - s, p.recombY + s);
+      simCtx.stroke();
+
+      simCtx.globalAlpha = 1;
+
+    } else if (p.state === 'collected') {
+      simCtx.globalAlpha = p.fadeAlpha;
+      const pulseR = 8 + (1 - p.fadeAlpha) * 15;
+
+      // Pulso en el cátodo
+      const gradL = simCtx.createRadialGradient(p.ionFinalX, p.ionFinalY, 0, p.ionFinalX, p.ionFinalY, pulseR);
+      gradL.addColorStop(0, 'rgba(22, 160, 133, 0.8)');
+      gradL.addColorStop(1, 'rgba(22, 160, 133, 0)');
+      simCtx.fillStyle = gradL;
+      simCtx.beginPath();
+      simCtx.arc(p.ionFinalX, p.ionFinalY, pulseR, 0, Math.PI * 2);
+      simCtx.fill();
+
+      // Pulso en el ánodo
+      const gradR = simCtx.createRadialGradient(p.elecFinalX, p.elecFinalY, 0, p.elecFinalX, p.elecFinalY, pulseR);
+      gradR.addColorStop(0, 'rgba(22, 160, 133, 0.8)');
+      gradR.addColorStop(1, 'rgba(22, 160, 133, 0)');
+      simCtx.fillStyle = gradR;
+      simCtx.beginPath();
+      simCtx.arc(p.elecFinalX, p.elecFinalY, pulseR, 0, Math.PI * 2);
+      simCtx.fill();
+
+      simCtx.globalAlpha = 1;
+    }
+  });
+
+  // Stats
+  const alive = simPairs.filter(p => p.state === 'alive').length;
+  const total = simStats.collected + simStats.recombined;
+  const eff = total > 0 ? (simStats.collected / total * 100).toFixed(0) : '—';
+
+  document.getElementById('stats_sim').innerHTML =
+    `<span class="stat-item"><span class="lbl">Pares vivos:</span> <span class="val">${alive}</span></span>` +
+    `<span class="stat-item"><span class="lbl">Colectados:</span> <span class="val">${simStats.collected}</span></span>` +
+    `<span class="stat-item"><span class="lbl">Recombinados:</span> <span class="val">${simStats.recombined}</span></span>` +
+    `<br><span class="stat-item"><span class="lbl">Eficiencia:</span> <span class="val">${eff}%</span></span>`;
+}
+
+function simLoop() {
+  if (simRunning) updateSim();
+  drawSim();
+  simAnimId = requestAnimationFrame(simLoop);
+}
+
+document.getElementById('s_sim_V').addEventListener('input', () => { /* actualización en el loop */ });
+
+document.getElementById('btn_pause_sim').addEventListener('click', () => {
+  simRunning = !simRunning;
+  const btn = document.getElementById('btn_pause_sim');
+  btn.innerText = simRunning ? 'Pausar' : 'Reanudar';
+  btn.classList.toggle('paused', !simRunning);
+});
+
+document.getElementById('btn_reset_sim').addEventListener('click', () => {
+  initSim();
+});
+
+// ============================================================
+// INICIALIZACIÓN
+// ============================================================
+function initAll() {
+  if (typeof Plotly === 'undefined') {
+    setTimeout(initAll, 100);
+    return;
+  }
+  buildIVCurve();
+  drawIV();
+  setupSimCanvas();
+  initSim();
+  simLoop();
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initAll);
+} else {
+  initAll();
+}
+</script>
+</body>
+</html>
