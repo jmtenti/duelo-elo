@@ -1040,20 +1040,23 @@ function renderTokenConfirmacion(token, userData){
     }
   });
 }
-
-if(!gistFiles.length){
-    document.getElementById('app').innerHTML = `
-      <div class="loading">
-        <div style="color:var(--bad);font-size:18px;font-weight:800">⚠ No se pudieron cargar los datasets</div>
-        <div style="color:var(--muted);font-size:13px;text-align:center;max-width:460px;line-height:1.6">
-          Revisá tu conexión o el repo de GitHub.<br>
-          Repo: <code style="color:var(--accent)">${REPO_OWNER}/${REPO_NAME}/${DATASETS_DIR}</code>
+async function entrarAlJuego(){
+  /* Cargar la lista de datasets desde GitHub */
+  gistFiles = await listGistFiles();
+  
+  if(!gistFiles.length){
+      document.getElementById('app').innerHTML = `
+        <div class="loading">
+          <div style="color:var(--bad);font-size:18px;font-weight:800">⚠ No se pudieron cargar los datasets</div>
+          <div style="color:var(--muted);font-size:13px;text-align:center;max-width:460px;line-height:1.6">
+            Revisá tu conexión o el repo de GitHub.<br>
+            Repo: <code style="color:var(--accent)">${REPO_OWNER}/${REPO_NAME}/${DATASETS_DIR}</code>
+          </div>
+          <button class="mini-btn" onclick="location.reload()">🔄 Reintentar</button>
         </div>
-        <button class="mini-btn" onclick="location.reload()">🔄 Reintentar</button>
-      </div>
-    `;
-    return;
-  }
+      `;
+      return;
+    }
 
   /* Elegir dataset (guardado, o primero) */
   let savedFilename = null;
