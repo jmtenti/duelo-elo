@@ -762,8 +762,8 @@
     },
     {
       "id": 42,
-      "elo": 1700,
       "tema": "Detección y dosimetría",
+      "elo": 1700,
       "q": "Un contador Geiger-Müller detecta radiación ionizante mediante:",
       "opts": [
         "Producción de pares electrón-hueco en un semiconductor",
@@ -771,11 +771,15 @@
         "Emisión de luz por centelleo en un cristal",
         "Ionización de una emulsión fotográfica"
       ],
-      "a": 1,
       "sol": "El contador Geiger-Müller es un tubo lleno de gas con un ánodo central y un cátodo cilíndrico, sometido a un voltaje elevado. Cuando una partícula ionizante atraviesa el gas, produce una ionización que desencadena una avalancha de electrones, generando un pulso de corriente. No distingue el tipo de radiación ni su energía.",
+      "a": 1,
       "teoria": {
         "titulo": "Contador Geiger-Müller",
         "texto": "El contador Geiger-Müller es un detector de radiación ionizante que utiliza un tubo lleno de gas (generalmente una mezcla de argón y un gas orgánico) con un ánodo central y un cátodo cilíndrico. Se le aplica un voltaje elevado, típicamente entre 400 y 1000 V, que crea un campo eléctrico intenso en el gas.\n\nCuando una partícula ionizante (como un electrón, una partícula alfa o un fotón gamma) atraviesa el tubo, ioniza algunas moléculas del gas, produciendo pares ión-electrón. Los electrones libres son acelerados por el campo eléctrico hacia el ánodo, y en su camino adquieren suficiente energía para ionizar más moléculas, produciendo una avalancha de ionización (efecto Townsend). Esta avalancha genera un pulso de corriente que se amplifica y se registra como un conteo.\n\nEl contador Geiger-Müller opera en la región de descarga de avalancha, donde cualquier ionización inicial produce un pulso de la misma magnitud, independientemente de la energía depositada por la radiación. Por eso no puede distinguir el tipo de radiación ni medir su energía; solo cuenta el número de eventos.\n\nPara evitar descargas continuas, el tubo incluye un mecanismo de extinción (quenching), que puede ser electrónico o químico (mediante un gas orgánico que absorbe la radiación ultravioleta y evita la propagación de la avalancha).\n\nEl contador Geiger es sencillo, robusto y económico, y se usa ampliamente en monitoreo de radiación, prospección minera y educación. Sin embargo, su eficiencia varía con el tipo y la energía de la radiación, y no es adecuado para espectroscopía."
+      },
+      "link": {
+        "url": "interactivos/camaras-de-ionizacion.html",
+        "texto": "🔗 Abrir recurso"
       }
     },
     {
