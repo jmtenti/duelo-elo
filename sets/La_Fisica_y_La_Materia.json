@@ -506,8 +506,8 @@
     },
     {
       "id": 28,
-      "elo": 1060,
       "tema": "Interacción radiación-materia",
+      "elo": 1060,
       "q": "El poder de frenado de un material para partículas cargadas se define como:",
       "opts": [
         "Energía total perdida por la partícula en todo el material",
@@ -515,11 +515,15 @@
         "Energía perdida por unidad de longitud: $-dE/dx$",
         "Número de colisiones por unidad de longitud"
       ],
-      "a": 2,
       "sol": "El poder de frenado es $-dE/dx$, la energía que la partícula cargada pierde por unidad de longitud al atravesar el material. Está dado por la fórmula de Bethe-Bloch, que depende de la carga de la partícula, su velocidad y las propiedades del material (densidad, número atómico, potencial de ionización).",
+      "a": 2,
       "teoria": {
         "titulo": "Poder de frenado",
         "texto": "El poder de frenado de un material para una partícula cargada se define como la energía que la partícula pierde por unidad de longitud al atravesar el material:\n\n$$S = -\\frac{dE}{dx}$$\n\nTambién se conoce como poder de frenado másico si se divide por la densidad del material, $S/\\rho$, que es una propiedad más fundamental.\n\nPara partículas cargadas pesadas (como protones, alfas o iones), el poder de frenado está dado por la fórmula de Bethe-Bloch:\n\n$$-\\frac{dE}{dx} = \\frac{4\\pi n z^2 e^4}{m_e c^2 \\beta^2} \\left[ \\ln\\left(\\frac{2m_e c^2 \\beta^2}{I(1-\\beta^2)}\\right) - \\beta^2 \\right]$$\n\ndonde $n$ es la densidad electrónica del material, $z$ la carga de la partícula, $\\beta = v/c$, y $I$ es la energía media de excitación del material. La fórmula muestra que el poder de frenado es proporcional a $z^2$ (el cuadrado de la carga de la partícula), a la densidad electrónica del material, y a $1/\\beta^2$ (aumenta a bajas velocidades).\n\nPara electrones y positrones, la fórmula es más complicada porque hay que tener en cuenta la radiación de frenado (bremsstrahlung) y otros efectos. A altas energías, la radiación de frenado domina para electrones, mientras que para partículas pesadas la ionización sigue siendo el mecanismo dominante.\n\nEl poder de frenado es fundamental en dosimetría, radioterapia y física de partículas. La fórmula de Bethe-Bloch permite calcular el alcance de las partículas en la materia y diseñar blindajes."
+      },
+      "link": {
+        "url": "alcance-y-trayectoria-de-particulas.html",
+        "texto": "🔗 Abrir recurso"
       }
     },
     {
