@@ -699,11 +699,96 @@
         <td>Explicó la estructura fina del hidrógeno; introdujo $k$.</td>
         <td>Seguía sin explicar átomos multielectrónicos; no daba intensidades.</td>
       </tr>
+      <tr>
+        <td><strong>Schrödinger–Dirac</strong></td>
+        <td>1926 / 1928</td>
+        <td>Orbitales: nubes de probabilidad $|\psi|^2$.</td>
+        <td>Modelo vigente: explica átomos multielectrónicos, enlace químico, espín, estructura fina y efecto Zeeman anómalo.</td>
+        <td>Requiere métodos numéricos para átomos pesados; correcciones QED para precisión extrema.</td>
+      </tr>
     </tbody>
   </table>
 
+  <h3>6.1 El modelo vigente: Schrödinger–Dirac (1926–1928)</h3>
+
+  <p>El modelo de Sommerfeld fue el último gran modelo <em>semiclásico</em> del átomo. Su superación llegó en dos etapas que hoy se consideran un único bloque: la <strong>mecánica cuántica de Schrödinger</strong> (1926) y su versión relativista, la <strong>ecuación de Dirac</strong> (1928).</p>
+
+  <p><strong>Schrödinger (1926).</strong> El electrón deja de ser una partícula con trayectoria y pasa a describirse por una <strong>función de onda</strong> $\psi(\vec r, t)$ que obedece la ecuación</p>
+
+  <div class="math-box">
+    $$ -\frac{\hbar^2}{2m_e}\nabla^2\psi + V(\vec r)\,\psi = i\hbar\,\frac{\partial \psi}{\partial t}. $$
+  </div>
+
+  <p>La interpretación de Born (1926) da sentido físico: $|\psi|^2$ es la <strong>densidad de probabilidad</strong> de encontrar al electrón. Lo que antes era una "órbita" ahora es un <strong>orbital</strong>: una nube de probabilidad con forma definida ($s$, $p$, $d$, $f$…). Al resolver la ecuación con las condiciones de contorno, los números cuánticos $n$, $l$ y $m_l$ <em>emergen solos</em>, sin postularlos. Para el hidrógeno, las energías son $E_n = -13.6/n^2\ \text{eV}$, idénticas a Bohr en estructura gruesa.</p>
+
+  <p><strong>Dirac (1928).</strong> La ecuación de Dirac incorpora la relatividad y, de forma casi milagrosa, <strong>predice el espín del electrón</strong> (el cuarto número cuántico $m_s = \pm 1/2$) sin necesidad de postularlo. Sus niveles de energía para el hidrógeno son</p>
+
+  <div class="math-box">
+    $$ E_{n,j} = -\frac{13.6\,Z^2}{n^2} \left[ 1 + \frac{\alpha^2 Z^2}{n} \left( \frac{1}{j + 1/2} - \frac{3}{4n} \right) \right], $$
+  </div>
+
+  <p>donde $j = l \pm 1/2$ es el momento angular total. Comparando con la fórmula de Sommerfeld</p>
+
+  <div class="math-box">
+    $$ E_{n,k} = -\frac{13.6\,Z^2}{n^2} \left[ 1 + \frac{\alpha^2 Z^2}{n} \left( \frac{1}{k} - \frac{3}{4n} \right) \right], $$
+  </div>
+
+  <p>se ve que <strong>son la misma fórmula si se identifica $k = j + 1/2$</strong>. Esto explica por qué Sommerfeld "acertó" la estructura fina del hidrógeno: era, sin saberlo, el límite semiclásico de la ecuación de Dirac. La diferencia no está en el resultado numérico para el hidrógeno, sino en la <strong>interpretación</strong>: Sommerfeld hablaba de elipses relativistas; Dirac, de espín y momento angular total.</p>
+
   <div class="sm-box">
-    <strong>El legado.</strong> Aunque hoy el modelo de Bohr-Sommerfeld se considera superado por la mecánica cuántica, sigue siendo una herramienta pedagógica invaluable. Introduce conceptos fundamentales —niveles de energía discretos, cuantización del momento angular, transiciones con emisión/absorción de fotones— que sobreviven en la física actual.
+    <strong>¿Dónde supera Dirac a Sommerfeld?</strong>
+    <ul style="margin-top:8px;">
+      <li><strong>Átomos multielectrónicos</strong>: el principio de exclusión de Pauli, con el espín incluido, llena la tabla periódica entera. Sommerfeld solo funcionaba para hidrogenoides.</li>
+      <li><strong>Intensidades de línea</strong>: se calculan como integrales de dipolo entre orbitales. Antes no había forma de obtenerlas.</li>
+      <li><strong>Efecto Zeeman anómalo</strong>: explicado por el acoplamiento espín-órbita.</li>
+      <li><strong>Enlace químico y geometría molecular</strong>: los orbitales $p$, $d$, la hibridación, etc., salen directamente de $|\psi|^2$.</li>
+    </ul>
+  </div>
+
+  <div class="intuition-box">
+    <strong>Analogía.</strong> Bohr describió el átomo como un sistema planetario; Sommerfeld, como un sistema planetario con elipses. Schrödinger y Dirac descubrieron que el átomo no es un sistema planetario en absoluto: es una <strong>nube de probabilidad</strong> con simetrías muy precisas. La nube no "se mueve": simplemente <em>es</em>. Y sin embargo, para el hidrógeno, esa nube produce exactamente las mismas líneas espectrales que el sistema planetario de Sommerfeld. La física nueva contiene a la vieja.
+  </div>
+
+  <p>Finalmente, la <strong>electrodinámica cuántica</strong> (QED, Feynman–Schwinger–Tomonaga, 1948) añadió correcciones aún más finas, como el <strong>desplazamiento de Lamb</strong> (1947): una separación minúscula entre los niveles $2s_{1/2}$ y $2p_{1/2}$ del hidrógeno, del orden de $10^{-6}\ \text{eV}$. Esta separación es invisible a la escala del espectro visible, pero fue crucial para confirmar que la QED es la teoría correcta. Para átomos pesados, hoy se usa <strong>Dirac–Fock</strong> (relativista + correlación electrónica); para átomos ligeros, la ecuación de Schrödinger con correcciones QED.</p>
+
+  <!-- FIGURA 3: COMPARACIÓN DE ESPECTROS PREDICHOS -->
+  <div class="interactive-figure">
+    <div class="figure-title">Figura 3: Comparación de los espectros predichos por cada modelo</div>
+    <div id="plot_spectra_comparison" class="plot-area" style="height: 540px;"></div>
+    <div class="controls">
+      <div class="control-panel">
+        <h4>Serie espectral</h4>
+        <div class="select-row">
+          <label>Selecciona la serie:</label>
+          <select id="sel_series_spectra">
+            <option value="lyman">Lyman (UV)</option>
+            <option value="balmer" selected>Balmer (visible)</option>
+            <option value="paschen">Paschen (IR)</option>
+          </select>
+        </div>
+      </div>
+      <div class="control-panel">
+        <h4>Lectura</h4>
+        <div id="stats_spectra" class="stats"></div>
+      </div>
+    </div>
+    <div class="guide-box">
+      <strong>Qué observar en la Figura 3.</strong>
+      <ol>
+        <li><strong>Bohr (1913)</strong> predice líneas discretas en las posiciones correctas de la serie espectral.</li>
+        <li><strong>Sommerfeld (1916)</strong> predice las mismas líneas, pero cada una se desdobla en varios componentes muy próximos (estructura fina). El desdoblamiento está exagerado para que sea visible.</li>
+        <li><strong>Rutherford (1911)</strong>, tomado al pie de la letra clásica, predice un espectro continuo: el electrón, al espiralar hacia el núcleo, emite todas las frecuencias. No hay líneas discretas.</li>
+        <li><strong>Thomson (1904)</strong> predice frecuencias de oscilación que no coinciden con las líneas de la serie (líneas punteadas).</li>
+        <li><strong>Schrödinger–Dirac (1926/1928)</strong> confirma a Sommerfeld para el hidrógeno: la fórmula de Dirac coincide numéricamente con la de Sommerfeld si se identifica $k = j + 1/2$. El espectro visible/UV es idéntico. La diferencia real está en la interpretación (espín + relatividad, no elipses) y en correcciones minúsculas de QED (Lamb shift, $\sim 10^{-6}\ \text{eV}$), invisibles a esta escala.</li>
+      </ol>
+    </div>
+    <div class="caption">
+      <strong>Epígrafe:</strong> Comparación esquemática de los espectros predichos por los modelos de Thomson (1904), Rutherford (1911), Bohr (1913), Sommerfeld (1916) y Schrödinger–Dirac (1926/1928). Las líneas verticales representan longitudes de onda de emisión; el color corresponde (aproximadamente) a la longitud de onda. El desdoblamiento de estructura fina está exagerado para hacerlo visible. Para el hidrógeno, el modelo moderno reproduce numéricamente el resultado de Sommerfeld en la estructura gruesa y fina; las correcciones de QED (Lamb shift) son demasiado pequeñas para mostrarse.
+    </div>
+  </div>
+
+  <div class="sm-box">
+    <strong>El legado.</strong> Aunque hoy el modelo de Bohr-Sommerfeld se considera superado por la mecánica cuántica, sigue siendo una herramienta pedagógica invaluable. Introduce conceptos fundamentales —niveles de energía discretos, cuantización del momento angular, transiciones con emisión/absorción de fotones— que sobreviven en la física actual. Y el modelo de Schrödinger–Dirac, que lo reemplazó, no lo niega: lo contiene como límite. Para el hidrógeno, las predicciones numéricas de Sommerfeld y Dirac coinciden; la diferencia es de interpretación y de alcance (átomos multielectrónicos, espín, enlace químico).
   </div>
 
   <!-- ============================================ -->
@@ -837,11 +922,11 @@
     <li><strong>La estabilidad atómica exige cuantización.</strong> El modelo de Bohr introdujo órbitas estacionarias y cuantización del momento angular, explicando por qué los electrones no radian y caen al núcleo.</li>
     <li><strong>Las líneas espectrales son transiciones entre niveles.</strong> La fórmula de Bohr reproduce exactamente la fórmula de Rydberg para el hidrógeno: un triunfo histórico de la física teórica.</li>
     <li><strong>El modelo de Sommerfeld refinó el de Bohr</strong> introduciendo órbitas elípticas y correcciones relativistas, explicando la estructura fina del espectro.</li>
-    <li><strong>Los modelos semiclásicos tienen límites.</strong> No explican átomos polielectrónicos ni intensidades espectrales. La mecánica cuántica de Schrödinger y Heisenberg (1925–1926) los reemplazó, pero los conceptos de niveles discretos y transiciones sobrevivieron.</li>
-    <li><strong>La física atómica es acumulativa.</strong> Thomson, Rutherford, Bohr y Sommerfeld construyeron sobre las ruinas de los modelos anteriores. Cada fracaso iluminó el camino hacia el siguiente.</li>
+    <li><strong>El modelo vigente es la mecánica cuántica de Schrödinger y Dirac.</strong> Los electrones no describen órbitas sino orbitales (nubes de probabilidad $|\psi|^2$). Para el hidrógeno, la fórmula de Dirac coincide numéricamente con la de Sommerfeld (con $k = j + 1/2$); la diferencia está en la interpretación (espín + relatividad) y en el alcance (átomos multielectrónicos, enlace químico, efecto Zeeman anómalo).</li>
+    <li><strong>La física atómica es acumulativa.</strong> Thomson, Rutherford, Bohr, Sommerfeld y Schrödinger–Dirac construyeron sobre las ruinas de los modelos anteriores. Cada fracaso iluminó el camino hacia el siguiente. Un modelo exitoso no es el que dice la verdad final, sino el que hace predicciones verificables y señala, con sus propios límites, dónde hay que buscar la siguiente pieza del rompecabezas.</li>
   </ol>
 
-  <p>Los modelos atómicos son un ejemplo perfecto de cómo la física progresa: un modelo exitoso no es el que “dice la verdad final”, sino el que hace predicciones verificables y señala, con sus propios límites, dónde hay que buscar la siguiente pieza del rompecabezas.</p>
+  <p>Los modelos atómicos son un ejemplo perfecto de cómo la física progresa: cada modelo no "muere" del todo, sino que se convierte en el límite de uno más profundo. La mecánica cuántica no niega a Bohr ni a Sommerfeld: los contiene. Y para el hidrógeno, las viejas fórmulas siguen dando los mismos números que las nuevas.</p>
 
 </div>
 
@@ -856,6 +941,26 @@
     alpha: 1/137.036
   };
 
+  // Convierte longitud de onda visible (380–780 nm) a color RGB
+  function wlToRGB(wl) {
+    let r = 0, g = 0, b = 0;
+    if (wl < 380 || wl > 780) return { r: 0, g: 0, b: 0 };
+    if (wl < 440)      { r = -(wl - 440) / 60; b = 1; }
+    else if (wl < 490) { g = (wl - 440) / 50;  b = 1; }
+    else if (wl < 510) { g = 1; b = -(wl - 510) / 20; }
+    else if (wl < 580) { r = (wl - 510) / 70;  g = 1; }
+    else if (wl < 645) { r = 1; g = -(wl - 645) / 65; }
+    else               { r = 1; }
+    let f = 1;
+    if (wl < 420) f = 0.3 + 0.7 * (wl - 380) / 40;
+    else if (wl > 700) f = 0.3 + 0.7 * (780 - wl) / 80;
+    return {
+      r: Math.round(r * 255 * f),
+      g: Math.round(g * 255 * f),
+      b: Math.round(b * 255 * f)
+    };
+  }
+
   // ============================================================
   // FIGURA 1: DISPERSIÓN DE RUTHERFORD
   // ============================================================
@@ -869,9 +974,6 @@
     const thetaDeg = theta * 180 / Math.PI;
 
     // Generar trayectoria hiperbólica
-    // Ecuación en coordenadas polares: r = p / (1 + e cos(phi))
-    // Para repulsión, la rama es la que se curva alejándose.
-    // Usamos una aproximación paramétrica simple para visualización.
     const e = Math.sqrt(1 + (b / b0) * (b / b0)); // excentricidad
     const p = b * Math.sqrt(e * e - 1); // semilado recto
 
@@ -883,8 +985,7 @@
     for (let i = 0; i <= N; i++) {
       const phi = phiMin + (phiMax - phiMin) * i / N;
       const r = p / (1 + e * Math.cos(phi));
-      // Rotar para que la asíntota de entrada sea horizontal
-      const rot = Math.PI - Math.acos(-1 / e); // rotación para alinear
+      const rot = Math.PI - Math.acos(-1 / e);
       const xr = r * Math.cos(phi + rot);
       const yr = r * Math.sin(phi + rot);
       x.push(xr);
@@ -958,7 +1059,6 @@
 
     const traces = [];
 
-    // Líneas de niveles
     levels.forEach(lv => {
       traces.push({
         x: [0, 1], y: [lv.E, lv.E],
@@ -976,7 +1076,6 @@
       });
     });
 
-    // Transición
     const Ei = -PHYS.E0 / (ni * ni);
     const Ef = -PHYS.E0 / (nf * nf);
     const dE = Math.abs(Ei - Ef);
@@ -1010,6 +1109,153 @@
   }
 
   // ============================================================
+  // FIGURA 3: COMPARACIÓN DE ESPECTROS PREDICHOS
+  // ============================================================
+  function drawSpectraComparison() {
+    const series = document.getElementById('sel_series_spectra').value;
+
+    const nfMap = { lyman: 1, balmer: 2, paschen: 3 };
+    const nf = nfMap[series];
+    const ranges = {
+      lyman:   { min: 88,   max: 135,  label: 'Serie de Lyman (UV)' },
+      balmer:  { min: 380,  max: 680,  label: 'Serie de Balmer (visible)' },
+      paschen: { min: 800,  max: 1900, label: 'Serie de Paschen (IR)' }
+    };
+    const R = ranges[series];
+    const E0 = PHYS.E0, hc = PHYS.hc;
+
+    // Longitudes de onda de la serie (estructura gruesa, Bohr/Schrödinger)
+    const lines = [];
+    for (let ni = nf + 1; ni <= 8; ni++) {
+      const dE = E0 * (1 / (nf * nf) - 1 / (ni * ni));
+      lines.push({ ni, lambda: hc / dE });
+    }
+
+    // Color según longitud de onda (maneja UV, visible e IR)
+    function wlColor(wl, alpha = 1) {
+      if (wl < 380) return `rgba(138,43,226,${alpha})`;   // UV: violeta
+      if (wl > 780) return `rgba(160,20,20,${alpha})`;    // IR: rojo oscuro
+      const c = wlToRGB(wl);
+      return `rgba(${c.r},${c.g},${c.b},${alpha})`;
+    }
+
+    const shapes = [];
+    // Cinco filas: 0=Thomson, 1=Rutherford, 2=Bohr, 3=Sommerfeld, 4=Moderno
+    const y = { thomson: 0, rutherford: 1, bohr: 2, sommerfeld: 3, moderno: 4 };
+
+    // --- BOHR (estructura gruesa) ---
+    lines.forEach(l => shapes.push({
+      type: 'line', x0: l.lambda, x1: l.lambda,
+      y0: y.bohr - 0.32, y1: y.bohr + 0.32,
+      line: { color: wlColor(l.lambda, 0.85), width: 3 }
+    }));
+
+    // --- SOMMERFELD (gruesa + fina, exagerada) ---
+    const FINE_EXAG = 0.004; // 0.4 % del λ — exagerado para visualizar
+    lines.forEach(l => {
+      const split = l.lambda * FINE_EXAG;
+      [-1.5, -0.5, 0.5, 1.5].forEach(m => {
+        const wl = l.lambda + m * split;
+        if (wl >= R.min && wl <= R.max) {
+          shapes.push({
+            type: 'line', x0: wl, x1: wl,
+            y0: y.sommerfeld - 0.32, y1: y.sommerfeld + 0.32,
+            line: { color: wlColor(wl, 0.7), width: 1.2 }
+          });
+        }
+      });
+    });
+
+    // --- MODERNO: Schrödinger–Dirac ---
+    // Gruesa = Schrödinger (E_n = -13.6/n²)
+    // Fina = Dirac: numéricamente idéntica a Sommerfeld para H (k = j + 1/2)
+    // Se dibuja con líneas más gruesas para enfatizar que es la descripción
+    // correcta, no una coincidencia numérica.
+    lines.forEach(l => {
+      const split = l.lambda * FINE_EXAG;
+      [-1.5, -0.5, 0.5, 1.5].forEach(m => {
+        const wl = l.lambda + m * split;
+        if (wl >= R.min && wl <= R.max) {
+          shapes.push({
+            type: 'line', x0: wl, x1: wl,
+            y0: y.moderno - 0.34, y1: y.moderno + 0.34,
+            line: { color: wlColor(wl, 0.95), width: 1.8 }
+          });
+        }
+      });
+    });
+
+    // --- RUTHERFORD clásico: espectro continuo ---
+    // CORREGIDO: la banda se colorea según la longitud de onda REAL de cada
+    // posición del eje X. Así, en Lyman se ve violeta (UV), en Balmer el
+    // arcoíris visible, y en Paschen tonos rojo oscuro (IR). Antes se forzaba
+    // el rango visible (380–780 nm) en todas las series, lo cual era engañoso.
+    const N = 60;
+    for (let i = 0; i < N; i++) {
+      const frac = i / N;
+      const wl = R.min + frac * (R.max - R.min); // λ real de esta franja
+      const c = wlColor(wl, 0.55);
+      shapes.push({
+        type: 'rect',
+        x0: R.min + (R.max - R.min) * i / N,
+        x1: R.min + (R.max - R.min) * (i + 1) / N,
+        y0: y.rutherford - 0.2, y1: y.rutherford + 0.2,
+        fillcolor: c,
+        line: { width: 0 }
+      });
+    }
+
+    // --- THOMSON: frecuencias erróneas ---
+    const thomsonWl = {
+      lyman:   [100, 110, 120, 130],
+      balmer:  [430, 490, 550, 610, 670],
+      paschen: [900, 1100, 1400, 1700]
+    }[series];
+    thomsonWl.forEach(wl => {
+      if (wl >= R.min && wl <= R.max) {
+        shapes.push({
+          type: 'line', x0: wl, x1: wl,
+          y0: y.thomson - 0.32, y1: y.thomson + 0.32,
+          line: { color: wlColor(wl, 0.85), width: 3, dash: 'dot' }
+        });
+      }
+    });
+
+    Plotly.react('plot_spectra_comparison', [], {
+      title: { text: 'Espectros predichos — ' + R.label,
+               font: { size: 14, color: '#2c3e50' } },
+      xaxis: {
+        title: 'Longitud de onda (nm)',
+        range: [R.min - (R.max - R.min) * 0.02,
+                R.max + (R.max - R.min) * 0.02],
+        zeroline: false, fixedrange: false
+      },
+      yaxis: {
+        title: '',
+        range: [-0.6, 4.6],
+        tickvals: [0, 1, 2, 3, 4],
+        ticktext: [
+          'Thomson (1904) — frec. erróneas',
+          'Rutherford (1911) — continuo',
+          'Bohr (1913) — discreto',
+          'Sommerfeld (1916) — discreto + fina',
+          'Schrödinger–Dirac (1926/1928)'
+        ],
+        zeroline: false, fixedrange: true,
+        tickfont: { size: 10.5 }
+      },
+      shapes: shapes,
+      showlegend: false,
+      margin: { l: 260, r: 20, t: 50, b: 55 },
+      plot_bgcolor: '#fafafa'
+    });
+
+    document.getElementById('stats_spectra').innerHTML =
+      `<span class="stat-item"><span class="lbl">Serie:</span> <span class="val">${series.toUpperCase()}</span></span>` +
+      `<span class="stat-item"><span class="lbl">Líneas:</span> <span class="val">${lines.length}</span></span>` +
+      `<br><span style="font-size:0.82em; color:#888;">Fina exagerada ×~${Math.round(1/FINE_EXAG)}. Lamb shift (QED) ≈ 10⁻⁶ eV, no visible.</span>`;
+  }
+  // ============================================================
   // SOLUCIONES
   // ============================================================
   function toggleSolution(btn) {
@@ -1028,9 +1274,11 @@
   document.getElementById('s_b_Ruth').addEventListener('input', drawRutherford);
   document.getElementById('sel_ni_Bohr').addEventListener('change', drawBohr);
   document.getElementById('sel_nf_Bohr').addEventListener('change', drawBohr);
+  document.getElementById('sel_series_spectra').addEventListener('change', drawSpectraComparison);
 
   drawRutherford();
   drawBohr();
+  drawSpectraComparison();
 </script>
 </body>
 </html>
