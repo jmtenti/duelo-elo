@@ -1,0 +1,1965 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Teoría de Bandas — Una Introducción desde la Química Cuántica</title>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']], displayMath: [['$$','$$'], ['\\[','\\]']]},
+    messageStyle: "none"
+  });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script src="https://cdn.plot.ly/plotly-2.24.1.min.js"></script>
+
+<style>
+  :root {
+    --primary: #1a252f;
+    --secondary: #2c3e50;
+    --accent: #c0392b;
+    --link: #2980b9;
+    --bg: #f8f9fa;
+    --sm: #16a085;
+    --warn: #c0392b;
+    --hist: #b7791f;
+  }
+  body {
+    font-family: 'Georgia', serif;
+    background: var(--bg); color: #333;
+    line-height: 1.75; margin: 0; padding: 40px 0; font-size: 16px;
+  }
+  .container {
+    max-width: 960px; margin: auto; background: white;
+    padding: 48px 70px; border-radius: 12px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.06);
+  }
+  h1 { color: var(--primary); text-align: center; font-size: 2em; font-family: 'Segoe UI', sans-serif; margin-bottom: 6px;}
+  .subtitle { text-align: center; color: #7f8c8d; font-style: italic; margin-bottom: 32px; }
+  h2 { color: var(--secondary); margin-top: 46px; border-bottom: 2px solid #ecf0f1; padding-bottom: 5px; font-family: 'Segoe UI', sans-serif;}
+  h3 { color: var(--secondary); margin-top: 26px; font-family: 'Segoe UI', sans-serif; font-size: 1.1em;}
+  p { text-align: justify; margin-bottom: 16px; }
+  ul, ol { text-align: justify; }
+  li { margin-bottom: 6px; }
+  .math-box {
+    background: #fdfefe; border-left: 4px solid var(--link);
+    padding: 12px 20px; margin: 18px 0; overflow-x: auto; font-size: 1.05em;
+  }
+  .analogy-box {
+    background: #fef9e7; border-left: 4px solid #f39c12;
+    padding: 14px 20px; margin: 20px 0; font-size: 0.96em;
+  }
+  .analogy-box strong:first-child { color: #b7791f; }
+  .sm-box { background: #eafaf1; border-left: 4px solid var(--sm); padding: 14px 20px; margin: 20px 0; font-size: 0.96em; }
+  .sm-box strong:first-child { color: var(--sm); }
+  .warn-box { background: #fdedec; border-left: 4px solid var(--warn); padding: 14px 20px; margin: 20px 0; font-size: 0.96em; }
+  .warn-box strong:first-child { color: var(--warn); }
+  .guide-box { background: #eef6fc; border-left: 4px solid var(--link); padding: 14px 20px; margin: 20px 0; font-size: 0.95em; }
+  .guide-box strong:first-child { color: var(--link); }
+  .guide-box ol { margin: 6px 0 0 0; padding-left: 20px; }
+  .history-box { background: #fbf6e9; border-left: 4px solid var(--hist); padding: 14px 20px; margin: 20px 0; font-size: 0.94em; font-style: italic; color: #5b4a1e; }
+  .history-box strong { font-style: normal; }
+  .interactive-figure {
+    background: #fafafa; border: 1px solid #e0e0e0;
+    border-radius: 10px; padding: 22px; margin: 32px 0;
+    font-family: 'Segoe UI', sans-serif;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+  }
+  .figure-title {
+    text-align: center; color: var(--secondary);
+    font-weight: bold; font-size: 1.1em; margin-top: 0; margin-bottom: 12px;
+  }
+  .plot-area { width: 100%; height: 420px; margin-bottom: 12px; }
+  .controls {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 18px;
+    padding: 14px 18px; background: #fff;
+    border-radius: 8px; border: 1px solid #eee; margin-bottom: 12px;
+  }
+  .control-panel h4 {
+    margin-top: 0; color: var(--secondary);
+    font-size: 0.86em; text-transform: uppercase;
+    letter-spacing: 0.08em; font-style: normal;
+  }
+  .slider-row { display: block; margin: 10px 0; font-size: 0.92em; color: #333; }
+  .slider-row input[type=range] {
+    width: 100%; accent-color: var(--accent); cursor: pointer;
+  }
+  .slider-val {
+    font-family: Consolas, monospace;
+    color: var(--accent); font-weight: bold;
+  }
+  .stats {
+    margin-top: 10px; padding: 10px 14px;
+    background: #f4f6f7; border-radius: 6px;
+    font-family: Consolas, monospace; font-size: 0.85em;
+    line-height: 1.7; text-align: center;
+  }
+  .stats .stat-item {
+    display: inline-block; margin: 3px 6px;
+    padding: 3px 10px; background: white;
+    border-radius: 4px; border: 1px solid #e0e0e0;
+  }
+  .stats .stat-item .lbl { color: #888; }
+  .stats .stat-item .val { color: var(--accent); font-weight: bold; }
+  .caption {
+    font-size: 0.93em; color: #555; text-align: justify;
+    padding: 10px 18px; border-left: 3px solid var(--accent);
+    background: #fff;
+  }
+  .toc {
+    background: #f4f6f7; border-radius: 8px;
+    padding: 16px 26px; margin: 24px 0;
+    font-family: 'Segoe UI', sans-serif; font-size: 0.93em;
+  }
+  .toc h3 { margin-top: 0; color: var(--secondary); font-size: 0.98em;}
+  .toc ol { margin: 0; padding-left: 20px;}
+  .toc a { color: var(--link); text-decoration: none;}
+  .toc a:hover { text-decoration: underline;}
+  .dictionary {
+    border-collapse: collapse; width: 100%; margin: 18px 0;
+    font-size: 0.93em;
+  }
+  .dictionary th {
+    background: #eef6fc; padding: 10px 12px; text-align: left;
+    font-family: 'Segoe UI', sans-serif;
+  }
+  .dictionary td {
+    padding: 10px 12px; border: 1px solid #e0e0e0;
+    vertical-align: top;
+  }
+  .dictionary tr:nth-child(even) td { background: #f9fbfc; }
+
+  /* --- TABLA DE GAPS --- */
+  .gaps-table {
+    border-collapse: collapse; width: 100%; margin: 18px 0;
+    font-size: 0.9em; font-family: 'Segoe UI', sans-serif;
+  }
+  .gaps-table th {
+    background: #ecf0f1; padding: 10px 12px; text-align: left;
+    border-bottom: 2px solid #bdc3c7; font-size: 0.92em;
+  }
+  .gaps-table td {
+    padding: 8px 12px; border-bottom: 1px solid #e0e0e0;
+    vertical-align: top;
+  }
+  .gaps-table tr:hover td { background: #f9fbfc; }
+  .gaps-table .cat-metal { border-left: 4px solid #e67e22; }
+  .gaps-table .cat-sc-narrow { border-left: 4px solid #5dade2; }
+  .gaps-table .cat-sc { border-left: 4px solid #2980b9; }
+  .gaps-table .cat-sc-wide { border-left: 4px solid #8e44ad; }
+  .gaps-table .cat-ins { border-left: 4px solid #6c3483; }
+  .gaps-table .cat-title {
+    background: #f4f6f7; font-weight: bold; font-family: 'Segoe UI', sans-serif;
+    font-size: 0.85em; text-transform: uppercase; letter-spacing: 0.05em;
+    color: var(--secondary);
+  }
+  .gaps-table .cat-title td { padding: 8px 12px; }
+  .gap-value { font-family: Consolas, monospace; font-weight: bold; }
+  .gap-metal { color: #e67e22; }
+  .gap-sc { color: #2980b9; }
+  .gap-ins { color: #6c3483; }
+
+  /* --- TABLA DE COLORES --- */
+  .colors-table {
+    border-collapse: collapse; width: 100%; margin: 18px 0;
+    font-size: 0.9em; font-family: 'Segoe UI', sans-serif;
+  }
+  .colors-table th {
+    background: #ecf0f1; padding: 10px 12px; text-align: left;
+    border-bottom: 2px solid #bdc3c7;
+  }
+  .colors-table td {
+    padding: 8px 12px; border-bottom: 1px solid #e0e0e0;
+    vertical-align: middle;
+  }
+  .colors-table .color-swatch {
+    display: inline-block;
+    width: 22px; height: 22px;
+    border-radius: 4px;
+    border: 1px solid rgba(0,0,0,0.15);
+    vertical-align: middle;
+    margin-right: 8px;
+  }
+
+  .exercise-box {
+    background: #fdf2f2; border: 1px solid #f5c6c6;
+    border-radius: 8px; padding: 18px 24px; margin: 24px 0;
+  }
+  .exercise-box h4 {
+    color: var(--accent); margin-top: 0;
+    font-style: normal; font-size: 1em;
+  }
+  .hint {
+    background: #fff8e1; border-radius: 4px;
+    padding: 8px 14px; margin: 10px 0;
+    font-size: 0.9em; color: #6d4c00;
+    border-left: 3px solid #f39c12;
+  }
+  .solution-toggle {
+    background: var(--accent); color: white;
+    border: none; padding: 6px 14px; border-radius: 4px;
+    cursor: pointer; font-family: 'Segoe UI', sans-serif;
+    font-size: 0.88em; margin-top: 10px;
+  }
+  .solution-toggle:hover { background: #a02828; }
+  .solution-content {
+    max-height: 0; overflow: hidden;
+    transition: max-height 0.5s ease, margin 0.3s ease;
+  }
+  .solution-content.open { max-height: 3000px; margin-top: 14px; }
+  .material-tabs {
+    display: flex; gap: 8px; justify-content: center;
+    flex-wrap: wrap; margin-bottom: 14px;
+  }
+  .material-tab {
+    background: white; border: 2px solid #ddd;
+    border-radius: 20px; padding: 6px 16px;
+    cursor: pointer; font-family: 'Segoe UI', sans-serif;
+    font-size: 0.86em; font-weight: 600; color: #555;
+    transition: all 0.2s; user-select: none;
+  }
+  .material-tab:hover { border-color: var(--link); color: var(--link); }
+  .material-tab.active {
+    background: var(--link); color: white; border-color: var(--link);
+  }
+
+  /* --- GALERÍA DE ORBITALES --- */
+  .orbital-gallery {
+    margin: 24px 0;
+    background: #fafafa;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    padding: 18px;
+    font-family: 'Segoe UI', sans-serif;
+  }
+  .orbital-row {
+    display: grid;
+    grid-template-columns: 90px 1fr 200px;
+    gap: 16px;
+    align-items: center;
+    padding: 14px;
+    background: white;
+    border-radius: 8px;
+    border: 1px solid #eee;
+    margin-bottom: 12px;
+  }
+  .orbital-row:last-child { margin-bottom: 0; }
+  .orbital-label {
+    text-align: center;
+  }
+  .orbital-label strong {
+    font-size: 1.5em;
+    color: var(--secondary);
+    display: block;
+    font-family: 'Georgia', serif;
+  }
+  .orbital-label span {
+    font-size: 0.78em;
+    color: #888;
+  }
+  .orbital-canvas {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .orbital-item {
+    text-align: center;
+    font-family: 'Segoe UI', sans-serif;
+  }
+  .orbital-item svg {
+    display: block;
+    width: 78px;
+    height: 78px;
+  }
+  .orbital-item .name {
+    font-size: 0.72em;
+    color: #666;
+    margin-top: 2px;
+    font-family: Consolas, monospace;
+  }
+  .orbital-desc {
+    font-size: 0.86em;
+    color: #555;
+    text-align: left;
+    line-height: 1.5;
+  }
+  .orbital-desc strong { color: var(--secondary); }
+
+  @media (max-width: 800px) {
+    .container { padding: 30px 20px; }
+    .controls { grid-template-columns: 1fr; }
+    .plot-area { height: 380px; }
+    .orbital-row { grid-template-columns: 1fr; text-align: center; }
+    .orbital-desc { text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h1>Teoría de Bandas</h1>
+  <div class="subtitle">Cómo los electrones de valencia se organizan en un sólido, y por qué eso decide si conduce o no</div>
+
+  <!-- ============================================ -->
+  <h2 style="margin-top: 26px;">Un enigma para empezar</h2>
+
+  <p>Cuatro sólidos. Todos formados por elementos ligeros y con enlaces covalentes similares:</p>
+
+  <ul>
+    <li><strong>Cobre</strong> (Cu): brilla, conduce la electricidad casi perfectamente.</li>
+    <li><strong>Silicio</strong> (Si): gris, conduce sólo un poquito, pero muchísimo más si lo calentás.</li>
+    <li><strong>Diamante</strong> (C): transparente, aislante perfecto.</li>
+    <li><strong>Grafito</strong> (C, otra forma del mismo elemento): negro, conduce bien.</li>
+  </ul>
+
+  <p>El diamante y el grafito son <em>el mismo elemento</em>. El Cu y el Si tienen estructuras parecidas. ¿Por qué sus propiedades eléctricas son tan distintas?</p>
+
+  <p>La respuesta es la <strong>teoría de bandas</strong>. Y para entenderla, el camino más directo parte de algo que ya conocés: los <strong>orbitales moleculares</strong>.</p>
+
+  <div class="toc">
+    <h3>Contenido</h3>
+    <ol>
+      <li><a href="#s1">Recordatorio: orbitales atómicos</a></li>
+      <li><a href="#s2">De un átomo a una molécula: LCAO y HOMO/LUMO</a></li>
+      <li><a href="#s3">De una molécula a un sólido: la banda</a> <em>(Fig. 1)</em></li>
+      <li><a href="#s4">Llenado de bandas: Pauli y Aufbau en sólidos</a> <em>(Fig. 2)</em></li>
+      <li><a href="#s5">Clasificación: metal, semiconductor, aislante</a> <em>(Fig. 3)</em></li>
+      <li><a href="#s6">Dopaje y huecos: cómo se manipulan los semiconductores</a></li>
+      <li><a href="#s7">Tabla de gaps típicos de materiales reales</a> <em>(Fig. 4)</em></li>
+      <li><a href="#s8">Diccionario: HOMO = VB, LUMO = CB</a></li>
+      <li><a href="#s9">Ejercicios para pensar</a></li>
+    </ol>
+  </div>
+
+  <!-- ============================================ -->
+  <h2 id="s1">1. Recordatorio: orbitales atómicos</h2>
+
+  <p>Un <strong>orbital atómico</strong> es una región del espacio donde es muy probable encontrar un electrón. Se etiqueta con dos números cuánticos:</p>
+
+  <ul>
+    <li><strong>$n$</strong>: el nivel (1, 2, 3...). Cuanto más grande, más lejos del núcleo y más energía.</li>
+    <li><strong>$l$</strong>: la forma ($s$, $p$, $d$, $f$).</li>
+  </ul>
+
+  <p>La forma geométrica del orbital <strong>no es un detalle estético</strong>: determina cuánto solapa con los orbitales de átomos vecinos, y por lo tanto el ancho de las bandas que veremos después. Los orbitales más extendidos solapan mejor y producen bandas más anchas; los más localizados producen bandas más estrechas.</p>
+
+  <p>La regla general es simple: <strong>el número de lóbulos crece con $l$</strong>, y el número de orbitales distintos de cada tipo es $2l+1$.</p>
+
+  <div class="orbital-gallery">
+    <div class="orbital-row">
+      <div class="orbital-label">
+        <strong>s</strong>
+        <span>1 orbital</span>
+      </div>
+      <div class="orbital-canvas">
+        <div class="orbital-item">
+          <svg viewBox="-50 -50 100 100">
+            <defs>
+              <radialGradient id="gradS" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="#5dade2" stop-opacity="0.95"/>
+                <stop offset="70%" stop-color="#2980b9" stop-opacity="0.65"/>
+                <stop offset="100%" stop-color="#2980b9" stop-opacity="0.25"/>
+              </radialGradient>
+            </defs>
+            <circle cx="0" cy="0" r="42" fill="url(#gradS)" stroke="#2980b9" stroke-width="1.5"/>
+            <circle cx="0" cy="0" r="2.5" fill="#1a252f"/>
+          </svg>
+          <div class="name">s</div>
+        </div>
+      </div>
+      <div class="orbital-desc">
+        <strong>Esférico.</strong> Sin orientación preferencial. Simétrico en todas las direcciones: la probabilidad solo depende de la distancia al núcleo.
+      </div>
+    </div>
+
+    <div class="orbital-row">
+      <div class="orbital-label">
+        <strong>p</strong>
+        <span>3 orbitales</span>
+      </div>
+      <div class="orbital-canvas">
+        <div class="orbital-item">
+          <svg viewBox="-50 -50 100 100">
+            <defs>
+              <linearGradient id="gradPx" x1="0" x2="1" y1="0" y2="0">
+                <stop offset="0%" stop-color="#16a085" stop-opacity="0.85"/>
+                <stop offset="50%" stop-color="#16a085" stop-opacity="0.15"/>
+                <stop offset="100%" stop-color="#16a085" stop-opacity="0.85"/>
+              </linearGradient>
+            </defs>
+            <ellipse cx="-22" cy="0" rx="22" ry="13" fill="url(#gradPx)" stroke="#16a085" stroke-width="1.2"/>
+            <ellipse cx="22" cy="0" rx="22" ry="13" fill="url(#gradPx)" stroke="#16a085" stroke-width="1.2"/>
+            <circle cx="0" cy="0" r="2.5" fill="#1a252f"/>
+          </svg>
+          <div class="name">p<sub>x</sub></div>
+        </div>
+        <div class="orbital-item">
+          <svg viewBox="-50 -50 100 100">
+            <defs>
+              <linearGradient id="gradPy" x1="0" x2="0" y1="0" y2="1">
+                <stop offset="0%" stop-color="#16a085" stop-opacity="0.85"/>
+                <stop offset="50%" stop-color="#16a085" stop-opacity="0.15"/>
+                <stop offset="100%" stop-color="#16a085" stop-opacity="0.85"/>
+              </linearGradient>
+            </defs>
+            <ellipse cx="0" cy="-22" rx="13" ry="22" fill="url(#gradPy)" stroke="#16a085" stroke-width="1.2"/>
+            <ellipse cx="0" cy="22" rx="13" ry="22" fill="url(#gradPy)" stroke="#16a085" stroke-width="1.2"/>
+            <circle cx="0" cy="0" r="2.5" fill="#1a252f"/>
+          </svg>
+          <div class="name">p<sub>y</sub></div>
+        </div>
+        <div class="orbital-item">
+          <svg viewBox="-50 -50 100 100">
+            <defs>
+              <linearGradient id="gradPz" x1="0" x2="1" y1="0" y2="1">
+                <stop offset="0%" stop-color="#16a085" stop-opacity="0.85"/>
+                <stop offset="50%" stop-color="#16a085" stop-opacity="0.15"/>
+                <stop offset="100%" stop-color="#16a085" stop-opacity="0.85"/>
+              </linearGradient>
+            </defs>
+            <ellipse cx="-18" cy="18" rx="20" ry="11" transform="rotate(-45 -18 18)" fill="url(#gradPz)" stroke="#16a085" stroke-width="1.2"/>
+            <ellipse cx="18" cy="-18" rx="20" ry="11" transform="rotate(-45 18 -18)" fill="url(#gradPz)" stroke="#16a085" stroke-width="1.2"/>
+            <circle cx="0" cy="0" r="2.5" fill="#1a252f"/>
+          </svg>
+          <div class="name">p<sub>z</sub></div>
+        </div>
+      </div>
+      <div class="orbital-desc">
+        <strong>Mancuerna.</strong> Dos lóbulos separados por un <em>plano nodal</em> (donde la probabilidad es cero). Hay 3 orientaciones: según los ejes $x$, $y$, $z$. En un átomo libre son degenerados (misma energía).
+      </div>
+    </div>
+
+    <div class="orbital-row">
+      <div class="orbital-label">
+        <strong>d</strong>
+        <span>5 orbitales</span>
+      </div>
+      <div class="orbital-canvas">
+        <div class="orbital-item">
+          <svg viewBox="-50 -50 100 100">
+            <ellipse cx="-16" cy="-16" rx="17" ry="10" transform="rotate(45 -16 -16)" fill="#e74c3c" opacity="0.65" stroke="#c0392b" stroke-width="1.2"/>
+            <ellipse cx="16" cy="-16" rx="17" ry="10" transform="rotate(-45 16 -16)" fill="#e74c3c" opacity="0.65" stroke="#c0392b" stroke-width="1.2"/>
+            <ellipse cx="-16" cy="16" rx="17" ry="10" transform="rotate(-45 -16 16)" fill="#e74c3c" opacity="0.65" stroke="#c0392b" stroke-width="1.2"/>
+            <ellipse cx="16" cy="16" rx="17" ry="10" transform="rotate(45 16 16)" fill="#e74c3c" opacity="0.65" stroke="#c0392b" stroke-width="1.2"/>
+            <circle cx="0" cy="0" r="2.5" fill="#1a252f"/>
+          </svg>
+          <div class="name">d<sub>xy</sub></div>
+        </div>
+        <div class="orbital-item">
+          <svg viewBox="-50 -50 100 100">
+            <ellipse cx="-18" cy="-10" rx="17" ry="9" transform="rotate(30 -18 -10)" fill="#e74c3c" opacity="0.55" stroke="#c0392b" stroke-width="1.2"/>
+            <ellipse cx="18" cy="-10" rx="17" ry="9" transform="rotate(-30 18 -10)" fill="#e74c3c" opacity="0.55" stroke="#c0392b" stroke-width="1.2"/>
+            <ellipse cx="-18" cy="10" rx="17" ry="9" transform="rotate(-30 -18 10)" fill="#e74c3c" opacity="0.55" stroke="#c0392b" stroke-width="1.2"/>
+            <ellipse cx="18" cy="10" rx="17" ry="9" transform="rotate(30 18 10)" fill="#e74c3c" opacity="0.55" stroke="#c0392b" stroke-width="1.2"/>
+            <circle cx="0" cy="0" r="2.5" fill="#1a252f"/>
+          </svg>
+          <div class="name">d<sub>xz</sub></div>
+        </div>
+        <div class="orbital-item">
+          <svg viewBox="-50 -50 100 100">
+            <ellipse cx="-10" cy="-18" rx="9" ry="17" transform="rotate(30 -10 -18)" fill="#e74c3c" opacity="0.55" stroke="#c0392b" stroke-width="1.2"/>
+            <ellipse cx="-10" cy="18" rx="9" ry="17" transform="rotate(-30 -10 18)" fill="#e74c3c" opacity="0.55" stroke="#c0392b" stroke-width="1.2"/>
+            <ellipse cx="10" cy="-18" rx="9" ry="17" transform="rotate(-30 10 -18)" fill="#e74c3c" opacity="0.55" stroke="#c0392b" stroke-width="1.2"/>
+            <ellipse cx="10" cy="18" rx="9" ry="17" transform="rotate(30 10 18)" fill="#e74c3c" opacity="0.55" stroke="#c0392b" stroke-width="1.2"/>
+            <circle cx="0" cy="0" r="2.5" fill="#1a252f"/>
+          </svg>
+          <div class="name">d<sub>yz</sub></div>
+        </div>
+        <div class="orbital-item">
+          <svg viewBox="-50 -50 100 100">
+            <ellipse cx="-20" cy="0" rx="18" ry="11" fill="#e74c3c" opacity="0.65" stroke="#c0392b" stroke-width="1.2"/>
+            <ellipse cx="20" cy="0" rx="18" ry="11" fill="#e74c3c" opacity="0.65" stroke="#c0392b" stroke-width="1.2"/>
+            <ellipse cx="0" cy="-20" rx="11" ry="18" fill="#e74c3c" opacity="0.65" stroke="#c0392b" stroke-width="1.2"/>
+            <ellipse cx="0" cy="20" rx="11" ry="18" fill="#e74c3c" opacity="0.65" stroke="#c0392b" stroke-width="1.2"/>
+            <circle cx="0" cy="0" r="2.5" fill="#1a252f"/>
+          </svg>
+          <div class="name">d<sub>x²−y²</sub></div>
+        </div>
+        <div class="orbital-item">
+          <svg viewBox="-50 -50 100 100">
+            <ellipse cx="0" cy="-20" rx="12" ry="19" fill="#e74c3c" opacity="0.65" stroke="#c0392b" stroke-width="1.2"/>
+            <ellipse cx="0" cy="20" rx="12" ry="19" fill="#e74c3c" opacity="0.65" stroke="#c0392b" stroke-width="1.2"/>
+            <ellipse cx="0" cy="0" rx="33" ry="8" fill="none" stroke="#c0392b" stroke-width="1.8" opacity="0.7"/>
+            <circle cx="0" cy="0" r="2.5" fill="#1a252f"/>
+          </svg>
+          <div class="name">d<sub>z²</sub></div>
+        </div>
+      </div>
+      <div class="orbital-desc">
+        <strong>Tréboles y anillo.</strong> Cuatro orbitales tienen 4 lóbulos en un plano (dos planos nodales). El $d_{z^2}$ es especial: dos lóbulos a lo largo de $z$ más un anillo en el ecuador. En un átomo libre son degenerados; en un entorno con menor simetría (cristal, complejo) se separan en energía.
+      </div>
+    </div>
+
+    <div class="orbital-row">
+      <div class="orbital-label">
+        <strong>f</strong>
+        <span>7 orbitales</span>
+      </div>
+      <div class="orbital-canvas">
+        <div class="orbital-item">
+          <svg viewBox="-50 -50 100 100">
+            <ellipse cx="-15" cy="-15" rx="12" ry="7" transform="rotate(45 -15 -15)" fill="#8e44ad" opacity="0.55" stroke="#6c3483" stroke-width="1"/>
+            <ellipse cx="15" cy="-15" rx="12" ry="7" transform="rotate(-45 15 -15)" fill="#8e44ad" opacity="0.55" stroke="#6c3483" stroke-width="1"/>
+            <ellipse cx="-15" cy="15" rx="12" ry="7" transform="rotate(-45 -15 15)" fill="#8e44ad" opacity="0.55" stroke="#6c3483" stroke-width="1"/>
+            <ellipse cx="15" cy="15" rx="12" ry="7" transform="rotate(45 15 15)" fill="#8e44ad" opacity="0.55" stroke="#6c3483" stroke-width="1"/>
+            <circle cx="0" cy="0" r="2.5" fill="#1a252f"/>
+          </svg>
+          <div class="name">f<sub>xyz</sub></div>
+        </div>
+        <div class="orbital-item">
+          <svg viewBox="-50 -50 100 100">
+            <ellipse cx="-25" cy="0" rx="15" ry="9" fill="#8e44ad" opacity="0.55" stroke="#6c3483" stroke-width="1"/>
+            <ellipse cx="25" cy="0" rx="15" ry="9" fill="#8e44ad" opacity="0.55" stroke="#6c3483" stroke-width="1"/>
+            <ellipse cx="-12" cy="-22" rx="10" ry="7" transform="rotate(60 -12 -22)" fill="#8e44ad" opacity="0.55" stroke="#6c3483" stroke-width="1"/>
+            <ellipse cx="12" cy="-22" rx="10" ry="7" transform="rotate(-60 12 -22)" fill="#8e44ad" opacity="0.55" stroke="#6c3483" stroke-width="1"/>
+            <ellipse cx="-12" cy="22" rx="10" ry="7" transform="rotate(-60 -12 22)" fill="#8e44ad" opacity="0.55" stroke="#6c3483" stroke-width="1"/>
+            <ellipse cx="12" cy="22" rx="10" ry="7" transform="rotate(60 12 22)" fill="#8e44ad" opacity="0.55" stroke="#6c3483" stroke-width="1"/>
+            <circle cx="0" cy="0" r="2.5" fill="#1a252f"/>
+          </svg>
+          <div class="name">f<sub>x(x²−3y²)</sub></div>
+        </div>
+        <div class="orbital-item">
+          <svg viewBox="-50 -50 100 100">
+            <text x="0" y="10" text-anchor="middle" font-size="28" fill="#8e44ad" font-family="Georgia" opacity="0.6">…</text>
+          </svg>
+          <div class="name">+5</div>
+        </div>
+      </div>
+      <div class="orbital-desc">
+        <strong>Formas complejas.</strong> Siete orbitales con 6 u 8 lóbulos, a veces con anillos nodales. No se profundiza en ellos en cursos introductorios: basta saber que existen y que son más complicados que los $d$.
+      </div>
+    </div>
+  </div>
+
+  <div class="sm-box">
+    <strong>Regla de Pauli.</strong> Cada orbital aloja como máximo <strong>dos electrones</strong> (uno con spin arriba, otro con spin abajo). Esta regla, aparentemente inocente, es la que va a producir las bandas. Tenerla presente.
+  </div>
+
+  <div class="analogy-box">
+    <strong>Por qué la forma importa (y cómo se conecta con bandas).</strong> Los orbitales $s$, esféricos, solapan bien con los vecinos en todas las direcciones: dan bandas anchas y electrones móviles. Los $d$, más localizados y direccionales, solapan menos: dan bandas estrechas y electrones pesados. Los $p$ están en un punto intermedio. Por eso el Na (banda $s$) conduce tan bien y el Fe (banda $d$ parcialmente llena) tiene propiedades magnéticas: <em>la forma del orbital de valencia decide el carácter de la banda</em>.
+  </div>
+
+  <div class="sm-box">
+    <strong>Nota sobre el desdoblamiento.</strong> En un átomo libre los 3 orbitales $p$ tienen la misma energía (son degenerados), los 5 $d$ también, y los 7 $f$ también. Pero cuando el átomo está en un cristal o en un complejo, la simetría del entorno es menor y esas degeneraciones se rompen: los orbitales se separan en energía. Ese fenómeno es el <strong>desdoblamiento por campo cristalino</strong>, y es el mismo mecanismo que produce las bandas cuando se juntan muchísimos átomos.
+  </div>
+
+  <!-- ============================================ -->
+  <h2 id="s2">2. De un átomo a una molécula: LCAO y HOMO/LUMO</h2>
+
+  <p>Cuando dos átomos se acercan, sus orbitales atómicos se combinan para formar <strong>orbitales moleculares</strong>. La forma más simple de describir esto es la <strong>LCAO</strong> (combinación lineal de orbitales atómicos):</p>
+
+  <div class="math-box">
+    $$ \psi_{\pm} = \psi_A \pm \psi_B $$
+  </div>
+
+  <p>Sumando los orbitales de los dos átomos ($\psi_A + \psi_B$) se obtiene un orbital <strong>enlazante</strong>: la densidad electrónica se concentra entre los núcleos, y la energía baja. Restándolos ($\psi_A - \psi_B$) se obtiene un orbital <strong>antienlazante</strong>: hay un nodo entre los núcleos, y la energía sube.</p>
+
+  <div class="analogy-box">
+    <strong>Analogía.</strong> Imaginá dos personas en un sube y baja. Cuando están bien coordinadas (en fase), el movimiento es eficiente y "baja la energía" del sistema. Cuando van a destiempo (fuera de fase), se pelean y "suben la energía". Los electrones hacen lo mismo: sumarse en fase es favorable, sumarse en contrafase es desfavorable.
+  </div>
+
+  <p>El caso más simple es el H₂. Cada átomo aporta un orbital $1s$ con un electrón. Al combinarse:</p>
+
+  <svg viewBox="0 0 500 220" style="display:block; max-width: 500px; margin: 15px auto; background:#fafafa; border-radius:8px; padding:10px;">
+    <line x1="30" y1="20" x2="30" y2="200" stroke="#555" stroke-width="1.5"/>
+    <polygon points="30,20 26,28 34,28" fill="#555"/>
+    <text x="20" y="110" text-anchor="middle" font-size="11" fill="#555" transform="rotate(-90 20 110)">Energía</text>
+
+    <line x1="80" y1="110" x2="150" y2="110" stroke="#888" stroke-width="2.5"/>
+    <circle cx="100" cy="110" r="5" fill="#2980b9"/>
+    <circle cx="130" cy="110" r="5" fill="#2980b9"/>
+    <text x="115" y="95" text-anchor="middle" font-size="11" fill="#555">1s (A)</text>
+    <text x="115" y="132" text-anchor="middle" font-size="11" fill="#555">1s (B)</text>
+
+    <line x1="320" y1="70" x2="410" y2="70" stroke="#e74c3c" stroke-width="2.5"/>
+    <text x="365" y="60" text-anchor="middle" font-size="11" fill="#e74c3c">σ* (antienlazante)</text>
+    <text x="365" y="50" text-anchor="middle" font-size="10" fill="#888">LUMO</text>
+
+    <line x1="320" y1="150" x2="410" y2="150" stroke="#16a085" stroke-width="2.5"/>
+    <circle cx="345" cy="150" r="5" fill="#2980b9"/>
+    <circle cx="385" cy="150" r="5" fill="#2980b9"/>
+    <text x="365" y="175" text-anchor="middle" font-size="11" fill="#16a085">σ (enlazante)</text>
+    <text x="365" y="190" text-anchor="middle" font-size="10" fill="#888">HOMO</text>
+
+    <line x1="155" y1="108" x2="315" y2="72" stroke="#ccc" stroke-width="1" stroke-dasharray="3,3"/>
+    <line x1="155" y1="112" x2="315" y2="148" stroke="#ccc" stroke-width="1" stroke-dasharray="3,3"/>
+  </svg>
+
+  <p>Los dos electrones del H₂ ocupan el orbital enlazante. El orbital antienlazante queda vacío. El orbital ocupado más alto se llama <strong>HOMO</strong> (Highest Occupied Molecular Orbital) y el vacío más bajo se llama <strong>LUMO</strong> (Lowest Unoccupied Molecular Orbital).</p>
+
+  <p>La diferencia de energía entre HOMO y LUMO se llama <strong>gap HOMO-LUMO</strong>. Es la energía mínima que hay que darle al sistema para excitar un electrón.</p>
+
+  <div class="sm-box">
+    <strong>Fijate en el patrón.</strong> Al juntar dos átomos, un nivel se convierte en <em>dos</em>. La energía se reparte: uno por debajo y otro por encima del nivel original. Cuantos más átomos juntemos, más niveles aparecerán. Esta es la semilla de las bandas.
+  </div>
+
+  <!-- ============================================ -->
+  <h2 id="s3">3. De una molécula a un sólido: la banda</h2>
+
+  <p>Ahora imaginá que juntamos <strong>muchos</strong> átomos. Si con dos átomos un nivel se desdobla en dos, con $N$ átomos se desdobla en $N$ niveles. Y cuando $N$ es enorme —digamos $10^{23}$, el número de átomos en un trozo de materia de un centímetro—, esos $N$ niveles se vuelven tan densos que ya no se distinguen individualmente. Forman una <strong>banda continua</strong>.</p>
+
+  <div class="math-box">
+    $$ 1 \text{ átomo} \to 1 \text{ nivel} \qquad 2 \text{ átomos} \to 2 \text{ niveles} \qquad N \text{ átomos} \to \text{banda de } N \text{ estados} $$
+  </div>
+
+  <div class="analogy-box">
+    <strong>Analogía.</strong> Es como las notas de un piano. Con un solo piano tenés 88 teclas separadas. Con mil pianos afinados un poquito distinto cada uno, las notas se acercan tanto que ya no se distinguen: es un continuo sonoro. La banda es exactamente eso, pero con niveles de energía.
+  </div>
+
+  <p>La Figura 1 te deja ver esa transición en tiempo real. Movés el slider y ves cómo los niveles, de estar separados, se funden en una banda continua.</p>
+
+  <div class="interactive-figure">
+    <div class="figure-title">Figura 1: De átomos aislados a un sólido</div>
+    <div id="plot1" class="plot-area"></div>
+    <div class="controls">
+      <div class="control-panel">
+        <h4>Número de átomos $N$</h4>
+        <label class="slider-row">
+          $N$: <span id="v_N" class="slider-val">1</span>
+          <input type="range" id="s_N" min="1" max="100" step="1" value="1">
+        </label>
+        <p style="font-size:0.83em; color:#666; margin-top:8px;">
+          $N=1$: átomo aislado. $N=2$: HOMO y LUMO. $N\ge 40$: banda continua.
+        </p>
+      </div>
+      <div class="control-panel">
+        <h4>Qué estás viendo</h4>
+        <div id="stats_N" class="stats"></div>
+      </div>
+    </div>
+
+    <div class="guide-box">
+      <strong>Qué observar.</strong>
+      <ol>
+        <li>Con <strong>$N = 1$</strong>: un único nivel. Es el orbital atómico aislado, como en la sección 1.</li>
+        <li>Con <strong>$N = 2$</strong>: dos niveles. Se llaman <em>HOMO</em> (el de abajo) y <em>LUMO</em> (el de arriba).</li>
+        <li>Con <strong>$N = 10$</strong>: diez niveles. Todavía distinguibles, pero ya se ve que forman una estructura.</li>
+        <li>Con <strong>$N \ge 40$</strong>: los niveles se funden en una banda continua. El ancho se estabiliza.</li>
+        <li>La <strong>línea punteada</strong> marca la energía del átomo aislado. La banda se abre simétricamente alrededor de ella.</li>
+        <li>El <strong>ancho de la banda</strong> depende de cuánto se solapen los orbitales de átomos vecinos: $s$ da bandas anchas, $d$ da bandas estrechas.</li>
+      </ol>
+    </div>
+    <div class="caption">
+      <strong>Epígrafe.</strong> Formación de una banda de energía. Con pocos átomos se ven niveles separados; con $N$ grande, la banda es continua. La línea punteada es la energía del nivel atómico original $E_0$. Los colores verde y rojo distinguen niveles por debajo y por encima de $E_0$. A $N=2$ se etiquetan HOMO y LUMO, mostrando la continuidad con el lenguaje de orbitales moleculares.
+    </div>
+  </div>
+
+  <div class="sm-box">
+    <strong>Lo esencial.</strong> Una <strong>banda</strong> no es un objeto nuevo de la física: es simplemente lo que resulta cuando juntás muchísimos orbitales moleculares. La química de orbitales moleculares y la física del estado sólido describen lo mismo, con $N = 2$ y con $N = 10^{23}$.
+  </div>
+
+  <!-- ============================================ -->
+  <h2 id="s4">4. Llenado de bandas: Pauli y Aufbau en sólidos</h2>
+
+  <p>Ya tenemos bandas. Ahora hay que llenarlas con electrones. Las reglas son las mismas que en un átomo, pero aplicadas a la banda completa:</p>
+
+  <ul>
+    <li><strong>Pauli:</strong> cada estado de la banda aloja como máximo <strong>2 electrones</strong>.</li>
+    <li><strong>Aufbau:</strong> los electrones llenan los estados de <strong>menor energía primero</strong>.</li>
+  </ul>
+
+  <p>En un sólido, hay una cantidad enorme de estados por banda. Pero lo importante no es el número absoluto, sino la <strong>fracción</strong> que está llena. Y esa fracción depende de <strong>cuántos electrones de valencia aporta cada átomo</strong>. Ese dato sale directamente de la configuración electrónica.</p>
+
+  <table style="border-collapse:collapse; width:100%; margin:18px 0; font-size:0.92em;">
+    <thead>
+      <tr style="background:#ecf0f1;">
+        <th style="padding:8px 12px; text-align:left; border:1px solid #e0e0e0;">Elemento</th>
+        <th style="padding:8px 12px; text-align:left; border:1px solid #e0e0e0;">Configuración (valencia)</th>
+        <th style="padding:8px 12px; text-align:left; border:1px solid #e0e0e0;">e⁻ por átomo</th>
+        <th style="padding:8px 12px; text-align:left; border:1px solid #e0e0e0;">Banda</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="padding:8px 12px; border:1px solid #e0e0e0;"><strong>Na</strong></td>
+        <td style="padding:8px 12px; border:1px solid #e0e0e0;">$3s^1$</td>
+        <td style="padding:8px 12px; border:1px solid #e0e0e0;">1</td>
+        <td style="padding:8px 12px; border:1px solid #e0e0e0;">medio llena</td>
+      </tr>
+      <tr style="background:#f9fbfc;">
+        <td style="padding:8px 12px; border:1px solid #e0e0e0;"><strong>Si</strong></td>
+        <td style="padding:8px 12px; border:1px solid #e0e0e0;">$3s^2 3p^2$</td>
+        <td style="padding:8px 12px; border:1px solid #e0e0e0;">4</td>
+        <td style="padding:8px 12px; border:1px solid #e0e0e0;">llena (con gap)</td>
+      </tr>
+      <tr>
+        <td style="padding:8px 12px; border:1px solid #e0e0e0;"><strong>C</strong></td>
+        <td style="padding:8px 12px; border:1px solid #e0e0e0;">$2s^2 2p^2$</td>
+        <td style="padding:8px 12px; border:1px solid #e0e0e0;">4</td>
+        <td style="padding:8px 12px; border:1px solid #e0e0e0;">llena (con gap grande)</td>
+      </tr>
+      <tr style="background:#f9fbfc;">
+        <td style="padding:8px 12px; border:1px solid #e0e0e0;"><strong>Mg</strong></td>
+        <td style="padding:8px 12px; border:1px solid #e0e0e0;">$3s^2$</td>
+        <td style="padding:8px 12px; border:1px solid #e0e0e0;">2</td>
+        <td style="padding:8px 12px; border:1px solid #e0e0e0;">llena, pero se solapa con p</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p><strong>Regla clave:</strong> si una banda queda <strong>parcialmente llena</strong>, hay electrones que pueden moverse a estados vacíos cercanos y el material es un <strong>metal</strong>. Si queda <strong>completamente llena</strong>, los electrones necesitan saltar el gap para moverse, y el material es un <strong>aislante o semiconductor</strong>.</p>
+
+  <div class="interactive-figure">
+    <div class="figure-title">Figura 2: Llenando bandas con electrones</div>
+    <div id="plot2" class="plot-area"></div>
+    <div class="controls">
+      <div class="control-panel">
+        <h4>Electrones por átomo</h4>
+        <label class="slider-row">
+          $n$: <span id="v_n" class="slider-val">1.0</span>
+          <input type="range" id="s_n" min="0" max="4" step="0.5" value="1">
+        </label>
+        <p style="font-size:0.83em; color:#666; margin-top:8px;">
+          Cada banda aloja hasta 2 e⁻ por átomo. Probá $n=1$ (metal), $n=2$ (aislante), $n=3$ (metal), $n=4$ (aislante).
+        </p>
+      </div>
+      <div class="control-panel">
+        <h4>Clasificación</h4>
+        <div id="stats_n" class="stats"></div>
+      </div>
+    </div>
+
+    <div class="guide-box">
+      <strong>Qué observar.</strong>
+      <ol>
+        <li>La <strong>banda de valencia</strong> (VB, verde) y la <strong>banda de conducción</strong> (CB, roja) están separadas por un gap.</li>
+        <li>Los <strong>puntos llenos</strong> son electrones; los <strong>círculos huecos</strong> son estados vacíos.</li>
+        <li>La <strong>línea negra discontinua</strong> es el nivel de Fermi $E_F$: separa lo ocupado de lo vacío.</li>
+        <li>Con <strong>$n=0$</strong>: todo vacío → aislante.</li>
+        <li>Con <strong>$n=1$</strong>: banda medio llena → <em>metal</em>. Hay estados vacíos accesibles.</li>
+        <li>Con <strong>$n=2$</strong>: VB llena, CB vacía → <em>aislante o semiconductor</em>. $E_F$ cae en el gap.</li>
+        <li>Con <strong>$n=3$</strong>: VB llena + CB medio llena → <em>metal</em> otra vez.</li>
+        <li>Con <strong>$n=4$</strong>: ambas llenas → aislante.</li>
+      </ol>
+      <p style="margin-top:8px;"><em>Nota: el patrón se repite cada 2 electrones. Es la misma periodicidad que la tabla periódica.</em></p>
+    </div>
+    <div class="caption">
+      <strong>Epígrafe.</strong> Llenado de bandas según la cantidad de electrones por átomo. Con la banda parcialmente llena el material es metal (hay estados vacíos accesibles); con la banda llena, es aislante o semiconductor. El patrón se repite cada 2 electrones, igual que en la tabla periódica. El nivel de Fermi indica la frontera entre estados ocupados y vacíos.
+    </div>
+  </div>
+
+  <!-- ============================================ -->
+  <h2 id="s5">5. Clasificación: metal, semiconductor, aislante</h2>
+
+  <p>Combinando lo de las secciones 3 y 4, ya podemos clasificar cualquier material. Depende de dos cosas: <strong>cuántas bandas hay</strong> y <strong>cuánto se llenan</strong>.</p>
+
+  <ul>
+    <li><strong>Metal:</strong> alguna banda queda parcialmente llena. $E_F$ cae <em>dentro</em> de una banda. Conducción fácil incluso a $T=0$.</li>
+    <li><strong>Semiconductor:</strong> banda de valencia llena, banda de conducción vacía, gap chico (~0.1 a 4 eV). A $T$ ambiente, la energía térmica alcanza para excitar algunos electrones.</li>
+    <li><strong>Aislante:</strong> igual que el semiconductor pero con gap grande (> 4 eV). A $T$ ambiente, la energía térmica no alcanza.</li>
+  </ul>
+
+  <div class="interactive-figure">
+    <div class="figure-title">Figura 3: Comparando materiales reales</div>
+
+    <div class="material-tabs">
+      <button class="material-tab active" data-mat="na">Na (metal)</button>
+      <button class="material-tab" data-mat="mg">Mg (metal)</button>
+      <button class="material-tab" data-mat="si">Si (semiconductor)</button>
+      <button class="material-tab" data-mat="diam">Diamante (aislante)</button>
+      <button class="material-tab" data-mat="graf">Grafito (conductor)</button>
+      <button class="material-tab" data-mat="n">Si tipo n</button>
+      <button class="material-tab" data-mat="p">Si tipo p</button>
+    </div>
+
+    <div id="plot3" class="plot-area" style="height: 380px;"></div>
+
+    <div id="stats_mat" class="stats"></div>
+
+    <div class="guide-box">
+      <strong>Cómo leer los diagramas.</strong>
+      <ol>
+        <li><strong>VB</strong>: banda de valencia (verde). <strong>CB</strong>: banda de conducción (roja).</li>
+        <li><strong>$E_F$</strong>: nivel de Fermi (línea negra discontinua). Separa lo ocupado de lo vacío.</li>
+        <li><strong>Na:</strong> 1 e⁻ de valencia. Banda $s$ medio llena. Metal.</li>
+        <li><strong>Mg:</strong> 2 e⁻ de valencia. La banda $s$ estaría llena, <em>pero</em> se solapa con la banda $p$ vacía. Resultado: metal.</li>
+        <li><strong>Si:</strong> 4 e⁻ de valencia. Banda de valencia llena, gap 1.1 eV. Semiconductor.</li>
+        <li><strong>Diamante:</strong> 4 e⁻ de valencia, pero gap 5.5 eV. Aislante.</li>
+        <li><strong>Grafito:</strong> 4 e⁻ de valencia, pero en capas. Tres electrones forman enlaces σ (banda llena), y el cuarto queda en una banda π deslocalizada, <em>medio llena</em>. Conductor.</li>
+        <li><strong>Si tipo n:</strong> dopado con fósforo. Algunos electrones extra en la CB (puntos rojos). $E_F$ sube cerca de la CB.</li>
+        <li><strong>Si tipo p:</strong> dopado con boro. Algunos huecos en la VB (círculos huecos rojos). $E_F$ baja cerca de la VB.</li>
+      </ol>
+    </div>
+    <div class="caption">
+      <strong>Epígrafe.</strong> Diagramas de bandas esquemáticos para distintos materiales. Los metales tienen una banda parcialmente llena (nivel de Fermi dentro de una banda); los semiconductores y aislantes tienen la banda de valencia llena y un gap. El grafito muestra que el mismo elemento (carbono) puede ser aislante o conductor según cómo se empaqueten los orbitales. Los tipos n y p muestran cómo el dopaje introduce portadores extra y desplaza el nivel de Fermi.
+    </div>
+  </div>
+
+  <div class="warn-box">
+    <strong>Error común.</strong> "El grafito y el diamante son distintos porque uno tiene electrones libres y el otro no." Falso: ambos tienen exactamente los mismos 4 electrones de valencia por átomo de carbono. La diferencia es <em>cómo se combinan los orbitales</em>: en el diamante forman 4 enlaces σ (todas las bandas llenas, gap enorme); en el grafito, uno de los electrones queda en una banda π perpendicular a las capas, que queda medio llena y conduce.
+  </div>
+
+  <!-- ============================================ -->
+  <h2 id="s6">6. Dopaje y huecos: cómo se manipulan los semiconductores</h2>
+
+  <p>Los semiconductores puros (intrínsecos) no son muy útiles: a temperatura ambiente conducen muy poco. Lo que los hace útiles es el <strong>dopaje</strong>: introducir impurezas deliberadamente para aumentar (y controlar) la cantidad de portadores de carga. Este es el paso que hizo posible toda la electrónica moderna.</p>
+
+  <h3 id="s6-1">6.1 Qué es un hueco</h3>
+
+  <p>Antes de hablar de dopaje hay que definir un concepto fundamental que ya apareció en la Figura 3. Cuando un electrón sale de la banda de valencia (por excitación térmica o porque fue a la banda de conducción), <strong>deja un lugar vacío</strong>. Ese lugar se llama <strong>hueco</strong>.</p>
+
+  <p>Los electrones vecinos, dentro de la misma banda, pueden "moverse" para ocupar ese hueco, dejando otro hueco en su lugar. El efecto neto es que <strong>el hueco se desplaza</strong> por la banda. Y como el hueco representa la ausencia de un electrón (carga negativa), se comporta como una <strong>carga positiva móvil</strong>.</p>
+
+  <svg viewBox="0 0 500 170" style="display:block; max-width: 500px; margin: 15px auto; background:#fafafa; border-radius:8px; padding:10px;">
+    <!-- Banda de valencia -->
+    <rect x="40" y="50" width="420" height="60" fill="rgba(22,160,133,0.18)" stroke="#16a085" stroke-width="1.5" rx="4"/>
+    <text x="250" y="40" text-anchor="middle" font-size="12" fill="#16a085" font-weight="bold">Banda de valencia</text>
+
+    <!-- Electrones llenos -->
+    <circle cx="80" cy="80" r="9" fill="#16a085"/>
+    <circle cx="120" cy="80" r="9" fill="#16a085"/>
+    <circle cx="160" cy="80" r="9" fill="#16a085"/>
+    <circle cx="200" cy="80" r="9" fill="#16a085"/>
+    <!-- Hueco -->
+    <circle cx="240" cy="80" r="9" fill="none" stroke="#c0392b" stroke-width="2" stroke-dasharray="3,2"/>
+    <text x="240" y="84" text-anchor="middle" font-size="11" fill="#c0392b" font-weight="bold">+</text>
+    <circle cx="280" cy="80" r="9" fill="#16a085"/>
+    <circle cx="320" cy="80" r="9" fill="#16a085"/>
+    <circle cx="360" cy="80" r="9" fill="#16a085"/>
+    <circle cx="400" cy="80" r="9" fill="#16a085"/>
+
+    <!-- Flecha del movimiento del electrón -->
+    <path d="M 285,105 Q 265,130 245,110" stroke="#2980b9" stroke-width="1.8" fill="none" marker-end="url(#arrMov)"/>
+    <defs>
+      <marker id="arrMov" markerWidth="7" markerHeight="7" refX="3.5" refY="1.5" orient="auto">
+        <polygon points="0 0, 7 1.5, 0 3" fill="#2980b9"/>
+      </marker>
+    </defs>
+    <text x="305" y="140" text-anchor="middle" font-size="10" fill="#2980b9" font-style="italic">un electrón vecino se mueve</text>
+
+    <!-- Resultado: el hueco se desplazó -->
+    <text x="250" y="160" text-anchor="middle" font-size="10" fill="#555" font-style="italic">efecto neto: el hueco se desplaza como una carga positiva</text>
+  </svg>
+
+  <div class="sm-box">
+    <strong>El hueco como cuasipartícula.</strong> El hueco no es una partícula real: es una <em>ausencia</em> de electrón. Pero en la banda de valencia (casi llena) es mucho más cómodo describir el sistema en términos de los pocos huecos que de los muchos electrones. Por eso se lo trata como una cuasipartícula con carga $+e$ y masa efectiva positiva. Es el portador de carga mayoritario en los semiconductores tipo p.
+  </div>
+
+  <h3 id="s6-2">6.2 Dopaje tipo n: donar electrones</h3>
+
+  <p>El silicio puro tiene 4 electrones de valencia (configuración $3s^2 3p^2$). Forma una red tetraédrica donde cada Si comparte 4 electrones con sus 4 vecinos.</p>
+
+  <p>Si reemplazamos un átomo de Si por uno de <strong>fósforo (P)</strong> —que tiene 5 electrones de valencia, $3s^2 3p^3$—, el P forma solo 4 enlaces (los mismos que el Si), y <strong>le sobra un electrón</strong>. Ese electrón extra queda débilmente ligado al P, y con muy poca energía (la energía térmica a temperatura ambiente alcanza) salta a la banda de conducción.</p>
+
+  <p>Resultado: un electrón libre en la CB por cada átomo de P. El nivel de Fermi sube, acercándose al fondo de la banda de conducción. El material conduce por electrones, que son los portadores <strong>mayoritarios</strong>. Se llama <strong>tipo n</strong> (de "negative", por la carga del electrón).</p>
+
+  <div class="math-box">
+    $$ \text{Si (4 e}^-\text{)} + \text{P (5 e}^-\text{)} \;\longrightarrow\; \text{electrón extra en la CB} + \text{Si}^+ \text{ fijo en la red} $$
+  </div>
+
+  <h3 id="s6-3">6.3 Dopaje tipo p: aceptar electrones</h3>
+
+  <p>Si en cambio reemplazamos un Si por un átomo de <strong>boro (B)</strong> —que tiene 3 electrones de valencia, $2s^2 2p^1$—, el B forma solo 3 enlaces y <strong>le falta un electrón</strong> para completar el cuarto. Ese "lugar faltante" actúa como un <strong>hueco</strong> que puede aceptar un electrón de la banda de valencia.</p>
+
+  <p>Cuando un electrón de la VB cae en ese hueco, deja un hueco móvil en la banda de valencia. El nivel de Fermi baja, acercándose al tope de la banda de valencia. El material conduce por huecos, que son los portadores <strong>mayoritarios</strong>. Se llama <strong>tipo p</strong> (de "positive", por la carga del hueco).</p>
+
+  <div class="math-box">
+    $$ \text{Si (4 e}^-\text{)} + \text{B (3 e}^-\text{)} \;\longrightarrow\; \text{hueco en la VB} + \text{B}^- \text{ fijo en la red} $$
+  </div>
+
+  <div class="analogy-box">
+    <strong>Analogía del cine.</strong> Una sala de cine llena es el Si puro (banda de valencia llena). Si agregás una butaca vacía (tipo p, hueco), la gente puede moverse hacia ella: el "hueco" se desplaza por la sala. Si agregás una persona de pie sin asiento (tipo n, electrón extra), esa persona puede caminar libremente: el "electrón" se desplaza. En ambos casos el sistema conduce (la gente se mueve), pero por mecanismos distintos.
+  </div>
+
+  <div class="warn-box">
+    <strong>Error común.</strong> "El dopaje hace que el material esté cargado." No: el cristal dopado sigue siendo <strong>eléctricamente neutro</strong>. Cuando un P dona un electrón, queda ionizado positivamente en la red; la carga total del cristal (electrón libre + P⁺ fijo) es cero. Lo mismo con el B: el B⁻ fijo compensa la carga positiva del hueco. Lo que cambia es la <em>distribución</em> de cargas, no la carga neta.
+  </div>
+
+  <div class="sm-box">
+    <strong>Por qué esto es la base de la electrónica.</strong> Un semiconductor tipo n y uno tipo p, puestos en contacto, forman una <strong>unión p-n</strong>: los electrones del lado n difunden hacia el lado p (donde hay huecos), y los huecos difunden hacia el lado n. Eso crea una zona de agotamiento con un campo eléctrico interno. Esa estructura es la base de <strong>diodos, transistores, LED y células solares</strong>. Sin dopaje no existe ninguno de ellos.
+  </div>
+
+  <!-- ============================================ -->
+  <h2 id="s7">7. Tabla de gaps típicos de materiales reales</h2>
+
+  <p>Una de las cosas más útiles que un químico o un científico de materiales tiene a mano es <strong>el valor del gap</strong> de cada material. Es el dato que permite clasificar rápidamente un material nuevo, predecir si va a emitir luz, si va a servir como semiconductor, o si va a ser un buen aislante. Los valores a temperatura ambiente se agrupan en rangos muy claros:</p>
+
+  <ul>
+    <li><strong>Metales:</strong> sin gap (0 eV). Banda parcialmente llena.</li>
+    <li><strong>Semiconductores estrechos:</strong> $E_g < 1$ eV. Muy sensibles a la temperatura (los primeros transistores usaban Ge por eso).</li>
+    <li><strong>Semiconductores estándar:</strong> $E_g$ entre 1 y 2 eV. La base de la electrónica: Si, GaAs, InP.</li>
+    <li><strong>Semiconductores de gap amplio:</strong> $E_g$ entre 2 y 4 eV. Para aplicaciones de alta potencia y optoelectrónica de alta energía (GaN para LED azules, SiC para electrónica de potencia).</li>
+    <li><strong>Aislantes:</strong> $E_g > 4$ eV. Diamante, SiO₂, NaCl, Al₂O₃.</li>
+  </ul>
+
+  <div class="interactive-figure">
+    <div class="figure-title">Figura 4: Gaps de energía de materiales reales</div>
+    <div id="plot_gaps" class="plot-area" style="height: 520px;"></div>
+    <div class="guide-box">
+      <strong>Cómo leer el gráfico.</strong>
+      <ol>
+        <li>Cada barra es un material real, con su valor de $E_g$ a temperatura ambiente.</li>
+        <li>Los colores agrupan las categorías: <strong style="color:#e67e22;">naranja</strong> para metales (sin gap), <strong style="color:#2980b9;">azules</strong> para semiconductores, <strong style="color:#8e44ad;">violetas</strong> para aislantes.</li>
+        <li>La <strong>línea vertical punteada en 4 eV</strong> es la frontera convencional entre semiconductores y aislantes.</li>
+        <li>La <strong>línea vertical punteada en 1.12 eV</strong> marca el Si, el semiconductor de referencia de la electrónica moderna.</li>
+        <li>Observa los <strong>dos extremos</strong>: los semiconductores estrechos (InSb, 0.17 eV) son prácticamente metales a $T$ ambiente; los aislantes anchos (SiO₂, ~9 eV) son prácticamente inconductores.</li>
+        <li>El <strong>GaN</strong> (3.4 eV) y el <strong>SiC</strong> (3.26 eV) son los semiconductores de gap amplio que hoy se usan en LED de alta eficiencia y en electrónica de potencia.</li>
+      </ol>
+    </div>
+    <div class="caption">
+      <strong>Epígrafe.</strong> Gaps de energía de materiales reales a 300 K. Los metales no tienen gap (banda parcialmente llena); los semiconductores tienen gaps entre 0.1 y 4 eV; los aislantes, mayores de 4 eV. La frontera convencional está marcada con la línea punteada en 4 eV. Los valores son aproximados; en algunos casos varían ligeramente según la fuente y la temperatura exacta de medida.
+    </div>
+  </div>
+
+  <h3>7.1 Tabla de referencia rápida</h3>
+
+  <p>Para consultar rápido, esta tabla agrupa los materiales por categoría. Los colores del borde izquierdo coinciden con los del gráfico.</p>
+
+  <table class="gaps-table">
+    <thead>
+      <tr>
+        <th>Material</th>
+        <th>Fórmula</th>
+        <th>$E_g$ (eV, 300 K)</th>
+        <th>Aplicación / nota</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="cat-title"><td colspan="4" style="border-left: 4px solid #e67e22;">Metales — sin gap</td></tr>
+      <tr class="cat-metal">
+        <td>Cobre</td><td>Cu</td><td class="gap-value gap-metal">0</td><td>Conductor estándar; cables, contactos</td>
+      </tr>
+      <tr class="cat-metal">
+        <td>Plata</td><td>Ag</td><td class="gap-value gap-metal">0</td><td>Mejor conductor eléctrico de todos</td>
+      </tr>
+      <tr class="cat-metal">
+        <td>Aluminio</td><td>Al</td><td class="gap-value gap-metal">0</td><td>Líneas de alta tensión, contactos</td>
+      </tr>
+      <tr class="cat-metal">
+        <td>Sodio</td><td>Na</td><td class="gap-value gap-metal">0</td><td>Metal blando, banda $s$ medio llena</td>
+      </tr>
+
+      <tr class="cat-title"><td colspan="4" style="border-left: 4px solid #5dade2;">Semiconductores estrechos — $E_g < 1$ eV</td></tr>
+      <tr class="cat-sc-narrow">
+        <td>Antimoniuro de indio</td><td>InSb</td><td class="gap-value gap-sc">0.17</td><td>Detectores infrarrojos; sensible a $T$</td>
+      </tr>
+      <tr class="cat-sc-narrow">
+        <td>Germanio</td><td>Ge</td><td class="gap-value gap-sc">0.67</td><td>Primeros transistores; hoy en fotónica</td>
+      </tr>
+      <tr class="cat-sc-narrow">
+        <td>Arseniuro de indio</td><td>InAs</td><td class="gap-value gap-sc">0.36</td><td>Detectores infrarrojos, alta movilidad</td>
+      </tr>
+
+      <tr class="cat-title"><td colspan="4" style="border-left: 4px solid #2980b9;">Semiconductores estándar — $E_g$ ~1–2 eV</td></tr>
+      <tr class="cat-sc">
+        <td>Silicio</td><td>Si</td><td class="gap-value gap-sc">1.12</td><td>Base de toda la electrónica moderna</td>
+      </tr>
+      <tr class="cat-sc">
+        <td>Fosfuro de indio</td><td>InP</td><td class="gap-value gap-sc">1.35</td><td>Telecomunicaciones ópticas (1.55 μm)</td>
+      </tr>
+      <tr class="cat-sc">
+        <td>Arseniuro de galio</td><td>GaAs</td><td class="gap-value gap-sc">1.42</td><td>LED rojos, láseres, alta frecuencia</td>
+      </tr>
+      <tr class="cat-sc">
+        <td>Telururo de cadmio</td><td>CdTe</td><td class="gap-value gap-sc">1.50</td><td>Células solares de película delgada</td>
+      </tr>
+
+      <tr class="cat-title"><td colspan="4" style="border-left: 4px solid #8e44ad;">Semiconductores de gap amplio — $E_g$ ~2–4 eV</td></tr>
+      <tr class="cat-sc-wide">
+        <td>Fosfuro de galio</td><td>GaP</td><td class="gap-value gap-sc">2.26</td><td>LED verdes, amarillos</td>
+      </tr>
+      <tr class="cat-sc-wide">
+        <td>Sulfuro de cadmio</td><td>CdS</td><td class="gap-value gap-sc">2.42</td><td>Células solares, fotorresistores</td>
+      </tr>
+      <tr class="cat-sc-wide">
+        <td>Carburo de silicio</td><td>SiC</td><td class="gap-value gap-sc">3.26</td><td>Electrónica de potencia de alta temperatura</td>
+      </tr>
+      <tr class="cat-sc-wide">
+        <td>Óxido de zinc</td><td>ZnO</td><td class="gap-value gap-sc">3.37</td><td>Protectores solares, sensores de gas</td>
+      </tr>
+      <tr class="cat-sc-wide">
+        <td>Nitruro de galio</td><td>GaN</td><td class="gap-value gap-sc">3.40</td><td>LED azules (Nobel de Física 2014)</td>
+      </tr>
+
+      <tr class="cat-title"><td colspan="4" style="border-left: 4px solid #6c3483;">Aislantes — $E_g > 4$ eV</td></tr>
+      <tr class="cat-ins">
+        <td>Diamante</td><td>C</td><td class="gap-value gap-ins">5.5</td><td>Aislante perfecto, pero excelente conductor térmico</td>
+      </tr>
+      <tr class="cat-ins">
+        <td>Cloruro de sodio</td><td>NaCl</td><td class="gap-value gap-ins">8.5</td><td>Sal común; aislante iónico típico</td>
+      </tr>
+      <tr class="cat-ins">
+        <td>Alúmina</td><td>Al₂O₃</td><td class="gap-value gap-ins">8.8</td><td>Aislante en sustratos y componentes</td>
+      </tr>
+      <tr class="cat-ins">
+        <td>Dióxido de silicio</td><td>SiO₂</td><td class="gap-value gap-ins">9.0</td><td>Aislante en chips (óxido de compuerta)</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="sm-box">
+    <strong>Dos tendencias que vale la pena memorizar.</strong>
+    <ul style="margin: 6px 0 0 0;">
+      <li><strong>Mismo grupo de la tabla periódica:</strong> el gap disminuye al bajar en el grupo. Ejemplos: diamante (C, 5.5 eV) &gt; Si (1.12 eV) &gt; Ge (0.67 eV); AlN (6.2) &gt; GaN (3.4) &gt; InN (0.7). La razón es que los orbitales son más grandes y solapan mejor, ensanchando las bandas.</li>
+      <li><strong>Compuestos III–V vs. elemento del grupo IV:</strong> los III–V (GaAs, GaN, InP) suelen tener <em>gaps directos</em> (emiten luz eficientemente), mientras que los elementos del grupo IV (Si, Ge) tienen <em>gaps indirectos</em> (no emiten luz útil). Esto es la base de los LED y láseres.</li>
+    </ul>
+  </div>
+
+  <div class="analogy-box">
+    <strong>Para qué se usa esta tabla en la práctica.</strong> Si te dan un material nuevo y querés saber si sirve para hacer un LED, un transistor o un aislante, lo primero que buscás es su $E_g$. Si es 0 eV, es metal (no sirve para LED, sí para cables). Si es 1–2 eV, es semiconductor (probablemente sirva para electrónica o para LED infrarrojos/rojos). Si es 2–4 eV, es semiconductor de gap amplio (sirve para LED azules o electrónica de potencia). Si es &gt;4 eV, es aislante (sirve como dieléctrico, no como semiconductor). Los números orientan de inmediato.
+  </div>
+
+  <h3 id="s7-2">7.2 Color de emisión: el gap decide el color del LED</h3>
+
+  <p>La tabla de gaps no es solo un dato de clasificación: <strong>el valor de $E_g$ determina directamente el color de la luz que emite un LED</strong>. Cuando un electrón de la banda de conducción cae a un hueco en la banda de valencia, emite un fotón con energía igual al gap:</p>
+
+  <div class="math-box">
+    $$ E_{\text{fotón}} = h\nu = \frac{hc}{\lambda} \approx E_g $$
+  </div>
+
+  <p>Despejando la longitud de onda:</p>
+
+  <div class="math-box">
+    $$ \lambda (\text{nm}) \approx \frac{1240}{E_g (\text{eV})} $$
+  </div>
+
+  <p>Esto significa que <strong>el color del LED se puede predecir a partir del gap del material</strong>. Un gap de 1.9 eV emite luz roja (650 nm); un gap de 2.4 eV emite verde (520 nm); un gap de 2.7 eV emite azul (460 nm). Para longitudes de onda más cortas (violeta, UV), hace falta un gap más grande; para longitudes más largas (infrarrojo), un gap más chico.</p>
+
+  <svg viewBox="0 0 600 110" style="display:block; max-width: 600px; margin: 15px auto; background:#fafafa; border-radius:8px; padding:10px;">
+    <defs>
+      <linearGradient id="spectrum" x1="0" x2="1">
+        <stop offset="0%" stop-color="#8e44ad"/>
+        <stop offset="12%" stop-color="#4a69bd"/>
+        <stop offset="25%" stop-color="#3498db"/>
+        <stop offset="40%" stop-color="#27ae60"/>
+        <stop offset="55%" stop-color="#f1c40f"/>
+        <stop offset="70%" stop-color="#e67e22"/>
+        <stop offset="88%" stop-color="#c0392b"/>
+        <stop offset="100%" stop-color="#7b241c"/>
+      </linearGradient>
+    </defs>
+    <rect x="20" y="40" width="560" height="30" fill="url(#spectrum)" rx="4"/>
+
+    <!-- Marcas de longitud de onda -->
+    <text x="20" y="90" text-anchor="middle" font-size="10" fill="#555">380 nm</text>
+    <text x="20" y="103" text-anchor="middle" font-size="9" fill="#888">(UV/violeta)</text>
+
+    <text x="130" y="90" text-anchor="middle" font-size="10" fill="#555">450 nm</text>
+    <text x="130" y="103" text-anchor="middle" font-size="9" fill="#888">(azul)</text>
+
+    <text x="250" y="90" text-anchor="middle" font-size="10" fill="#555">520 nm</text>
+    <text x="250" y="103" text-anchor="middle" font-size="9" fill="#888">(verde)</text>
+
+    <text x="380" y="90" text-anchor="middle" font-size="10" fill="#555">600 nm</text>
+    <text x="380" y="103" text-anchor="middle" font-size="9" fill="#888">(naranja)</text>
+
+    <text x="490" y="90" text-anchor="middle" font-size="10" fill="#555">650 nm</text>
+    <text x="490" y="103" text-anchor="middle" font-size="9" fill="#888">(rojo)</text>
+
+    <text x="570" y="90" text-anchor="middle" font-size="10" fill="#555">750 nm</text>
+    <text x="570" y="103" text-anchor="middle" font-size="9" fill="#888">(IR cercano)</text>
+
+    <!-- Etiqueta de energía -->
+    <text x="300" y="25" text-anchor="middle" font-size="11" fill="#555" font-style="italic">E_g mayor ← → E_g menor</text>
+  </svg>
+
+  <p>La tabla siguiente muestra qué material se usa para cada color de LED, y qué gap corresponde a cada uno:</p>
+
+  <table class="colors-table">
+    <thead>
+      <tr>
+        <th>Color del LED</th>
+        <th>λ típica</th>
+        <th>$E_g$ requerido</th>
+        <th>Material típico</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="color-swatch" style="background:#7b241c;"></span>Infrarrojo</td>
+        <td>850–1000 nm</td>
+        <td>1.2–1.5 eV</td>
+        <td>GaAs, InGaAs</td>
+      </tr>
+      <tr>
+        <td><span class="color-swatch" style="background:#c0392b;"></span>Rojo</td>
+        <td>620–660 nm</td>
+        <td>1.85–2.0 eV</td>
+        <td>GaAsP, AlGaAs</td>
+      </tr>
+      <tr>
+        <td><span class="color-swatch" style="background:#e67e22;"></span>Naranja / ámbar</td>
+        <td>590–610 nm</td>
+        <td>2.0–2.1 eV</td>
+        <td>GaAsP</td>
+      </tr>
+      <tr>
+        <td><span class="color-swatch" style="background:#f1c40f;"></span>Amarillo</td>
+        <td>570–590 nm</td>
+        <td>2.1–2.2 eV</td>
+        <td>GaAsP, GaP</td>
+      </tr>
+      <tr>
+        <td><span class="color-swatch" style="background:#27ae60;"></span>Verde</td>
+        <td>510–550 nm</td>
+        <td>2.2–2.4 eV</td>
+        <td>GaP, InGaN</td>
+      </tr>
+      <tr>
+        <td><span class="color-swatch" style="background:#3498db;"></span>Azul</td>
+        <td>440–475 nm</td>
+        <td>2.6–2.8 eV</td>
+        <td>InGaN (Nobel 2014)</td>
+      </tr>
+      <tr>
+        <td><span class="color-swatch" style="background:#8e44ad;"></span>Violeta / UV</td>
+        <td>380–430 nm</td>
+        <td>2.9–3.3 eV</td>
+        <td>GaN, AlGaN</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="sm-box">
+    <strong>El caso del LED azul.</strong> Durante décadas no existió LED azul, porque ningún material conocido combinaba un gap de ~2.7 eV con la capacidad de formar uniones p-n eficientes. Isamu Akasaki, Hiroshi Amano y Shuji Nakamura lo lograron con <strong>GaN dopado con indio (InGaN)</strong> y recibieron el Nobel de Física en 2014. Ese avance, junto con los LED rojos y verdes ya existentes, permitió construir pantallas y luces blancas LED (azul + fósforo amarillo) que hoy son la base de la iluminación de bajo consumo.
+  </div>
+
+  <div class="analogy-box">
+    <strong>Por qué el color depende del gap y no del material en sí.</strong> Lo que determina la energía del fotón emitido es solo la diferencia de energía entre el fondo de la banda de conducción y el tope de la banda de valencia (es decir, $E_g$). El material es el medio para lograr ese gap de forma controlable; el <em>color</em> lo determina el número. Esto es lo que hace tan poderosa a la teoría de bandas: permite <strong>diseñar</strong> materiales con el gap que necesitamos para un color específico, aleando distintos compuestos (por ejemplo, variando la proporción de In en InGaN).
+  </div>
+
+  <!-- ============================================ -->
+  <h2 id="s8">8. Diccionario: HOMO = VB, LUMO = CB</h2>
+
+  <p>Ya tenés las dos formas de hablar. Son la misma cosa. Esta tabla traduce entre los dos lenguajes:</p>
+
+  <table class="dictionary">
+    <thead>
+      <tr>
+        <th>Química (orbitales moleculares)</th>
+        <th>Física (teoría de bandas)</th>
+        <th>En el fondo es...</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>HOMO</strong> (último orbital ocupado)</td>
+        <td><strong>Tope de la banda de valencia</strong></td>
+        <td>Último nivel con electrones</td>
+      </tr>
+      <tr>
+        <td><strong>LUMO</strong> (primer orbital vacío)</td>
+        <td><strong>Fondo de la banda de conducción</strong></td>
+        <td>Primer nivel sin electrones</td>
+      </tr>
+      <tr>
+        <td><strong>Gap HOMO-LUMO</strong></td>
+        <td><strong>Banda prohibida $E_g$</strong></td>
+        <td>Energía mínima para excitar un electrón</td>
+      </tr>
+      <tr>
+        <td><strong>Orbital molecular</strong></td>
+        <td><strong>Estado en la banda</strong></td>
+        <td>Nivel de energía accesible al electrón</td>
+      </tr>
+      <tr>
+        <td><strong>LCAO</strong></td>
+        <td><strong>Modelo de enlaces fuertes (tight-binding)</strong></td>
+        <td>Construir estados del sólido a partir de orbitales atómicos</td>
+      </tr>
+      <tr>
+        <td><strong>Potencial químico $\mu$</strong></td>
+        <td><strong>Nivel de Fermi $E_F$</strong></td>
+        <td>Energía del último electrón añadido</td>
+      </tr>
+      <tr>
+        <td><strong>Hibridación</strong> ($sp^3$, $sp^2$, $sp$)</td>
+        <td><strong>Carácter orbital de la banda</strong></td>
+        <td>Cómo se combinan los orbitales en la red</td>
+      </tr>
+      <tr>
+        <td><strong>Dopaje</strong> (sustitución atómica)</td>
+        <td><strong>Impurezas donadoras/aceptoras</strong></td>
+        <td>Cambio en la cantidad de electrones por celda</td>
+      </tr>
+      <tr>
+        <td><strong>Defecto / vacante</strong></td>
+        <td><strong>Hueco</strong></td>
+        <td>Ausencia de electrón en una banda llena</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="sm-box">
+    <strong>La idea más importante.</strong> "HOMO" y "tope de la banda de valencia" son <em>la misma cosa</em> con dos nombres. Un químico y un físico mirando el mismo sólido dicen cosas aparentemente distintas, pero describen la misma realidad. Saber traducir entre los dos lenguajes es una herramienta poderosa.
+  </div>
+
+  <!-- ============================================ -->
+  <h2 id="s9">9. Ejercicios para pensar</h2>
+
+  <p>Las preguntas apuntan a los conceptos-puente. No son de calcular: son de razonar sobre lo que viste.</p>
+
+  <div class="exercise-box">
+    <h4>Ejercicio 1 — El enigma del carbono</h4>
+    <p>El diamante y el grafito son ambos carbono puro. Explicá, usando las figuras, por qué uno es aislante y el otro conduce.</p>
+    <div class="hint"><strong>Pista:</strong> mirá la Figura 3, tabs "Diamante" y "Grafito". Pensá en cuántos electrones de valencia quedan "libres" en cada estructura.</div>
+    <button class="solution-toggle" onclick="toggleSolution(this)">Mostrar solución</button>
+    <div class="solution-content">
+      <p>Ambos tienen 4 electrones de valencia por átomo de carbono. En el <strong>diamante</strong>, los 4 forman enlaces σ tetraédricos: las bandas σ están llenas y hay un gap de 5.5 eV antes de la banda de conducción. Aislante.</p>
+      <p>En el <strong>grafito</strong>, cada carbono forma 3 enlaces σ en el plano, y el cuarto electrón (orbital p perpendicular al plano) se deslocaliza en una banda π. Esa banda queda medio llena: conduce. La diferencia está en el empaquetamiento, no en la configuración electrónica del átomo.</p>
+    </div>
+  </div>
+
+  <div class="exercise-box">
+    <h4>Ejercicio 2 — ¿Por qué el Mg es metal si su banda s está llena?</h4>
+    <p>El magnesio tiene 2 electrones de valencia ($3s^2$). Siguiendo la regla de la Figura 2, con $n=2$ debería ser aislante. Pero el Mg es un metal. ¿Qué falla?</p>
+    <div class="hint"><strong>Pista:</strong> ¿qué pasa si la banda $3p$ vacía está a la misma energía que la $3s$ llena?</div>
+    <button class="solution-toggle" onclick="toggleSolution(this)">Mostrar solución</button>
+    <div class="solution-content">
+      <p>En el Mg, la banda $3s$ (llena) y la $3p$ (vacía) se <strong>solapan</strong> en energía. El nivel de Fermi cae dentro de la banda $3p$ parcialmente ocupada. Resultado: metal.</p>
+      <p>Este es un caso donde la imagen simplificada de "bandas separadas" falla. En la práctica, cuando dos bandas se solapan, el material se comporta como si fuera una sola banda ancha parcialmente llena. La clasificación sigue siendo la misma (metal), pero por una razón distinta.</p>
+    </div>
+  </div>
+
+  <div class="exercise-box">
+    <h4>Ejercicio 3 — Traducción entre lenguajes</h4>
+    <p>Un químico dice: "El gap HOMO-LUMO de este material es de 2 eV". Un físico dice: "El gap de banda del material es de 2 eV". ¿Están hablando del mismo material?</p>
+    <div class="hint"><strong>Pista:</strong> mirá la tabla de la sección 8.</div>
+    <button class="solution-toggle" onclick="toggleSolution(this)">Mostrar solución</button>
+    <div class="solution-content">
+      <p>Sí, es exactamente la misma cantidad. En un sólido, el "HOMO" es el tope de la banda de valencia y el "LUMO" es el fondo de la banda de conducción. La diferencia de energía es el gap.</p>
+      <p>Los dos lenguajes describen la misma realidad física. La única diferencia es que en <em>moléculas</em> pequeñas el HOMO y el LUMO son orbitales discretos, mientras que en <em>sólidos</em> son bandas continuas.</p>
+    </div>
+  </div>
+
+  <div class="exercise-box">
+    <h4>Ejercicio 4 — Del gas al sólido</h4>
+    <p>Un gas de átomos de sodio aislados tiene un espectro de líneas muy nítido (líneas discretas). Cuando el sodio se condensa en un sólido, el espectro se vuelve continuo (bandas). Explicá por qué.</p>
+    <div class="hint"><strong>Pista:</strong> pensá en la Figura 1 y en lo que pasa cuando $N$ pasa de 1 a $10^{23}$.</div>
+    <button class="solution-toggle" onclick="toggleSolution(this)">Mostrar solución</button>
+    <div class="solution-content">
+      <p>En un gas de átomos aislados, cada átomo tiene niveles discretos bien definidos (por ejemplo, la línea $3s$ del sodio). Al condensar, los átomos se juntan y sus orbitales se superponen. Como viste en la Figura 1, cada nivel se desdobla en $N$ niveles al juntar $N$ átomos. Con $N \sim 10^{23}$, los niveles se vuelven tan densos que cualquier medida de baja resolución los ve como un continuo: la banda.</p>
+      <p>Lo que era una línea espectral discreta se convierte en una banda de absorción ancha. Es el mismo fenómeno, con $N$ más grande.</p>
+    </div>
+  </div>
+
+  <div class="exercise-box">
+    <h4>Ejercicio 5 — El enigma inicial</h4>
+    <p>Volvamos al principio: Cu (conductor), Si (semiconductor), diamante (aislante), grafito (conductor). Ordenalos de mayor a menor conductividad y explicá la diferencia en una sola frase.</p>
+    <div class="hint"><strong>Pista:</strong> pensá en la posición del nivel de Fermi.</div>
+    <button class="solution-toggle" onclick="toggleSolution(this)">Mostrar solución</button>
+    <div class="solution-content">
+      <p>Orden: <strong>Cu ≈ grafito > Si >> diamante</strong>.</p>
+      <p>La diferencia está en <strong>dónde cae el nivel de Fermi</strong>:</p>
+      <ul>
+        <li><strong>Cu</strong> y <strong>grafito</strong>: $E_F$ dentro de una banda parcialmente llena → conducción metálica.</li>
+        <li><strong>Si</strong>: $E_F$ en el medio de un gap chico → conducción térmica limitada (semiconductor).</li>
+        <li><strong>Diamante</strong>: $E_F$ en el medio de un gap enorme → prácticamente sin portadores (aislante).</li>
+      </ul>
+      <p>Todo lo demás (brillo, color, respuesta a la temperatura) son consecuencias de esto.</p>
+    </div>
+  </div>
+
+  <div class="exercise-box">
+    <h4>Ejercicio 6 — Leer la tabla de gaps</h4>
+    <p>Usando la Figura 4 y la tabla de la sección 7: un material desconocido tiene un gap de 2.8 eV. ¿Es un metal, un semiconductor o un aislante? ¿Para qué tipo de aplicación lo usarías?</p>
+    <div class="hint"><strong>Pista:</strong> fijate en los rangos de la sección 7.</div>
+    <button class="solution-toggle" onclick="toggleSolution(this)">Mostrar solución</button>
+    <div class="solution-content">
+      <p>Con $E_g = 2.8$ eV, el material es un <strong>semiconductor de gap amplio</strong>. Está por debajo del umbral convencional de aislante (~4 eV), así que no es aislante. Pero su gap es demasiado grande para ser un semiconductor estándar de electrónica.</p>
+      <p>Aplicaciones típicas de semiconductores de gap amplio: LED de alta energía (violeta, UV), electrónica de potencia de alta temperatura (SiC, GaN), detectores UV, celdas solares de banda ancha. Ejemplos con gaps cercanos: CdS (2.42), ZnO (3.37), GaN (3.40).</p>
+      <p>En resumen: no es aislante, pero tampoco es un semiconductor "común". Es un material de gap amplio, útil donde se necesita operar a alta temperatura, alta potencia o alta energía de fotón.</p>
+    </div>
+  </div>
+
+  <div class="exercise-box">
+    <h4>Ejercicio 7 — Dopaje: ¿n o p?</h4>
+    <p>Se dopa silicio con un átomo de arsénico (As, 5 electrones de valencia). ¿El material resultante es tipo n o tipo p? ¿Qué tipo de portador es mayoritario?</p>
+    <div class="hint"><strong>Pista:</strong> el As tiene un electrón más que el Si. ¿Dona o acepta?</div>
+    <button class="solution-toggle" onclick="toggleSolution(this)">Mostrar solución</button>
+    <div class="solution-content">
+      <p>El As tiene 5 electrones de valencia ($4s^2 4p^3$), uno más que el Si. Al sustituir un Si en la red, el quinto electrón queda débilmente ligado y se ioniza fácilmente, aportando un electrón a la banda de conducción. Es un <strong>donor</strong>: el material es <strong>tipo n</strong>.</p>
+      <p>El portador mayoritario es el <strong>electrón</strong>. El nivel de Fermi sube, acercándose a la banda de conducción.</p>
+      <p>Otros donantes típicos del Si: P, As, Sb (todos del grupo V).</p>
+    </div>
+  </div>
+
+  <div class="exercise-box">
+    <h4>Ejercicio 8 — Color de un LED</h4>
+    <p>Un LED está hecho con un semiconductor de gap $E_g = 2.4$ eV. ¿De qué color emite aproximadamente? Usá la relación $\lambda (\text{nm}) \approx 1240 / E_g(\text{eV})$.</p>
+    <div class="hint"><strong>Pista:</strong> calculá λ y buscá en el espectro visible.</div>
+    <button class="solution-toggle" onclick="toggleSolution(this)">Mostrar solución</button>
+    <div class="solution-content">
+      <p>$\lambda \approx 1240 / 2.4 \approx 517$ nm. Ese valor cae en el <strong>verde</strong> del espectro visible (510–550 nm).</p>
+      <p>El material típico para ese gap es GaP o InGaN con contenido de In ajustado. Un LED de 2.4 eV emite luz verde.</p>
+      <p>Si quisiéramos un LED azul (λ ≈ 460 nm), necesitaríamos $E_g \approx 1240/460 \approx 2.7$ eV, y el material sería InGaN con mayor proporción de In. Para un LED rojo (λ ≈ 650 nm), $E_g \approx 1.9$ eV, típico de GaAsP.</p>
+    </div>
+  </div>
+
+  <!-- ============================================ -->
+  <h2>Cierre</h2>
+
+  <p>La teoría de bandas es la continuación natural de la teoría de orbitales moleculares que ya conocés: es lo mismo, pero con $10^{23}$ átomos en lugar de dos. Las bandas son orbitales moleculares gigantes, los gaps son gaps HOMO-LUMO gigantes, y la clasificación de los materiales sale de aplicar Pauli y Aufbau a ese sistema enorme.</p>
+
+  <p>Y como sucede con cualquier buena idea en química cuántica, la teoría de bandas une dos mundos: el lenguaje de orbitales y electrones de valencia (química) con el lenguaje de bandas y niveles de Fermi (física). Aprender a hablar los dos es lo que permite leer un diagrama de bandas de un semiconductor real con la misma soltura con la que se lee un diagrama de orbitales moleculares.</p>
+
+  <p>La tabla de gaps y el color de emisión cierran el círculo: una vez que entendés por qué el gap decide el comportamiento, tener los valores típicos a mano te permite clasificar cualquier material nuevo en segundos, predecir qué color de LED va a emitir, y saber de inmediato si es candidato para electrónica, para optoelectrónica, para potencia o para aislante.</p>
+
+  <p>Y el dopaje cierra el último eslabón: manipular el número de electrones (donar o aceptar) permite pasar de un semiconductor "puro" a un dispositivo real. Sin dopaje no existirían diodos, transistores, LED ni células solares. La teoría de bandas no solo describe materiales: permite <em>diseñarlos</em>.</p>
+
+</div>
+
+<script>
+// ============================================================
+// UTILIDADES
+// ============================================================
+function toggleSolution(btn) {
+  const content = btn.nextElementSibling;
+  content.classList.toggle('open');
+  btn.innerText = content.classList.contains('open') ? 'Ocultar solución' : 'Mostrar solución';
+  if (window.MathJax && window.MathJax.Hub) {
+    window.MathJax.Hub.Queue(["Typeset", window.MathJax.Hub, content]);
+  }
+}
+window.toggleSolution = toggleSolution;
+
+// ============================================================
+// FIGURA 1: DE ÁTOMOS A BANDAS
+// ============================================================
+function drawFig1() {
+  const N = parseInt(document.getElementById('s_N').value);
+  document.getElementById('v_N').innerText = N;
+
+  const E0 = 0;
+  const W_inf = 2.4;
+  const W_N = W_inf * (1 - Math.exp(-N / 8));
+
+  const traces = [];
+
+  if (N <= 40) {
+    const xs = [], ys = [], colors = [];
+    for (let i = 0; i < N; i++) {
+      const E = N === 1 ? E0 : -W_N / 2 + W_N * i / (N - 1);
+      xs.push((Math.random() - 0.5) * 0.55);
+      ys.push(E);
+      colors.push(E < -0.01 ? '#16a085' : (E > 0.01 ? '#e74c3c' : '#2980b9'));
+    }
+    traces.push({
+      x: xs, y: ys, type: 'scatter', mode: 'markers',
+      marker: {
+        color: colors,
+        size: Math.max(5, 15 - Math.log2(N + 1) * 1.4),
+        line: { color: 'white', width: 1 }
+      },
+      hoverinfo: 'skip'
+    });
+  } else {
+    traces.push({
+      x: [-0.6, 0.6, 0.6, -0.6, -0.6],
+      y: [-W_N/2, -W_N/2, W_N/2, W_N/2, -W_N/2],
+      type: 'scatter', mode: 'lines',
+      fill: 'toself',
+      fillcolor: 'rgba(41,128,185,0.32)',
+      line: { color: '#2980b9', width: 2 },
+      hoverinfo: 'skip'
+    });
+  }
+
+  traces.push({
+    x: [-0.85, 0.85], y: [E0, E0],
+    type: 'scatter', mode: 'lines',
+    line: { color: '#aaa', width: 1, dash: 'dash' },
+    showlegend: false, hoverinfo: 'skip'
+  });
+
+  const annotations = [];
+  if (N === 1) {
+    annotations.push({
+      x: 0.75, y: E0 + 0.15, text: 'nivel atómico',
+      showarrow: false, xanchor: 'left',
+      font: { size: 10, color: '#2980b9' }
+    });
+  } else if (N === 2) {
+    annotations.push({
+      x: 0.55, y: -W_N/2, text: 'HOMO',
+      showarrow: false, xanchor: 'left',
+      font: { size: 11, color: '#16a085', family: 'Segoe UI' }
+    });
+    annotations.push({
+      x: 0.55, y: W_N/2, text: 'LUMO',
+      showarrow: false, xanchor: 'left',
+      font: { size: 11, color: '#e74c3c', family: 'Segoe UI' }
+    });
+  } else if (N > 40) {
+    annotations.push({
+      x: 0.75, y: -W_N/2, text: 'fondo de banda',
+      showarrow: false, xanchor: 'left',
+      font: { size: 10, color: '#16a085' }
+    });
+    annotations.push({
+      x: 0.75, y: W_N/2, text: 'tope de banda',
+      showarrow: false, xanchor: 'left',
+      font: { size: 10, color: '#e74c3c' }
+    });
+  }
+
+  Plotly.react('plot1', traces, {
+    xaxis: {
+      showgrid: false, zeroline: false,
+      showticklabels: false, range: [-0.9, 1.35]
+    },
+    yaxis: {
+      title: 'Energía',
+      range: [-1.7, 1.7],
+      zeroline: false, showticklabels: false
+    },
+    margin: { l: 55, r: 25, t: 20, b: 40 },
+    showlegend: false,
+    plot_bgcolor: '#fafafa',
+    annotations: annotations
+  }, { responsive: true, displayModeBar: false });
+
+  let tipo, desc;
+  if (N === 1) {
+    tipo = 'Átomo aislado';
+    desc = 'Un solo nivel de energía.';
+  } else if (N === 2) {
+    tipo = 'Molécula diatómica';
+    desc = 'Dos niveles: HOMO (abajo) y LUMO (arriba).';
+  } else if (N <= 10) {
+    tipo = 'Molécula pequeña';
+    desc = `${N} niveles, todavía distinguibles.`;
+  } else if (N <= 40) {
+    tipo = 'Cúmulo';
+    desc = `${N} niveles, casi continuos.`;
+  } else {
+    tipo = 'Sólido';
+    desc = `Banda continua de ancho W ≈ ${W_N.toFixed(2)}.`;
+  }
+
+  document.getElementById('stats_N').innerHTML =
+    `<span class="stat-item"><span class="lbl">N:</span> <span class="val">${N}</span></span>` +
+    `<span class="stat-item"><span class="lbl">Tipo:</span> <span class="val">${tipo}</span></span>` +
+    `<br><span class="stat-item" style="font-family:Georgia; font-style:italic; white-space:normal; max-width:450px;">${desc}</span>`;
+}
+
+// ============================================================
+// FIGURA 2: LLENADO DE BANDAS
+// ============================================================
+function drawFig2() {
+  const n = parseFloat(document.getElementById('s_n').value);
+  document.getElementById('v_n').innerText = n.toFixed(1);
+
+  const vFill = Math.min(1, n / 2);
+  const cFill = Math.max(0, (n - 2) / 2);
+
+  const xVB0 = 0.15, xVB1 = 0.55;
+  const xCB0 = 0.65, xCB1 = 1.05;
+  const yVB0 = 1, yVB1 = 4;
+  const yCB0 = 6, yCB1 = 9;
+
+  const traces = [];
+  const shapes = [];
+
+  shapes.push({
+    type: 'rect', x0: xVB0, x1: xVB1, y0: yVB0, y1: yVB1,
+    fillcolor: 'rgba(22,160,133,0.15)',
+    line: { color: '#16a085', width: 2 }
+  });
+  if (vFill > 0) {
+    shapes.push({
+      type: 'rect', x0: xVB0, x1: xVB1, y0: yVB0, y1: yVB0 + (yVB1 - yVB0) * vFill,
+      fillcolor: 'rgba(22,160,133,0.55)',
+      line: { width: 0 }
+    });
+  }
+
+  shapes.push({
+    type: 'rect', x0: xCB0, x1: xCB1, y0: yCB0, y1: yCB1,
+    fillcolor: 'rgba(231,76,60,0.15)',
+    line: { color: '#e74c3c', width: 2 }
+  });
+  if (cFill > 0) {
+    shapes.push({
+      type: 'rect', x0: xCB0, x1: xCB1, y0: yCB0, y1: yCB0 + (yCB1 - yCB0) * cFill,
+      fillcolor: 'rgba(231,76,60,0.55)',
+      line: { width: 0 }
+    });
+  }
+
+  let efY;
+  if (n <= 0.01) {
+    efY = yVB0 - 0.5;
+  } else if (n < 2) {
+    efY = yVB0 + (yVB1 - yVB0) * (n / 2);
+  } else if (Math.abs(n - 2) < 0.01) {
+    efY = (yVB1 + yCB0) / 2;
+  } else if (n < 4) {
+    efY = yCB0 + (yCB1 - yCB0) * ((n - 2) / 2);
+  } else {
+    efY = yCB1 + 0.5;
+  }
+
+  shapes.push({
+    type: 'line', x0: 0.05, x1: 1.15, y0: efY, y1: efY,
+    line: { color: '#111', width: 2, dash: 'dash' }
+  });
+
+  const annotations = [
+    { x: 0.35, y: yVB0 - 0.35, text: 'Banda de valencia (VB)',
+      showarrow: false, font: { size: 10, color: '#16a085' } },
+    { x: 0.85, y: yCB1 + 0.35, text: 'Banda de conducción (CB)',
+      showarrow: false, font: { size: 10, color: '#e74c3c' } },
+    { x: 1.12, y: efY, text: 'E_F',
+      showarrow: false, xanchor: 'left',
+      font: { size: 11, color: '#111', family: 'Georgia', style: 'italic' } }
+  ];
+
+  annotations.push({
+    x: 0.6, y: (yVB1 + yCB0) / 2, text: 'gap',
+    showarrow: false, font: { size: 10, color: '#b7791f', family: 'Segoe UI', style: 'italic' }
+  });
+
+  for (let i = 0; i < 8; i++) {
+    const frac = (i + 0.5) / 8;
+    const x = xVB0 + 0.05 + (xVB1 - xVB0 - 0.1) * frac;
+    const y = yVB0 + 0.45;
+    if (frac <= vFill) {
+      traces.push({
+        x: [x], y: [y], type: 'scatter', mode: 'markers',
+        marker: { color: '#16a085', size: 10, line: { color: 'white', width: 1.5 } },
+        showlegend: false, hoverinfo: 'skip'
+      });
+    } else {
+      traces.push({
+        x: [x], y: [y], type: 'scatter', mode: 'markers',
+        marker: { color: 'rgba(0,0,0,0)', size: 10, line: { color: '#bbb', width: 1.3 } },
+        showlegend: false, hoverinfo: 'skip'
+      });
+    }
+  }
+
+  for (let i = 0; i < 8; i++) {
+    const frac = (i + 0.5) / 8;
+    const x = xCB0 + 0.05 + (xCB1 - xCB0 - 0.1) * frac;
+    const y = yCB0 + 0.45;
+    if (frac <= cFill) {
+      traces.push({
+        x: [x], y: [y], type: 'scatter', mode: 'markers',
+        marker: { color: '#e74c3c', size: 10, line: { color: 'white', width: 1.5 } },
+        showlegend: false, hoverinfo: 'skip'
+      });
+    } else {
+      traces.push({
+        x: [x], y: [y], type: 'scatter', mode: 'markers',
+        marker: { color: 'rgba(0,0,0,0)', size: 10, line: { color: '#bbb', width: 1.3 } },
+        showlegend: false, hoverinfo: 'skip'
+      });
+    }
+  }
+
+  Plotly.react('plot2', traces, {
+    xaxis: { range: [0, 1.3], showticklabels: false, zeroline: false, showgrid: false },
+    yaxis: { title: 'Energía', range: [0, 10], showticklabels: false, zeroline: false },
+    margin: { l: 55, r: 25, t: 20, b: 40 },
+    shapes: shapes,
+    annotations: annotations,
+    showlegend: false,
+    plot_bgcolor: '#fafafa'
+  }, { responsive: true, displayModeBar: false });
+
+  const isEmpty = Math.abs(n) < 0.01;
+  const isFull = Math.abs(n - 2) < 0.01 || Math.abs(n - 4) < 0.01;
+
+  let clasif, color, detail;
+  if (isEmpty) {
+    clasif = 'Aislante (bandas vacías)';
+    color = '#8e44ad';
+    detail = 'Ninguna banda tiene electrones.';
+  } else if (isFull) {
+    clasif = 'Aislante / semiconductor';
+    color = '#8e44ad';
+    detail = 'Bandas llenas. Hay que saltar el gap para conducir.';
+  } else {
+    clasif = 'Metal';
+    color = '#e67e22';
+    detail = 'Banda parcialmente llena: hay estados vacíos accesibles.';
+  }
+
+  document.getElementById('stats_n').innerHTML =
+    `<span class="stat-item"><span class="lbl">n:</span> <span class="val">${n.toFixed(1)} e⁻/átomo</span></span>` +
+    `<br><span class="stat-item"><span class="lbl">Clasificación:</span> <span class="val" style="color:${color};">${clasif}</span></span>` +
+    `<br><span class="stat-item" style="font-family:Georgia; font-style:italic; white-space:normal; max-width:450px;">${detail}</span>`;
+}
+
+// ============================================================
+// FIGURA 3: COMPARANDO MATERIALES
+// ============================================================
+const MATERIALS = {
+  na: {
+    label: 'Sodio (Na)',
+    classification: 'Metal',
+    color: '#e67e22',
+    band1: { y0: 3, y1: 7, fill: 0.5, color: '#16a085', name: 'banda 3s' },
+    band2: null,
+    gapText: '',
+    efY: 5,
+    explanation: 'Configuración $3s^1$: 1 electrón por átomo. La banda 3s está a medio llenar. Metal.'
+  },
+  mg: {
+    label: 'Magnesio (Mg)',
+    classification: 'Metal (por solapamiento s-p)',
+    color: '#e67e22',
+    band1: { y0: 4, y1: 6, fill: 1.0, color: '#16a085', name: 'banda 3s' },
+    band2: { y0: 5.5, y1: 8, fill: 0.2, color: '#e74c3c', name: 'banda 3p' },
+    gapText: 'solapamiento s-p',
+    efY: 6.5,
+    explanation: 'Configuración $3s^2$: 2 electrones por átomo. La banda 3s estaría llena, pero se solapa con la 3p vacía. Resultado: metal.'
+  },
+  si: {
+    label: 'Silicio (Si)',
+    classification: 'Semiconductor intrínseco',
+    color: '#2980b9',
+    band1: { y0: 1, y1: 4.5, fill: 1.0, color: '#16a085', name: 'banda de valencia' },
+    band2: { y0: 6, y1: 9.5, fill: 0.0, color: '#e74c3c', name: 'banda de conducción' },
+    gapText: 'E_g ≈ 1.1 eV',
+    efY: 5.25,
+    explanation: 'Configuración $3s^2 3p^2$: 4 electrones por átomo. Banda de valencia llena, gap de ~1.1 eV. Semiconductor intrínseco.'
+  },
+  diam: {
+    label: 'Diamante (C)',
+    classification: 'Aislante',
+    color: '#8e44ad',
+    band1: { y0: 1, y1: 4, fill: 1.0, color: '#16a085', name: 'banda de valencia' },
+    band2: { y0: 7.5, y1: 10, fill: 0.0, color: '#e74c3c', name: 'banda de conducción' },
+    gapText: 'E_g ≈ 5.5 eV',
+    efY: 5.75,
+    explanation: 'Configuración $2s^2 2p^2$: 4 electrones por átomo. Bandas llenas con un gap enorme (5.5 eV). Aislante.'
+  },
+  graf: {
+    label: 'Grafito (C)',
+    classification: 'Conductor (semimetal)',
+    color: '#16a085',
+    band1: { y0: 1, y1: 4, fill: 1.0, color: '#16a085', name: 'bandas σ (sp²)' },
+    band2: { y0: 4, y1: 8, fill: 0.5, color: '#2980b9', name: 'banda π deslocalizada' },
+    gapText: 'sin gap',
+    efY: 6,
+    explanation: 'Mismo carbono que el diamante, pero en capas. Los 3 enlaces σ forman bandas llenas; el 4º electrón va a una banda π perpendicular, que queda medio llena. Conductor.'
+  },
+  n: {
+    label: 'Si tipo n (con P)',
+    classification: 'Semiconductor extrínseco tipo n',
+    color: '#2980b9',
+    band1: { y0: 1, y1: 4.5, fill: 1.0, color: '#16a085', name: 'banda de valencia' },
+    band2: { y0: 6, y1: 9.5, fill: 0.15, color: '#e74c3c', name: 'banda de conducción' },
+    gapText: 'E_g ≈ 1.1 eV',
+    efY: 6.7,
+    extraCB: true,
+    explanation: 'Dopado con P (donor, 5 e⁻). Los electrones extra aparecen en la CB. El nivel de Fermi sube cerca de la CB. Portadores mayoritarios: electrones.'
+  },
+  p: {
+    label: 'Si tipo p (con B)',
+    classification: 'Semiconductor extrínseco tipo p',
+    color: '#c0392b',
+    band1: { y0: 1, y1: 4.5, fill: 0.85, color: '#16a085', name: 'banda de valencia' },
+    band2: { y0: 6, y1: 9.5, fill: 0.0, color: '#e74c3c', name: 'banda de conducción' },
+    gapText: 'E_g ≈ 1.1 eV',
+    efY: 3.8,
+    holesVB: true,
+    explanation: 'Dopado con B (aceptor, 3 e⁻). Aparecen huecos en la VB (círculos huecos rojos). El nivel de Fermi baja cerca de la VB. Portadores mayoritarios: huecos.'
+  }
+};
+
+let currentMat = 'na';
+
+function drawFig3() {
+  const d = MATERIALS[currentMat];
+
+  const xB0 = 0.15, xB1 = 0.85;
+  const traces = [];
+  const shapes = [];
+
+  const drawBand = (band) => {
+    if (!band) return;
+    shapes.push({
+      type: 'rect', x0: xB0, x1: xB1, y0: band.y0, y1: band.y1,
+      fillcolor: 'rgba(0,0,0,0.03)',
+      line: { color: band.color, width: 2 }
+    });
+    if (band.fill > 0) {
+      let fillColor;
+      if (band.color === '#e74c3c') fillColor = 'rgba(231,76,60,0.55)';
+      else if (band.color === '#2980b9') fillColor = 'rgba(41,128,185,0.55)';
+      else fillColor = 'rgba(22,160,133,0.55)';
+      shapes.push({
+        type: 'rect', x0: xB0, x1: xB1, y0: band.y0, y1: band.y0 + (band.y1 - band.y0) * band.fill,
+        fillcolor: fillColor,
+        line: { width: 0 }
+      });
+    }
+  };
+
+  drawBand(d.band1);
+  drawBand(d.band2);
+
+  const efY = d.efY;
+
+  shapes.push({
+    type: 'line', x0: xB0 - 0.02, x1: xB1 + 0.02, y0: efY, y1: efY,
+    line: { color: '#111', width: 2, dash: 'dash' }
+  });
+
+  const addElectrons = (band, yStart, isHoles) => {
+    if (!band) return;
+    const numDots = 10;
+    for (let i = 0; i < numDots; i++) {
+      const frac = (i + 0.5) / numDots;
+      const x = xB0 + 0.05 + (xB1 - xB0 - 0.1) * frac;
+      const y = yStart;
+      const filled = frac <= band.fill;
+      const isHole = isHoles && !filled;
+
+      if (isHole) {
+        // Hueco: círculo hueco con borde rojo
+        traces.push({
+          x: [x], y: [y], type: 'scatter', mode: 'markers',
+          marker: {
+            color: 'rgba(255,255,255,0.95)',
+            size: 11,
+            line: { color: '#c0392b', width: 2.5 }
+          },
+          showlegend: false, hoverinfo: 'skip'
+        });
+      } else {
+        traces.push({
+          x: [x], y: [y], type: 'scatter', mode: 'markers',
+          marker: {
+            color: filled ? band.color : 'rgba(0,0,0,0)',
+            size: 9,
+            line: { color: filled ? 'white' : '#bbb', width: filled ? 1.5 : 1.3 }
+          },
+          showlegend: false, hoverinfo: 'skip'
+        });
+      }
+    }
+  };
+
+  addElectrons(d.band1, d.band1.y0 + 0.5, d.holesVB === true);
+  if (d.band2) addElectrons(d.band2, d.band2.y0 + 0.5, false);
+
+  const annotations = [
+    { x: (xB0 + xB1) / 2, y: d.band1.y1 + 0.25, text: d.band1.name,
+      showarrow: false, font: { size: 10, color: d.band1.color } }
+  ];
+  if (d.band2) {
+    annotations.push({
+      x: (xB0 + xB1) / 2, y: d.band2.y1 + 0.25, text: d.band2.name,
+      showarrow: false, font: { size: 10, color: d.band2.color }
+    });
+  }
+  if (d.gapText) {
+    let gapY;
+    if (currentMat === 'mg') gapY = 5.4;
+    else gapY = (d.band1.y1 + (d.band2 ? d.band2.y0 : d.band1.y1 + 1)) / 2;
+    annotations.push({
+      x: xB1 + 0.12, y: gapY, text: d.gapText,
+      showarrow: false, xanchor: 'left',
+      font: { size: 10, color: '#b7791f', family: 'Segoe UI' }
+    });
+  }
+
+  annotations.push({
+    x: xB1 + 0.12, y: efY, text: 'E_F',
+    showarrow: false, xanchor: 'left',
+    font: { size: 11, color: '#111', family: 'Georgia', style: 'italic' }
+  });
+
+  if (d.holesVB) {
+    annotations.push({
+      x: xB1 + 0.12, y: d.band1.y1 - 0.4, text: 'huecos',
+      showarrow: false, xanchor: 'left',
+      font: { size: 10, color: '#c0392b', family: 'Segoe UI', style: 'italic' }
+    });
+  }
+  if (d.extraCB) {
+    annotations.push({
+      x: xB1 + 0.12, y: d.band2.y0 + 0.5, text: 'e⁻ extra',
+      showarrow: false, xanchor: 'left',
+      font: { size: 10, color: '#c0392b', family: 'Segoe UI', style: 'italic' }
+    });
+  }
+
+  Plotly.react('plot3', traces, {
+    xaxis: { range: [0, 1.25], showticklabels: false, zeroline: false, showgrid: false },
+    yaxis: { title: 'Energía', range: [0, 11], showticklabels: false, zeroline: false },
+    margin: { l: 55, r: 25, t: 20, b: 40 },
+    shapes: shapes,
+    annotations: annotations,
+    showlegend: false,
+    plot_bgcolor: '#fafafa'
+  }, { responsive: true, displayModeBar: false });
+
+  document.getElementById('stats_mat').innerHTML =
+    `<span class="stat-item"><span class="lbl">Material:</span> <span class="val">${d.label}</span></span>` +
+    `<br><span class="stat-item"><span class="lbl">Clasificación:</span> <span class="val" style="color:${d.color};">${d.classification}</span></span>` +
+    `<br><span class="stat-item" style="font-family:Georgia; font-style:italic; white-space:normal; max-width:600px;">${d.explanation}</span>`;
+}
+
+// ============================================================
+// FIGURA 4: GAPS TÍPICOS DE MATERIALES REALES
+// ============================================================
+function drawGaps() {
+  const data = [
+    { name: 'Cu',  value: 0,    cat: 'metal', label: 'Cobre (Cu)' },
+    { name: 'Ag',  value: 0,    cat: 'metal', label: 'Plata (Ag)' },
+    { name: 'Al',  value: 0,    cat: 'metal', label: 'Aluminio (Al)' },
+    { name: 'Na',  value: 0,    cat: 'metal', label: 'Sodio (Na)' },
+
+    { name: 'InSb', value: 0.17, cat: 'sc',    label: 'InSb' },
+    { name: 'InAs', value: 0.36, cat: 'sc',    label: 'InAs' },
+    { name: 'Ge',   value: 0.67, cat: 'sc',    label: 'Ge' },
+
+    { name: 'Si',   value: 1.12, cat: 'sc',    label: 'Si' },
+    { name: 'InP',  value: 1.35, cat: 'sc',    label: 'InP' },
+    { name: 'GaAs', value: 1.42, cat: 'sc',    label: 'GaAs' },
+    { name: 'CdTe', value: 1.50, cat: 'sc',    label: 'CdTe' },
+
+    { name: 'GaP',  value: 2.26, cat: 'scw',   label: 'GaP' },
+    { name: 'CdS',  value: 2.42, cat: 'scw',   label: 'CdS' },
+    { name: 'SiC',  value: 3.26, cat: 'scw',   label: 'SiC' },
+    { name: 'ZnO',  value: 3.37, cat: 'scw',   label: 'ZnO' },
+    { name: 'GaN',  value: 3.40, cat: 'scw',   label: 'GaN' },
+
+    { name: 'Diamante', value: 5.5, cat: 'ins', label: 'Diamante (C)' },
+    { name: 'NaCl',     value: 8.5, cat: 'ins', label: 'NaCl' },
+    { name: 'Al₂O₃',    value: 8.8, cat: 'ins', label: 'Al₂O₃' },
+    { name: 'SiO₂',     value: 9.0, cat: 'ins', label: 'SiO₂' }
+  ];
+
+  const colors = {
+    metal: '#e67e22',
+    sc:    '#2980b9',
+    scw:   '#8e44ad',
+    ins:   '#6c3483'
+  };
+
+  const catNames = {
+    metal: 'Metal',
+    sc:    'Semiconductor',
+    scw:   'Semiconductor de gap amplio',
+    ins:   'Aislante'
+  };
+
+  const minBar = 0.08;
+  const displayValues = data.map(d => d.value === 0 ? minBar : d.value);
+  const realValues = data.map(d => d.value);
+
+  const trace = {
+    x: displayValues,
+    y: data.map(d => d.label),
+    type: 'bar',
+    orientation: 'h',
+    marker: {
+      color: data.map(d => colors[d.cat]),
+      line: { color: 'rgba(0,0,0,0.15)', width: 1 }
+    },
+    text: realValues.map(v => v === 0 ? 'sin gap' : v.toFixed(2) + ' eV'),
+    textposition: 'outside',
+    textfont: { size: 10, color: '#333', family: 'Segoe UI' },
+    customdata: data.map(d => catNames[d.cat]),
+    hovertemplate: '<b>%{y}</b><br>%{customdata}<br>E_g = %{text}<extra></extra>'
+  };
+
+  const shapes = [
+    {
+      type: 'line',
+      x0: 4, x1: 4,
+      y0: -0.5, y1: data.length - 0.5,
+      line: { color: '#888', width: 1.5, dash: 'dash' }
+    },
+    {
+      type: 'line',
+      x0: 1.12, x1: 1.12,
+      y0: -0.5, y1: data.length - 0.5,
+      line: { color: '#2980b9', width: 1.2, dash: 'dot' }
+    }
+  ];
+
+  const annotations = [
+    {
+      x: 4, y: data.length - 0.3,
+      text: 'Frontera convencional<br>semiconductor / aislante (4 eV)',
+      showarrow: false,
+      xanchor: 'left',
+      font: { size: 9, color: '#666', family: 'Segoe UI' }
+    },
+    {
+      x: 1.12, y: -0.8,
+      text: 'Si (1.12 eV)',
+      showarrow: false,
+      xanchor: 'center',
+      font: { size: 9, color: '#2980b9', family: 'Segoe UI', style: 'italic' }
+    }
+  ];
+
+  Plotly.react('plot_gaps', [trace], {
+    xaxis: {
+      title: 'E_g (eV, 300 K)',
+      range: [0, 10.5],
+      zeroline: false,
+      gridcolor: '#eee'
+    },
+    yaxis: {
+      automargin: true,
+      tickfont: { size: 11 },
+      fixedrange: true
+    },
+    margin: { l: 130, r: 30, t: 20, b: 55 },
+    shapes: shapes,
+    annotations: annotations,
+    showlegend: false,
+    plot_bgcolor: '#fafafa',
+    paper_bgcolor: 'rgba(0,0,0,0)'
+  }, { responsive: true, displayModeBar: false });
+}
+
+// ============================================================
+// EVENT HANDLERS
+// ============================================================
+function attachHandlers() {
+  document.getElementById('s_N').addEventListener('input', drawFig1);
+  document.getElementById('s_n').addEventListener('input', drawFig2);
+
+  document.querySelectorAll('.material-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.material-tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      currentMat = tab.dataset.mat;
+      drawFig3();
+    });
+  });
+
+  window.addEventListener('resize', () => {
+    if (typeof Plotly !== 'undefined') {
+      ['plot1', 'plot2', 'plot3', 'plot_gaps'].forEach(id => {
+        try { Plotly.Plots.resize(id); } catch(e) {}
+      });
+    }
+  });
+}
+
+// ============================================================
+// INICIALIZACIÓN
+// ============================================================
+function initAll() {
+  if (typeof Plotly === 'undefined') {
+    setTimeout(initAll, 100);
+    return;
+  }
+  drawFig1();
+  drawFig2();
+  drawFig3();
+  drawGaps();
+  attachHandlers();
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initAll);
+} else {
+  initAll();
+}
+</script>
+</body>
+</html>
