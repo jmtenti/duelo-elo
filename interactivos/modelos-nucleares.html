@@ -1,0 +1,1266 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Modelos Nucleares — De la Gota Líquida al Modelo Colectivo</title>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']], displayMath: [['$$','$$'], ['\\[','\\]']]},
+    messageStyle: "none"
+  });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script src="https://cdn.plot.ly/plotly-2.24.1.min.js"></script>
+
+<style>
+  :root {
+    --primary: #1a252f;
+    --secondary: #2c3e50;
+    --accent: #c0392b;
+    --link: #2980b9;
+    --bg: #f8f9fa;
+    --sm: #16a085;
+    --warn: #c0392b;
+    --hist: #b7791f;
+    --drop: #2980b9;
+    --shell: #16a085;
+    --coll: #8e44ad;
+    --fermi: #d35400;
+  }
+  body {
+    font-family: 'Georgia', serif;
+    background: var(--bg); color: #333;
+    line-height: 1.75; margin: 0; padding: 40px 0; font-size: 16px;
+  }
+  .container {
+    max-width: 980px; margin: auto; background: white;
+    padding: 48px 70px; border-radius: 12px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.06);
+  }
+  h1 { color: var(--primary); text-align: center; font-size: 2em; font-family: 'Segoe UI', sans-serif; margin-bottom: 6px;}
+  .subtitle { text-align: center; color: #7f8c8d; font-style: italic; margin-bottom: 32px; }
+  h2 { color: var(--secondary); margin-top: 46px; border-bottom: 2px solid #ecf0f1; padding-bottom: 5px; font-family: 'Segoe UI', sans-serif;}
+  h3 { color: var(--secondary); margin-top: 26px; font-family: 'Segoe UI', sans-serif; font-size: 1.1em;}
+  h4 { color: var(--sm); margin-top: 22px; font-family: 'Segoe UI', sans-serif; font-size: 1em; font-style: italic;}
+  p { text-align: justify; margin-bottom: 16px; }
+  ul, ol { text-align: justify; }
+  li { margin-bottom: 6px; }
+  .math-box {
+    background: #fdfefe; border-left: 4px solid var(--link);
+    padding: 12px 20px; margin: 18px 0; overflow-x: auto; font-size: 1.05em;
+  }
+  .analogy-box {
+    background: #fef9e7; border-left: 4px solid #f39c12;
+    padding: 14px 20px; margin: 20px 0; font-size: 0.96em;
+  }
+  .analogy-box strong:first-child { color: #b7791f; }
+  .sm-box { background: #eafaf1; border-left: 4px solid var(--sm); padding: 14px 20px; margin: 20px 0; font-size: 0.96em; }
+  .sm-box strong:first-child { color: var(--sm); }
+  .warn-box { background: #fdedec; border-left: 4px solid var(--warn); padding: 14px 20px; margin: 20px 0; font-size: 0.96em; }
+  .warn-box strong:first-child { color: var(--warn); }
+  .guide-box { background: #eef6fc; border-left: 4px solid var(--link); padding: 14px 20px; margin: 20px 0; font-size: 0.95em; }
+  .guide-box strong:first-child { color: var(--link); }
+  .guide-box ol { margin: 6px 0 0 0; padding-left: 20px; }
+  .history-box { background: #fbf6e9; border-left: 4px solid var(--hist); padding: 14px 20px; margin: 20px 0; font-size: 0.94em; font-style: italic; color: #5b4a1e; }
+  .history-box strong { font-style: normal; }
+  .interactive-figure {
+    background: #fafafa; border: 1px solid #e0e0e0;
+    border-radius: 10px; padding: 22px; margin: 32px 0;
+    font-family: 'Segoe UI', sans-serif;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+  }
+  .figure-title {
+    text-align: center; color: var(--secondary);
+    font-weight: bold; font-size: 1.1em; margin-top: 0; margin-bottom: 12px;
+  }
+  .plot-area { width: 100%; height: 440px; margin-bottom: 12px; }
+  .controls {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 18px;
+    padding: 14px 18px; background: #fff;
+    border-radius: 8px; border: 1px solid #eee; margin-bottom: 12px;
+  }
+  .control-panel h4 {
+    margin-top: 0; color: var(--secondary);
+    font-size: 0.86em; text-transform: uppercase;
+    letter-spacing: 0.08em; font-style: normal;
+  }
+  .slider-row { display: block; margin: 10px 0; font-size: 0.92em; color: #333; }
+  .slider-row input[type=range] {
+    width: 100%; accent-color: var(--accent); cursor: pointer;
+  }
+  .slider-val {
+    font-family: Consolas, monospace;
+    color: var(--accent); font-weight: bold;
+  }
+  .stats {
+    margin-top: 10px; padding: 10px 14px;
+    background: #f4f6f7; border-radius: 6px;
+    font-family: Consolas, monospace; font-size: 0.85em;
+    line-height: 1.7; text-align: center;
+  }
+  .stats .stat-item {
+    display: inline-block; margin: 3px 6px;
+    padding: 3px 10px; background: white;
+    border-radius: 4px; border: 1px solid #e0e0e0;
+  }
+  .stats .stat-item .lbl { color: #888; }
+  .stats .stat-item .val { color: var(--accent); font-weight: bold; }
+  .caption {
+    font-size: 0.93em; color: #555; text-align: justify;
+    padding: 10px 18px; border-left: 3px solid var(--accent);
+    background: #fff;
+  }
+  .toc {
+    background: #f4f6f7; border-radius: 8px;
+    padding: 16px 26px; margin: 24px 0;
+    font-family: 'Segoe UI', sans-serif; font-size: 0.93em;
+  }
+  .toc h3 { margin-top: 0; color: var(--secondary); font-size: 0.98em;}
+  .toc ol { margin: 0; padding-left: 20px;}
+  .toc a { color: var(--link); text-decoration: none;}
+  .toc a:hover { text-decoration: underline;}
+
+  .models-table {
+    border-collapse: collapse; width: 100%; margin: 20px 0;
+    font-size: 0.92em; font-family: 'Segoe UI', sans-serif;
+  }
+  .models-table th {
+    background: #ecf0f1; padding: 10px 12px; text-align: left;
+    border-bottom: 2px solid #bdc3c7;
+  }
+  .models-table td {
+    padding: 10px 12px; border-bottom: 1px solid #e0e0e0;
+    vertical-align: top;
+  }
+  .models-table tr:hover td { background: #f9fbfc; }
+  .models-table .model-name { font-weight: bold; }
+
+  .dictionary {
+    border-collapse: collapse; width: 100%; margin: 18px 0;
+    font-size: 0.93em;
+  }
+  .dictionary th {
+    background: #eef6fc; padding: 10px 12px; text-align: left;
+    font-family: 'Segoe UI', sans-serif;
+  }
+  .dictionary td {
+    padding: 10px 12px; border: 1px solid #e0e0e0;
+    vertical-align: top;
+  }
+  .dictionary tr:nth-child(even) td { background: #f9fbfc; }
+
+  .exercise-box {
+    background: #fdf2f2; border: 1px solid #f5c6c6;
+    border-radius: 8px; padding: 18px 24px; margin: 24px 0;
+  }
+  .exercise-box h4 {
+    color: var(--accent); margin-top: 0;
+    font-style: normal; font-size: 1em;
+  }
+  .hint {
+    background: #fff8e1; border-radius: 4px;
+    padding: 8px 14px; margin: 10px 0;
+    font-size: 0.9em; color: #6d4c00;
+    border-left: 3px solid #f39c12;
+  }
+  .solution-toggle {
+    background: var(--accent); color: white;
+    border: none; padding: 6px 14px; border-radius: 4px;
+    cursor: pointer; font-family: 'Segoe UI', sans-serif;
+    font-size: 0.88em; margin-top: 10px;
+  }
+  .solution-toggle:hover { background: #a02828; }
+  .solution-content {
+    max-height: 0; overflow: hidden;
+    transition: max-height 0.5s ease, margin 0.3s ease;
+  }
+  .solution-content.open { max-height: 4000px; margin-top: 14px; }
+
+  .legend-swatch {
+    display: inline-block; width: 14px; height: 14px;
+    border-radius: 3px; margin-right: 6px; vertical-align: middle;
+  }
+
+  .fission-svg {
+    display: block; max-width: 620px; margin: 18px auto;
+    background: #fafafa; border-radius: 8px; padding: 12px;
+  }
+
+  @media (max-width: 800px) {
+    .container { padding: 30px 20px; }
+    .controls { grid-template-columns: 1fr; }
+    .plot-area { height: 380px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h1>Modelos Nucleares</h1>
+  <div class="subtitle">De la gota líquida de Bohr al modelo de capas y al modelo colectivo: cómo entendemos el núcleo atómico</div>
+
+  <div class="math-box">
+    <strong>Notación.</strong> $A$: número másico (protones + neutrones). $Z$: número atómico (protones). $N = A - Z$: neutrones. $e$: carga elemental. $m_N$: masa del nucleón. $B$: energía de enlace. $E_g$: energía de gap. $\hbar$: constante reducida de Planck. $\alpha \approx 1/137$: constante de estructura fina.
+  </div>
+
+  <div class="analogy-box">
+    <strong>La idea en una frase.</strong> El núcleo es un sistema cuántico de muchos cuerpos con entre 2 y 250 nucleones. Ningún modelo único lo describe todo: como una gota líquida explica la fisión y la energía de enlace; como capas cuánticas explica los números mágicos; como un rotor explica las bandas rotacionales. La historia de la física nuclear es un diálogo entre estas visiones, no una sustitución de una por otra.
+  </div>
+
+  <div class="toc">
+    <h3>Contenido</h3>
+    <ol>
+      <li><a href="#s1">El enigma: un sistema de muchos cuerpos</a></li>
+      <li><a href="#s2">Modelo de la gota líquida (Bohr, 1935)</a> <em>(Figs. 1, 2)</em></li>
+      <li><a href="#s3">Modelo de capas (Mayer–Jensen, 1949)</a> <em>(Fig. 3)</em></li>
+      <li><a href="#s4">Modelo colectivo (Bohr–Mottelson, 1953)</a> <em>(Fig. 4)</em></li>
+      <li><a href="#s5">Modelo de gas de Fermi</a></li>
+      <li><a href="#s6">Tabla comparativa de modelos</a></li>
+      <li><a href="#s7">Diccionario de términos</a></li>
+      <li><a href="#s8">Ejercicios para pensar</a></li>
+      <li><a href="#s9">Cierre: complementariedad, no sustitución</a></li>
+    </ol>
+  </div>
+
+  <!-- ============================================ -->
+  <h2 id="s1">1. El enigma: un sistema de muchos cuerpos</h2>
+
+  <p>Sabemos desde Rutherford (1911) que el núcleo concentra casi toda la masa del átomo en un volumen minúsculo. Sabemos desde Chadwick (1932) que está formado por protones y neutrones. Pero describir <em>cómo se organizan</em> esos nucleones es un problema formidable: es un sistema cuántico de muchos cuerpos con una interacción fuerte, atractiva a corta distancia y con un núcleo repulsivo aún más corto.</p>
+
+  <p>Algunos hechos experimentales que cualquier modelo debe explicar:</p>
+
+  <ul>
+    <li><strong>La energía de enlace por nucleón</strong> es casi constante ($\sim 8\ \text{MeV}$) para $A > 12$, con un máximo en el hierro. Eso sugiere saturación de la fuerza nuclear.</li>
+    <li><strong>Los núcleos con $Z$ o $N$ iguales a 2, 8, 20, 28, 50, 82, 126 son extraordinariamente estables</strong>: los famosos <em>números mágicos</em>. La gota líquida no los explica.</li>
+    <li><strong>Algunos núcleos se deforman y rotan</strong> con espectros de energía que siguen $E \propto J(J+1)$, como un rotor cuántico.</li>
+    <li><strong>La fisión espontánea</strong> de núcleos muy pesados (²³⁸U, ²⁵²Cf) sugiere inestabilidad colectiva frente a la deformación.</li>
+  </ul>
+
+  <p>La historia de los modelos nucleares es la historia de cómo la física fue construyendo <strong>varias descripciones complementarias</strong>, cada una más adecuada para un conjunto distinto de fenómenos.</p>
+
+  <!-- ============================================ -->
+  <h2 id="s2">2. Modelo de la gota líquida (Bohr, 1935)</h2>
+
+  <p>Niels Bohr y Fritz Kalckar propusieron en 1935 que el núcleo se comporta, a grandes rasgos, como una <strong>gota de líquido incompresible</strong>: los nucleones se atraen fuertemente a corta distancia (como las moléculas de un líquido) y se mantienen a una densidad aproximadamente constante. La analogía no es literal —el núcleo es un sistema cuántico, no clásico— pero captura las propiedades <em>colectivas</em> del sistema.</p>
+
+  <div class="analogy-box">
+    <strong>La analogía de la gota.</strong> Imaginá una gota de agua suspendida en el aire. Las moléculas se atraen y la tensión superficial la mantiene esférica. Si la agitás, puede vibrar. Si la hacés girar muy rápido, se deforma hasta romperse. El núcleo, según Bohr, se comporta parecido: la "tensión superficial" nuclear es la fuerza fuerte, y la "repulsión electrostática" entre protones es la que compite contra ella. Para núcleos pesados, la repulsión coulombiana gana y la gota se parte: fisión.
+  </div>
+
+  <h3>2.1 La fórmula semiempírica de masa (Bethe–Weizsäcker)</h3>
+
+  <p>La formalización cuantitativa del modelo es la <strong>fórmula semiempírica de masa</strong>, propuesta por Carl Friedrich von Weizsäcker en 1935 y desarrollada por Hans Bethe. Expresa la energía de enlace $B(A,Z)$ como suma de cinco contribuciones:</p>
+
+  <div class="math-box">
+    $$ B(A,Z) = a_V A \;-\; a_S A^{2/3} \;-\; a_C \frac{Z(Z-1)}{A^{1/3}} \;-\; a_A \frac{(A-2Z)^2}{A} \;+\; \delta(A,Z) $$
+  </div>
+
+  <p>Los coeficientes, ajustados a datos experimentales, son aproximadamente:</p>
+
+  <div class="math-box">
+    $$ a_V \approx 15.56\ \text{MeV}, \quad a_S \approx 17.23\ \text{MeV}, \quad a_C \approx 0.697\ \text{MeV}, \quad a_A \approx 23.29\ \text{MeV} $$
+  </div>
+
+  <p>El término de apareamiento $\delta(A,Z)$ vale $+a_P/\sqrt{A}$ para núcleos par-par, $0$ para $A$ impar, y $-a_P/\sqrt{A}$ para impar-impar, con $a_P \approx 12\ \text{MeV}$. Cada término tiene una interpretación física clara:</p>
+
+  <table class="models-table">
+    <thead>
+      <tr><th>Término</th><th>Signo</th><th>Origen físico</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>Volumen</strong></td><td>$+a_V A$</td><td>Cada nucleón interactúa solo con sus vecinos más cercanos (saturación). Como el volumen es proporcional a $A$, esta contribución crece linealmente. Es el término dominante y refleja la fuerza fuerte atractiva.</td></tr>
+      <tr><td><strong>Superficie</strong></td><td>$-a_S A^{2/3}$</td><td>Los nucleones de la superficie tienen menos vecinos y por tanto menos energía de enlace. La superficie de una esfera crece como $A^{2/3}$, de ahí el exponente.</td></tr>
+      <tr><td><strong>Coulomb</strong></td><td>$-a_C \frac{Z(Z-1)}{A^{1/3}}$</td><td>Repulsión electrostática entre los $Z$ protones. El factor $Z(Z-1)$ cuenta pares de protones, y $A^{1/3}$ refleja que la distancia media entre ellos crece con el radio.</td></tr>
+      <tr><td><strong>Asimetría</strong></td><td>$-a_A \frac{(A-2Z)^2}{A}$</td><td>El principio de Pauli favorece $N \approx Z$: si hay muchos más neutrones que protones (o viceversa), los niveles de energía más altos se ocupan desfavorablemente. Es un efecto puramente cuántico.</td></tr>
+      <tr><td><strong>Apareamiento</strong></td><td>$\pm\delta$</td><td>Los nucleones del mismo tipo se aparean con espines opuestos, lo que baja la energía. Los núcleos par-par son más estables que los impar-impar.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="sm-box">
+    <strong>¿Por qué "semiempírica"?</strong> Porque la forma funcional sale de argumentos físicos (volumen, superficie, Coulomb), pero los coeficientes se ajustan a los datos experimentales. No se derivan de primeros principios: la interacción nuclear fuerte no permite un cálculo analítico exacto para sistemas de muchos cuerpos. Es un modelo fenomenológico con base física sólida.
+  </div>
+
+  <!-- FIGURA 1 -->
+  <div class="interactive-figure">
+    <div class="figure-title">Figura 1: Curva de energía de enlace por nucleón</div>
+    <div id="plot_binding" class="plot-area"></div>
+    <div class="controls">
+      <div class="control-panel">
+        <h4>Mostrar</h4>
+        <label class="slider-row" style="display:block;">
+          <input type="checkbox" id="cb_show_data" checked style="accent-color: var(--accent);"> Datos experimentales
+        </label>
+        <label class="slider-row" style="display:block;">
+          <input type="checkbox" id="cb_show_semf" checked style="accent-color: var(--accent);"> Predicción SEMF
+        </label>
+        <label class="slider-row" style="display:block;">
+          <input type="checkbox" id="cb_show_peak" checked style="accent-color: var(--accent);"> Marcar el pico del hierro
+        </label>
+      </div>
+      <div class="control-panel">
+        <h4>Lectura</h4>
+        <div id="stats_binding" class="stats"></div>
+      </div>
+    </div>
+    <div class="guide-box">
+      <strong>Qué observar.</strong>
+      <ol>
+        <li>La energía de enlace por nucleón $B/A$ crece rápido para núcleos ligeros, alcanza un máximo $\sim 8.8\ \text{MeV}$ en el <strong>hierro</strong> ($A \approx 56$–$62$), y luego decrece lentamente para núcleos pesados.</li>
+        <li>Esto explica dos cosas: la <strong>fusión nuclear</strong> (núcleos ligeros que se juntan ganan energía) y la <strong>fisión</strong> (núcleos pesados que se parten también ganan energía). Ambas van hacia el hierro.</li>
+        <li>La predicción de la SEMF (línea azul) reproduce la forma general de la curva, con un error de $\sim 0.1$–$0.5\ \text{MeV}$ por nucleón.</li>
+        <li>La estabilidad del hierro no es una coincidencia: es el balance óptimo entre la atracción fuerte (volumen) y la repulsión coulombiana (que crece más rápido con $Z$).</li>
+      </ol>
+    </div>
+    <div class="caption">
+      <strong>Epígrafe.</strong> Energía de enlace por nucleón en función del número másico $A$. Los puntos son datos experimentales para núcleos representativos; la línea azul es la predicción de la fórmula semiempírica de masa evaluada en la línea de estabilidad (el $Z$ que maximiza $B$ para cada $A$). El máximo cae cerca del hierro y el níquel, lo que convierte a estos elementos en los más estables de la tabla periódica.
+    </div>
+  </div>
+
+  <!-- FIGURA 2 -->
+  <div class="interactive-figure">
+    <div class="figure-title">Figura 2: Descomposición de la fórmula semiempírica de masa</div>
+    <div id="plot_semf" class="plot-area"></div>
+    <div class="controls">
+      <div class="control-panel">
+        <h4>Número másico $A$</h4>
+        <label class="slider-row">
+          $A$: <span id="v_A_semf" class="slider-val">56</span>
+          <input type="range" id="s_A_semf" min="6" max="250" step="2" value="56">
+        </label>
+        <p style="font-size:0.83em; color:#666; margin-top:8px;">
+          Para cada $A$, el $Z$ se calcula en la <em>línea de estabilidad</em> (el que maximiza $B$).
+        </p>
+      </div>
+      <div class="control-panel">
+        <h4>Núcleo resultante</h4>
+        <div id="stats_semf" class="stats"></div>
+      </div>
+    </div>
+    <div class="guide-box">
+      <strong>Qué observar.</strong>
+      <ol>
+        <li>El término de <strong>volumen</strong> es positivo y crece linealmente con $A$: es la atracción fuerte.</li>
+        <li>El de <strong>superficie</strong> es negativo y crece como $A^{2/3}$: penaliza a los núcleos pequeños, donde la fracción de nucleones en la superficie es mayor.</li>
+        <li>El de <strong>Coulomb</strong> es negativo y crece como $Z^2/A^{1/3}$: es despreciable para núcleos ligeros, pero domina para los pesados.</li>
+        <li>El de <strong>asimetría</strong> es negativo y se anula cuando $N=Z$: cuesta energía tener muchos más neutrones que protones.</li>
+        <li>El <strong>apareamiento</strong> es pequeño pero positivo para núcleos par-par.</li>
+        <li>La <strong>suma</strong> (barra negra) da la energía de enlace total $B$; dividida por $A$ da la curva de la Figura 1.</li>
+        <li>En núcleos pesados ($A > 200$), la suma de Coulomb y asimetría se acerca a la de volumen + superficie: el núcleo está al borde de la inestabilidad frente a la fisión.</li>
+      </ol>
+    </div>
+    <div class="caption">
+      <strong>Epígrafe.</strong> Contribuciones individuales a la energía de enlace según la fórmula semiempírica de masa. El $Z$ se elige en la línea de estabilidad para cada $A$, usando $Z \approx A/(2 + 0.015 A^{2/3})$. Los coeficientes son los estándar de Wapstra. La suma total (barra negra) es la energía de enlace $B$; el valor por nucleón $B/A$ es lo que se muestra en la Figura 1.
+    </div>
+  </div>
+
+  <h3>2.2 Fisión: la gota que se parte</h3>
+
+  <p>El gran triunfo del modelo de la gota líquida fue explicar la <strong>fisión nuclear</strong>. Bohr y Wheeler (1939) mostraron que si la gota se deforma, la energía coulombiana <em>disminuye</em> (los protones se alejan entre sí) pero la energía superficial <em>aumenta</em> (hay más superficie). Para núcleos pesados, el término coulombiano domina y la gota se vuelve inestable frente a la deformación.</p>
+
+  <div class="math-box">
+    $$ x = \frac{E_C}{2 E_S} \qquad \text{(parámetro de fisilidad)} $$
+  </div>
+
+  <p>Si $x > 1$, la gota se deforma espontáneamente y se parte. Esto ocurre para $Z^2/A \gtrsim 45$–$50$, aproximadamente. El ²³⁸U tiene $Z^2/A = 35.6$, así que está cerca del umbral pero no lo supera: su fisión espontánea es muy lenta (vida media $\sim 4.5 \times 10^9$ años), pero se acelera enormemente al absorber un neutrón (fisión inducida).</p>
+
+  <svg viewBox="0 0 620 180" class="fission-svg">
+    <defs>
+      <radialGradient id="dropGrad" cx="50%" cy="50%" r="50%">
+        <stop offset="0%" stop-color="#5dade2" stop-opacity="0.95"/>
+        <stop offset="80%" stop-color="#2980b9" stop-opacity="0.85"/>
+        <stop offset="100%" stop-color="#1a5276" stop-opacity="0.75"/>
+      </radialGradient>
+    </defs>
+
+    <!-- Etapa 1: esférica -->
+    <ellipse cx="90" cy="90" rx="42" ry="42" fill="url(#dropGrad)" stroke="#1a5276" stroke-width="2"/>
+    <text x="90" y="150" text-anchor="middle" font-size="11" fill="#333" font-style="italic">Núcleo esférico</text>
+    <text x="90" y="165" text-anchor="middle" font-size="9" fill="#888">estable (E_C pequeña)</text>
+
+    <path d="M 145,90 L 175,90" stroke="#555" stroke-width="2" marker-end="url(#arrowF)"/>
+
+    <!-- Etapa 2: deformación -->
+    <ellipse cx="235" cy="90" rx="55" ry="34" fill="url(#dropGrad)" stroke="#1a5276" stroke-width="2"/>
+    <text x="235" y="150" text-anchor="middle" font-size="11" fill="#333" font-style="italic">Deformación</text>
+    <text x="235" y="165" text-anchor="middle" font-size="9" fill="#888">E_S↑, E_C↓</text>
+
+    <path d="M 300,90 L 330,90" stroke="#555" stroke-width="2" marker-end="url(#arrowF)"/>
+
+    <!-- Etapa 3: escisión -->
+    <ellipse cx="385" cy="90" rx="38" ry="30" fill="url(#dropGrad)" stroke="#1a5276" stroke-width="2"/>
+    <ellipse cx="455" cy="90" rx="38" ry="30" fill="url(#dropGrad)" stroke="#1a5276" stroke-width="2"/>
+    <text x="420" y="150" text-anchor="middle" font-size="11" fill="#333" font-style="italic">Escisión</text>
+    <text x="420" y="165" text-anchor="middle" font-size="9" fill="#888">dos fragmentos + neutrones</text>
+
+    <!-- Etapa 4: fragmentos separados -->
+    <circle cx="535" cy="80" r="22" fill="url(#dropGrad)" stroke="#1a5276" stroke-width="2"/>
+    <circle cx="580" cy="100" r="20" fill="url(#dropGrad)" stroke="#1a5276" stroke-width="2"/>
+    <circle cx="555" cy="115" r="5" fill="#e74c3c"/>
+    <circle cx="595" cy="80" r="5" fill="#e74c3c"/>
+    <circle cx="565" cy="60" r="5" fill="#e74c3c"/>
+    <text x="560" y="150" text-anchor="middle" font-size="11" fill="#333" font-style="italic">Fragmentos</text>
+    <text x="560" y="165" text-anchor="middle" font-size="9" fill="#888">+ energía (∼200 MeV)</text>
+
+    <defs>
+      <marker id="arrowF" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto">
+        <polygon points="0 0, 10 5, 0 10" fill="#555"/>
+      </marker>
+    </defs>
+  </svg>
+
+  <p>La energía liberada en la fisión del ²³⁸U es de aproximadamente $200\ \text{MeV}$ por evento, repartida entre los fragmentos (energía cinética), neutrones y rayos gamma. Esta es la base de los reactores nucleares y de las bombas atómicas.</p>
+
+  <div class="warn-box">
+    <strong>Limitación clave de la gota líquida.</strong> La gota líquida es un modelo <em>colectivo</em>: trata el núcleo como un fluido continuo, sin estructura interna individual. Por eso <strong>no puede explicar los números mágicos</strong>: la estabilidad especial de los núcleos con $Z$ o $N$ igual a 2, 8, 20, 28, 50, 82, 126 requiere un tratamiento de partículas individuales en niveles cuánticos. Esa es la motivación del modelo de capas.
+  </div>
+
+  <!-- ============================================ -->
+  <h2 id="s3">3. Modelo de capas (Mayer–Jensen, 1949)</h2>
+
+  <p>María Goeppert-Mayer y J. Hans D. Jensen propusieron, casi simultáneamente, que los nucleones se mueven de forma casi independiente en un <strong>potencial medio</strong> generado por todos los demás, de manera análoga a como los electrones ocupan orbitales atómicos. La diferencia crucial con la gota líquida es que ahora hay <strong>estructura de niveles</strong>: los nucleones llenan capas cuánticas, y los <em>gaps</em> entre capas producen los números mágicos.</p>
+
+  <div class="history-box">
+    <strong>Historia.</strong> Goeppert-Mayer publicó su modelo en 1949, inspirada por el análisis de los datos de espines nucleares. Jensen llegó a conclusiones similares casi al mismo tiempo. Compartieron el Nobel de Física en 1963 (junto con Eugene Wigner). El modelo de capas explicó por qué ciertos núcleos son tan estables y por qué los espines de los estados fundamentales siguen patrones regulares.
+  </div>
+
+  <h3>3.1 El potencial medio y el acoplamiento espín-órbita</h3>
+
+  <p>La idea central: cada nucleón se mueve en un potencial $V(r)$ aproximadamente esférico, generado por el promedio de las interacciones con todos los demás. Los niveles de energía se etiquetan con los mismos números cuánticos que en el átomo: $n$ (principal), $l$ (azimutal, con notación $s,p,d,f,g,h,i$), y $j = l \pm 1/2$ (momento angular total, incluyendo el espín).</p>
+
+  <p>La diferencia clave con el átomo es la inclusión de un <strong>acoplamiento espín-órbita fuerte</strong>:</p>
+
+  <div class="math-box">
+    $$ V_{SO}(r) = -V_0 \frac{1}{r} \frac{dV}{dr} \, \vec{L} \cdot \vec{S} $$
+  </div>
+
+  <p>Este término separa los niveles con $j = l + 1/2$ (más ligados) de los niveles con $j = l - 1/2$ (menos ligados). La separación crece con $l$, lo que <strong>reordena las capas</strong> y produce los números mágicos. Sin el acoplamiento espín-órbita, los números mágicos predichos serían 2, 8, 20, 40, 70, ... (incorrectos). Con él, se obtienen exactamente los observados: 2, 8, 20, 28, 50, 82, 126.</p>
+
+  <h3>3.2 Los números mágicos</h3>
+
+  <p>Un <strong>número mágico</strong> es un valor de $Z$ o $N$ para el cual las capas están completas y el gap hacia la siguiente capa es grande. Los núcleos con $Z$ y $N$ ambos mágicos se llaman <strong>doblemente mágicos</strong> y son extraordinariamente estables: ⁴He ($Z=N=2$), ¹⁶O ($Z=N=8$), ⁴⁰Ca ($Z=N=20$), ⁴⁸Ca ($Z=20$, $N=28$), ²⁰⁸Pb ($Z=82$, $N=126$).</p>
+
+  <div class="math-box">
+    $$ \text{Números mágicos: } 2,\ 8,\ 20,\ 28,\ 50,\ 82,\ 126 $$
+  </div>
+
+  <div class="sm-box">
+    <strong>Consecuencias observables.</strong> Los núcleos mágicos tienen:
+    <ul style="margin: 6px 0 0 0;">
+      <li>Mayor energía de enlace que sus vecinos (pico en la curva de masas).</li>
+      <li>Menor sección eficaz de captura de neutrones (los neutrones tienen que "saltar" un gap de energía).</li>
+      <li>Espín y paridad del estado fundamental que se pueden predecir por la regla de Mayer: el último nucleón impar determina el espín.</li>
+      <li>Abundancias cósmicas aumentadas: son productos finales de procesos de nucleosíntesis estelar.</li>
+    </ul>
+  </div>
+
+  <!-- FIGURA 3 -->
+  <div class="interactive-figure">
+    <div class="figure-title">Figura 3: Niveles de energía del modelo de capas nuclear</div>
+    <div id="plot_shell" class="plot-area" style="height: 560px;"></div>
+    <div class="controls">
+      <div class="control-panel">
+        <h4>Mostrar</h4>
+        <label class="slider-row" style="display:block;">
+          <input type="checkbox" id="cb_show_magic" checked style="accent-color: var(--accent);"> Marcar números mágicos
+        </label>
+        <label class="slider-row" style="display:block;">
+          <input type="checkbox" id="cb_show_degeneracy" checked style="accent-color: var(--accent);"> Mostrar degeneración (2j+1)
+        </label>
+      </div>
+      <div class="control-panel">
+        <h4>Lectura</h4>
+        <div id="stats_shell" class="stats"></div>
+      </div>
+    </div>
+    <div class="guide-box">
+      <strong>Qué observar en la Figura 3.</strong>
+      <ol>
+        <li>Cada nivel está etiquetado por $nl_j$ (por ejemplo, $1p_{3/2}$) y tiene una <strong>degeneración de $2j+1$</strong> (el ancho de la barra).</li>
+        <li>Los niveles se agrupan en <strong>capas</strong> separadas por gaps grandes. Al llenar una capa, se alcanza un número mágico.</li>
+        <li>Los números mágicos acumulados son <strong>2, 8, 20, 28, 50, 82, 126</strong>: son los que aparecen a la derecha, junto a cada gap.</li>
+        <li>Sin el acoplamiento espín-órbita, el nivel $1f_{7/2}$ estaría junto a $1f_{5/2}$ y el gap sería distinto: no aparecería el número mágico 28. El espín-órbita es esencial.</li>
+        <li>Los colores distinguen el número cuántico $l$: azul = $s$, verde = $p$, rojo = $d$, violeta = $f$, naranja = $g$, marrón = $h$, turquesa = $i$.</li>
+        <li>Los núcleos con capas completas son <strong>doblemente mágicos</strong> si tanto $Z$ como $N$ coinciden con un número mágico. El ²⁰⁸Pb ($Z=82$, $N=126$) es el ejemplo paradigmático.</li>
+      </ol>
+    </div>
+    <div class="caption">
+      <strong>Epígrafe.</strong> Niveles de energía del modelo de capas nuclear con acoplamiento espín-órbita. Cada barra horizontal representa un nivel $nl_j$; su ancho es proporcional a la degeneración $2j+1$. Los gaps entre capas definen los números mágicos. La secuencia reproduce los valores observados experimentalmente (2, 8, 20, 28, 50, 82, 126). El diagrama está inspirado en el esquema clásico de Mayer y Jensen (1949).
+    </div>
+  </div>
+
+  <h3>3.3 La regla de Mayer para el espín nuclear</h3>
+
+  <p>El modelo de capas permite predecir el espín y la paridad del estado fundamental de un núcleo impar. La regla es simple: <strong>los nucleones apareados contribuyen con espín cero; el espín del núcleo está determinado por el último nucleón impar</strong>. Ese nucleón ocupa un nivel $nl_j$, y el espín nuclear es $J = j$, con paridad $(-1)^l$.</p>
+
+  <p>Ejemplos:</p>
+  <ul>
+    <li>⁷Li ($Z=3$, $N=4$): el último protón impar está en $1p_{3/2}$, así que $J^\pi = 3/2^-$. Experimental: $3/2^-$. ✓</li>
+    <li>¹³C ($Z=6$, $N=7$): el último neutrón impar está en $1p_{1/2}$, así que $J^\pi = 1/2^-$. Experimental: $1/2^-$. ✓</li>
+    <li>¹⁷O ($Z=8$, $N=9$): el último neutrón está en $1d_{5/2}$, $J^\pi = 5/2^+$. Experimental: $5/2^+$. ✓</li>
+    <li>²⁰⁹Bi ($Z=83$, $N=126$): el último protón está en $1h_{9/2}$, $J^\pi = 9/2^-$. Experimental: $9/2^-$. ✓</li>
+  </ul>
+
+  <div class="warn-box">
+    <strong>Limitación del modelo de capas puro.</strong> El modelo de capas funciona muy bien para núcleos cercanos a las capas cerradas, pero falla para núcleos muy deformados o lejos de la estabilidad. Además, no describe los estados colectivos de baja energía (vibraciones y rotaciones), que son precisamente los que motivan el modelo colectivo.
+  </div>
+
+  <!-- ============================================ -->
+  <h2 id="s4">4. Modelo colectivo (Bohr–Mottelson, 1953)</h2>
+
+  <p>Aage Bohr (hijo de Niels) y Ben Mottelson propusieron en 1953 el <strong>modelo colectivo</strong> (también llamado <em>modelo unificado</em>), que combina lo mejor de los dos anteriores: un "corazón" que se comporta como una gota líquida (responsable de las propiedades colectivas) y unos <strong>nucleones de valencia</strong> que se mueven en capas sobre él, acoplados a las deformaciones del corazón.</p>
+
+  <p>La idea es que el potencial medio que sienten los nucleones no es esférico en general: los núcleos pueden ser <strong>deformados</strong> (elipsoidales, en forma de pera, etc.) y <strong>rotar o vibrar</strong>. Los nucleones de valencia se mueven en ese potencial deformado, y a su vez pueden polarizar el corazón, acoplándose a sus modos colectivos.</p>
+
+  <div class="analogy-box">
+    <strong>La analogía.</strong> Imaginá una pecera con agua (el corazón colectivo) y algunos peces de colores (los nucleones de valencia). Los peces nadan dentro del agua (orbitales individuales), pero su movimiento también genera ondas en el agua (vibraciones colectivas), y si la pecera entera gira, los peces giran con ella (rotaciones). El modelo colectivo describe precisamente este acoplamiento entre el movimiento individual y el colectivo.
+  </div>
+
+  <h3>4.1 Bandas rotacionales</h3>
+
+  <p>Para núcleos deformados (lejos de capas cerradas), el espectro de baja energía se parece al de un <strong>rotor rígido cuántico</strong>:</p>
+
+  <div class="math-box">
+    $$ E(J) = E_0 + \frac{\hbar^2}{2\mathcal{I}} \, J(J+1) $$
+  </div>
+
+  <p>donde $\mathcal{I}$ es el momento de inercia del núcleo y $J = 0, 2, 4, 6, \ldots$ para núcleos par-par. La energía del primer estado excitado $2^+$ determina el momento de inercia: $E(2^+) = 6\hbar^2/(2\mathcal{I})$, y los niveles superiores siguen el patrón $E(4^+)/E(2^+) = 10/3 \approx 3.33$, $E(6^+)/E(2^+) = 7$, etc.</p>
+
+  <p>Este patrón rotacional se ha observado en cientos de núcleos deformados, especialmente en las tierras raras ($150 < A < 190$) y en los actínidos ($A > 220$). El momento de inercia experimental es menor que el de una esfera rígida de la misma masa, lo que indica que solo una fracción de los nucleones participa en la rotación (los de valencia, no los del "corazón" apareado).</p>
+
+  <h3>4.2 Vibraciones</h3>
+
+  <p>Los núcleos cerca de capas cerradas (esféricos) no rotan, pero pueden <strong>vibrar</strong> alrededor de la forma esférica. El modo de vibración más común es la <strong>vibración cuadrupolar</strong>: el núcleo oscila entre una forma alargada y una achatada, con un cuanto de energía $\hbar\omega$. Los estados vibracionales tienen energías $E_n = (n + 1/2)\hbar\omega$ y se agrupan en múltiplos (uno, dos, tres cuantos).</p>
+
+  <p>El primer estado excitado de una vibración cuadrupolar es un $2^+$ (como en la rotación), pero los niveles superiores no siguen el patrón $J(J+1)$: forman un triplete $0^+, 2^+, 4^+$ al doble de energía, un quintuplete $0^+, 2^+, 3^+, 4^+, 6^+$ al triple, etc. Esta es la firma experimental de las vibraciones.</p>
+
+  <!-- FIGURA 4 -->
+  <div class="interactive-figure">
+    <div class="figure-title">Figura 4: Bandas rotacionales — rotor rígido vs. datos reales</div>
+    <div id="plot_rot" class="plot-area"></div>
+    <div class="controls">
+      <div class="control-panel">
+        <h4>Escenario</h4>
+        <label class="slider-row" style="display:block;">
+          <input type="checkbox" id="cb_show_rigid" checked style="accent-color: var(--accent);"> Rotor rígido (predicción)
+        </label>
+        <label class="slider-row" style="display:block;">
+          <input type="checkbox" id="cb_show_real" checked style="accent-color: var(--accent);"> Datos reales (¹⁶⁴Er aprox.)
+        </label>
+        <label class="slider-row" style="display:block;">
+          <input type="checkbox" id="cb_show_vib" style="accent-color: var(--accent);"> Comparar con vibración armónica
+        </label>
+      </div>
+      <div class="control-panel">
+        <h4>Lectura</h4>
+        <div id="stats_rot" class="stats"></div>
+      </div>
+    </div>
+    <div class="guide-box">
+      <strong>Qué observar.</strong>
+      <ol>
+        <li>El <strong>rotor rígido</strong> (línea azul) predice $E(J) \propto J(J+1)$: una parábola en $J$. Los niveles $2^+, 4^+, 6^+, \ldots$ siguen las proporciones $1 : 3.33 : 7 : \ldots$</li>
+        <li>Los <strong>datos reales</strong> (puntos rojos, aproximados para ¹⁶⁴Er) siguen la predicción a bajo $J$, pero se desvían a alto $J$: las energías son menores que las del rotor rígido.</li>
+        <li>Esta desviación se debe al <strong>estiramiento centrífugo</strong>: al rotar más rápido, el núcleo se deforma más y su momento de inercia aumenta, bajando las energías. Es un efecto colectivo.</li>
+        <li>La curva de <strong>vibración armónica</strong> (si se activa) no sigue $J(J+1)$ sino que agrupa los niveles en múltiplos de $\hbar\omega$: es una firma experimental distinta.</li>
+        <li>En resumen: el modelo colectivo de Bohr–Mottelson unifica la descripción de rotaciones, vibraciones y estructura de capas en un solo marco.</li>
+      </ol>
+    </div>
+    <div class="caption">
+      <strong>Epígrafe.</strong> Bandas rotacionales en núcleos deformados. La línea azul es la predicción del rotor rígido $E(J) = J(J+1)\hbar^2/2\mathcal{I}$. Los puntos rojos son datos experimentales aproximados para ¹⁶⁴Er (núcleo deformado de tierras raras). La desviación a alto $J$ refleja el estiramiento centrífugo (aumento del momento de inercia). Si se activa la curva de vibración, se compara con el patrón $E \propto n\hbar\omega$ de un oscilador armónico, que no coincide con la rotación.
+    </div>
+  </div>
+
+  <div class="sm-box">
+    <strong>El legado de Bohr–Mottelson.</strong> El modelo colectivo unificó la descripción de núcleos esféricos (capas) y deformados (gota líquida + rotaciones/vibraciones). Bohr y Mottelson recibieron el Nobel de Física en 1975. Hoy es la base de los modelos nucleares modernos, que añaden correlaciones más complejas (pairing, campos medios autoconsistentes, etc.).
+  </div>
+
+  <!-- ============================================ -->
+  <h2 id="s5">5. Modelo de gas de Fermi</h2>
+
+  <p>Una aproximación complementaria, muy útil para cálculos estadísticos, es el <strong>modelo de gas de Fermi</strong>. Trata los nucleones como un gas cuántico de partículas no interactuantes (o con interacción muy débil) confinadas en un volumen $V$ igual al volumen nuclear.</p>
+
+  <p>El principio de Pauli obliga a los nucleones a ocupar estados de energía cada vez más altos. La energía máxima ocupada a $T=0$ se llama <strong>energía de Fermi</strong>:</p>
+
+  <div class="math-box">
+    $$ E_F = \frac{\hbar^2}{2m_N} \left( \frac{3\pi^2 N}{V} \right)^{2/3} $$
+  </div>
+
+  <p>Para un núcleo típico con $A \sim 100$, $E_F \sim 35$–$40\ \text{MeV}$. Como la energía de enlace es solo $\sim 8\ \text{MeV}$ por nucleón, la profundidad del pozo de potencial nuclear es $V_0 \sim E_F + 8 \sim 45$–$50\ \text{MeV}$.</p>
+
+  <p>El gas de Fermi describe bien:</p>
+  <ul>
+    <li>La <strong>densidad de niveles</strong> cerca de la energía de Fermi (importante para calcular tasas de reacción y decaimientos).</li>
+    <li>Las <strong>propiedades térmicas</strong> del núcleo (calor específico, temperatura de Fermi).</li>
+    <li>La <strong>emisión de partículas</strong> en reacciones nucleares (modelo de evaporación).</li>
+  </ul>
+
+  <p>No describe los números mágicos (ignora las capas) ni los estados colectivos, pero es una excelente aproximación estadística para núcleos calientes o altamente excitados.</p>
+
+  <!-- ============================================ -->
+  <h2 id="s6">6. Tabla comparativa de modelos</h2>
+
+  <table class="models-table">
+    <thead>
+      <tr>
+        <th>Modelo</th>
+        <th>Imagen del núcleo</th>
+        <th>¿Qué explica mejor?</th>
+        <th>Limitación principal</th>
+        <th>Año</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="model-name" style="color: var(--drop);">Gota líquida (Bohr)</td>
+        <td>Fluido colectivo incompresible</td>
+        <td>Energía de enlace, fisión, propiedades macroscópicas</td>
+        <td>No explica números mágicos ni estructura individual</td>
+        <td>1935</td>
+      </tr>
+      <tr>
+        <td class="model-name" style="color: var(--shell);">Capas (Mayer–Jensen)</td>
+        <td>Partículas independientes en un potencial medio</td>
+        <td>Números mágicos, espín y paridad del estado fundamental</td>
+        <td>Ignora correlaciones colectivas (rotaciones, vibraciones)</td>
+        <td>1949</td>
+      </tr>
+      <tr>
+        <td class="model-name" style="color: var(--coll);">Colectivo (Bohr–Mottelson)</td>
+        <td>Corazón colectivo + nucleones de valencia acoplados</td>
+        <td>Bandas rotacionales, vibraciones, momentos magnéticos y cuadrupolares</td>
+        <td>Es el más complejo: requiere más parámetros y cálculos numéricos</td>
+        <td>1953</td>
+      </tr>
+      <tr>
+        <td class="model-name" style="color: var(--fermi);">Gas de Fermi</td>
+        <td>Gas cuántico de nucleones no interactuantes</td>
+        <td>Densidad de niveles, propiedades térmicas, evaporación</td>
+        <td>Ignora capas y correlaciones; solo válido para estados muy excitados</td>
+        <td>1930s</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="sm-box">
+    <strong>Complementariedad, no sustitución.</strong> Los cuatro modelos no se excluyen: describen el mismo sistema desde ángulos distintos. Para un núcleo frío y deformado, el modelo colectivo es el más adecuado; para un núcleo esférico cerca de capas cerradas, el modelo de capas; para una reacción a alta energía, el gas de Fermi. La física nuclear usa todos según el problema.
+  </div>
+
+  <!-- ============================================ -->
+  <h2 id="s7">7. Diccionario de términos</h2>
+
+  <table class="dictionary">
+    <thead>
+      <tr>
+        <th>Término</th>
+        <th>Significado</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>Nucleón</strong></td><td>Protón o neutrón. Los constituyentes del núcleo.</td></tr>
+      <tr><td><strong>Energía de enlace $B$</strong></td><td>Energía necesaria para descomponer el núcleo en sus nucleones libres. Es positiva y aproximadamente proporcional a $A$.</td></tr>
+      <tr><td><strong>Número mágico</strong></td><td>Valor de $Z$ o $N$ para el cual las capas nucleares están completas. Confiere estabilidad extra.</td></tr>
+      <tr><td><strong>Doblemente mágico</strong></td><td>Núcleo con $Z$ y $N$ ambos mágicos (por ejemplo, ⁴He, ¹⁶O, ⁴⁰Ca, ²⁰⁸Pb).</td></tr>
+      <tr><td><strong>Espín-órbita</strong></td><td>Interacción entre el momento angular orbital $\vec{L}$ y el espín $\vec{S}$ de un nucleón. Esencial para los números mágicos.</td></tr>
+      <tr><td><strong>Fisilidad</strong></td><td>Parámetro $x = E_C/(2E_S)$ que mide la tendencia de un núcleo a fisionarse. Si $x > 1$, es inestable.</td></tr>
+      <tr><td><strong>Banda rotacional</strong></td><td>Conjunto de niveles $J = 0, 2, 4, \ldots$ con energías $E(J) \propto J(J+1)$, típico de núcleos deformados.</td></tr>
+      <tr><td><strong>Vibración cuadrupolar</strong></td><td>Modo colectivo en el que el núcleo oscila entre forma alargada y achatada. Frecuencia $\omega$, energías en múltiplos de $\hbar\omega$.</td></tr>
+      <tr><td><strong>Energía de Fermi $E_F$</strong></td><td>Energía del nivel ocupado más alto a $T=0$ en el modelo de gas de Fermi. $\sim 35$–$40\ \text{MeV}$ para núcleos típicos.</td></tr>
+      <tr><td><strong>Apareamiento (pairing)</strong></td><td>Tendencia de nucleones del mismo tipo a formar pares con espines opuestos, bajando la energía.</td></tr>
+    </tbody>
+  </table>
+
+  <!-- ============================================ -->
+  <h2 id="s8">8. Ejercicios para pensar</h2>
+
+  <div class="exercise-box">
+    <h4>Ejercicio 1 — La estabilidad del hierro</h4>
+    <p>Usando la Figura 1, explicá por qué el hierro y el níquel son los núcleos más estables de la tabla periódica. ¿Por qué no lo es el uranio, si tiene muchos más nucleones?</p>
+    <div class="hint"><strong>Pista:</strong> pensá en el balance entre el término de volumen (atracción fuerte, $\propto A$) y el de Coulomb (repulsión, $\propto Z^2/A^{1/3}$).</div>
+    <button class="solution-toggle" onclick="toggleSolution(this)">Mostrar solución</button>
+    <div class="solution-content">
+      <p>La energía de enlace por nucleón es máxima cerca del hierro porque allí se alcanza el mejor balance entre la atracción fuerte (que satura) y la repulsión coulombiana (que crece más rápido con $Z$). Para núcleos ligeros, el término de superficie penaliza mucho (hay muchos nucleones en la superficie). Para núcleos pesados, el término de Coulomb crece como $Z^2/A^{1/3}$ y erosiona la energía de enlace.</p>
+      <p>El uranio tiene $A=238$, pero su $Z=92$ produce una repulsión coulombiana enorme: aunque el término de volumen es grande, los términos negativos (Coulomb + asimetría) lo compensan. Resultado: $B/A \approx 7.6\ \text{MeV}$, menor que el del hierro ($\sim 8.8\ \text{MeV}$).</p>
+    </div>
+  </div>
+
+  <div class="exercise-box">
+    <h4>Ejercicio 2 — El término de asimetría</h4>
+    <p>¿Por qué el término de asimetría favorece $N \approx Z$? ¿Qué tiene que ver el principio de Pauli?</p>
+    <div class="hint"><strong>Pista:</strong> imaginá un núcleo con $N$ mucho mayor que $Z$. ¿Qué niveles de energía tienen que ocupar los neutrones?</div>
+    <button class="solution-toggle" onclick="toggleSolution(this)">Mostrar solución</button>
+    <div class="solution-content">
+      <p>Protones y neutrones son partículas distinguibles y cada uno llena sus propias capas. Si $N \gg Z$, los neutrones tienen que ocupar niveles de energía más altos (porque ya llenaron los bajos), mientras que los protones tienen sus niveles bajos parcialmente vacíos. Eso cuesta energía. El principio de Pauli prohíbe que un neutrón ocupe un estado ya ocupado por otro neutrón.</p>
+      <p>El mínimo de energía se alcanza cuando ambos tipos de nucleones llenan hasta el mismo nivel de Fermi: $N \approx Z$ para núcleos ligeros. Para núcleos pesados, el término de Coulomb favorece $N > Z$ (más neutrones, para diluir la repulsión entre protones). Eso explica la "línea de estabilidad" de la tabla de núclidos.</p>
+    </div>
+  </div>
+
+  <div class="exercise-box">
+    <h4>Ejercicio 3 — El ⁴He y los números mágicos</h4>
+    <p>El ⁴He tiene $Z=2$ y $N=2$. El ⁸Be tiene $Z=4$ y $N=4$. Ambos son ligeros, pero el ⁴He es extraordinariamente estable y el ⁸Be se desintegra en dos partículas alfa en $\sim 10^{-16}\ \text{s}$. Explicá la diferencia usando el modelo de capas.</p>
+    <div class="hint"><strong>Pista:</strong> 2 es un número mágico; 4 no lo es.</div>
+    <button class="solution-toggle" onclick="toggleSolution(this)">Mostrar solución</button>
+    <div class="solution-content">
+      <p>El ⁴He es doblemente mágico: tanto $Z=2$ como $N=2$ llenan exactamente la primera capa ($1s_{1/2}$, capacidad 2). Cualquier excitación requiere saltar un gap grande, lo que hace al ⁴He muy estable.</p>
+      <p>El ⁸Be tiene $Z=4$ y $N=4$, que no son números mágicos. Los nucleones están a mitad de la capa $1p$ (capacidad 6 en total, con $1p_{3/2}$ y $1p_{1/2}$). El ⁸Be es inestable frente a la desintegración en dos alfas porque dos ⁴He (doblemente mágicos) juntos tienen menor energía que un ⁸Be. Esta es la razón por la que el ⁸Be no existe en la naturaleza y por la que el "proceso triple alfa" en las estrellas es tan improbable (requiere tres ⁴He colisionando casi simultáneamente).</p>
+    </div>
+  </div>
+
+  <div class="exercise-box">
+    <h4>Ejercicio 4 — Rotor rígido vs. rotor real</h4>
+    <p>Mirando la Figura 4, ¿por qué las energías reales de los estados $J$ altos son <em>menores</em> que las del rotor rígido? ¿Qué implica eso sobre el momento de inercia?</p>
+    <div class="hint"><strong>Pista:</strong> $E(J) = J(J+1)\hbar^2/(2\mathcal{I})$. Si $E$ experimental es menor que la predicción rígida, ¿qué pasa con $\mathcal{I}$?</div>
+    <button class="solution-toggle" onclick="toggleSolution(this)">Mostrar solución</button>
+    <div class="solution-content">
+      <p>El rotor rígido usa un momento de inercia fijo $\mathcal{I}_0$. Si las energías reales son menores que las predichas, entonces el momento de inercia efectivo $\mathcal{I}$ es <strong>mayor</strong> que $\mathcal{I}_0$. Esto se debe al <strong>estiramiento centrífugo</strong>: al rotar más rápido (mayor $J$), el núcleo se deforma más (se alarga), y el momento de inercia aumenta. Como $\mathcal{I}$ está en el denominador, $E$ baja.</p>
+      <p>Este efecto es una prueba de que el núcleo no es un cuerpo rígido sino un sistema deformable, coherente con la imagen de la gota líquida del modelo colectivo.</p>
+    </div>
+  </div>
+
+  <div class="exercise-box">
+    <h4>Ejercicio 5 — Predicción del espín nuclear</h4>
+    <p>Usando el modelo de capas y la regla de Mayer, predecí el espín y la paridad del estado fundamental del ¹⁵N ($Z=7$, $N=8$).</p>
+    <div class="hint"><strong>Pista:</strong> $N=8$ es mágico; el neutrón impar está en el último nivel de la capa $1p$. ¿Cuál es?</div>
+    <button class="solution-toggle" onclick="toggleSolution(this)">Mostrar solución</button>
+    <div class="solution-content">
+      <p>El ¹⁵N tiene $N=8$ neutrones, que llenan completamente las capas $1s_{1/2}$ (2), $1p_{3/2}$ (4) y $1p_{1/2}$ (2). El neutrón número 7 va en $1p_{1/2}$: $J = 1/2$, paridad $(-1)^l = (-1)^1 = -$. El protón impar está en $1p_{1/2}$ también (con $Z=7$: $1s_{1/2}$ lleno, $1p_{3/2}$ lleno, $1p_{1/2}$ con 1 protón).</p>
+      <p>Ahora, hay un protón y un neutrón desapareados, ambos en $1p_{1/2}$. Sus espines pueden acoplarse a $J = 0$ o $J = 1$. La regla empírica de Brennan–Bernstein (para núcleos impar-impar) favorece $J = 1$ cuando los nucleones desapareados están en la misma capa $j = l \pm 1/2$ y $j_p + j_n$ es par. El valor experimental para ¹⁵N es $J^\pi = 1/2^-$, que corresponde a que solo uno de los dos nucleones desapareados contribuye (el otro está "apareado" de forma efectiva). La regla de Mayer, en su forma más simple, da $1/2^-$ usando el protón impar. ✓</p>
+    </div>
+  </div>
+
+  <div class="exercise-box">
+    <h4>Ejercicio 6 — ¿Qué modelo usar?</h4>
+    <p>Para cada caso, indicá qué modelo nuclear te parece más adecuado y por qué: (a) calcular la energía liberada en la fisión del ²³⁵U; (b) predecir el espín del ⁵⁷Fe; (c) calcular la densidad de niveles del ¹⁶⁸Er a 5 MeV de excitación; (d) explicar por qué el ²⁰⁸Pb es especialmente estable.</p>
+    <div class="hint"><strong>Pista:</strong> pensá en las fortalezas de cada modelo de la sección 6.</div>
+    <button class="solution-toggle" onclick="toggleSolution(this)">Mostrar solución</button>
+    <div class="solution-content">
+      <ul>
+        <li><strong>(a) Fisión del ²³⁵U:</strong> gota líquida + fórmula semiempírica. Es un proceso colectivo donde la deformación y la repulsión coulombiana son esenciales. La gota líquida explica por qué se libera energía y permite calcularla con la fórmula de masas.</li>
+        <li><strong>(b) Espín del ⁵⁷Fe:</strong> modelo de capas. El ⁵⁷Fe tiene $Z=26$, $N=31$. El neutrón impar está en $2p_{1/2}$, así que $J^\pi = 1/2^-$. Experimental: $1/2^-$. ✓</li>
+        <li><strong>(c) Densidad de niveles del ¹⁶⁸Er a 5 MeV:</strong> gas de Fermi. Para núcleos calientes y altamente excitados, la densidad de niveles se describe mejor con el modelo estadístico, que da $\rho(E) \propto \exp(2\sqrt{aE})$ (fórmula de Bethe).</li>
+        <li><strong>(d) Estabilidad del ²⁰⁸Pb:</strong> modelo de capas. $Z=82$ y $N=126$ son ambos mágicos. El gap hacia la siguiente capa es enorme, lo que confiere estabilidad extra. Es el núcleo doblemente mágico más pesado estable.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ============================================ -->
+  <h2 id="s9">9. Cierre: complementariedad, no sustitución</h2>
+
+  <p>La historia de los modelos nucleares no es la historia de un modelo "correcto" que reemplaza a los anteriores. Es la historia de cómo la física aprendió a describir un sistema cuántico de muchos cuerpos con <strong>varias ventanas complementarias</strong>, cada una adecuada para un conjunto distinto de fenómenos.</p>
+
+  <ul>
+    <li>La <strong>gota líquida</strong> captura las propiedades colectivas y macroscópicas: energía de enlace, fisión, forma del núcleo.</li>
+    <li>El <strong>modelo de capas</strong> captura la estructura cuántica individual: números mágicos, espines, paridades.</li>
+    <li>El <strong>modelo colectivo</strong> unifica ambos: rotaciones, vibraciones, acoplamiento entre partículas y colectividad.</li>
+    <li>El <strong>gas de Fermi</strong> captura la estadística de muchos cuerpos: densidad de niveles, propiedades térmicas.</li>
+  </ul>
+
+  <p>Como en la física atómica con los modelos de Thomson, Rutherford, Bohr y Sommerfeld, cada modelo nuclear iluminó aspectos que los otros no podían explicar. Y como allí, la lección es que <strong>un modelo exitoso no es el que dice la verdad final, sino el que hace predicciones verificables y señala, con sus propios límites, dónde hay que buscar la siguiente pieza del rompecabezas</strong>.</p>
+
+  <p>Hoy, la física nuclear moderna combina todos estos ingredientes en cálculos numéricos de <em>campo medio autoconsistente</em> (Hartree–Fock–Bogoliubov con interacciones efectivas), que reproducen desde los números mágicos hasta las deformaciones y las bandas rotacionales. Pero las ideas cualitativas de Bohr, Mayer, Jensen y Mottelson siguen siendo la brújula conceptual para interpretar esos cálculos.</p>
+
+  <div class="sm-box">
+    <strong>Una última reflexión.</strong> La gota líquida es el modelo más antiguo (1935) y el más simple, pero sigue siendo el más intuitivo para explicar la fisión. El modelo de capas es el más exitoso para predecir espines, pero no describe rotaciones. El modelo colectivo es el más completo, pero también el más complejo. Ninguno es "el correcto": todos son <em>herramientas</em>. Y esa es, quizás, la lección más profunda de la física nuclear: un sistema de muchos cuerpos no se deja atrapar por una sola imagen. Necesitamos varias, y saber cuándo usar cada una.
+  </div>
+
+</div>
+
+<script>
+// ============================================================
+// UTILIDADES
+// ============================================================
+function toggleSolution(btn) {
+  const content = btn.nextElementSibling;
+  content.classList.toggle('open');
+  btn.innerText = content.classList.contains('open') ? 'Ocultar solución' : 'Mostrar solución';
+  if (window.MathJax && window.MathJax.Hub) {
+    window.MathJax.Hub.Queue(["Typeset", window.MathJax.Hub, content]);
+  }
+}
+window.toggleSolution = toggleSolution;
+
+// ============================================================
+// FÓRMULA SEMIEMPÍRICA DE MASA
+// ============================================================
+const SEMF = {
+  aV: 15.56,
+  aS: 17.23,
+  aC: 0.697,
+  aA: 23.29,
+  aP: 12.0
+};
+
+function semfTerms(A, Z) {
+  const t = {};
+  t.volume = SEMF.aV * A;
+  t.surface = -SEMF.aS * Math.pow(A, 2/3);
+  t.coulomb = -SEMF.aC * Z * (Z - 1) / Math.pow(A, 1/3);
+  t.asymmetry = -SEMF.aA * Math.pow(A - 2*Z, 2) / A;
+  // Pairing
+  let delta = 0;
+  if (A % 2 === 0) {
+    if (Z % 2 === 0) delta = SEMF.aP / Math.sqrt(A);   // even-even
+    else delta = -SEMF.aP / Math.sqrt(A);              // odd-odd
+  }
+  t.pairing = delta;
+  t.total = t.volume + t.surface + t.coulomb + t.asymmetry + t.pairing;
+  return t;
+}
+
+function stableZ(A) {
+  // Z ≈ A / (2 + 0.015 A^(2/3))
+  return Math.round(A / (2 + 0.01497 * Math.pow(A, 2/3)));
+}
+
+// ============================================================
+// FIGURA 1: ENERGÍA DE ENLACE POR NUCLEÓN
+// ============================================================
+function drawBindingCurve() {
+  const showData = document.getElementById('cb_show_data').checked;
+  const showSemf = document.getElementById('cb_show_semf').checked;
+  const showPeak = document.getElementById('cb_show_peak').checked;
+
+  const traces = [];
+
+  if (showData) {
+    const data = [
+      { name: '²H',  A: 2,   Z: 1,  BA: 1.11 },
+      { name: '⁴He', A: 4,   Z: 2,  BA: 7.07 },
+      { name: '¹²C', A: 12,  Z: 6,  BA: 7.68 },
+      { name: '¹⁶O', A: 16,  Z: 8,  BA: 7.98 },
+      { name: '²⁰Ne',A: 20,  Z: 10, BA: 8.03 },
+      { name: '²⁸Si',A: 28,  Z: 14, BA: 8.45 },
+      { name: '⁵⁶Fe',A: 56,  Z: 26, BA: 8.79 },
+      { name: '⁶²Ni',A: 62,  Z: 28, BA: 8.79 },
+      { name: '⁸⁹Y', A: 89,  Z: 39, BA: 8.71 },
+      { name: '¹²⁰Sn',A: 120,Z: 50, BA: 8.50 },
+      { name: '¹⁴⁴Nd',A:144, Z: 60, BA: 8.32 },
+      { name: '¹⁹⁷Au',A:197, Z: 79, BA: 7.92 },
+      { name: '²⁰⁸Pb',A:208, Z: 82, BA: 7.87 },
+      { name: '²³⁸U',A: 238, Z: 92, BA: 7.57 }
+    ];
+    traces.push({
+      x: data.map(d => d.A),
+      y: data.map(d => d.BA),
+      mode: 'markers',
+      type: 'scatter',
+      name: 'Datos experimentales',
+      marker: {
+        color: '#e74c3c',
+        size: 9,
+        line: { color: 'white', width: 1.5 }
+      },
+      text: data.map(d => d.name),
+      hovertemplate: '<b>%{text}</b><br>A = %{x}<br>B/A = %{y:.2f} MeV<extra></extra>'
+    });
+  }
+
+  if (showSemf) {
+    const As = [], BAs = [];
+    for (let A = 6; A <= 250; A++) {
+      const Z = stableZ(A);
+      if (Z < 1 || Z > A) continue;
+      const t = semfTerms(A, Z);
+      As.push(A);
+      BAs.push(t.total / A);
+    }
+    traces.push({
+      x: As, y: BAs,
+      mode: 'lines', type: 'scatter',
+      name: 'Predicción SEMF',
+      line: { color: '#2980b9', width: 2.5 },
+      hovertemplate: 'A = %{x}<br>B/A = %{y:.2f} MeV<extra></extra>'
+    });
+  }
+
+  const shapes = [];
+  const annotations = [];
+
+  if (showPeak) {
+    shapes.push({
+      type: 'rect',
+      x0: 50, x1: 68, y0: 8.0, y1: 9.2,
+      fillcolor: 'rgba(231,76,60,0.08)',
+      line: { color: '#e74c3c', width: 1, dash: 'dot' }
+    });
+    annotations.push({
+      x: 59, y: 9.0,
+      text: 'pico del hierro/níquel',
+      showarrow: false,
+      font: { size: 10, color: '#c0392b', family: 'Segoe UI', style: 'italic' }
+    });
+    annotations.push({
+      x: 59, y: 8.85,
+      text: '(máxima estabilidad)',
+      showarrow: false,
+      font: { size: 9, color: '#c0392b', family: 'Segoe UI' }
+    });
+  }
+
+  annotations.push({
+    x: 20, y: 4.5,
+    text: 'fusión →',
+    showarrow: false,
+    font: { size: 10, color: '#16a085', family: 'Segoe UI' }
+  });
+  annotations.push({
+    x: 200, y: 7.0,
+    text: '← fisión',
+    showarrow: false,
+    font: { size: 10, color: '#16a085', family: 'Segoe UI' }
+  });
+
+  Plotly.react('plot_binding', traces, {
+    xaxis: { title: 'Número másico A', range: [0, 255], zeroline: false, gridcolor: '#eee' },
+    yaxis: { title: 'B/A (MeV)', range: [0, 9.5], zeroline: false, gridcolor: '#eee' },
+    margin: { l: 65, r: 25, t: 20, b: 55 },
+    shapes: shapes,
+    annotations: annotations,
+    showlegend: true,
+    legend: { x: 0.02, y: 0.98, bgcolor: 'rgba(255,255,255,0.9)', font: { size: 10 } },
+    plot_bgcolor: '#fafafa'
+  }, { responsive: true, displayModeBar: false });
+
+  document.getElementById('stats_binding').innerHTML =
+    `<span class="stat-item"><span class="lbl">Máximo:</span> <span class="val">≈ 8.8 MeV (Fe, Ni)</span></span>` +
+    `<br><span class="stat-item"><span class="lbl">Núcleos ligeros:</span> <span class="val">fusión</span></span>` +
+    `<span class="stat-item"><span class="lbl">Núcleos pesados:</span> <span class="val">fisión</span></span>`;
+}
+
+// ============================================================
+// FIGURA 2: DESCOMPOSICIÓN SEMF
+// ============================================================
+function drawSemfBreakdown() {
+  const A = parseInt(document.getElementById('s_A_semf').value);
+  document.getElementById('v_A_semf').innerText = A;
+
+  const Z = stableZ(A);
+  const N = A - Z;
+  const t = semfTerms(A, Z);
+
+  const labels = ['Volumen', 'Superficie', 'Coulomb', 'Asimetría', 'Apareamiento', 'Total'];
+  const values = [t.volume, t.surface, t.coulomb, t.asymmetry, t.pairing, t.total];
+  const colors = ['#16a085', '#e67e22', '#c0392b', '#8e44ad', '#2980b9', '#1a252f'];
+
+  const trace = {
+    x: labels,
+    y: values,
+    type: 'bar',
+    marker: { color: colors, line: { color: 'rgba(0,0,0,0.15)', width: 1 } },
+    text: values.map(v => v.toFixed(1) + ' MeV'),
+    textposition: 'outside',
+    textfont: { size: 10, family: 'Segoe UI' },
+    hovertemplate: '<b>%{x}</b><br>%{y:.2f} MeV<extra></extra>'
+  };
+
+  Plotly.react('plot_semf', [trace], {
+    xaxis: { title: '', tickfont: { size: 11 }, fixedrange: true },
+    yaxis: { title: 'Energía (MeV)', zeroline: true, zerolinecolor: '#888', gridcolor: '#eee' },
+    margin: { l: 65, r: 25, t: 20, b: 55 },
+    showlegend: false,
+    plot_bgcolor: '#fafafa'
+  }, { responsive: true, displayModeBar: false });
+
+  // Determinar núcleo más cercano
+  const known = [
+    { A: 4, Z: 2, name: '⁴He' },
+    { A: 12, Z: 6, name: '¹²C' },
+    { A: 16, Z: 8, name: '¹⁶O' },
+    { A: 40, Z: 20, name: '⁴⁰Ca' },
+    { A: 56, Z: 26, name: '⁵⁶Fe' },
+    { A: 62, Z: 28, name: '⁶²Ni' },
+    { A: 120, Z: 50, name: '¹²⁰Sn' },
+    { A: 208, Z: 82, name: '²⁰⁸Pb' },
+    { A: 238, Z: 92, name: '²³⁸U' }
+  ];
+  let nearest = null, minDist = Infinity;
+  known.forEach(k => {
+    const d = Math.abs(k.A - A);
+    if (d < minDist) { minDist = d; nearest = k; }
+  });
+  const label = (minDist <= 4) ? nearest.name : `Z=${Z}, N=${N}`;
+
+  document.getElementById('stats_semf').innerHTML =
+    `<span class="stat-item"><span class="lbl">A:</span> <span class="val">${A}</span></span>` +
+    `<span class="stat-item"><span class="lbl">Z:</span> <span class="val">${Z}</span></span>` +
+    `<span class="stat-item"><span class="lbl">N:</span> <span class="val">${N}</span></span>` +
+    `<br><span class="stat-item"><span class="lbl">B:</span> <span class="val">${t.total.toFixed(1)} MeV</span></span>` +
+    `<span class="stat-item"><span class="lbl">B/A:</span> <span class="val">${(t.total/A).toFixed(2)} MeV</span></span>` +
+    `<br><span class="stat-item" style="font-family:Georgia; font-style:italic;">≈ ${label}</span>`;
+}
+
+// ============================================================
+// FIGURA 3: NIVELES DEL MODELO DE CAPAS
+// ============================================================
+const SHELL_LEVELS = [
+  { label: '1s<sub>1/2</sub>',  n: '1s', j: '1/2', l: 0, y: 0,    deg: 2,  cum: 2 },
+  { label: '1p<sub>3/2</sub>',  n: '1p', j: '3/2', l: 1, y: 1,    deg: 4,  cum: 6 },
+  { label: '1p<sub>1/2</sub>',  n: '1p', j: '1/2', l: 1, y: 2,    deg: 2,  cum: 8, magic: true },
+  { label: '1d<sub>5/2</sub>',  n: '1d', j: '5/2', l: 2, y: 3.5,  deg: 6,  cum: 14 },
+  { label: '2s<sub>1/2</sub>',  n: '2s', j: '1/2', l: 0, y: 4.5,  deg: 2,  cum: 16 },
+  { label: '1d<sub>3/2</sub>',  n: '1d', j: '3/2', l: 2, y: 5.5,  deg: 4,  cum: 20, magic: true },
+  { label: '1f<sub>7/2</sub>',  n: '1f', j: '7/2', l: 3, y: 7,    deg: 8,  cum: 28, magic: true },
+  { label: '2p<sub>3/2</sub>',  n: '2p', j: '3/2', l: 1, y: 8.5,  deg: 4,  cum: 32 },
+  { label: '1f<sub>5/2</sub>',  n: '1f', j: '5/2', l: 3, y: 9.5,  deg: 6,  cum: 38 },
+  { label: '2p<sub>1/2</sub>',  n: '2p', j: '1/2', l: 1, y: 10.5, deg: 2,  cum: 40 },
+  { label: '1g<sub>9/2</sub>',  n: '1g', j: '9/2', l: 4, y: 12,   deg: 10, cum: 50, magic: true },
+  { label: '1g<sub>7/2</sub>',  n: '1g', j: '7/2', l: 4, y: 13.5, deg: 8,  cum: 58 },
+  { label: '2d<sub>5/2</sub>',  n: '2d', j: '5/2', l: 2, y: 14.5, deg: 6,  cum: 64 },
+  { label: '2d<sub>3/2</sub>',  n: '2d', j: '3/2', l: 2, y: 15.5, deg: 4,  cum: 68 },
+  { label: '3s<sub>1/2</sub>',  n: '3s', j: '1/2', l: 0, y: 16.5, deg: 2,  cum: 70 },
+  { label: '1h<sub>11/2</sub>', n: '1h', j: '11/2',l: 5, y: 18,   deg: 12, cum: 82, magic: true },
+  { label: '1h<sub>9/2</sub>',  n: '1h', j: '9/2', l: 5, y: 19.5, deg: 10, cum: 92 },
+  { label: '2f<sub>7/2</sub>',  n: '2f', j: '7/2', l: 3, y: 20.5, deg: 8,  cum: 100 },
+  { label: '2f<sub>5/2</sub>',  n: '2f', j: '5/2', l: 3, y: 21.5, deg: 6,  cum: 106 },
+  { label: '3p<sub>3/2</sub>',  n: '3p', j: '3/2', l: 1, y: 22.5, deg: 4,  cum: 110 },
+  { label: '3p<sub>1/2</sub>',  n: '3p', j: '1/2', l: 1, y: 23.5, deg: 2,  cum: 112 },
+  { label: '1i<sub>13/2</sub>', n: '1i', j: '13/2',l: 6, y: 25,   deg: 14, cum: 126, magic: true }
+];
+
+const ORB_COLORS = {
+  s: '#2980b9',
+  p: '#16a085',
+  d: '#c0392b',
+  f: '#8e44ad',
+  g: '#e67e22',
+  h: '#8b4513',
+  i: '#1abc9c'
+};
+
+const ORB_NAMES = { s: 's', p: 'p', d: 'd', f: 'f', g: 'g', h: 'h', i: 'i' };
+
+function drawShellModel() {
+  const showMagic = document.getElementById('cb_show_magic').checked;
+  const showDeg = document.getElementById('cb_show_degeneracy').checked;
+
+  const shapes = [];
+  const annotations = [];
+  const traces = [];
+
+  const scale = 0.55; // escala de ancho
+
+  SHELL_LEVELS.forEach(lv => {
+    const width = lv.deg * scale;
+    const color = ORB_COLORS[lv.n[1]];
+    shapes.push({
+      type: 'line',
+      x0: -width/2, x1: width/2,
+      y0: lv.y, y1: lv.y,
+      line: { color: color, width: 5 }
+    });
+    annotations.push({
+      x: width/2 + 0.15, y: lv.y,
+      text: lv.label,
+      showarrow: false, xanchor: 'left',
+      font: { size: 10, color: '#333', family: 'Georgia', style: 'italic' }
+    });
+    if (showDeg) {
+      annotations.push({
+        x: -width/2 - 0.15, y: lv.y,
+        text: `[${lv.deg}]`,
+        showarrow: false, xanchor: 'right',
+        font: { size: 9, color: '#888', family: 'Consolas' }
+      });
+    }
+  });
+
+  // Marcar gaps en números mágicos
+  if (showMagic) {
+    const magicGaps = [
+      { y: 2.5,   cum: 8 },
+      { y: 6.25,  cum: 20 },
+      { y: 7.75,  cum: 28 },
+      { y: 11.25, cum: 50 },
+      { y: 17.25, cum: 82 },
+      { y: 24.25, cum: 126 }
+    ];
+    magicGaps.forEach(g => {
+      shapes.push({
+        type: 'line',
+        x0: -4.5, x1: 4.5,
+        y0: g.y, y1: g.y,
+        line: { color: 'rgba(192,57,43,0.55)', width: 1.5, dash: 'dash' }
+      });
+      annotations.push({
+        x: 4.8, y: g.y,
+        text: `══ ${g.cum} ══`,
+        showarrow: false, xanchor: 'left',
+        font: { size: 11, color: '#c0392b', family: 'Segoe UI', weight: 'bold' }
+      });
+    });
+    // El 2 es el primer mágico (ya lo cubre el gap de arriba)
+    annotations.push({
+      x: 4.8, y: 0.6,
+      text: '══ 2 ══',
+      showarrow: false, xanchor: 'left',
+      font: { size: 11, color: '#c0392b', family: 'Segoe UI', weight: 'bold' }
+    });
+  }
+
+  Plotly.react('plot_shell', [], {
+    xaxis: {
+      range: [-5, 6.5], showgrid: false, zeroline: false,
+      showticklabels: false, fixedrange: true
+    },
+    yaxis: {
+      title: 'Energía (esquemática, crece hacia arriba)',
+      range: [-1, 27], showgrid: false, zeroline: false,
+      showticklabels: false, fixedrange: true
+    },
+    margin: { l: 55, r: 25, t: 20, b: 45 },
+    shapes: shapes,
+    annotations: annotations,
+    showlegend: false,
+    plot_bgcolor: '#fafafa'
+  }, { responsive: true, displayModeBar: false });
+
+  // Leyenda de colores
+  const legendHTML = Object.entries(ORB_NAMES).map(([k, v]) =>
+    `<span class="stat-item"><span class="legend-swatch" style="background:${ORB_COLORS[k]};"></span>${v}</span>`
+  ).join('');
+
+  document.getElementById('stats_shell').innerHTML =
+    `<span class="stat-item"><span class="lbl">Mágicos:</span> <span class="val">2, 8, 20, 28, 50, 82, 126</span></span>` +
+    `<br>${legendHTML}`;
+}
+
+// ============================================================
+// FIGURA 4: BANDAS ROTACIONALES
+// ============================================================
+function drawRotational() {
+  const showRigid = document.getElementById('cb_show_rigid').checked;
+  const showReal = document.getElementById('cb_show_real').checked;
+  const showVib = document.getElementById('cb_show_vib').checked;
+
+  const traces = [];
+
+  // Rotor rígido: E(J) = J(J+1) * E(2)/6, con E(2) = 91.4 keV (típico de 164Er)
+  const E2 = 91.4; // keV
+  const Jmax = 20;
+
+  if (showRigid) {
+    const Js = [];
+    const Es = [];
+    for (let J = 0; J <= Jmax; J += 2) {
+      Js.push(J);
+      Es.push(J * (J + 1) * E2 / 6);
+    }
+    traces.push({
+      x: Js, y: Es,
+      mode: 'lines+markers', type: 'scatter',
+      name: 'Rotor rígido',
+      line: { color: '#2980b9', width: 2.5 },
+      marker: { color: '#2980b9', size: 6 },
+      hovertemplate: 'J = %{x}<br>E = %{y:.0f} keV<extra></extra>'
+    });
+  }
+
+  // Datos reales aproximados para 164Er
+  const realData = [
+    { J: 0, E: 0 },
+    { J: 2, E: 91.4 },
+    { J: 4, E: 299.5 },
+    { J: 6, E: 614.4 },
+    { J: 8, E: 1023.6 },
+    { J: 10, E: 1517.7 },
+    { J: 12, E: 2087.4 },
+    { J: 14, E: 2727.4 },
+    { J: 16, E: 3435.9 }
+  ];
+
+  if (showReal) {
+    traces.push({
+      x: realData.map(d => d.J),
+      y: realData.map(d => d.E),
+      mode: 'markers', type: 'scatter',
+      name: 'Datos reales (¹⁶⁴Er aprox.)',
+      marker: {
+        color: '#c0392b', size: 10,
+        line: { color: 'white', width: 1.5 }
+      },
+      hovertemplate: 'J = %{x}<br>E = %{y:.0f} keV<extra></extra>'
+    });
+  }
+
+  if (showVib) {
+    // Vibración armónica: E(n) = n * ħω, con ħω = E(2) para comparar
+    // Estados: 0⁺ (n=0), 2⁺ (n=1), 0⁺, 2⁺, 4⁺ (n=2)
+    const hbarOmega = E2;
+    const vibStates = [
+      { E: 0,           label: '0⁺ (n=0)' },
+      { E: hbarOmega,   label: '2⁺ (n=1)' },
+      { E: 2*hbarOmega, label: '0⁺, 2⁺, 4⁺ (n=2)' },
+      { E: 3*hbarOmega, label: 'n=3' }
+    ];
+    traces.push({
+      x: vibStates.map((_, i) => i),
+      y: vibStates.map(s => s.E),
+      mode: 'markers', type: 'scatter',
+      name: 'Vibración (ħω = E(2))',
+      marker: {
+        color: '#16a085', size: 12, symbol: 'diamond',
+        line: { color: 'white', width: 1.5 }
+      },
+      text: vibStates.map(s => s.label),
+      hovertemplate: '%{text}<br>E = %{y:.0f} keV<extra></extra>'
+    });
+  }
+
+  Plotly.react('plot_rot', traces, {
+    xaxis: { title: 'Espín J (o índice de estado para vibración)', zeroline: false, gridcolor: '#eee' },
+    yaxis: { title: 'Energía (keV)', zeroline: true, zerolinecolor: '#888', gridcolor: '#eee' },
+    margin: { l: 65, r: 25, t: 20, b: 55 },
+    showlegend: true,
+    legend: { x: 0.02, y: 0.98, bgcolor: 'rgba(255,255,255,0.92)', font: { size: 10 } },
+    plot_bgcolor: '#fafafa'
+  }, { responsive: true, displayModeBar: false });
+
+  document.getElementById('stats_rot').innerHTML =
+    `<span class="stat-item"><span class="lbl">E(2⁺):</span> <span class="val">91.4 keV</span></span>` +
+    `<span class="stat-item"><span class="lbl">E(4⁺)/E(2⁺):</span> <span class="val">3.28 (real)</span></span>` +
+    `<span class="stat-item"><span class="lbl">Rotor rígido:</span> <span class="val">3.33</span></span>`;
+}
+
+// ============================================================
+// EVENTOS E INICIALIZACIÓN
+// ============================================================
+function attachHandlers() {
+  document.getElementById('s_A_semf').addEventListener('input', drawSemfBreakdown);
+  document.getElementById('cb_show_data').addEventListener('change', drawBindingCurve);
+  document.getElementById('cb_show_semf').addEventListener('change', drawBindingCurve);
+  document.getElementById('cb_show_peak').addEventListener('change', drawBindingCurve);
+  document.getElementById('cb_show_magic').addEventListener('change', drawShellModel);
+  document.getElementById('cb_show_degeneracy').addEventListener('change', drawShellModel);
+  document.getElementById('cb_show_rigid').addEventListener('change', drawRotational);
+  document.getElementById('cb_show_real').addEventListener('change', drawRotational);
+  document.getElementById('cb_show_vib').addEventListener('change', drawRotational);
+
+  window.addEventListener('resize', () => {
+    if (typeof Plotly !== 'undefined') {
+      ['plot_binding', 'plot_semf', 'plot_shell', 'plot_rot'].forEach(id => {
+        try { Plotly.Plots.resize(id); } catch(e) {}
+      });
+    }
+  });
+}
+
+function initAll() {
+  if (typeof Plotly === 'undefined') {
+    setTimeout(initAll, 100);
+    return;
+  }
+  drawBindingCurve();
+  drawSemfBreakdown();
+  drawShellModel();
+  drawRotational();
+  attachHandlers();
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initAll);
+} else {
+  initAll();
+}
+</script>
+</body>
+</html>
