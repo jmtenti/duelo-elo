@@ -1,0 +1,1531 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Estudio Interactivo: La Ley de Moseley y los Rayos X Característicos</title>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']], displayMath: [['$$','$$'], ['\\[','\\]']]},
+    messageStyle: "none"
+  });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script src="https://cdn.plot.ly/plotly-2.24.1.min.js"></script>
+
+<style>
+  :root {
+    --primary-color: #1a252f;
+    --secondary-color: #2c3e50;
+    --accent-color: #c0392b;
+    --link-color: #2980b9;
+    --bg-color: #f8f9fa;
+    --sm-color: #16a085;
+    --we-color: #6c3483;
+    --intuition-color: #d35400;
+    --warning-color: #c0392b;
+    --hist-color: #b7791f;
+  }
+  body {
+    font-family: 'Georgia', serif;
+    background: var(--bg-color);
+    color: #333;
+    line-height: 1.8;
+    margin: 0;
+    padding: 40px 0;
+    font-size: 16px;
+  }
+  .container {
+    max-width: 1000px;
+    margin: auto;
+    background: white;
+    padding: 50px 80px;
+    border-radius: 12px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.06);
+  }
+  h1 {
+    color: var(--primary-color);
+    text-align: center;
+    font-size: 2.1em;
+    font-family: 'Segoe UI', sans-serif;
+    margin-bottom: 10px;
+  }
+  .subtitle {
+    text-align: center;
+    color: #7f8c8d;
+    font-style: italic;
+    margin-bottom: 40px;
+  }
+  h2 {
+    color: var(--secondary-color);
+    margin-top: 55px;
+    border-bottom: 2px solid #ecf0f1;
+    padding-bottom: 5px;
+    font-family: 'Segoe UI', sans-serif;
+  }
+  h3 {
+    color: var(--secondary-color);
+    margin-top: 35px;
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 1.18em;
+  }
+  h4 {
+    color: var(--sm-color);
+    margin-top: 25px;
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 1.02em;
+    font-style: italic;
+  }
+  p {
+    text-align: justify;
+    margin-bottom: 20px;
+  }
+  ul, ol {
+    text-align: justify;
+  }
+  li {
+    margin-bottom: 8px;
+  }
+  .math-box {
+    background: #fdfefe;
+    border-left: 4px solid var(--link-color);
+    padding: 15px 25px;
+    margin: 25px 0;
+    overflow-x: auto;
+    font-size: 1.08em;
+  }
+  .note-box {
+    background: #fef9e7;
+    border-left: 4px solid #f39c12;
+    padding: 12px 20px;
+    margin: 20px 0;
+    font-size: 0.98em;
+  }
+  .sm-box {
+    background: #eafaf1;
+    border-left: 4px solid var(--sm-color);
+    padding: 14px 22px;
+    margin: 22px 0;
+    font-size: 0.97em;
+  }
+  .sm-box strong:first-child { color: var(--sm-color); }
+  .intuition-box {
+    background: #fdf2e9;
+    border-left: 4px solid var(--intuition-color);
+    padding: 14px 22px;
+    margin: 22px 0;
+    font-size: 0.97em;
+  }
+  .intuition-box strong:first-child { color: var(--intuition-color); }
+  .warning-box {
+    background: #fdedec;
+    border-left: 4px solid var(--warning-color);
+    padding: 14px 22px;
+    margin: 22px 0;
+    font-size: 0.97em;
+  }
+  .warning-box strong:first-child { color: var(--warning-color); }
+  .guide-box {
+    background: #eef6fc;
+    border-left: 4px solid var(--link-color);
+    padding: 14px 22px;
+    margin: 22px 0;
+    font-size: 0.96em;
+  }
+  .guide-box strong:first-child { color: var(--link-color); }
+  .guide-box ol { margin: 8px 0 0 0; padding-left: 22px; }
+  .history-box {
+    background: #fbf6e9;
+    border-left: 4px solid var(--hist-color);
+    padding: 14px 22px;
+    margin: 22px 0;
+    font-size: 0.95em;
+    font-style: italic;
+    color: #5b4a1e;
+  }
+  .history-box strong { font-style: normal; }
+  .worked-example {
+    background: #faf7fd;
+    border: 1px solid #d5c8e8;
+    border-left: 5px solid var(--we-color);
+    border-radius: 8px;
+    padding: 22px 30px 24px;
+    margin: 35px 0;
+    font-size: 0.98em;
+  }
+  .worked-example .we-header {
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 0.78em;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--we-color);
+    font-weight: bold;
+    margin-bottom: 6px;
+  }
+  .worked-example .we-title {
+    font-family: 'Segoe UI', sans-serif;
+    color: var(--we-color);
+    font-size: 1.08em;
+    font-weight: 600;
+    margin: 0 0 16px 0;
+    line-height: 1.4;
+  }
+  .worked-example .step {
+    margin: 18px 0;
+    padding-left: 18px;
+    border-left: 2px solid #e3d4f0;
+  }
+  .worked-example .step-label {
+    font-family: 'Segoe UI', sans-serif;
+    font-weight: bold;
+    color: var(--we-color);
+    font-size: 0.86em;
+    display: block;
+    margin-bottom: 4px;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+  }
+  .worked-example .result {
+    background: #efe9f7;
+    border-radius: 5px;
+    padding: 10px 16px;
+    margin-top: 8px;
+    font-weight: 500;
+  }
+  .worked-example .verify {
+    background: #eafaf1;
+    border-left: 3px solid var(--sm-color);
+    padding: 8px 14px;
+    border-radius: 0 5px 5px 0;
+    margin-top: 8px;
+    font-size: 0.95em;
+  }
+  .exercise-box {
+    background: #fdf2f2;
+    border: 1px solid #f5c6c6;
+    border-radius: 8px;
+    padding: 22px 28px;
+    margin: 35px 0;
+  }
+  .exercise-box h4 {
+    color: var(--accent-color);
+    margin-top: 0;
+    font-style: normal;
+    font-size: 1.05em;
+  }
+  .hint {
+    background: #fff8e1;
+    border-radius: 4px;
+    padding: 8px 14px;
+    margin: 10px 0;
+    font-size: 0.92em;
+    color: #6d4c00;
+    border-left: 3px solid #f39c12;
+  }
+  .solution-toggle {
+    background: var(--accent-color);
+    color: white;
+    border: none;
+    padding: 8px 18px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 0.92em;
+    margin-top: 12px;
+    transition: background 0.2s;
+  }
+  .solution-toggle:hover { background: #a02828; }
+  .solution-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s ease, margin 0.3s ease;
+    margin-top: 0;
+  }
+  .solution-content.open {
+    max-height: 6000px;
+    margin-top: 18px;
+  }
+  .interactive-figure {
+    background: #fafafa;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    padding: 25px;
+    margin: 40px 0;
+    font-family: 'Segoe UI', sans-serif;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+  }
+  .figure-title {
+    text-align: center;
+    color: var(--secondary-color);
+    font-weight: bold;
+    font-size: 1.2em;
+    margin-top: 0;
+    margin-bottom: 14px;
+  }
+  .plot-area {
+    width: 100%;
+    height: 440px;
+    margin-bottom: 15px;
+  }
+  .controls {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    padding: 18px 20px;
+    background: #fff;
+    border-radius: 8px;
+    border: 1px solid #eee;
+    margin-bottom: 15px;
+  }
+  .control-panel h4 {
+    margin-top: 0;
+    color: var(--secondary-color);
+    font-size: 0.9em;
+    font-family: 'Segoe UI', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-style: normal;
+    margin-bottom: 10px;
+  }
+  .checkbox-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 6px 0;
+    font-size: 0.93em;
+    color: #444;
+    cursor: pointer;
+  }
+  .checkbox-row input[type=checkbox] {
+    width: 16px;
+    height: 16px;
+    accent-color: var(--link-color);
+    cursor: pointer;
+  }
+  .slider-row {
+    display: block;
+    margin: 12px 0;
+    font-size: 0.93em;
+    color: #333;
+  }
+  .slider-row input[type=range] {
+    width: 100%;
+    accent-color: var(--accent-color);
+    cursor: pointer;
+  }
+  .slider-val {
+    font-family: Consolas, monospace;
+    color: var(--accent-color);
+    font-weight: bold;
+  }
+  .select-row {
+    margin: 10px 0;
+    font-size: 0.93em;
+    color: #333;
+  }
+  .select-row select {
+    display: block;
+    width: 100%;
+    margin-top: 6px;
+    padding: 8px 12px;
+    border-radius: 6px;
+    border: 1.5px solid #ccc;
+    font-size: 0.95em;
+    background: white;
+    cursor: pointer;
+  }
+  .select-row select:hover { border-color: var(--link-color); }
+  .button-group {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin: 8px 0 12px 0;
+  }
+  .button-group button {
+    flex: 1;
+    min-width: 44px;
+    padding: 7px 12px;
+    border: 2px solid #ddd;
+    background: white;
+    border-radius: 6px;
+    cursor: pointer;
+    font-family: 'Segoe UI', sans-serif;
+    font-weight: 600;
+    font-size: 0.9em;
+    color: #555;
+    transition: all 0.15s;
+  }
+  .button-group button:hover {
+    border-color: var(--link-color);
+    color: var(--link-color);
+  }
+  .button-group button.active {
+    background: var(--link-color);
+    color: white;
+    border-color: var(--link-color);
+  }
+  .stats {
+    margin-top: 10px;
+    padding: 12px 16px;
+    background: #f4f6f7;
+    border-radius: 6px;
+    font-family: Consolas, monospace;
+    font-size: 0.86em;
+    line-height: 1.7;
+    text-align: center;
+  }
+  .stats .stat-item {
+    display: inline-block;
+    margin: 3px 6px;
+    padding: 3px 10px;
+    background: white;
+    border-radius: 4px;
+    border: 1px solid #e0e0e0;
+  }
+  .stats .stat-item .lbl { color: #888; }
+  .stats .stat-item .val { color: var(--accent-color); font-weight: bold; }
+  .caption {
+    font-size: 0.95em;
+    color: #555;
+    text-align: justify;
+    padding: 10px 20px;
+    border-left: 3px solid var(--accent-color);
+    background: #fff;
+  }
+  .term-table, table.generic {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 0.94em;
+  }
+  .term-table th, .term-table td, table.generic th, table.generic td {
+    border: 1px solid #e0e0e0;
+    padding: 10px 14px;
+    text-align: left;
+    vertical-align: top;
+  }
+  .term-table th, table.generic th {
+    background: #ecf0f1;
+    font-family: 'Segoe UI', sans-serif;
+  }
+  .term-table td.symbol {
+    font-family: 'Cambria Math', 'Times New Roman', serif;
+    font-size: 1.12em;
+    text-align: center;
+    width: 110px;
+    background: #fafafa;
+    font-weight: bold;
+    color: var(--secondary-color);
+  }
+  .toc {
+    background: #f4f6f7;
+    border-radius: 8px;
+    padding: 20px 30px;
+    margin: 30px 0;
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 0.95em;
+  }
+  .toc h3 { margin-top: 0; color: var(--secondary-color); font-size: 1.05em; }
+  .toc ol { margin: 0; padding-left: 22px; }
+  .toc li { margin: 4px 0; }
+  .toc a { color: var(--link-color); text-decoration: none; }
+  .toc a:hover { text-decoration: underline; }
+  .step-by-step {
+    counter-reset: step-counter;
+    list-style: none;
+    padding-left: 0;
+    margin: 25px 0;
+  }
+  .step-by-step li {
+    position: relative;
+    padding: 12px 18px 12px 60px;
+    margin: 10px 0;
+    background: #f8f9fa;
+    border-radius: 6px;
+    border-left: 3px solid var(--link-color);
+  }
+  .step-by-step li::before {
+    counter-increment: step-counter;
+    content: counter(step-counter);
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 32px;
+    height: 32px;
+    background: var(--link-color);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Segoe UI', sans-serif;
+    font-weight: bold;
+    font-size: 0.95em;
+  }
+
+  @media (max-width: 800px) {
+    .container { padding: 30px 20px; }
+    .controls { grid-template-columns: 1fr; }
+    .plot-area { height: 380px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h1>La Ley de Moseley y los Rayos X Característicos</h1>
+  <div class="subtitle">Cómo las líneas espectrales de rayos X revelaron el verdadero orden de la tabla periódica y demostraron la existencia física del número atómico Z</div>
+
+  <div class="note-box">
+    <strong>Notación.</strong> $Z$: número atómico (carga nuclear en unidades de $e$). $A$: número másico (masa atómica). $\nu$: frecuencia de la radiación ($c/\lambda$). $\lambda$: longitud de onda. $R_\infty = 1.097373 \times 10^7\ \text{m}^{-1}$: constante de Rydberg. $b$: constante de apantallamiento (apantallamiento nuclear efectivo). $K_\alpha, K_\beta, L_\alpha$: líneas características en notación de Siegbahn. $V$: voltaje acelerador en el tubo de rayos X (kV). $\lambda_{\min} = hc/(eV)$: longitud de onda de corte de Duane-Hunt (Bremsstrahlung).
+  </div>
+
+  <div class="intuition-box">
+    <strong>La idea en una frase.</strong> Hasta 1913, los elementos químicos se ordenaban según su peso atómico, lo que generaba contradicciones inexplicables (como poner el cobalto antes del níquel). Henry Moseley bombardeó los elementos con electrones rápidos y descubrió que la raíz cuadrada de la frecuencia de sus rayos X característicos crece en pasos enteros idénticos: demostró que la identidad profunda de un átomo no es su masa, sino su número entero de cargas nucleares $Z$.
+  </div>
+
+  <div class="toc">
+    <h3>Contenido</h3>
+    <ol>
+      <li><a href="#s1">El gran dilema de Mendeléyev: ¿peso atómico o número atómico?</a></li>
+      <li><a href="#s2">Anatomía de los rayos X: espectro continuo (Bremsstrahlung) vs. picos característicos</a> <em>(Fig. 1)</em></li>
+      <li><a href="#s3">Mecanismo microscópico: capas K, L, M, vacancias y notación de Siegbahn</a> <em>(Fig. 2)</em></li>
+      <li><a href="#s4">La Ley de Moseley: formulación matemática y constante de apantallamiento</a> <em>(Fig. 3)</em></li>
+      <li><a href="#s5">El triunfo histórico: ordenar la tabla periódica y predecir elementos faltantes</a></li>
+      <li><a href="#s6">Aplicación moderna: espectrometría de fluorescencia de rayos X (XRF)</a> <em>(Fig. 4)</em></li>
+      <li><a href="#s7">Ejemplos resueltos</a></li>
+      <li><a href="#s8">Ejercicios para pensar</a></li>
+      <li><a href="#s9">Conclusiones</a></li>
+    </ol>
+  </div>
+
+  <!-- ============================================ -->
+  <h2 id="s1">1. El gran dilema de Mendeléyev: ¿peso atómico o número atómico?</h2>
+
+  <p>Cuando Dmitri Mendeléyev publicó su genial tabla periódica en 1869, ordenó los elementos conocidos en orden creciente de <strong>peso atómico</strong> ($A$). Al hacerlo, los elementos con propiedades químicas similares quedaban agrupados en columnas verticales. Sin embargo, este criterio puramente de masa presentaba anomalías flagrantes que desconcertaron a los químicos durante cuatro décadas:</p>
+
+  <ul>
+    <li><strong>El par Telurio / Yodo:</strong> El telurio tiene una masa atómica de $127.60\ \text{u}$, mientras que el yodo tiene $126.90\ \text{u}$. Si se siguiera estrictamente el peso, el yodo debería ir antes que el telurio. Pero el yodo es indudablemente un halógeno (propiedades idénticas al cloro y bromo) y el telurio pertenece al grupo del azufre y selenio. Mendeléyev decidió forzar el orden químico e invirtió sus posiciones, sospechando que los pesos estaban mal medidos en el laboratorio. No lo estaban: la inversión es real.</li>
+    <li><strong>El par Cobalto / Níquel:</strong> El cobalto ($58.93\ \text{u}$) es más pesado que el níquel ($58.69\ \text{u}$), pero químicamente el cobalto debe preceder al níquel.</li>
+    <li><strong>El par Argón / Potasio:</strong> Al descubrirse los gases nobles, el argón ($39.95\ \text{u}$) resultó ser más pesado que el potasio ($39.10\ \text{u}$), pero colocar el argón después del potasio habría puesto a un gas inerte con los metales alcalinos.</li>
+  </ul>
+
+  <p>En aquella época, el «número atómico» $Z$ era simplemente una etiqueta de catálogo: la posición en la lista (hidrógeno = 1, helio = 2, litio = 3...). Nadie sabía si $Z$ tenía algún significado físico real o si era solo un índice arbitrario. ¿Cómo podía saberse si entre el oro ($Z=79$) y el plomo ($Z=82$) faltaban por descubrir dos, cinco o ningún elemento?</p>
+
+  <div class="history-box">
+    <strong>Contexto histórico.</strong> En 1913, en el laboratorio de Ernest Rutherford en Manchester, un brillante físico de solo 25 años, <strong>Henry Moseley</strong>, se propuso responder esta pregunta midiendo sistemáticamente las frecuencias de los rayos X emitidos por diferentes metales. En menos de dos años de trabajo febril antes de partir como voluntario a la Primera Guerra Mundial, Moseley transformó la química y la física atómica para siempre.
+  </div>
+
+  <!-- ============================================ -->
+  <h2 id="s2">2. Anatomía de los rayos X: continuo (Bremsstrahlung) vs. picos característicos</h2>
+
+  <p>Para entender el descubrimiento de Moseley, primero debemos comprender qué ocurre dentro de un <strong>tubo de rayos X (tubo de Coolidge)</strong>. En este dispositivo, los electrones emitidos por un filamento caliente se aceleran mediante una alta diferencia de potencial $V$ (de 10 a 100 kV) y chocan a gran velocidad contra un blanco metálico (ánodo).</p>
+
+  <p>El espectro de rayos X emitido por el blanco se compone de <strong>dos mecanismos físicos totalmente distintos</strong> superpuestos en la misma gráfica:</p>
+
+  <ol class="step-by-step">
+    <li><strong>Radiación de frenado o continua (Bremsstrahlung).</strong> Al penetrar en el metal, los electrones incidentes son desviados y desacelerados violentamente por el campo eléctrico de los núcleos. Según el electromagnetismo clásico y la cuántica, una carga que se desacelera radia energía. Como cada electrón pierde una fracción diferente de su energía cinética en las colisiones, se genera un <strong>espectro continuo</strong> de rayos X.
+      <br><br>
+      Este espectro tiene un corte abrupto de mínima longitud de onda (máxima frecuencia), conocido como el <strong>límite de Duane-Hunt (1915)</strong>, que ocurre cuando un electrón entrega el 100% de su energía cinética $E_k = eV$ en un único fotón:
+      <div class="math-box">
+        $$ h\nu_{\max} = eV \qquad \Longrightarrow \qquad \lambda_{\min} = \frac{hc}{eV} \approx \frac{1.240\ \text{keV}\cdot\text{nm}}{eV}. $$
+      </div>
+    </li>
+    <li><strong>Líneas o picos característicos.</strong> Sobre el fondo continuo continuo de frenado, emergen <strong>picos sumamente estrechos e intensos</strong> a longitudes de onda discretas. A diferencia del Bremsstrahlung, las posiciones de estos picos <strong>no dependen del voltaje acelerador $V$</strong> (siempre que $V$ supere el umbral de excitación): dependen <em>únicamente</em> del elemento químico que compone el blanco. Si el blanco es de cobre, aparecen picos en $0.154\ \text{nm}$; si es de molibdeno, en $0.071\ \text{nm}$. ¡Son la huella dactilar atómica de cada elemento!
+    </li>
+  </ol>
+
+  <!-- FIGURA 1: ESPECTRO DE RAYOS X (BREMSSTRAHLUNG + PICOS CARACTERÍSTICOS) -->
+  <div class="interactive-figure">
+    <div class="figure-title">Figura 1: Espectro de emisión de un tubo de rayos X — Bremsstrahlung y picos característicos</div>
+    <div id="plot_xray_spec" class="plot-area"></div>
+    <div class="controls">
+      <div class="control-panel">
+        <h4>Material del blanco (ánodo)</h4>
+        <div class="button-group" id="btns_target_mat">
+          <button type="button" data-mat="Cu" class="active">Cobre (Cu, Z=29)</button>
+          <button type="button" data-mat="Mo">Molibdeno (Mo, Z=42)</button>
+          <button type="button" data-mat="W">Wolframio (W, Z=74)</button>
+        </div>
+        <label class="slider-row">
+          Voltaje acelerador $V$ (kV): <span id="v_volts_spec" class="slider-val">35.0</span>
+          <input type="range" id="s_volts_spec" min="15.0" max="80.0" step="1.0" value="35.0">
+        </label>
+      </div>
+      <div class="control-panel">
+        <h4>Lectura cuantitativa del espectro</h4>
+        <div id="stats_spec" class="stats"></div>
+      </div>
+    </div>
+
+    <div class="guide-box">
+      <strong>Qué observar en la Figura 1.</strong>
+      <ol>
+        <li>Mové el deslizador del <strong>voltaje $V$</strong>: el corte izquierdo $\lambda_{\min}$ se desplaza hacia longitudes de onda más cortas ($\lambda_{\min} \propto 1/V$) y la curva continua de Bremsstrahlung se eleva. Sin embargo, <strong>la posición de los picos puntiagudos ($K_\alpha$ y $K_\beta$) no se mueve ni un solo milímetro</strong>.</li>
+        <li>Cambiá el <strong>material del blanco</strong> de Cobre a Molibdeno y a Wolframio: los picos característicos saltan bruscamente hacia la izquierda (menor $\lambda$, mayor energía) a medida que el número atómico $Z$ del blanco aumenta.</li>
+        <li>Si bajás el voltaje por debajo de la energía de enlace de la capa K del metal (por ejemplo, menos de $20\ \text{kV}$ para Molibdeno), los picos K desaparecen por completo, dejando solo el fondo continuo, porque los electrones incidentes no tienen suficiente energía para arrancar un electrón de la capa profunda K.</li>
+      </ol>
+    </div>
+
+    <div class="caption">
+      <strong>Epígrafe:</strong> Espectro de rayos X emitido por un ánodo bajo bombardeo electrónico. La curva suave gris representa el espectro continuo de frenado (Bremsstrahlung) con su límite de Duane-Hunt $\lambda_{\min} = hc/(eV)$. Los picos marcados corresponden a las transiciones características $K_\alpha$ (rojo) y $K_\beta$ (azul) del elemento seleccionado.
+    </div>
+  </div>
+
+  <!-- ============================================ -->
+  <h2 id="s3">3. Mecanismo microscópico: capas K, L, M, vacancias y notación de Siegbahn</h2>
+
+  <p>¿De dónde nacen estos picos característicos tan nítidos? La explicación física es un proceso atómico de dos pasos que conecta de lleno con los niveles de energía de Bohr:</p>
+
+  <ol class="step-by-step">
+    <li><strong>Creación de la vacancia interna (ionización profunda).</strong> Un electrón incidente de alta energía penetra hasta las capas más profundas del átomo del blanco y colisiona con uno de los electrones fuertemente ligados a la capa $n=1$ (la <strong>capa K</strong>). La colisión expulsa al electrón de la capa K hacia afuera del átomo, dejando una <strong>vacancia (un «hueco»)</strong> en el nivel más profundo. El átomo queda en un estado excitado de altísima energía.
+    </li>
+    <li><strong>Salto radiativo desexcitante (emisión de rayos X).</strong> La vacancia en la capa K es altamente inestable: en una fracción de femtosegundo ($10^{-15}\ \text{s}$), un electrón de una capa más externa ($n=2$ capa L, $n=3$ capa M...) «cae» para ocupar el lugar vacío. Como el electrón salta de un nivel menos ligado a uno mucho más ligado, la diferencia de energía se libera en forma de un fotón electromagnético de alta frecuencia: un <strong>fotón de rayos X</strong>:
+      <div class="math-box">
+        $$ h\nu = E_{\text{inicial}} - E_{\text{final}} = \Delta E. $$
+      </div>
+    </li>
+  </ol>
+
+  <h3>3.1 La nomenclatura de Siegbahn</h3>
+
+  <p>Para clasificar estas transiciones se utiliza universalmente la notación introducida por Manne Siegbahn (Premio Nobel de Física 1924):</p>
+
+  <table class="term-table">
+    <thead>
+      <tr>
+        <th>Línea</th>
+        <th>Nivel inicial (cae desde)</th>
+        <th>Nivel final (vacancia en)</th>
+        <th>Intensidad relativa típica</th>
+        <th>Descripción</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="symbol">$K_\alpha$</td>
+        <td>Capa L ($n = 2$)</td>
+        <td>Capa K ($n = 1$)</td>
+        <td>Muy intensa ($\sim 100$)</td>
+        <td>Es la transición más probable hacia la vacancia K; suele ser la línea más prominente del espectro.</td>
+      </tr>
+      <tr>
+        <td class="symbol">$K_\beta$</td>
+        <td>Capa M ($n = 3$)</td>
+        <td>Capa K ($n = 1$)</td>
+        <td>Moderada ($\sim 20$)</td>
+        <td>Salto más largo; fotón de mayor energía (menor $\lambda$) que $K_\alpha$, pero menos probable.</td>
+      </tr>
+      <tr>
+        <td class="symbol">$L_\alpha$</td>
+        <td>Capa M ($n = 3$)</td>
+        <td>Capa L ($n = 2$)</td>
+        <td>Intensa en elementos pesados</td>
+        <td>La vacancia original se produjo en la capa L ($n=2$) y es llenada por un electrón de la capa M.</td>
+      </tr>
+      <tr>
+        <td class="symbol">$L_\beta$</td>
+        <td>Capa N ($n = 4$)</td>
+        <td>Capa L ($n = 2$)</td>
+        <td>Moderada</td>
+        <td>Fotón de mayor energía que $L_\alpha$.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- FIGURA 2: DIAGRAMA DE NIVELES Y TRANSICIONES DE SIEGBAHN -->
+  <div class="interactive-figure">
+    <div class="figure-title">Figura 2: Diagrama de capas electrónicas y transiciones de rayos X</div>
+    <div id="plot_energy_levels" class="plot-area"></div>
+    <div class="controls">
+      <div class="control-panel">
+        <h4>Seleccionar transición</h4>
+        <div class="select-row">
+          <label>Línea espectral a observar:</label>
+          <select id="sel_xray_line">
+            <option value="Ka" selected>Línea Kα (n=2 → n=1, Capa L → Capa K)</option>
+            <option value="Kb">Línea Kβ (n=3 → n=1, Capa M → Capa K)</option>
+            <option value="La">Línea Lα (n=3 → n=2, Capa M → Capa L)</option>
+            <option value="Lb">Línea Lβ (n=4 → n=2, Capa N → Capa L)</option>
+          </select>
+        </div>
+        <div class="select-row">
+          <label>Elemento emisor:</label>
+          <select id="sel_elem_levels">
+            <option value="29" selected>Cobre (Cu, Z=29)</option>
+            <option value="42">Molibdeno (Mo, Z=42)</option>
+            <option value="47">Plata (Ag, Z=47)</option>
+            <option value="74">Wolframio (W, Z=74)</option>
+          </select>
+        </div>
+      </div>
+      <div class="control-panel">
+        <h4>Parámetros de la transición seleccionada</h4>
+        <div id="stats_levels" class="stats"></div>
+      </div>
+    </div>
+
+    <div class="guide-box">
+      <strong>Qué observar en la Figura 2.</strong>
+      <ol>
+        <li>Las energías de enlace de las capas profundas son gigantescas comparadas con las de la luz visible: mientras que excitar un electrón de valencia cuesta de 1 a 5 eV, arrancar un electrón de la capa K del Cobre cuesta casi <strong>$9000\ \text{eV}$ (9 keV)</strong>, y en el Wolframio supera los <strong>$69000\ \text{eV}$ (69 keV)</strong>.</li>
+        <li>La flecha roja indica el salto que da el electrón exterior para rellenar la vacancia. El fotón emitido transporta exactamente la diferencia $\Delta E$.</li>
+        <li>La línea $K_\beta$ siempre tiene más energía (flecha más larga) que $K_\alpha$, porque cae desde $n=3$ en vez de $n=2$. Sin embargo, la probabilidad cuántica de transición hace que $K_\alpha$ sea típicamente unas 5 veces más intensa que $K_\beta$.</li>
+      </ol>
+    </div>
+
+    <div class="caption">
+      <strong>Epígrafe:</strong> Esquema de niveles de energía atómica profunda y transiciones de emisión de rayos X según la notación de Siegbahn. Los niveles K ($n=1$), L ($n=2$), M ($n=3$) y N ($n=4$) tienen energías negativas de ligadura medidas en kiloelectronvoltios (keV).
+    </div>
+  </div>
+
+  <!-- ============================================ -->
+  <h2 id="s4">4. La Ley de Moseley: formulación matemática y constante de apantallamiento</h2>
+
+  <p>En 1913, Moseley midió sistemáticamente los espectros de rayos X de más de 30 elementos contiguos de la tabla periódica, desde el aluminio ($Z=13$) hasta el oro ($Z=79$), utilizando la recién descubierta técnica de difracción en cristales de Bragg. Al analizar los datos, descubrió una regularidad matemática deslumbrante:</p>
+
+  <div class="math-box">
+    $$ \sqrt{\nu} = a\,(Z - b), \qquad \text{o bien} \qquad \nu = a^2\,(Z - b)^2, $$
+  </div>
+
+  <p>donde $\nu$ es la frecuencia de la línea característica emitida, $Z$ es el número atómico del elemento, y $a$ y $b$ son constantes que dependen de la serie espectral (serie K, serie L, etc.).</p>
+
+  <h3>4.1 Derivación física desde el modelo de Bohr y apantallamiento</h3>
+
+  <p>¿Por qué la raíz cuadrada de la frecuencia es una línea recta con $Z$? Moseley se dio cuenta de que esto encajaba de manera perfecta con el <strong>modelo de Bohr</strong> formulado apenas unos meses antes.</p>
+
+  <p>En el átomo de hidrógeno con un solo protón ($Z=1$), la fórmula de Bohr predice que la frecuencia emitida en una transición entre $n_2$ y $n_1$ es:</p>
+
+  <div class="math-box">
+    $$ \nu = c R_\infty \left(\frac{1}{n_1^2} - \frac{1}{n_2^2}\right). $$
+  </div>
+
+  <p>Para un átomo con número atómico $Z$ y muchos electrones, la carga del núcleo es $+Ze$. Pero un electrón de la capa exterior no siente la carga completa $+Ze$: los electrones situados entre él y el núcleo <strong>apantallan parcialmente</strong> la atracción nuclear. La carga efectiva que siente el electrón es:</p>
+
+  <div class="math-box">
+    $$ Z_{\text{eff}} = Z - b, $$
+  </div>
+
+  <p>donde $b$ se conoce como la <strong>constante de apantallamiento (screening constant)</strong>. Sustituyendo $Z_{\text{eff}}$ en la fórmula de Bohr:</p>
+
+  <div class="math-box">
+    $$ \nu = c R_\infty \left(\frac{1}{n_1^2} - \frac{1}{n_2^2}\right) (Z - b)^2 \qquad \Longrightarrow \qquad \sqrt{\nu} = \sqrt{c R_\infty \left(\frac{1}{n_1^2} - \frac{1}{n_2^2}\right)}\,(Z - b). $$
+  </div>
+
+  <div class="intuition-box">
+    <strong>¿Por qué $b \approx 1$ para la línea $K_\alpha$?</strong>
+    En el estado neutro, la capa K ($n=1$) aloja dos electrones. Cuando el bombardeo arranca uno de ellos, <em>queda todavía un electrón en la capa K</em>. El electrón de la capa L ($n=2$) que cae para llenar el hueco ve al núcleo de carga $+Ze$ apantallado casi exclusivamente por ese único electrón que sobrevivió en la capa K. Por lo tanto, la carga nuclear efectiva es:
+    $$ Z_{\text{eff}} = Z - 1 \qquad \Longrightarrow \qquad b \approx 1. $$
+    Para la línea $K_\alpha$ ($n_1=1, n_2=2$):
+    $$ \nu_{K_\alpha} = c R_\infty \left(\frac{1}{1^2} - \frac{1}{2^2}\right) (Z - 1)^2 = \frac{3}{4} c R_\infty (Z - 1)^2. $$
+    Para la serie L ($n_1=2, n_2=3$), la vacancia está en $n=2$, apantallada por los dos electrones de la capa K más parte de los electrones L, lo que da experimentalmente $b \approx 7.4$.
+  </div>
+
+  <!-- FIGURA 3: LA GRÁFICA DE MOSELEY (LÍNEA RECTA SQRT(NU) VS Z) -->
+  <div class="interactive-figure">
+    <div class="figure-title">Figura 3: La gráfica de Moseley — Línea recta $\sqrt{\nu}$ vs. $Z$ con datos experimentales reales</div>
+    <div id="plot_moseley_line" class="plot-area"></div>
+    <div class="controls">
+      <div class="control-panel">
+        <h4>Serie espectral</h4>
+        <div class="button-group" id="btns_moseley_series">
+          <button type="button" data-series="Ka" class="active">Serie Kα (n=2 → 1)</button>
+          <button type="button" data-series="La">Serie Lα (n=3 → 2)</button>
+        </div>
+        <label class="checkbox-row">
+          <input type="checkbox" id="chk_highlight_anomalies" checked>
+          Resaltar anomalías históricas (Co-Ni, Te-I, Ar-K)
+        </label>
+        <label class="checkbox-row">
+          <input type="checkbox" id="chk_show_missing" checked>
+          Mostrar elementos faltantes predichos por Moseley
+        </label>
+      </div>
+      <div class="control-panel">
+        <h4>Ajuste y física de la recta</h4>
+        <div id="stats_moseley" class="stats"></div>
+      </div>
+    </div>
+
+    <div class="guide-box">
+      <strong>Qué observar en la Figura 3.</strong>
+      <ol>
+        <li>Cada punto representa un elemento real medido experimentalmente. A diferencia de las curvas erráticas que se obtendrían al graficar contra la masa atómica $A$, al graficar $\sqrt{\nu}$ contra el número entero $Z$ <strong>todos los puntos caen con precisión milimétrica sobre una recta perfecta</strong>.</li>
+        <li>Fijate en los pares señalados con círculos naranjas: el <strong>Cobalto ($Z=27$)</strong> y el <strong>Níquel ($Z=28$)</strong>. Aunque el cobalto pesa más ($A=58.9$ vs $58.7$), su frecuencia de rayos X es estrictamente menor que la del níquel: la ley de Moseley demostró sin lugar a dudas que el cobalto tiene $Z=27$ y el níquel $Z=28$.</li>
+        <li>Observá los rombos morados punteados en $Z=43$, $Z=61$ y $Z=72$: eran casillas vacías en la recta de Moseley. Moseley pudo afirmar con certeza matemática: <em>«Aquí faltan elementos que la naturaleza aún no nos ha mostrado»</em>.</li>
+      </ol>
+    </div>
+
+    <div class="caption">
+      <strong>Epígrafe:</strong> Gráfica histórica de Moseley: raíz cuadrada de la frecuencia de rayos X ($\sqrt{\nu}$ en unidades de $10^8\ \text{s}^{-1/2}$) en función del número atómico $Z$. Los puntos azules representan mediciones de elementos reales; la línea roja es el ajuste teórico de la ley de Moseley con pendiente $a = \sqrt{3cR_\infty/4}$ y corte en el eje $Z$ igual a $b \approx 1$.
+    </div>
+  </div>
+
+  <!-- ============================================ -->
+  <h2 id="s5">5. El triunfo histórico: ordenar la tabla periódica y predecir elementos faltantes</h2>
+
+  <p>El impacto del trabajo de Moseley publicado en 1913 y 1914 fue fulminante. En cuestión de meses, resolvió dilemas que llevaban medio siglo atormentando a los químicos:</p>
+
+  <ol class="step-by-step">
+    <li><strong>Demostró que el número atómico $Z$ es una magnitud física real.</strong> Hasta Moseley, el número atómico era una mera convención de orden. Moseley demostró que $Z$ es una propiedad física medible en el laboratorio, que coincide exactamente con el número de cargas positivas elementales del núcleo (protones).</li>
+    <li><strong>Resolvió todas las inversiones de masa de la tabla periódica.</strong> Las anomalías de Mendeléyev quedaron explicadas de inmediato:
+      <ul>
+        <li><strong>Cobalto ($Z=27$, $58.93\ \text{u}$) y Níquel ($Z=28$, $58.69\ \text{u}$):</strong> El níquel tiene más protones ($Z=28$), por lo que sus rayos X tienen mayor frecuencia. Su menor masa promedio se debe simplemente a que sus isótopos naturales más abundantes tienen menos neutrones.</li>
+        <li><strong>Telurio ($Z=52$, $127.60\ \text{u}$) y Yodo ($Z=53$, $126.90\ \text{u}$):</strong> El yodo tiene $Z=53$, por lo que su lugar legítimo en la tabla es <em>después</em> del telurio, exactamente como exigía su química.</li>
+        <li><strong>Argón ($Z=18$, $39.95\ \text{u}$) y Potasio ($Z=19$, $39.10\ \text{u}$):</strong> El potasio tiene $Z=19$, abriendo el período 4 como metal alcalino.</li>
+      </ul>
+    </li>
+    <li><strong>Fijó con precisión matemática cuántos elementos existían y cuáles faltaban.</strong> Como $Z$ avanza obligatoriamente en números enteros sucesivos ($1, 2, 3, 4\dots$), ya no había incertidumbre. Entre el hidrógeno ($Z=1$) y el uranio ($Z=92$) había exactamente 92 casillas. Moseley demostró que en su época faltaban exactamente 4 elementos por descubrir en ese rango, y predijo sus números atómicos exactos:
+      <ul>
+        <li><strong>$Z = 43$</strong>: Descubierto en 1937 por Perrier y Segrè (el <strong>Tecnecio</strong>, primer elemento artificial).</li>
+        <li><strong>$Z = 61$</strong>: Descubierto en 1945 en productos de fisión nuclear (el <strong>Prometio</strong>).</li>
+        <li><strong>$Z = 72$</strong>: Descubierto en 1923 en Copenhague por Coster y Hevesy (el <strong>Hafnio</strong>).</li>
+        <li><strong>$Z = 75$</strong>: Descubierto en 1925 por Noddack, Tacke y Berg (el <strong>Renio</strong>).</li>
+      </ul>
+    </li>
+    <li><strong>Puso orden definitivo en los lantánidos (tierras raras).</strong> Químicamente, los 14 lantánidos eran casi indistinguibles y nadie sabía cuántos eran en total. Moseley midió sus rayos X uno a uno y determinó exactamente que comenzaban en el lantano ($Z=57$) y terminaban en el lutecio ($Z=71$), sin dejar espacio para conjeturas.</li>
+  </ol>
+
+  <div class="warning-box">
+    <strong>La tragedia de Gallipoli.</strong> Al estallar la Primera Guerra Mundial en agosto de 1914, Moseley rechazó ofertas para seguir investigando en Oxford o Manchester y se alistó voluntariamente en el Real Cuerpo de Ingenieros del ejército británico como oficial de telecomunicaciones. El 10 de agosto de 1915, durante la batalla de Gallipoli (Turquía), un francotirador le disparó en la cabeza mientras transmitía una orden telefónica. Tenía apenas 27 años. Robert Millikan escribió que la muerte de Moseley fue <em>«una de las pérdidas individuales más espantosas y estúpidas de toda la guerra»</em>. Tras su muerte, el gobierno británico prohibió que científicos de calibre excepcional fueran enviados al frente de combate en el futuro.
+  </div>
+
+  <!-- ============================================ -->
+  <h2 id="s6">6. Aplicación moderna: espectrometría de fluorescencia de rayos X (XRF)</h2>
+
+  <p>Lejos de ser solo un capítulo histórico, la ley de Moseley es el principio operativo de una de las técnicas analíticas no destructivas más potentes de la ciencia y la industria contemporáneas: la <strong>Espectrometría de Fluorescencia de Rayos X (XRF)</strong>.</p>
+
+  <p>En un espectrómetro XRF (como las pistolas portátiles que usan arqueólogos, geólogos e inspectores industriales):</p>
+  <ol>
+    <li>Se irradia la muestra con un haz primario de rayos X para arrancar electrones de las capas profundas K o L de los átomos.</li>
+    <li>Los átomos se desexcitan emitiendo sus rayos X característicos.</li>
+    <li>Un detector semiconductor mide las longitudes de onda $\lambda$ y las intensidades de los fotones emitidos.</li>
+    <li><strong>Aplicando la ley de Moseley</strong> ($Z = \sqrt{\nu}/a + b$), el software identifica instantáneamente qué elementos químicos están presentes por la posición de los picos, y su concentración porcentual por el área de cada pico.</li>
+  </ol>
+
+  <!-- FIGURA 4: SIMULADOR DE ANÁLISIS ELEMENTAL POR XRF -->
+  <div class="interactive-figure">
+    <div class="figure-title">Figura 4: Simulador XRF — Identificación elemental no destructiva de aleaciones desconocidas</div>
+    <div id="plot_xrf" class="plot-area"></div>
+    <div class="controls">
+      <div class="control-panel">
+        <h4>Muestra a analizar</h4>
+        <div class="select-row">
+          <label>Selecciona una muestra desconocida:</label>
+          <select id="sel_xrf_sample">
+            <option value="bronze" selected>Muestra A: Bronce arqueológico</option>
+            <option value="stainless">Muestra B: Acero inoxidable quirúrgico</option>
+            <option value="gold_coin">Muestra C: Moneda de oro antigua</option>
+          </select>
+        </div>
+        <p style="font-size:0.88em; color:#555; margin-top:8px;">
+          El detector registra los fotones fluorescentes emitidos. La ley de Moseley permite identificar a qué elemento pertenece cada pico por su energía $E = h\nu$.
+        </p>
+      </div>
+      <div class="control-panel">
+        <h4>Identificación elemental según Moseley</h4>
+        <div id="stats_xrf" class="stats"></div>
+      </div>
+    </div>
+
+    <div class="guide-box">
+      <strong>Qué observar en la Figura 4.</strong>
+      <ol>
+        <li>Cambiá de muestra: cada aleación produce un conjunto inconfundible de picos característicos en energías muy concretas.</li>
+        <li>En el <strong>bronce arqueológico</strong>, se observan claramente los picos $K_\alpha$ y $K_\beta$ del <strong>Cobre ($Z=29$, $8.04\ \text{keV}$)</strong> y del <strong>Estaño ($Z=50$, $25.27\ \text{keV}$)</strong>.</li>
+        <li>En el <strong>acero inoxidable</strong>, se identifican las firmas contiguas del <strong>Cromo ($Z=24$, $5.41\ \text{keV}$)</strong>, <strong>Hierro ($Z=26$, $6.40\ \text{keV}$)</strong> y <strong>Níquel ($Z=28$, $7.47\ \text{keV}$)</strong>: la separación sistemática en energía ilustra perfectamente cómo la energía crece cuadráticamente con $Z$.</li>
+      </ol>
+    </div>
+
+    <div class="caption">
+      <strong>Epígrafe:</strong> Espectro de fluorescencia de rayos X (XRF) simulado. Cada pico característico permite identificar directamente el número atómico $Z$ del elemento correspondiente mediante la ecuación de Moseley.
+    </div>
+  </div>
+
+  <!-- ============================================ -->
+  <h2 id="s7">7. Ejemplos resueltos</h2>
+
+  <div class="worked-example">
+    <div class="we-header">Ejemplo desarrollado 7.1</div>
+    <div class="we-title">Cálculo de la longitud de onda de la línea $K_\alpha$ del Cobre ($Z = 29$)</div>
+    <p>Utilizando la ley de Moseley con $b = 1$, calcula la frecuencia $\nu$ y la longitud de onda $\lambda$ de la radiación $K_\alpha$ emitida por un ánodo de cobre ($Z = 29$). Compara con el valor experimental ($\lambda = 0.1542\ \text{nm}$).</p>
+    <div class="step">
+      <span class="step-label">Paso 1 — Fórmula de Moseley para $K_\alpha$</span>
+      <div class="step-body">
+        <p>Para la transición $K_\alpha$ ($n_1=1, n_2=2$), la constante de apantallamiento es $b = 1$. La frecuencia es:</p>
+        $$ \nu = c R_\infty \left(\frac{1}{1^2} - \frac{1}{2^2}\right) (Z - 1)^2 = \frac{3}{4} c R_\infty (Z - 1)^2. $$
+        <p>Sustituyendo $c = 2.998 \times 10^8\ \text{m/s}$, $R_\infty = 1.0974 \times 10^7\ \text{m}^{-1}$ y $Z = 29$ ($Z - 1 = 28$):</p>
+        $$ \frac{3}{4} c R_\infty = \frac{3}{4} \times (2.998 \times 10^8) \times (1.0974 \times 10^7) \approx 2.467 \times 10^{15}\ \text{s}^{-1}. $$
+        $$ \nu = 2.467 \times 10^{15} \times (28)^2 = 2.467 \times 10^{15} \times 784 \approx 1.934 \times 10^{18}\ \text{Hz}. $$
+      </div>
+    </div>
+    <div class="step">
+      <span class="step-label">Paso 2 — Longitud de onda $\lambda$</span>
+      <div class="step-body">
+        $$ \lambda = \frac{c}{\nu} = \frac{2.998 \times 10^8\ \text{m/s}}{1.934 \times 10^{18}\ \text{s}^{-1}} \approx 1.550 \times 10^{-10}\ \text{m} = 0.1550\ \text{nm} = 1.550\ \text{Å}. $$
+        <div class="result">La longitud de onda predicha es $\lambda \approx 0.1550\ \text{nm}$ ($1.550\ \text{Å}$), con una energía de fotón $E = h\nu \approx 8.00\ \text{keV}$.</div>
+      </div>
+    </div>
+    <div class="verify">
+      Comprobación: el valor experimental es $\lambda_{K_{\alpha1}} = 0.1541\ \text{nm}$ ($8.048\ \text{keV}$). El error relativo de la fórmula simple de Moseley con $b=1$ es inferior al $0.6\%$, un acuerdo asombroso considerando que se trata de un modelo analítico semiclásico.
+    </div>
+  </div>
+
+  <div class="worked-example">
+    <div class="we-header">Ejemplo desarrollado 7.2</div>
+    <div class="we-title">Límite de Duane-Hunt y umbral de excitación en un tubo de rayos X</div>
+    <p>Un tubo de rayos X opera con un ánodo de molibdeno ($Z = 42$). La energía de enlace del electrón de la capa K en el molibdeno es de $20.0\ \text{keV}$.
+    <br>(a) ¿Cuál es el voltaje mínimo $V_{\min}$ necesario para que aparezcan los picos característicos $K_\alpha$ y $K_\beta$?
+    <br>(b) Si el tubo opera a $V = 40.0\ \text{kV}$, ¿cuál es la longitud de onda de corte de Duane-Hunt $\lambda_{\min}$ del espectro continuo?</p>
+    <div class="step">
+      <span class="step-label">Paso 1 — Umbral de excitación</span>
+      <div class="step-body">
+        <p>Para arrancar un electrón de la capa K del molibdeno, los electrones acelerados deben tener una energía cinética al menos igual a la energía de enlace de esa capa ($20.0\ \text{keV}$):</p>
+        $$ E_k = eV_{\min} \ge 20.0\ \text{keV} \qquad \Longrightarrow \qquad V_{\min} = 20.0\ \text{kV}. $$
+        <p>A voltajes menores de $20\ \text{kV}$, solo se emitirá radiación continua (Bremsstrahlung), sin picos K.</p>
+      </div>
+    </div>
+    <div class="step">
+      <span class="step-label">Paso 2 — Corte de Duane-Hunt a $40\ \text{kV}$</span>
+      <div class="step-body">
+        $$ \lambda_{\min} = \frac{hc}{eV} = \frac{1240\ \text{eV}\cdot\text{nm}}{40000\ \text{eV}} = 0.0310\ \text{nm} = 0.310\ \text{Å}. $$
+        <div class="result">El voltaje umbral es $V_{\min} = 20.0\ \text{kV}$. A $40.0\ \text{kV}$, el espectro continuo comienza abruptamente en $\lambda_{\min} = 0.0310\ \text{nm}$.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="worked-example">
+    <div class="we-header">Ejemplo desarrollado 7.3</div>
+    <div class="we-title">Identificación de un elemento desconocido mediante la ley de Moseley</div>
+    <p>En el análisis de un fragmento de meteorito metálico se detecta un pico característico $K_\alpha$ en una longitud de onda de $\lambda = 0.1936\ \text{nm}$. Utilizando la ley de Moseley con $b = 1$, identifica el elemento químico.</p>
+    <div class="step">
+      <span class="step-label">Paso 1 — Frecuencia del fotón</span>
+      <div class="step-body">
+        $$ \nu = \frac{c}{\lambda} = \frac{2.998 \times 10^8\ \text{m/s}}{0.1936 \times 10^{-9}\ \text{m}} \approx 1.5486 \times 10^{18}\ \text{Hz}. $$
+      </div>
+    </div>
+    <div class="step">
+      <span class="step-label">Paso 2 — Despeje de $Z$ con la ley de Moseley</span>
+      <div class="step-body">
+        <p>Sabemos que para $K_\alpha$:</p>
+        $$ \nu = \frac{3}{4} c R_\infty (Z - 1)^2 \qquad \Longrightarrow \qquad Z - 1 = \sqrt{\frac{4\nu}{3 c R_\infty}}. $$
+        <p>Con $\frac{3}{4} c R_\infty \approx 2.467 \times 10^{15}\ \text{s}^{-1}$:</p>
+        $$ (Z - 1)^2 = \frac{1.5486 \times 10^{18}}{2.467 \times 10^{15}} \approx 627.7 \qquad \Longrightarrow \qquad Z - 1 = \sqrt{627.7} \approx 25.05. $$
+        $$ Z = 25.05 + 1 \approx 26. $$
+        <div class="result">El número atómico es exactamente $Z = 26$, que corresponde al <strong>Hierro (Fe)</strong>.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================ -->
+  <h2 id="s8">8. Ejercicios para pensar</h2>
+
+  <div class="exercise-box">
+    <h4>Ejercicio 1 — ¿Por qué las líneas ópticas no sirven para ordenar la tabla como los rayos X?</h4>
+    <p>Los espectros de luz visible emitidos por átomos gaseosos (como las líneas de Balmer del hidrógeno o las líneas del sodio) son muy conocidos. ¿Por qué Moseley utilizó rayos X característicos en lugar de espectros ópticos visibles para descubrir la ley que ordena la tabla periódica?</p>
+    <div class="hint"><strong>Pista:</strong> pensá en qué electrones participan en la luz visible (capas de valencia externas) y cuáles en los rayos X (capas internas K y L).</div>
+    <button class="solution-toggle" onclick="toggleSolution(this)">Mostrar solución</button>
+    <div class="solution-content">
+      <p>Los espectros ópticos en el rango visible involucran a los <strong>electrones de valencia más externos</strong>. En las capas externas, los electrones sufren un apantallamiento extremadamente complejo y variable de capa en capa, y la configuración electrónica se repite periódicamente (lo que hace que el litio, el sodio y el potasio se parezcan mucho entre sí pero no sigan una progresión lineal simple con $Z$).</p>
+      <p>En cambio, los rayos X característicos involucran a los <strong>electrones de las capas más profundas (K y L)</strong>, que están pegados al núcleo y apantallados de forma casi idéntica y trivial ($b \approx 1$). En el núcleo profundo no hay efectos químicos ni de valencia: el electrón ve directamente la carga nuclear $+Ze$, lo que produce una función monótona y limpia con $Z$.</p>
+    </div>
+  </div>
+
+  <div class="exercise-box">
+    <h4>Ejercicio 2 — El misterio del Argón y el Potasio</h4>
+    <p>El argón tiene masa atómica $39.95\ \text{u}$ y el potasio $39.10\ \text{u}$. Explicá cómo resolvió la ley de Moseley esta aparente contradicción con la tabla de Mendeléyev y a qué se debe la diferencia de masa.</p>
+    <div class="hint"><strong>Pista:</strong> recordá que la masa atómica observada en la Tierra es un promedio ponderado de los isótopos naturales de cada elemento.</div>
+    <button class="solution-toggle" onclick="toggleSolution(this)">Mostrar solución</button>
+    <div class="solution-content">
+      <p>Moseley midió las frecuencias de rayos X y comprobó que $\nu_{K_\alpha}(\text{Ar}) < \nu_{K_\alpha}(\text{K})$. Al aplicar su ley, obtuvo $Z = 18$ para el argón y $Z = 19$ para el potasio, demostrando sin lugar a dudas que el argón tiene 18 protones y debe preceder al potasio (19 protones).</p>
+      <p>La razón por la cual el argón terrestre es más pesado es puramente isotópica: el isótopo más abundante del argón en nuestra atmósfera es el $^{40}\text{Ar}$ (18 protones y 22 neutrones, producto del decaimiento radiactivo del potasio-40 de la corteza terrestre), mientras que el potasio más abundante es el $^{39}\text{K}$ (19 protones y solo 20 neutrones).</p>
+    </div>
+  </div>
+
+  <div class="exercise-box">
+    <h4>Ejercicio 3 — Razón de longitudes de onda entre dos elementos</h4>
+    <p>Si la línea $K_\alpha$ de un elemento $X$ tiene una frecuencia cuatro veces mayor que la línea $K_\alpha$ de un elemento $Y$ ($\nu_X = 4\,\nu_Y$), ¿cuál es la relación aproximada entre sus números atómicos efectivos $(Z_X - 1)$ y $(Z_Y - 1)$?</p>
+    <div class="hint"><strong>Pista:</strong> aplicá la ley de Moseley $\nu \propto (Z - 1)^2$.</div>
+    <button class="solution-toggle" onclick="toggleSolution(this)">Mostrar solución</button>
+    <div class="solution-content">
+      <p>Dado que $\nu \propto (Z - 1)^2$, tenemos que:</p>
+      $$ \frac{\nu_X}{\nu_Y} = \left(\frac{Z_X - 1}{Z_Y - 1}\right)^2 = 4 \qquad \Longrightarrow \qquad \frac{Z_X - 1}{Z_Y - 1} = \sqrt{4} = 2. $$
+      <p>El número atómico efectivo del elemento $X$ es exactamente el doble que el del elemento $Y$.</p>
+    </div>
+  </div>
+
+  <div class="exercise-box">
+    <h4>Ejercicio 4 — ¿Por qué el apantallamiento para la serie L es mucho mayor que para la serie K?</h4>
+    <p>Para la serie K, la constante de apantallamiento es $b \approx 1$. En cambio, para la serie L es $b \approx 7.4$. Explicá físicamente por qué $b$ crece tanto al pasar a la capa L.</p>
+    <div class="hint"><strong>Pista:</strong> contá cuántos electrones están en capas más internas que la capa L ($n=2$).</div>
+    <button class="solution-toggle" onclick="toggleSolution(this)">Mostrar solución</button>
+    <div class="solution-content">
+      <p>La serie L corresponde a vacancias en la capa L ($n=2$). Todos los electrones situados a distancias menores que la capa L apantallan directamente la carga nuclear frente al electrón que cae desde la capa M ($n=3$).</p>
+      <p>La capa K completa contiene 2 electrones ($1s^2$), y la propia capa L tiene otros electrones que comparten el nivel y apantallan parcialmente. La suma del apantallamiento de los 2 electrones K más el apantallamiento mutuo entre los electrones de la capa L da como resultado un apantallamiento efectivo promedio de $b \approx 7.4$.</p>
+    </div>
+  </div>
+
+  <div class="exercise-box">
+    <h4>Ejercicio 5 — ¿Puede emitir rayos X característicos un átomo de hidrógeno?</h4>
+    <p>¿Puede un átomo de hidrógeno neutro emitir una línea $K_\alpha$ de rayos X al ser bombardeado por electrones? Justificá tu respuesta cuantitativamente.</p>
+    <div class="hint"><strong>Pista:</strong> calculá la energía de la transición $n=2 \to n=1$ en el hidrógeno ($Z=1$) y comparala con la definición del espectro de rayos X.</div>
+    <button class="solution-toggle" onclick="toggleSolution(this)">Mostrar solución</button>
+    <div class="solution-content">
+      <p>Para el hidrógeno ($Z=1$), la transición $n=2 \to n=1$ es la línea Lyman-alfa, cuya energía es:</p>
+      $$ \Delta E = 13.6\ \text{eV} \left(\frac{1}{1^2} - \frac{1}{2^2}\right) = 10.2\ \text{eV} \qquad \Longrightarrow \qquad \lambda \approx 121.6\ \text{nm}. $$
+      <p>Esta radiación pertenece al <strong>ultravioleta lejano</strong>, no a los rayos X (cuyas longitudes de onda típicas van de $0.01$ a $10\ \text{nm}$, con energías de $100\ \text{eV}$ a $100\ \text{keV}$). Además, el hidrógeno solo tiene un electrón: no puede tener vacancias internas simultáneas con electrones en capas superiores que caigan radiativamente.</p>
+    </div>
+  </div>
+
+  <div class="exercise-box">
+    <h4>Ejercicio 6 — La predicción de los elementos faltantes</h4>
+    <p>En 1913 no se conocía ningún elemento químico entre el molibdeno ($Z=42$) y el rutenio ($Z=44$). ¿Cómo pudo Moseley asegurar con certeza que existía exactamente un elemento desconocido allí, y no dos ni ninguno?</p>
+    <div class="hint"><strong>Pista:</strong> recordá que la gráfica de $\sqrt{\nu}$ vs $Z$ avanza en pasos discretos regulares de tamaño $\Delta Z = 1$.</div>
+    <button class="solution-toggle" onclick="toggleSolution(this)">Mostrar solución</button>
+    <div class="solution-content">
+      <p>En la gráfica de Moseley, la distancia vertical entre los puntos de dos elementos sucesivos en $\sqrt{\nu}$ es estrictamente constante y proporcional a $\Delta Z = 1$.</p>
+      <p>Al graficar el molibdeno y el rutenio, el salto entre ambos era exactamente el <strong>doble</strong> del paso unitario normal. No cabía ninguna duda matemática: la recta exigía un elemento con $Z = 43$. No podían faltar dos elementos (el salto habría sido triple) ni cero (los puntos habrían sido contiguos). En 1937 se sintetizó el elemento 43, el Tecnecio.</p>
+    </div>
+  </div>
+
+  <!-- ============================================ -->
+  <h2 id="s9">9. Conclusiones</h2>
+
+  <ol>
+    <li><strong>El espectro de rayos X tiene doble naturaleza:</strong> un fondo continuo de frenado (Bremsstrahlung) originado por la desaceleración de electrones libres con corte de Duane-Hunt $\lambda_{\min} = hc/(eV)$, sobre el cual destacan picos característicos muy intensos propios de cada elemento.</li>
+    <li><strong>Los rayos X característicos son transiciones atómicas profundas:</strong> se originan cuando un electrón incidente arranca un electrón de una capa interna (K o L), y un electrón de una capa superior cae para rellenar la vacancia emitiendo un fotón de alta energía.</li>
+    <li><strong>La ley de Moseley establece que $\sqrt{\nu} = a(Z - b)$:</strong> la raíz cuadrada de la frecuencia de las líneas características crece de forma perfectamente lineal con el número atómico $Z$, con una constante de apantallamiento $b \approx 1$ para la serie K y $b \approx 7.4$ para la serie L.</li>
+    <li><strong>Demostró que el número atómico $Z$ es la propiedad fundamental de la materia:</strong> $Z$ no es un índice arbitrario ni depende de la masa atómica $A$, sino que cuenta con exactitud el número de cargas positivas elementales (protones) del núcleo.</li>
+    <li><strong>Revolucionó la tabla periódica:</strong> resolvió las inversiones históricas de masa (Co-Ni, Te-I, Ar-K), fijó que entre el hidrógeno y el uranio había exactamente 92 casillas, ordenó los lantánidos y predijo con precisión los elementos faltantes $Z = 43, 61, 72$ y $75$.</li>
+    <li><strong>Es la base de la espectrometría moderna:</strong> la fluorescencia de rayos X (XRF) permite identificar en segundos y sin destruir la muestra la composición elemental de aleaciones, minerales, obras de arte y muestras biológicas.</li>
+  </ol>
+
+  <p>El trabajo de Henry Moseley completó el puente definitivo entre el modelo cuántico de Bohr y la química de la tabla periódica. Al revelar que las frecuencias de los rayos X cuentan directamente los protones del núcleo, convirtió a la tabla periódica de una clasificación empírica basada en pesos a una ley fundamental de la física atómica.</p>
+
+</div>
+
+<script>
+// ============================================================
+// CONSTANTES Y UTILIDADES
+// ============================================================
+const PHYS = {
+  c: 2.99792458e8,          // m/s
+  h: 6.62607015e-34,         // J*s
+  e: 1.602176634e-19,        // C
+  hc_eV_nm: 1239.84198,      // eV * nm
+  R_inf: 1.0973731568e7      // m^-1
+};
+
+function toggleSolution(btn) {
+  const content = btn.nextElementSibling;
+  content.classList.toggle('open');
+  btn.innerText = content.classList.contains('open') ? 'Ocultar solución' : 'Mostrar solución';
+  if (window.MathJax && window.MathJax.Hub) {
+    window.MathJax.Hub.Queue(["Typeset", window.MathJax.Hub, content]);
+  }
+}
+window.toggleSolution = toggleSolution;
+
+// ============================================================
+// DATOS ELEMENTALES PARA RAYOS X
+// ============================================================
+const XRAY_DATA = {
+  Cu: { Z: 29, name: 'Cobre', Ek: 8.979, Ka_keV: 8.048, Kb_keV: 8.905, Ka_nm: 0.1541, Kb_nm: 0.1392, La_keV: 0.930 },
+  Mo: { Z: 42, name: 'Molibdeno', Ek: 20.000, Ka_keV: 17.479, Kb_keV: 19.608, Ka_nm: 0.0709, Kb_nm: 0.0632, La_keV: 2.293 },
+  W:  { Z: 74, name: 'Wolframio', Ek: 69.525, Ka_keV: 59.318, Kb_keV: 67.244, Ka_nm: 0.0209, Kb_nm: 0.0184, La_keV: 8.398 }
+};
+
+// Datos históricos para la gráfica de Moseley
+const MOSELEY_ELEMENTS = [
+  { Z: 13, sym: 'Al', Ka_keV: 1.486, La_keV: 0.072 },
+  { Z: 14, sym: 'Si', Ka_keV: 1.740, La_keV: 0.091 },
+  { Z: 15, sym: 'P',  Ka_keV: 2.013, La_keV: 0.120 },
+  { Z: 16, sym: 'S',  Ka_keV: 2.307, La_keV: 0.149 },
+  { Z: 17, sym: 'Cl', Ka_keV: 2.622, La_keV: 0.183 },
+  { Z: 18, sym: 'Ar', Ka_keV: 2.957, La_keV: 0.220, isAnomaly: true },
+  { Z: 19, sym: 'K',  Ka_keV: 3.314, La_keV: 0.258, isAnomaly: true },
+  { Z: 20, sym: 'Ca', Ka_keV: 3.692, La_keV: 0.341 },
+  { Z: 21, sym: 'Sc', Ka_keV: 4.091, La_keV: 0.395 },
+  { Z: 22, sym: 'Ti', Ka_keV: 4.511, La_keV: 0.452 },
+  { Z: 23, sym: 'V',  Ka_keV: 4.952, La_keV: 0.511 },
+  { Z: 24, sym: 'Cr', Ka_keV: 5.415, La_keV: 0.573 },
+  { Z: 25, sym: 'Mn', Ka_keV: 5.899, La_keV: 0.637 },
+  { Z: 26, sym: 'Fe', Ka_keV: 6.404, La_keV: 0.705 },
+  { Z: 27, sym: 'Co', Ka_keV: 6.930, La_keV: 0.776, isAnomaly: true },
+  { Z: 28, sym: 'Ni', Ka_keV: 7.478, La_keV: 0.851, isAnomaly: true },
+  { Z: 29, sym: 'Cu', Ka_keV: 8.048, La_keV: 0.930 },
+  { Z: 30, sym: 'Zn', Ka_keV: 8.639, La_keV: 1.012 },
+  { Z: 40, sym: 'Zr', Ka_keV: 15.775, La_keV: 2.042 },
+  { Z: 41, sym: 'Nb', Ka_keV: 16.615, La_keV: 2.166 },
+  { Z: 42, sym: 'Mo', Ka_keV: 17.479, La_keV: 2.293 },
+  { Z: 44, sym: 'Ru', Ka_keV: 19.279, La_keV: 2.558 },
+  { Z: 45, sym: 'Rh', Ka_keV: 20.216, La_keV: 2.697 },
+  { Z: 46, sym: 'Pd', Ka_keV: 21.177, La_keV: 2.839 },
+  { Z: 47, sym: 'Ag', Ka_keV: 22.163, La_keV: 2.984 },
+  { Z: 50, sym: 'Sn', Ka_keV: 25.271, La_keV: 3.444 },
+  { Z: 52, sym: 'Te', Ka_keV: 27.472, La_keV: 3.769, isAnomaly: true },
+  { Z: 53, sym: 'I',  Ka_keV: 28.612, La_keV: 3.938, isAnomaly: true },
+  { Z: 71, sym: 'Lu', Ka_keV: 54.070, La_keV: 7.655 },
+  { Z: 73, sym: 'Ta', Ka_keV: 57.532, La_keV: 8.146 },
+  { Z: 74, sym: 'W',  Ka_keV: 59.318, La_keV: 8.398 },
+  { Z: 79, sym: 'Au', Ka_keV: 68.804, La_keV: 9.713 }
+];
+
+const PREDICTED_MISSING = [
+  { Z: 43, sym: 'Tc (43)', Ka_pred: 18.37, La_pred: 2.42, name: 'Tecnecio (desc. 1937)' },
+  { Z: 61, sym: 'Pm (61)', Ka_pred: 38.86, La_pred: 5.44, name: 'Prometio (desc. 1945)' },
+  { Z: 72, sym: 'Hf (72)', Ka_pred: 55.78, La_pred: 7.89, name: 'Hafnio (desc. 1923)' },
+  { Z: 75, sym: 'Re (75)', Ka_pred: 61.14, La_pred: 8.65, name: 'Renio (desc. 1925)' }
+];
+
+// ============================================================
+// FIGURA 1: ESPECTRO DE RAYOS X (BREMSSTRAHLUNG + PICOS)
+// ============================================================
+let currentTargetMat = 'Cu';
+
+function drawFig1() {
+  const V_kV = parseFloat(document.getElementById('s_volts_spec').value);
+  document.getElementById('v_volts_spec').innerText = V_kV.toFixed(1);
+
+  const mat = XRAY_DATA[currentTargetMat];
+  const lambda_min = PHYS.hc_eV_nm / (V_kV * 1000); // en nm
+
+  // Rango de visualización en nm
+  const lMinPlot = 0.01;
+  const lMaxPlot = 0.22;
+  const N = 350;
+
+  const lArr = [], iBrems = [], iTotal = [];
+  const hasKa = (V_kV >= mat.Ek);
+
+  for (let i = 0; i <= N; i++) {
+    const lam = lMinPlot + ((lMaxPlot - lMinPlot) * i) / N;
+    lArr.push(lam);
+
+    let bVal = 0;
+    if (lam > lambda_min) {
+      // Perfil de Kramers aproximado para Bremsstrahlung: I ~ Z * (1/lambda_min - 1/lambda) / lambda^2
+      const term = (1 / lambda_min - 1 / lam);
+      bVal = 14.0 * (mat.Z / 29) * term / (lam * lam * 1e3);
+      bVal = Math.max(0, bVal);
+    }
+    iBrems.push(bVal);
+
+    // Añadir picos gaussianos estrechos si V >= Ek
+    let peakVal = bVal;
+    if (hasKa) {
+      const sig = 0.0018; // ancho del pico
+      const gKa = 85.0 * Math.exp(-Math.pow(lam - mat.Ka_nm, 2) / (2 * sig * sig));
+      const gKb = 20.0 * Math.exp(-Math.pow(lam - mat.Kb_nm, 2) / (2 * sig * sig));
+      peakVal += gKa + gKb;
+    }
+    iTotal.push(peakVal);
+  }
+
+  const traces = [
+    {
+      x: lArr, y: iBrems,
+      type: 'scatter', mode: 'lines',
+      name: 'Bremsstrahlung (continuo)',
+      line: { color: '#95a5a6', width: 2, dash: 'dash' }
+    },
+    {
+      x: lArr, y: iTotal,
+      type: 'scatter', mode: 'lines',
+      name: `Espectro total (${mat.name})`,
+      fill: 'tozeroy',
+      fillcolor: 'rgba(41, 128, 185, 0.12)',
+      line: { color: '#2980b9', width: 2.8 }
+    }
+  ];
+
+  const annotations = [
+    {
+      x: lambda_min, y: 10,
+      text: `λ_min = ${lambda_min.toFixed(4)} nm<br>(Duane-Hunt)`,
+      showarrow: true, arrowhead: 2,
+      ax: -40, ay: -35,
+      font: { size: 10, color: '#c0392b' }
+    }
+  ];
+
+  if (hasKa && mat.Ka_nm >= lMinPlot && mat.Ka_nm <= lMaxPlot) {
+    annotations.push({
+      x: mat.Ka_nm, y: 75,
+      text: `Pico K_α (${(mat.Ka_keV).toFixed(2)} keV)`,
+      showarrow: true, arrowhead: 2,
+      ax: 30, ay: -30,
+      font: { size: 11, color: '#c0392b', weight: 'bold' }
+    });
+  }
+  if (hasKa && mat.Kb_nm >= lMinPlot && mat.Kb_nm <= lMaxPlot) {
+    annotations.push({
+      x: mat.Kb_nm, y: 35,
+      text: `K_β`,
+      showarrow: true, arrowhead: 2,
+      ax: -25, ay: -25,
+      font: { size: 10, color: '#16a085' }
+    });
+  }
+
+  Plotly.react('plot_xray_spec', traces, {
+    xaxis: { title: 'Longitud de onda λ (nm)', range: [0.005, 0.20], zeroline: false },
+    yaxis: { title: 'Intensidad relativa I(λ)', range: [0, 110], zeroline: true, zerolinecolor: '#eee' },
+    annotations: annotations,
+    margin: { l: 65, r: 25, t: 20, b: 50 },
+    legend: { x: 0.65, y: 0.98, bgcolor: 'rgba(255,255,255,0.9)', font: { size: 10.5 } },
+    plot_bgcolor: '#fafafa'
+  }, { responsive: true, displayModeBar: false });
+
+  const estadoPicos = hasKa ? 'Picos K ACTIVOS (V ≥ E_K)' : 'Picos K APAGADOS (V < E_K)';
+  const colorEstado = hasKa ? '#16a085' : '#c0392b';
+
+  document.getElementById('stats_spec').innerHTML =
+    `<span class="stat-item"><span class="lbl">Blanco:</span> <span class="val">${mat.name} (Z = ${mat.Z})</span></span>` +
+    `<span class="stat-item"><span class="lbl">E_enlace K:</span> <span class="val">${mat.Ek.toFixed(1)} keV</span></span>` +
+    `<span class="stat-item"><span class="lbl">λ_min (Duane-Hunt):</span> <span class="val">${lambda_min.toFixed(4)} nm</span></span>` +
+    `<br><span class="stat-item"><span class="lbl">K_α:</span> <span class="val">${mat.Ka_nm.toFixed(4)} nm (${mat.Ka_keV.toFixed(2)} keV)</span></span>` +
+    `<span class="stat-item"><span class="lbl">Estado:</span> <span class="val" style="color:${colorEstado};">${estadoPicos}</span></span>`;
+}
+
+// ============================================================
+// FIGURA 2: DIAGRAMA DE NIVELES Y SIEGBAHN
+// ============================================================
+const ATOMIC_SHELLS = {
+  29: { name: 'Cobre (Cu)', Z: 29, K: -8.979, L: -0.930, M: -0.074, N: -0.008 },
+  42: { name: 'Molibdeno (Mo)', Z: 42, K: -20.000, L: -2.520, M: -0.400, N: -0.050 },
+  47: { name: 'Plata (Ag)', Z: 47, K: -25.514, L: -3.351, M: -0.570, N: -0.075 },
+  74: { name: 'Wolframio (W)', Z: 74, K: -69.525, L: -10.207, M: -2.281, N: -0.435 }
+};
+
+function drawFig2() {
+  const zVal = parseInt(document.getElementById('sel_elem_levels').value);
+  const lineKey = document.getElementById('sel_xray_line').value;
+  const el = ATOMIC_SHELLS[zVal];
+
+  const levels = [
+    { name: 'K (n = 1)', energy: el.K },
+    { name: 'L (n = 2)', energy: el.L },
+    { name: 'M (n = 3)', energy: el.M },
+    { name: 'N (n = 4)', energy: el.N }
+  ];
+
+  const traces = [];
+
+  // Dibujar barras de niveles
+  levels.forEach(lv => {
+    traces.push({
+      x: [0.1, 0.9], y: [lv.energy, lv.energy],
+      type: 'scatter', mode: 'lines',
+      line: { color: '#2c3e50', width: 2.5 },
+      showlegend: false, hoverinfo: 'skip'
+    });
+    traces.push({
+      x: [0.93], y: [lv.energy],
+      type: 'scatter', mode: 'text',
+      text: [`${lv.name}: ${lv.energy.toFixed(3)} keV`],
+      textposition: 'middle right',
+      textfont: { size: 11, color: '#2c3e50', family: 'Segoe UI' },
+      showlegend: false, hoverinfo: 'skip'
+    });
+  });
+
+  let eInit = 0, eFinal = 0, nameTrans = '', initName = '', finalName = '';
+  if (lineKey === 'Ka') {
+    eInit = el.L; eFinal = el.K; nameTrans = 'K_α (L → K)'; initName = 'L (n=2)'; finalName = 'K (n=1)';
+  } else if (lineKey === 'Kb') {
+    eInit = el.M; eFinal = el.K; nameTrans = 'K_β (M → K)'; initName = 'M (n=3)'; finalName = 'K (n=1)';
+  } else if (lineKey === 'La') {
+    eInit = el.M; eFinal = el.L; nameTrans = 'L_α (M → L)'; initName = 'M (n=3)'; finalName = 'L (n=2)';
+  } else if (lineKey === 'Lb') {
+    eInit = el.N; eFinal = el.L; nameTrans = 'L_β (N → L)'; initName = 'N (n=4)'; finalName = 'L (n=2)';
+  }
+
+  const deltaE_keV = Math.abs(eInit - eFinal);
+  const lambda_nm = PHYS.hc_eV_nm / (deltaE_keV * 1000);
+
+  // Flecha de la transición
+  traces.push({
+    x: [0.45, 0.45], y: [eInit, eFinal],
+    type: 'scatter', mode: 'lines+markers',
+    name: `Transición ${nameTrans}`,
+    line: { color: '#c0392b', width: 3.5 },
+    marker: { color: '#c0392b', size: 9, symbol: ['circle', 'arrow'] },
+    hovertemplate: `Transición ${nameTrans}<br>ΔE = ${deltaE_keV.toFixed(3)} keV<br>λ = ${lambda_nm.toFixed(4)} nm<extra></extra>`
+  });
+
+  const yMinPlot = el.K * 1.15;
+  const yMaxPlot = 3.0;
+
+  Plotly.react('plot_energy_levels', traces, {
+    xaxis: { range: [0, 1.45], showticklabels: false, zeroline: false, showgrid: false },
+    yaxis: { title: 'Energía de ligadura (keV)', range: [yMinPlot, yMaxPlot], zeroline: true, zerolinecolor: '#aaa' },
+    margin: { l: 65, r: 25, t: 20, b: 40 },
+    legend: { x: 0.02, y: 0.98, bgcolor: 'rgba(255,255,255,0.9)', font: { size: 11 } },
+    plot_bgcolor: '#fafafa'
+  }, { responsive: true, displayModeBar: false });
+
+  document.getElementById('stats_levels').innerHTML =
+    `<span class="stat-item"><span class="lbl">Elemento:</span> <span class="val">${el.name}</span></span>` +
+    `<span class="stat-item"><span class="lbl">Línea:</span> <span class="val">${nameTrans}</span></span>` +
+    `<br><span class="stat-item"><span class="lbl">Energía fotón ΔE:</span> <span class="val">${deltaE_keV.toFixed(3)} keV</span></span>` +
+    `<span class="stat-item"><span class="lbl">Longitud de onda λ:</span> <span class="val">${lambda_nm.toFixed(4)} nm (${(lambda_nm * 10).toFixed(2)} Å)</span></span>`;
+}
+
+// ============================================================
+// FIGURA 3: LA GRÁFICA DE MOSELEY (SQRT(NU) VS Z)
+// ============================================================
+let currentMoseleySeries = 'Ka';
+
+function drawFig3() {
+  const showAnomalies = document.getElementById('chk_highlight_anomalies').checked;
+  const showMissing = document.getElementById('chk_show_missing').checked;
+  const isKa = (currentMoseleySeries === 'Ka');
+
+  const xData = [], yData = [], textData = [];
+  const anomX = [], anomY = [], anomText = [];
+
+  MOSELEY_ELEMENTS.forEach(item => {
+    const energy = isKa ? item.Ka_keV : item.La_keV;
+    if (energy) {
+      const nu = (energy * 1000 * PHYS.e) / PHYS.h; // frecuencia en Hz
+      const sqrtNu = Math.sqrt(nu) / 1e8; // en unidades de 10^8 s^-1/2
+      xData.push(item.Z);
+      yData.push(sqrtNu);
+      textData.push(`${item.sym} (Z=${item.Z})<br>E = ${energy.toFixed(2)} keV<br>√ν = ${sqrtNu.toFixed(2)} × 10⁸`);
+
+      if (item.isAnomaly && showAnomalies) {
+        anomX.push(item.Z);
+        anomY.push(sqrtNu);
+        anomText.push(`Inversión histórica: ${item.sym} (Z=${item.Z})`);
+      }
+    }
+  });
+
+  // Línea teórica ajustada: sqrt(nu) = a * (Z - b)
+  // Para Ka: a = sqrt(3/4 * c * R_inf) / 1e8 ≈ 0.4967, b = 1
+  // Para La: a = sqrt(5/36 * c * R_inf) / 1e8 ≈ 0.2137, b = 7.4
+  const aConst = isKa ? 0.4967 : 0.2137;
+  const bConst = isKa ? 1.0 : 7.4;
+
+  const xLine = [10, 85];
+  const yLine = xLine.map(z => aConst * (z - bConst));
+
+  const traces = [
+    {
+      x: xLine, y: yLine,
+      type: 'scatter', mode: 'lines',
+      name: `Ajuste teórico de Moseley (b = ${bConst})`,
+      line: { color: '#c0392b', width: 2.2 }
+    },
+    {
+      x: xData, y: yData,
+      type: 'scatter', mode: 'markers',
+      name: `Datos experimentales (${currentMoseleySeries})`,
+      marker: { color: '#2980b9', size: 8, line: { color: 'white', width: 1 } },
+      text: textData,
+      hovertemplate: '%{text}<extra></extra>'
+    }
+  ];
+
+  if (showAnomalies && anomX.length > 0) {
+    traces.push({
+      x: anomX, y: anomY,
+      type: 'scatter', mode: 'markers',
+      name: 'Anomalías de masa resueltas',
+      marker: { color: '#d35400', size: 14, symbol: 'circle-open', line: { color: '#d35400', width: 2.5 } },
+      text: anomText,
+      hovertemplate: '%{text}<extra></extra>'
+    });
+  }
+
+  if (showMissing) {
+    const missX = [], missY = [], missText = [];
+    PREDICTED_MISSING.forEach(m => {
+      const ePred = isKa ? m.Ka_pred : m.La_pred;
+      const nuPred = (ePred * 1000 * PHYS.e) / PHYS.h;
+      const sqrtNuPred = Math.sqrt(nuPred) / 1e8;
+      missX.push(m.Z);
+      missY.push(sqrtNuPred);
+      missText.push(`Elemento faltante predicho: ${m.name}<br>Z = ${m.Z}`);
+    });
+    traces.push({
+      x: missX, y: missY,
+      type: 'scatter', mode: 'markers',
+      name: 'Elementos predichos por Moseley',
+      marker: { color: '#8e44ad', size: 11, symbol: 'diamond', line: { color: 'white', width: 1.5 } },
+      text: missText,
+      hovertemplate: '%{text}<extra></extra>'
+    });
+  }
+
+  Plotly.react('plot_moseley_line', traces, {
+    xaxis: { title: 'Número atómico Z (carga nuclear)', range: [8, 86], zeroline: false },
+    yaxis: { title: '√ν (10⁸ s⁻¹/²)', range: [0, isKa ? 42 : 18], zeroline: true, zerolinecolor: '#ddd' },
+    margin: { l: 65, r: 25, t: 20, b: 50 },
+    legend: { x: 0.02, y: 0.98, bgcolor: 'rgba(255,255,255,0.92)', font: { size: 10.5 } },
+    plot_bgcolor: '#fafafa'
+  }, { responsive: true, displayModeBar: false });
+
+  document.getElementById('stats_moseley').innerHTML =
+    `<span class="stat-item"><span class="lbl">Serie activa:</span> <span class="val">${currentMoseleySeries}</span></span>` +
+    `<span class="stat-item"><span class="lbl">Constante b:</span> <span class="val">${bConst}</span></span>` +
+    `<span class="stat-item"><span class="lbl">Pendiente a:</span> <span class="val">${aConst.toFixed(4)} × 10⁸</span></span>` +
+    `<br><span class="stat-item"><span class="lbl">Ecuación:</span> <span class="val">√ν = ${aConst.toFixed(4)} × 10⁸ · (Z − ${bConst})</span></span>`;
+}
+
+// ============================================================
+// FIGURA 4: SIMULADOR DE ANÁLISIS XRF
+// ============================================================
+const XRF_SAMPLES = {
+  bronze: {
+    name: 'Bronce arqueológico',
+    peaks: [
+      { elem: 'Cu', Z: 29, energy: 8.05, height: 100, label: 'Cu Kα (8.05 keV)' },
+      { elem: 'Cu', Z: 29, energy: 8.91, height: 22,  label: 'Cu Kβ (8.91 keV)' },
+      { elem: 'Sn', Z: 50, energy: 25.27, height: 45, label: 'Sn Kα (25.27 keV)' },
+      { elem: 'Sn', Z: 50, energy: 3.44,  height: 35, label: 'Sn Lα (3.44 keV)' },
+      { elem: 'Pb', Z: 82, energy: 10.55, height: 18, label: 'Pb Lα (10.55 keV)' }
+    ],
+    composition: '84% Cu, 12% Sn, 4% Pb'
+  },
+  stainless: {
+    name: 'Acero inoxidable quirúrgico (AISI 316)',
+    peaks: [
+      { elem: 'Cr', Z: 24, energy: 5.41, height: 40,  label: 'Cr Kα (5.41 keV)' },
+      { elem: 'Fe', Z: 26, energy: 6.40, height: 100, label: 'Fe Kα (6.40 keV)' },
+      { elem: 'Fe', Z: 26, energy: 7.06, height: 20,  label: 'Fe Kβ (7.06 keV)' },
+      { elem: 'Ni', Z: 28, energy: 7.48, height: 28,  label: 'Ni Kα (7.48 keV)' },
+      { elem: 'Mo', Z: 42, energy: 17.48, height: 15, label: 'Mo Kα (17.48 keV)' }
+    ],
+    composition: '68% Fe, 18% Cr, 11% Ni, 2.5% Mo'
+  },
+  gold_coin: {
+    name: 'Moneda de oro antigua',
+    peaks: [
+      { elem: 'Au', Z: 79, energy: 9.71,  height: 100, label: 'Au Lα (9.71 keV)' },
+      { elem: 'Au', Z: 79, energy: 11.44, height: 42,  label: 'Au Lβ (11.44 keV)' },
+      { elem: 'Ag', Z: 47, energy: 22.16, height: 25,  label: 'Ag Kα (22.16 keV)' },
+      { elem: 'Cu', Z: 29, energy: 8.05,  height: 14,  label: 'Cu Kα (8.05 keV)' }
+    ],
+    composition: '90% Au, 7% Ag, 3% Cu (oro 21.6k)'
+  }
+};
+
+function drawFig4() {
+  const sampleKey = document.getElementById('sel_xrf_sample').value;
+  const sample = XRF_SAMPLES[sampleKey];
+
+  const eMin = 1.0, eMax = 30.0;
+  const N = 350;
+  const eArr = [], iArr = [];
+
+  for (let i = 0; i <= N; i++) {
+    const e = eMin + ((eMax - eMin) * i) / N;
+    eArr.push(e);
+    // Ruido de fondo basal
+    let val = 2.0 + Math.exp(-e / 6.0) * 3.0;
+
+    // Sumar picos
+    sample.peaks.forEach(pk => {
+      const sig = 0.22; // resolución del detector en keV
+      val += pk.height * Math.exp(-Math.pow(e - pk.energy, 2) / (2 * sig * sig));
+    });
+    iArr.push(val);
+  }
+
+  const annotations = sample.peaks.map(pk => ({
+    x: pk.energy, y: pk.height + 6,
+    text: `${pk.label}`,
+    showarrow: true, arrowhead: 2,
+    ax: 0, ay: -25,
+    font: { size: 9.5, color: '#2c3e50', weight: 'bold' }
+  }));
+
+  const trace = {
+    x: eArr, y: iArr,
+    type: 'scatter', mode: 'lines',
+    name: `Espectro XRF (${sample.name})`,
+    fill: 'tozeroy',
+    fillcolor: 'rgba(22, 160, 133, 0.14)',
+    line: { color: '#16a085', width: 2.4 }
+  };
+
+  Plotly.react('plot_xrf', [trace], {
+    xaxis: { title: 'Energía de los rayos X E (keV)', range: [1.5, 28.5], zeroline: false },
+    yaxis: { title: 'Cuentas / Intensidad fluorescente', range: [0, 125], zeroline: true, zerolinecolor: '#eee' },
+    annotations: annotations,
+    margin: { l: 65, r: 25, t: 25, b: 50 },
+    showlegend: false,
+    plot_bgcolor: '#fafafa'
+  }, { responsive: true, displayModeBar: false });
+
+  document.getElementById('stats_xrf').innerHTML =
+    `<span class="stat-item"><span class="lbl">Muestra:</span> <span class="val">${sample.name}</span></span>` +
+    `<span class="stat-item"><span class="lbl">Picos identificados:</span> <span class="val">${sample.peaks.length}</span></span>` +
+    `<br><span class="stat-item"><span class="lbl">Composición deducida:</span> <span class="val" style="color:#16a085;">${sample.composition}</span></span>`;
+}
+
+// ============================================================
+// EVENT HANDLERS E INICIALIZACIÓN
+// ============================================================
+function attachHandlers() {
+  document.querySelectorAll('#btns_target_mat button').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('#btns_target_mat button').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      currentTargetMat = btn.dataset.mat;
+      drawFig1();
+    });
+  });
+
+  document.getElementById('s_volts_spec').addEventListener('input', drawFig1);
+
+  document.getElementById('sel_elem_levels').addEventListener('change', drawFig2);
+  document.getElementById('sel_xray_line').addEventListener('change', drawFig2);
+
+  document.querySelectorAll('#btns_moseley_series button').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('#btns_moseley_series button').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      currentMoseleySeries = btn.dataset.series;
+      drawFig3();
+    });
+  });
+
+  document.getElementById('chk_highlight_anomalies').addEventListener('change', drawFig3);
+  document.getElementById('chk_show_missing').addEventListener('change', drawFig3);
+
+  document.getElementById('sel_xrf_sample').addEventListener('change', drawFig4);
+
+  window.addEventListener('resize', () => {
+    if (typeof Plotly !== 'undefined') {
+      ['plot_xray_spec', 'plot_energy_levels', 'plot_moseley_line', 'plot_xrf'].forEach(id => {
+        try { Plotly.Plots.resize(id); } catch (err) {}
+      });
+    }
+  });
+}
+
+function initAll() {
+  if (typeof Plotly === 'undefined') {
+    setTimeout(initAll, 100);
+    return;
+  }
+  drawFig1();
+  drawFig2();
+  drawFig3();
+  drawFig4();
+  attachHandlers();
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initAll);
+} else {
+  initAll();
+}
+</script>
+</body>
+</html>
