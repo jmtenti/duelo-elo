@@ -1,0 +1,2343 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Estudio Interactivo: Blindajes, Coeficientes de Atenuación, Simulador 2D y Costos</title>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']], displayMath: [['$$','$$'], ['\\[','\\]']]},
+    messageStyle: "none"
+  });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script src="https://cdn.plot.ly/plotly-2.24.1.min.js"></script>
+
+<style>
+  :root {
+    --primary-color: #1a252f;
+    --secondary-color: #2c3e50;
+    --accent-color: #c0392b;
+    --link-color: #2980b9;
+    --bg-color: #f8f9fa;
+    --sm-color: #16a085;
+    --we-color: #6c3483;
+    --intuition-color: #d35400;
+    --warning-color: #c0392b;
+    --hist-color: #b7791f;
+  }
+  body {
+    font-family: 'Georgia', serif;
+    background: var(--bg-color);
+    color: #333;
+    line-height: 1.8;
+    margin: 0;
+    padding: 40px 0;
+    font-size: 16px;
+  }
+  .container {
+    max-width: 1060px;
+    margin: auto;
+    background: white;
+    padding: 50px 75px;
+    border-radius: 12px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.06);
+  }
+  h1 {
+    color: var(--primary-color);
+    text-align: center;
+    font-size: 2.15em;
+    font-family: 'Segoe UI', sans-serif;
+    margin-bottom: 10px;
+  }
+  .subtitle {
+    text-align: center;
+    color: #7f8c8d;
+    font-style: italic;
+    margin-bottom: 38px;
+    font-size: 1.05em;
+  }
+  h2 {
+    color: var(--secondary-color);
+    margin-top: 55px;
+    border-bottom: 2px solid #ecf0f1;
+    padding-bottom: 6px;
+    font-family: 'Segoe UI', sans-serif;
+  }
+  h3 {
+    color: var(--secondary-color);
+    margin-top: 34px;
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 1.18em;
+  }
+  h4 {
+    color: var(--sm-color);
+    margin-top: 24px;
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 1.02em;
+    font-style: italic;
+  }
+  p { text-align: justify; margin-bottom: 18px; }
+  ul, ol { text-align: justify; }
+  li { margin-bottom: 8px; }
+  .math-box {
+    background: #fdfefe;
+    border-left: 4px solid var(--link-color);
+    padding: 15px 25px;
+    margin: 24px 0;
+    overflow-x: auto;
+    font-size: 1.06em;
+  }
+  .note-box {
+    background: #fef9e7;
+    border-left: 4px solid #f39c12;
+    padding: 14px 22px;
+    margin: 22px 0;
+    font-size: 0.97em;
+  }
+  .sm-box {
+    background: #eafaf1;
+    border-left: 4px solid var(--sm-color);
+    padding: 14px 22px;
+    margin: 22px 0;
+    font-size: 0.97em;
+  }
+  .sm-box strong:first-child { color: var(--sm-color); }
+  .intuition-box {
+    background: #fdf2e9;
+    border-left: 4px solid var(--intuition-color);
+    padding: 14px 22px;
+    margin: 22px 0;
+    font-size: 0.97em;
+  }
+  .intuition-box strong:first-child { color: var(--intuition-color); }
+  .warning-box {
+    background: #fdedec;
+    border-left: 4px solid var(--warning-color);
+    padding: 14px 22px;
+    margin: 22px 0;
+    font-size: 0.97em;
+  }
+  .warning-box strong:first-child { color: var(--warning-color); }
+  .guide-box {
+    background: #eef6fc;
+    border-left: 4px solid var(--link-color);
+    padding: 14px 22px;
+    margin: 22px 0;
+    font-size: 0.96em;
+  }
+  .guide-box strong:first-child { color: var(--link-color); }
+  .guide-box ol { margin: 8px 0 0 0; padding-left: 22px; }
+  .worked-example {
+    background: #faf7fd;
+    border: 1px solid #d5c8e8;
+    border-left: 5px solid var(--we-color);
+    border-radius: 8px;
+    padding: 22px 30px 24px;
+    margin: 35px 0;
+    font-size: 0.98em;
+  }
+  .worked-example .we-header {
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 0.78em;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--we-color);
+    font-weight: bold;
+    margin-bottom: 6px;
+  }
+  .worked-example .we-title {
+    font-family: 'Segoe UI', sans-serif;
+    color: var(--we-color);
+    font-size: 1.08em;
+    font-weight: 600;
+    margin: 0 0 16px 0;
+    line-height: 1.4;
+  }
+  .worked-example .step {
+    margin: 18px 0;
+    padding-left: 18px;
+    border-left: 2px solid #e3d4f0;
+  }
+  .worked-example .step-label {
+    font-family: 'Segoe UI', sans-serif;
+    font-weight: bold;
+    color: var(--we-color);
+    font-size: 0.86em;
+    display: block;
+    margin-bottom: 4px;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+  }
+  .worked-example .result {
+    background: #efe9f7;
+    border-radius: 5px;
+    padding: 10px 16px;
+    margin-top: 8px;
+    font-weight: 500;
+  }
+  .exercise-box {
+    background: #fdf2f2;
+    border: 1px solid #f5c6c6;
+    border-radius: 8px;
+    padding: 22px 28px;
+    margin: 35px 0;
+  }
+  .exercise-box h4 {
+    color: var(--accent-color);
+    margin-top: 0;
+    font-style: normal;
+    font-size: 1.05em;
+  }
+  .hint {
+    background: #fff8e1;
+    border-radius: 4px;
+    padding: 8px 14px;
+    margin: 10px 0;
+    font-size: 0.92em;
+    color: #6d4c00;
+    border-left: 3px solid #f39c12;
+  }
+  .solution-toggle {
+    background: var(--accent-color);
+    color: white;
+    border: none;
+    padding: 8px 18px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 0.92em;
+    margin-top: 12px;
+    transition: background 0.2s;
+  }
+  .solution-toggle:hover { background: #a02828; }
+  .solution-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s ease, margin 0.3s ease;
+    margin-top: 0;
+  }
+  .solution-content.open { max-height: 6000px; margin-top: 18px; }
+  .interactive-figure {
+    background: #fafafa;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    padding: 25px;
+    margin: 40px 0;
+    font-family: 'Segoe UI', sans-serif;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+  }
+  .figure-title {
+    text-align: center;
+    color: var(--secondary-color);
+    font-weight: bold;
+    font-size: 1.18em;
+    margin-top: 0;
+    margin-bottom: 14px;
+  }
+  .plot-area {
+    width: 100%;
+    height: 450px;
+    margin-bottom: 15px;
+  }
+  .controls {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    padding: 18px 20px;
+    background: #fff;
+    border-radius: 8px;
+    border: 1px solid #eee;
+    margin-bottom: 15px;
+  }
+  .control-panel h4 {
+    margin-top: 0;
+    color: var(--secondary-color);
+    font-size: 0.88em;
+    font-family: 'Segoe UI', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-style: normal;
+    margin-bottom: 10px;
+  }
+  .checkbox-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 6px 0;
+    font-size: 0.93em;
+    color: #444;
+    cursor: pointer;
+  }
+  .checkbox-row input[type=checkbox] {
+    width: 16px;
+    height: 16px;
+    accent-color: var(--link-color);
+    cursor: pointer;
+  }
+  .slider-row {
+    display: block;
+    margin: 10px 0;
+    font-size: 0.92em;
+    color: #333;
+  }
+  .slider-row input[type=range] {
+    width: 100%;
+    accent-color: var(--accent-color);
+    cursor: pointer;
+  }
+  .slider-val {
+    font-family: Consolas, monospace;
+    color: var(--accent-color);
+    font-weight: bold;
+  }
+  .select-row {
+    margin: 10px 0;
+    font-size: 0.93em;
+    color: #333;
+  }
+  .select-row select {
+    display: block;
+    width: 100%;
+    margin-top: 6px;
+    padding: 8px 12px;
+    border-radius: 6px;
+    border: 1.5px solid #ccc;
+    font-size: 0.94em;
+    background: white;
+    cursor: pointer;
+  }
+  .select-row select:hover { border-color: var(--link-color); }
+  .button-group {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin: 8px 0 12px 0;
+  }
+  .button-group button {
+    flex: 1;
+    min-width: 70px;
+    padding: 7px 10px;
+    border: 2px solid #ddd;
+    background: white;
+    border-radius: 6px;
+    cursor: pointer;
+    font-family: 'Segoe UI', sans-serif;
+    font-weight: 600;
+    font-size: 0.83em;
+    color: #555;
+    transition: all 0.15s;
+  }
+  .button-group button:hover {
+    border-color: var(--link-color);
+    color: var(--link-color);
+  }
+  .button-group button.active {
+    background: var(--link-color);
+    color: white;
+    border-color: var(--link-color);
+  }
+  .stats {
+    margin-top: 8px;
+    padding: 12px 14px;
+    background: #f4f6f7;
+    border-radius: 6px;
+    font-family: Consolas, monospace;
+    font-size: 0.84em;
+    line-height: 1.75;
+    text-align: center;
+  }
+  .stats .stat-item {
+    display: inline-block;
+    margin: 3px 4px;
+    padding: 3px 9px;
+    background: white;
+    border-radius: 4px;
+    border: 1px solid #e0e0e0;
+  }
+  .stats .stat-item .lbl { color: #666; }
+  .stats .stat-item .val { color: var(--accent-color); font-weight: bold; }
+  .stats .cost-badge {
+    background: #fef9e7;
+    border: 1.5px solid #f39c12;
+  }
+  .stats .cost-badge .val {
+    color: #b7791f;
+    font-size: 1.05em;
+  }
+  .caption {
+    font-size: 0.94em;
+    color: #555;
+    text-align: justify;
+    padding: 10px 20px;
+    border-left: 3px solid var(--accent-color);
+    background: #fff;
+  }
+  .term-table, table.generic {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 22px 0;
+    font-size: 0.93em;
+  }
+  .term-table th, .term-table td, table.generic th, table.generic td {
+    border: 1px solid #e0e0e0;
+    padding: 10px 14px;
+    text-align: left;
+    vertical-align: top;
+  }
+  .term-table th, table.generic th {
+    background: #ecf0f1;
+    font-family: 'Segoe UI', sans-serif;
+    color: var(--secondary-color);
+  }
+  .term-table td.symbol {
+    font-family: 'Cambria Math', 'Times New Roman', serif;
+    font-size: 1.08em;
+    text-align: center;
+    width: 125px;
+    background: #fafafa;
+    font-weight: bold;
+    color: var(--secondary-color);
+  }
+  .toc {
+    background: #f4f6f7;
+    border-radius: 8px;
+    padding: 20px 30px;
+    margin: 30px 0;
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 0.95em;
+  }
+  .toc h3 { margin-top: 0; color: var(--secondary-color); font-size: 1.05em; }
+  .toc ol { margin: 0; padding-left: 22px; }
+  .toc li { margin: 5px 0; }
+  .toc a { color: var(--link-color); text-decoration: none; }
+  .toc a:hover { text-decoration: underline; }
+  .step-by-step {
+    counter-reset: step-counter;
+    list-style: none;
+    padding-left: 0;
+    margin: 25px 0;
+  }
+  .step-by-step li {
+    position: relative;
+    padding: 12px 18px 12px 60px;
+    margin: 12px 0;
+    background: #f8f9fa;
+    border-radius: 6px;
+    border-left: 3px solid var(--link-color);
+  }
+  .step-by-step li::before {
+    counter-increment: step-counter;
+    content: counter(step-counter);
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 32px;
+    height: 32px;
+    background: var(--link-color);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Segoe UI', sans-serif;
+    font-weight: bold;
+    font-size: 0.95em;
+  }
+  .diagram-svg {
+    display: block;
+    max-width: 100%;
+    margin: 24px auto;
+    background: #fdfefe;
+    border-radius: 8px;
+    border: 1px solid #e0e0e0;
+    padding: 10px;
+  }
+
+  /* Estilos del Simulador 2D */
+  .sim2d-wrapper {
+    position: relative;
+    width: 100%;
+    background: #0b0f19;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 2px solid #2c3e50;
+    margin-bottom: 14px;
+    box-shadow: inset 0 0 20px rgba(0,0,0,0.8);
+  }
+  #canvas_sim2d {
+    display: block;
+    width: 100%;
+    height: auto;
+    cursor: crosshair;
+    user-select: none;
+  }
+  .sim2d-colorbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #1a252f;
+    color: #ecf0f1;
+    padding: 8px 16px;
+    font-size: 0.82em;
+    font-family: Consolas, monospace;
+    border-radius: 6px;
+    margin-bottom: 14px;
+  }
+  .sim2d-gradient {
+    flex: 1;
+    height: 14px;
+    margin: 0 14px;
+    border-radius: 4px;
+    border: 1px solid rgba(255,255,255,0.25);
+    background: linear-gradient(90deg,
+      #080c16 0%,
+      #102a5c 18%,
+      #008b8b 36%,
+      #2ecc71 52%,
+      #f1c40f 68%,
+      #e67e22 82%,
+      #e74c3c 93%,
+      #ffffff 100%);
+  }
+  .preset-bar {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 14px;
+  }
+  .preset-btn {
+    padding: 7px 12px;
+    background: #eef6fc;
+    border: 1.5px solid #2980b9;
+    color: #1f618d;
+    border-radius: 6px;
+    cursor: pointer;
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 0.84em;
+    font-weight: 600;
+    transition: all 0.15s;
+  }
+  .preset-btn:hover { background: #2980b9; color: white; }
+  .danger-btn { background: #fdedec; border-color: #c0392b; color: #c0392b; }
+  .danger-btn:hover { background: #c0392b; color: white; }
+
+  @media (max-width: 800px) {
+    .container { padding: 30px 20px; }
+    .controls { grid-template-columns: 1fr; }
+    .plot-area { height: 380px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h1>Blindajes y Coeficientes de Atenuación de Radiaciones Ionizantes</h1>
+  <div class="subtitle">Física de la interacción radiación-materia, taxonomía de coeficientes ($\mu$, $\mu/\rho$, $\mu_{\text{tr}}/\rho$, $\mu_{\text{en}}/\rho$, $\Sigma_R$), factor de acumulación (Build-up), optimización de costos constructivos y laboratorio 2D interactivo</div>
+
+  <div class="note-box">
+    <strong>Notación fundamental.</strong>
+    $S = -dE/dx$: poder de frenado lineal ($\text{MeV/cm}$).
+    $R_{\text{CSDA}}$: alcance en aproximación de frenado continuo ($\text{g/cm}^2$).
+    $\sigma$: sección eficaz microscópica ($\text{barn}$, $1\ \text{b} = 10^{-24}\ \text{cm}^2$).
+    $\mu$: coeficiente de atenuación lineal ($\text{cm}^{-1}$).
+    $\mu/\rho$: coeficiente de atenuación másico ($\text{cm}^2/\text{g}$).
+    $\mu_{\text{tr}}/\rho$: coeficiente másico de transferencia de energía ($\text{cm}^2/\text{g}$).
+    $\mu_{\text{en}}/\rho$: coeficiente másico de absorción de energía ($\text{cm}^2/\text{g}$).
+    $\lambda_{\text{MFP}} = 1/\mu$: recorrido libre medio ($\text{cm}$).
+    $\text{HVL}$ y $\text{TVL}$: capas hemirreductora y decirreductora ($\text{cm}$).
+    $B(E, \mu x)$: factor de acumulación (*Build-up*).
+    $\Sigma_R$: sección eficaz macroscópica de remoción de neutrones rápidos ($\text{cm}^{-1}$).
+  </div>
+
+  <div class="intuition-box">
+    <strong>La idea en una frase.</strong> Diseñar un blindaje nuclear o radiológico no consiste simplemente en interponer una pared gruesa de plomo: requiere distinguir entre <em>partículas cargadas</em> (que pierden energía de forma casi continua mediante millones de colisiones coulombianas hasta detenerse a una distancia finita $R$) y <em>radiación neutra</em> como fotones y neutrones (que viajan sin interactuar hasta sufrir colisiones catastróficas aisladas, atenuándose exponencialmente sin un alcance máximo definido y generando radiación dispersa dentro del propio blindaje), buscando siempre el balance óptimo entre espesor disponible, peso estructural y costo económico de construcción.
+  </div>
+
+  <div class="toc">
+    <h3>Contenido</h3>
+    <ol>
+      <li><a href="#s1">Clasificación física de las radiaciones: alcance finito vs. atenuación exponencial</a></li>
+      <li><a href="#s2">Partículas cargadas pesadas ($\alpha$, protones): fórmula de Bethe-Bloch y Pico de Bragg</a> <em>(Fig. 1)</em></li>
+      <li><a href="#s3">Radiación Beta ($\beta^-$, $\beta^+$): poder de frenado radiativo, Bremsstrahlung y aniquilación</a> <em>(Fig. 2)</em></li>
+      <li><a href="#s4">Mecanismos microscópicos de interacción de fotones (Rayos X y $\gamma$)</a> <em>(Fig. 3)</em></li>
+      <li><a href="#s5">Taxonomía completa de los coeficientes de atenuación, transferencia y absorción</a></li>
+      <li><a href="#s6">Geometría de haz estrecho vs. haz ancho, Factor de Build-up ($B$) y Costo de Paredes</a> <em>(Fig. 4)</em></li>
+      <li><a href="#s7">Física del blindaje de neutrones: moderación elástica, sección eficaz de remoción ($\Sigma_R$) y captura</a> <em>(Fig. 5)</em></li>
+      <li><a href="#s8">Laboratorio 2D Interactivo: Mapa de Dosis, Diseño de Búnker y Presupuesto de Obra</a> <em>(Fig. 6)</em></li>
+      <li><a href="#s9">Tablas de referencia, costos unitarios y diccionario de magnitudes radiológicas</a></li>
+      <li><a href="#s10">Ejemplos desarrollados paso a paso</a></li>
+      <li><a href="#s11">Ejercicios propuestos para pensar</a></li>
+      <li><a href="#s12">Conclusiones y síntesis de ingeniería de blindajes</a></li>
+    </ol>
+  </div>
+
+  <!-- ============================================ -->
+  <h2 id="s1">1. Clasificación física de las radiaciones: alcance finito vs. atenuación exponencial</h2>
+
+  <p>Desde el punto de vista de la física del transporte de radiación y la ingeniería de blindajes, las radiaciones ionizantes se dividen en dos grandes familias cuyo comportamiento matemático en la materia es radicalmente opuesto:</p>
+
+  <ul>
+    <li><strong>Radiación directamente ionizante (partículas con carga eléctrica: $\alpha$, $\beta^-$, $\beta^+$, protones, iones pesados):</strong> Al poseer carga eléctrica neta, están rodeadas por un campo eléctrico de largo alcance ($\propto 1/r^2$). A medida que atraviesan la materia, interactúan simultáneamente con miles de electrones orbitales de los átomos vecinos en cada micrómetro de recorrido. Como pierden energía de manera <em>continua y determinista</em> en numerosísimas colisiones de pequeña transferencia energética, tienen un <strong>alcance máximo bien definido ($R$)</strong> más allá del cual ninguna partícula primaria logra penetrar.</li>
+    <li><strong>Radiación indirectamente ionizante (partículas neutras: fotones X, rayos $\gamma$ y neutrones $n$):</strong> Al carecer de carga eléctrica, no sienten las fuerzas coulombianas a distancia. Pueden atravesar millones de capas atómicas en línea recta como si el material estuviera vacío, hasta que sufren un encuentro probabilístico directo con un electrón o con un núcleo. En ese evento liberan electrones rápidos o iones de retroceso (que son los que realmente ionizan el medio). Su transmisión es un proceso estocástico de Poisson gobernado por una <strong>ley de atenuación exponencial</strong>: teóricamente nunca llega exactamente a cero, sino que requiere reducir la intensidad en órdenes de magnitud sucesivos.</li>
+  </ul>
+
+  <svg viewBox="0 0 860 360" class="diagram-svg">
+    <defs>
+      <marker id="arrA" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto">
+        <path d="M0,0 L0,6 L8,3 z" fill="#c0392b" />
+      </marker>
+      <marker id="arrB" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto">
+        <path d="M0,0 L0,6 L8,3 z" fill="#2980b9" />
+      </marker>
+      <marker id="arrG" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto">
+        <path d="M0,0 L0,6 L8,3 z" fill="#8e44ad" />
+      </marker>
+      <marker id="arrN" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto">
+        <path d="M0,0 L0,6 L8,3 z" fill="#16a085" />
+      </marker>
+    </defs>
+
+    <!-- Capas de blindaje -->
+    <rect x="210" y="35" width="16" height="260" fill="#f9e79f" stroke="#d4ac0d" stroke-width="1.5" rx="3"/>
+    <text x="218" y="315" text-anchor="middle" font-family="Segoe UI" font-weight="600" font-size="11" fill="#7d6608">Papel / Piel</text>
+    <text x="218" y="330" text-anchor="middle" font-family="Segoe UI" font-size="10" fill="#777">(~0.1 mm)</text>
+
+    <rect x="350" y="35" width="38" height="260" fill="#d6eaf8" stroke="#2980b9" stroke-width="1.5" rx="3"/>
+    <text x="369" y="315" text-anchor="middle" font-family="Segoe UI" font-weight="600" font-size="11" fill="#1f618d">Acrílico / Al</text>
+    <text x="369" y="330" text-anchor="middle" font-family="Segoe UI" font-size="10" fill="#777">(Bajo Z, ~1 cm)</text>
+
+    <rect x="510" y="35" width="55" height="260" fill="#d5d8dc" stroke="#566573" stroke-width="1.5" rx="3"/>
+    <text x="537" y="315" text-anchor="middle" font-family="Segoe UI" font-weight="600" font-size="11" fill="#2c3e50">Plomo / Acero</text>
+    <text x="537" y="330" text-anchor="middle" font-family="Segoe UI" font-size="10" fill="#777">(Alto Z, ~5 cm)</text>
+
+    <rect x="680" y="35" width="110" height="260" fill="#d1f2eb" stroke="#16a085" stroke-width="1.5" rx="3"/>
+    <text x="735" y="315" text-anchor="middle" font-family="Segoe UI" font-weight="600" font-size="11" fill="#0e6655">Polietileno Borado</text>
+    <text x="735" y="330" text-anchor="middle" font-family="Segoe UI" font-size="10" fill="#777">(Rico en H + ¹⁰B)</text>
+
+    <!-- Alfa -->
+    <text x="25" y="80" font-family="Segoe UI" font-weight="bold" font-size="14" fill="#c0392b">Alfa (α, ⁴He²⁺)</text>
+    <text x="25" y="96" font-family="Segoe UI" font-size="10.5" fill="#666">Alcance finito micrométrico</text>
+    <path d="M 155,82 L 204,82" stroke="#c0392b" stroke-width="4.5" marker-end="url(#arrA)"/>
+
+    <!-- Beta -->
+    <text x="25" y="145" font-family="Segoe UI" font-weight="bold" font-size="14" fill="#2980b9">Beta (β⁻, β⁺)</text>
+    <text x="25" y="161" font-family="Segoe UI" font-size="10.5" fill="#666">Frenado en bajo Z (evita RX)</text>
+    <path d="M 155,147 L 368,147" stroke="#2980b9" stroke-width="3" marker-end="url(#arrB)"/>
+    <path d="M 368,147 Q 380,132 392,147 T 416,147 T 440,147 L 505,147" stroke="#e67e22" stroke-width="1.5" stroke-dasharray="3,2" fill="none"/>
+    <text x="442" y="133" text-anchor="middle" font-family="Segoe UI" font-size="9.5" fill="#d35400" font-style="italic">Bremsstrahlung débil</text>
+
+    <!-- Gamma -->
+    <text x="25" y="210" font-family="Segoe UI" font-weight="bold" font-size="14" fill="#8e44ad">Rayos X / Gamma (γ)</text>
+    <text x="25" y="226" font-family="Segoe UI" font-size="10.5" fill="#666">Atenuación exponencial I₀e⁻ᵘˣ</text>
+    <path d="M 155,212 Q 165,198 175,212 T 195,212 T 215,212 T 235,212 T 255,212 T 275,212 T 295,212 T 315,212 T 335,212 T 355,212 T 375,212 T 395,212 T 415,212 T 435,212 T 455,212 T 475,212 T 495,212 L 535,212" stroke="#8e44ad" stroke-width="2.5" fill="none" marker-end="url(#arrG)"/>
+    <path d="M 550,212 Q 560,204 570,212 T 590,212 T 610,212 L 645,212" stroke="#8e44ad" stroke-width="1.2" stroke-dasharray="4,3" fill="none" marker-end="url(#arrG)"/>
+    <text x="615" y="198" text-anchor="middle" font-family="Segoe UI" font-size="9.5" fill="#8e44ad" font-style="italic">Fracción transmitida</text>
+
+    <!-- Neutrones -->
+    <text x="25" y="272" font-family="Segoe UI" font-weight="bold" font-size="14" fill="#16a085">Neutrones rápidos (n)</text>
+    <text x="25" y="288" font-family="Segoe UI" font-size="10.5" fill="#666">Moderación en H + captura ¹⁰B</text>
+    <path d="M 155,274 L 685,274" stroke="#16a085" stroke-width="3" marker-end="url(#arrN)"/>
+    <path d="M 690,274 L 712,256 L 732,282 L 750,262 L 764,274" stroke="#16a085" stroke-width="2" stroke-dasharray="3,2" fill="none"/>
+    <circle cx="712" cy="256" r="3.5" fill="#0e6655"/>
+    <circle cx="732" cy="282" r="3.5" fill="#0e6655"/>
+    <circle cx="750" cy="262" r="3.5" fill="#0e6655"/>
+    <circle cx="764" cy="274" r="5" fill="#c0392b"/>
+    <text x="764" y="252" text-anchor="middle" font-family="Segoe UI" font-size="9.5" fill="#c0392b" font-weight="bold">¹⁰B(n,α)⁷Li</text>
+  </svg>
+
+  <!-- ============================================ -->
+  <h2 id="s2">2. Partículas cargadas pesadas ($\alpha$, protones): fórmula de Bethe-Bloch y Pico de Bragg</h2>
+
+  <p>Las partículas cargadas pesadas —como las partículas alfa ($^4_2\text{He}^{2+}$), protones, deuterones o iones de carbono— tienen masas miles de veces superiores a la del electrón ($M \gg m_e$). Al chocar elásticamente e inelásticamente con los electrones atómicos del blindaje, apenas sufren desviaciones angulares (viajan en trayectorias casi rectilíneas) y ceden pequeñas fracciones de su energía en cada colisión (máximo $\Delta E_{\max} \approx 4 (m_e/M) E$).</p>
+
+  <h3>2.1 El Poder de Frenado Lineal y Másico (Fórmula de Bethe-Bloch)</h3>
+
+  <p>La tasa de pérdida de energía cinética por unidad de longitud recorrida se denomina <strong>poder de frenado lineal colisional</strong> ($S_{\text{col}} = -dE/dx$, expresado en $\text{MeV/cm}$), el cual coincide estrechamente con la <strong>Transferencia Lineal de Energía ($\text{LET}$ o $L_\infty$)</strong>. Hans Bethe y Felix Bloch demostraron cuántica y relativistamente que viene dado por:</p>
+
+  <div class="math-box">
+    $$ S_{\text{col}} = -\left(\frac{dE}{dx}\right)_{\text{col}} = \frac{4\pi e^4 z^2}{m_e v^2} \, N Z \left[ \ln\left(\frac{2 m_e v^2}{I_{\text{exc}}(1-\beta^2)}\right) - \beta^2 - \frac{C}{Z} - \frac{\delta}{2} \right] $$
+  </div>
+
+  <p>donde $z$ es la carga de la partícula proyectil en unidades de $e$ ($z=2$ para $\alpha$, $z=1$ para protones), $v = \beta c$ es su velocidad, $N = \rho N_A / A$ es la densidad atómica del blindaje, $Z$ es el número atómico del material absorbente, e $I_{\text{exc}} \approx 10\text{–}13.5 \cdot Z\ \text{eV}$ es el potencial medio de excitación e ionización del medio.</p>
+
+  <div class="intuition-box">
+    <strong>¿Por qué se produce el Pico de Bragg al final de la trayectoria?</strong>
+    Observá el factor dominante $\propto \frac{z^2}{v^2}$ en la fórmula de Bethe-Bloch. A medida que la partícula cargada penetra en el material y va perdiendo energía, su velocidad $v$ disminuye. Al moverse más despacio, pasa <em>más tiempo</em> en las cercanías de cada electrón atómico del medio, ejerciendo un impulso eléctrico mayor y arrancando muchos más electrones por milímetro. Justo antes de detenerse ($v \to 0$), la pérdida de energía por unidad de longitud se dispara abruptamente formando el célebre <strong>Pico de Bragg</strong>, tras el cual la partícula captura electrones del medio, se neutraliza y la dosis cae bruscamente a cero.
+  </div>
+
+  <h3>2.2 Alcance medio ($R$) y Regla de Bragg-Kleeman</h3>
+
+  <p>Integrando el inverso del poder de frenado desde la energía inicial $E_0$ hasta cero se obtiene el <strong>alcance en aproximación de frenado continuo ($R_{\text{CSDA}}$, *Continuous Slowing Down Approximation*)</strong>:</p>
+
+  <div class="math-box">
+    $$ R_{\text{CSDA}}(E_0) = \int_0^{E_0} \frac{dE}{S_{\text{tot}}(E)}. $$
+  </div>
+
+  <p>Para partículas alfa de emisores radiactivos naturales ($4\ \text{a}\ 8\ \text{MeV}$), su alcance en aire seco a condiciones normales se aproxima mediante la regla empírica:</p>
+
+  <div class="math-box">
+    $$ R_{\text{aire}}(\text{cm}) \approx \begin{cases} 0.56 \, E(\text{MeV}) & \text{si } E < 4\ \text{MeV}, \\[4pt] 1.24 \, E(\text{MeV}) - 2.62 & \text{si } 4 \le E \le 8\ \text{MeV}. \end{cases} $$
+  </div>
+
+  <p>Para convertir el alcance conocido en un medio $1$ (como el aire) al alcance en un blindaje sólido o tejido biológico $2$, se utiliza la <strong>regla de escalado de Bragg-Kleeman</strong>:</p>
+
+  <div class="math-box">
+    $$ \frac{R_2}{R_1} \approx \frac{\rho_1}{\rho_2}\sqrt{\frac{A_2}{A_1}} \qquad \Longrightarrow \qquad R_2 \cdot \rho_2 \propto \sqrt{A_2}. $$
+  </div>
+
+  <p>Para una partícula $\alpha$ de $5.5\ \text{MeV}$ (como la del $^{241}\text{Am}$), $R_{\text{aire}} \approx 4.2\ \text{cm}$, mientras que en tejido biológico o plástico ($\rho \approx 1\ \text{g/cm}^3$) su alcance es de apenas $R_{\text{tejido}} \approx 40\ \mu\text{m}$ ($0.04\ \text{mm}$). Como la capa córnea de células muertas de la piel humana mide entre $50$ y $100\ \mu\text{m}$, <strong>la radiación alfa externa es completamente inofensiva y se blinda con una hoja de papel o guantes de látex</strong>.</p>
+
+  <!-- FIGURA 1: PICO DE BRAGG -->
+  <div class="interactive-figure">
+    <div class="figure-title">Figura 1: Curva de Bragg — Poder de frenado $(-dE/dx)$ y depósito de dosis en profundidad</div>
+    <div id="plot_bragg" class="plot-area"></div>
+    <div class="controls">
+      <div class="control-panel">
+        <h4>Partícula y Medio Absorbente</h4>
+        <div class="select-row">
+          <label>Escenario físico:</label>
+          <select id="sel_bragg_mode">
+            <option value="alpha_air">Partícula Alfa en Aire (4 a 8 MeV, escala en cm)</option>
+            <option value="alpha_tissue" selected>Partícula Alfa en Tejido / Polietileno (4 a 8 MeV, escala en μm)</option>
+            <option value="proton_water">Haz de Protones en Agua — Hadronterapia (70 a 160 MeV, escala en cm)</option>
+          </select>
+        </div>
+        <label class="slider-row">
+          Parámetro de energía inicial ($E_0$): <span id="v_bragg_E" class="slider-val">5.5 MeV</span>
+          <input type="range" id="s_bragg_E" min="4.0" max="8.0" step="0.1" value="5.5">
+        </label>
+      </div>
+      <div class="control-panel">
+        <h4>Parámetros de Frenado y Alcance</h4>
+        <div id="stats_bragg" class="stats"></div>
+      </div>
+    </div>
+    <div class="guide-box">
+      <strong>Qué observar en la Figura 1.</strong>
+      <ol>
+        <li>La curva muestra cómo el poder de frenado $-dE/dx$ permanece relativamente moderado en la entrada ("meseta"), pero se multiplica por 3 o 4 cerca del final del recorrido, formando el <strong>Pico de Bragg</strong>.</li>
+        <li>Después del pico, hay una caída rapidísima a cero con una pequeña cola debida al <em>straggling</em> (fluctuación estadística en el número de choques de cada partícula individual).</li>
+        <li>Cambiá al escenario de <strong>Protones en Agua</strong>: esta misma física permite en radioterapia oncológica depositar el máximo de dosis exactamente sobre un tumor profundo sin irradiar los órganos sanos situados detrás.</li>
+      </ol>
+    </div>
+    <div class="caption">
+      <strong>Epígrafe:</strong> Curva de ionización específica y poder de frenado colisional $-dE/dx$ en función de la profundidad de penetración. Se ilustra la existencia de un alcance finito $R$ bien definido para partículas cargadas pesadas, en contraste absoluto con la ley exponencial de los fotones.
+    </div>
+  </div>
+
+  <!-- ============================================ -->
+  <h2 id="s3">3. Radiación Beta ($\beta^-$, $\beta^+$): poder de frenado radiativo, Bremsstrahlung y aniquilación</h2>
+
+  <p>Las partículas beta son electrones ($\beta^-$) o positrones ($\beta^+$) emitidos en decaimientos nucleares débiles con un espectro continuo de energía desde $0$ hasta una energía máxima característica $E_{\max}$ (con energía media $\overline{E}_\beta \approx \frac{1}{3}E_{\max}$). A diferencia de las partículas $\alpha$, los electrones tienen la misma masa que los electrones orbitales contra los que chocan ($m_e$), por lo que sufren grandes deflexiones angulares (trayectorias tortuosas en zig-zag) y fuertes desaceleraciones.</p>
+
+  <h3>3.1 Poder de frenado total: Colisional vs. Radiativo</h3>
+
+  <p>Para electrones y positrones, el poder de frenado total $S_{\text{tot}}$ es la suma de dos mecanismos independientes:</p>
+
+  <div class="math-box">
+    $$ S_{\text{tot}} = -\left(\frac{dE}{dx}\right)_{\text{tot}} = S_{\text{col}} + S_{\text{rad}} = -\left(\frac{dE}{dx}\right)_{\text{col}} - \left(\frac{dE}{dx}\right)_{\text{rad}}. $$
+  </div>
+
+  <ul>
+    <li><strong>Frenado colisional ($S_{\text{col}} \propto n_e \propto \rho Z/A$):</strong> Ionización y excitación de los átomos del blindaje. Domina a bajas energías y en materiales de bajo número atómico $Z$.</li>
+    <li><strong>Frenado radiativo ($S_{\text{rad}} \propto N Z^2 E$):</strong> Cuando el electrón pasa cerca de un núcleo de carga $+Ze$, la intensa fuerza eléctrica nuclear lo desacelera violentamente, obligándolo a emitir fotones de rayos X continuos denominados <strong>Bremsstrahlung (radiación de frenado)</strong>. Como la fuerza coulombiana nuclear es proporcional a $Z$, la potencia radiada (fórmula de Larmor relativista) crece cuadráticamente con el número atómico: $S_{\text{rad}} \propto Z^2 E$.</li>
+  </ul>
+
+  <p>El cociente entre el poder de frenado radiativo y el colisional para un electrón de energía cinética $E$ (en $\text{MeV}$) en un material de número atómico $Z$ viene dado por la relación clásica de Bethe-Heitler:</p>
+
+  <div class="math-box">
+    $$ \frac{S_{\text{rad}}}{S_{\text{col}}} \approx \frac{Z \cdot E(\text{MeV})}{800}. $$
+  </div>
+
+  <p>Al integrar esta pérdida a lo largo de toda la trayectoria de frenado de un espectro beta con energía máxima $E_{\max}$, la <strong>fracción total de energía beta convertida en fotones de Bremsstrahlung</strong> (rendimiento de radiación $Y$ o $f_{\text{Brems}}$) resulta:</p>
+
+  <div class="math-box">
+    $$ Y_{\text{Brems}} \approx \frac{Z \cdot E_{\max}(\text{MeV})}{3000}. $$
+  </div>
+
+  <div class="warning-box">
+    <strong>Regla de oro del blindaje Beta (Configuración Bicapa):</strong>
+    Si blindamos una fuente beta intensa de $^{32}\text{P}$ ($E_{\max} = 1.71\ \text{MeV}$) o $^{90}\text{Sr}/^{90}\text{Y}$ ($E_{\max} = 2.28\ \text{MeV}$) directamente con plomo ($Z=82$), hasta un $4.7\text{–}6.2\%$ de la potencia beta se transforma en rayos X penetrantes que atraviesan la pared.
+    <br><br>
+    El blindaje correcto es siempre un <strong>sistema bicapa (anidado)</strong>:
+    <ol style="margin-top:6px; margin-bottom:0;">
+      <li><strong>Capa interna (junto a la fuente):</strong> Material de <strong>bajo $Z$</strong> (polimetilmetacrilato/acrílico $Z_{\text{eff}} \approx 6.5$, polietileno, vidrio o aluminio $Z=13$) con espesor mayor o igual al alcance máximo $R_{\max}$ de los electrones. Esto absorbe el $100\%$ de las partículas beta minimizando la creación de Bremsstrahlung.</li>
+      <li><strong>Capa externa:</strong> Una lámina delgada de <strong>alto $Z$</strong> (plomo, $1\text{–}3\ \text{mm}$) por fuera del plástico para atenuar por efecto fotoeléctrico el pequeño remanente de rayos X de frenado generado en el plástico.</li>
+    </ol>
+  </div>
+
+  <h3>3.2 Fórmulas de Katz-Penfold para el alcance másico Beta ($R_m$)</h3>
+
+  <p>Curiosamente, cuando el alcance de los electrones se expresa como <strong>espesor másico</strong> ($R_m = \rho \cdot R_{\max}$, en unidades de $\text{g/cm}^2$), resulta ser casi independiente del material absorbente (porque la relación $Z/A \approx 0.45\text{–}0.50$ es casi constante en todos los elementos). Las ecuaciones empíricas de <strong>Katz y Penfold</strong> permiten calcular el espesor necesario para detener el $100\%$ de las partículas beta:</p>
+
+  <div class="math-box">
+    $$ R_m\,(\text{g/cm}^2) = \begin{cases} 0.412 \, \big[E_{\max}(\text{MeV})\big]^{\,1.265 - 0.0954 \ln(E_{\max})} & \text{para } 0.01 \le E_{\max} \le 2.5\ \text{MeV}, \\[6pt] 0.530 \, E_{\max}(\text{MeV}) - 0.106 & \text{para } E_{\max} > 2.5\ \text{MeV}. \end{cases} $$
+  </div>
+
+  <p>Una vez calculado $R_m$, el espesor físico real de blindaje en centímetros se obtiene simplemente dividiendo por la densidad del material elegido: $x_{\min}(\text{cm}) = R_m / \rho$.</p>
+
+  <div class="sm-box">
+    <strong>Cuidado especial con emisores de positrones ($\beta^+$, como $^{18}\text{F}$, $^{11}\text{C}$, $^{68}\text{Ga}$ en PET):</strong>
+    Aunque el positrón emitido por el $^{18}\text{F}$ ($E_{\max} = 0.634\ \text{MeV}$) se frena en apenas $2.2\ \text{mm}$ de acrílico, una vez en reposo se combina con un electrón del medio y sufre <strong>aniquilación materia-antimateria</strong> ($e^+ + e^- \to 2\gamma$), emitiendo siempre <strong>dos fotones gamma de $511\ \text{keV}$</strong> en direcciones opuestas ($180^\circ$). Por ello, los radionucleidos $\beta^+$ jamás pueden blindarse solo con plástico: exigen gruesos blindajes de plomo o tungsteno ($\text{HVL}_{\text{Pb}} \approx 4.1\ \text{mm}$ a $511\ \text{keV}$).
+  </div>
+
+  <!-- FIGURA 2: ALCANCE BETA Y BREMSSTRAHLUNG -->
+  <div class="interactive-figure">
+    <div class="figure-title">Figura 2: Simulador de Blindaje Beta — Alcance CSDA (Katz-Penfold) vs. Producción de Bremsstrahlung</div>
+    <div id="plot_beta_shield" class="plot-area"></div>
+    <div class="controls">
+      <div class="control-panel">
+        <h4>Radionucleido Emisor Beta</h4>
+        <div class="select-row">
+          <label>Seleccionar isótopo:</label>
+          <select id="sel_beta_iso">
+            <option value="0.156">¹⁴C (β⁻, E_max = 0.156 MeV)</option>
+            <option value="0.294">⁹⁹Tc (β⁻, E_max = 0.294 MeV)</option>
+            <option value="0.634">¹⁸F (β⁺ PET, E_max = 0.634 MeV + 2γ de 511 keV)</option>
+            <option value="1.710" selected>³²P (β⁻, E_max = 1.710 MeV)</option>
+            <option value="2.280">⁹⁰Sr / ⁹⁰Y (β⁻, E_max = 2.280 MeV)</option>
+            <option value="3.540">¹⁰⁶Ru / ¹⁰⁶Rh (β⁻, E_max = 3.540 MeV)</option>
+          </select>
+        </div>
+        <div class="button-group" id="btns_beta_metric">
+          <button type="button" data-mode="brems" class="active">Rendimiento Bremsstrahlung (%)</button>
+          <button type="button" data-mode="range">Espesor de Frenado Necesario (mm)</button>
+        </div>
+      </div>
+      <div class="control-panel">
+        <h4>Especificación de Blindaje Beta</h4>
+        <div id="stats_beta" class="stats"></div>
+      </div>
+    </div>
+    <div class="guide-box">
+      <strong>Qué observar en la Figura 2.</strong>
+      <ol>
+        <li>Alterná entre los dos botones superiores: en <strong>Rendimiento Bremsstrahlung (%)</strong> se ve cómo el plomo ($Z=82$) y el acero ($Z=26$) producen mucha más radiación X secundaria que el acrílico ($Z_{\text{eff}}\approx 6.5$).</li>
+        <li>Al cambiar al modo <strong>Espesor de Frenado Necesario (mm)</strong>, verás el espesor exacto $x = R_m/\rho$ que detiene por completo todas las partículas beta. Para $^{32}\text{P}$, bastan $6.7\ \text{mm}$ de acrílico o $2.9\ \text{mm}$ de aluminio.</li>
+      </ol>
+    </div>
+    <div class="caption">
+      <strong>Epígrafe:</strong> Comparación de cinco materiales de blindaje frente a emisores beta: Polietileno ($Z_{\text{eff}}\approx 5.5$, $\rho=0.94\ \text{g/cm}^3$), Acrílico/PMMA ($Z_{\text{eff}}\approx 6.5$, $\rho=1.18\ \text{g/cm}^3$), Aluminio ($Z=13$, $\rho=2.70\ \text{g/cm}^3$), Acero ($Z=26$, $\rho=7.87\ \text{g/cm}^3$) y Plomo ($Z=82$, $\rho=11.35\ \text{g/cm}^3$).
+    </div>
+  </div>
+
+  <!-- ============================================ -->
+  <h2 id="s4">4. Mecanismos microscópicos de interacción de fotones (Rayos X y $\gamma$)</h2>
+
+  <p>Cuando un haz de fotones de energía $E_\gamma = h\nu$ atraviesa la materia, cada fotón individual interactúa con los átomos del blindaje a través de cuatro procesos cuánticos elementales cuyas secciones eficaces atómicas se suman:</p>
+
+  <ol class="step-by-step">
+    <li><strong>Dispersión Coherente o de Rayleigh ($\sigma_R$):</strong> El fotón interactúa elásticamente con la nube electrónica atómica en su conjunto y es desviado un ángulo pequeño sin perder energía ($h\nu' = h\nu$) ni ionizar el átomo. Solo es relevante a energías muy bajas ($< 50\ \text{keV}$) y alto $Z$. No deposita dosis, pero ensancha ligeramente el haz.</li>
+    <li><strong>Absorción Fotoeléctrica ($\tau$):</strong> El fotón desaparece por completo transfiriendo toda su energía a un electrón fuertemente ligado de una capa interna (usualmente la capa K), que sale expulsado como fotoelectrón con energía cinética $E_k = h\nu - E_b$. La vacancia atómica se rellena emitiendo rayos X característicos (fluorescencia) o electrones Auger. Su sección eficaz por átomo escala de forma fortísima con $Z$ y cae drásticamente con la energía:
+      <div class="math-box">
+        $$ \tau_{\text{atómico}} \propto \frac{Z^{4.5}}{E_\gamma^{3.5}} \quad \Longrightarrow \quad \frac{\tau}{\rho} \propto \frac{Z^{3.5}}{E_\gamma^{3.5}}. $$
+      </div>
+      Presenta discontinuidades abruptas llamadas <strong>bordes de absorción (K-edge, L-edge)</strong> cuando la energía del fotón iguala exactamente la energía de enlace de una capa (en el plomo, $E_K = 88.0\ \text{keV}$). Es el mecanismo ideal para blindar: el fotón <em>muere</em> y no se dispersa.
+    </li>
+    <li><strong>Dispersión Inelástica de Compton ($\sigma_C$):</strong> El fotón colisiona contra un electrón orbital casi libre, cediéndole parte de su energía (electrón de retroceso Compton) y emergiendo desviado un ángulo $\theta$ con una energía menor $E'$:
+      <div class="math-box">
+        $$ E'(\theta) = \frac{E_\gamma}{1 + \frac{E_\gamma}{m_e c^2}(1 - \cos\theta)}, \qquad m_e c^2 = 0.511\ \text{MeV}. $$
+      </div>
+      Como ocurre con electrones individuales, la sección eficaz atómica es directamente proporcional al número de electrones por átomo ($\sigma_{C,\text{atómico}} = Z \cdot {}_e\sigma_{\text{KN}}$). Por lo tanto, el coeficiente másico Compton $\frac{\sigma_C}{\rho} \propto \frac{Z}{A} \approx 0.5$ es <strong>prácticamente independiente del número atómico $Z$ del material</strong>: ¡1 gramo de agua, 1 gramo de hormigón y 1 gramo de plomo dispersan por efecto Compton casi exactamente igual! Domina en el rango de $0.1\ \text{MeV}$ a $5\text{–}10\ \text{MeV}$.
+    </li>
+    <li><strong>Creación de Pares ($\kappa$):</strong> Si la energía del fotón supera el umbral relativista de dos masas electrónicas en reposo ($E_\gamma \ge 2m_e c^2 = 1.022\ \text{MeV}$), el fotón puede materializarse en las cercanías del intenso campo coulombiano del núcleo creando un par electrón-positrón ($E_{e^-} + E_{e^+} = h\nu - 1.022\ \text{MeV}$). Su sección eficaz crece con la energía y con el cuadrado de la carga nuclear:
+      <div class="math-box">
+        $$ \kappa_{\text{atómico}} \propto Z^2 \ln(E_\gamma) \quad \Longrightarrow \quad \frac{\kappa}{\rho} \propto \frac{Z^2}{A}\ln(E_\gamma). $$
+      </div>
+      Posteriormente, el positrón creado se frena y se aniquila emitiendo dos fotones secundarios de $0.511\ \text{MeV}$.
+    </li>
+  </ol>
+
+  <!-- FIGURA 3: ESPECTRO DE COEFICIENTES MÁSICOS -->
+  <div class="interactive-figure">
+    <div class="figure-title">Figura 3: Coeficientes de Atenuación Másicos ($\mu/\rho$) por Mecanismo y Absorción ($\mu_{\text{en}}/\rho$)</div>
+    <div id="plot_mass_coeff" class="plot-area" style="height: 480px;"></div>
+    <div class="controls">
+      <div class="control-panel">
+        <h4>Material y Energía de Inspección</h4>
+        <div class="select-row">
+          <label>Material del blindaje:</label>
+          <select id="sel_coeff_mat">
+            <option value="Pb" selected>Plomo (Pb, Z = 82, ρ = 11.35 g/cm³)</option>
+            <option value="Fe">Hierro / Acero (Fe, Z = 26, ρ = 7.87 g/cm³)</option>
+            <option value="Concrete">Hormigón Estándar (Z_eff ≈ 11, ρ = 2.35 g/cm³)</option>
+            <option value="H2O">Agua / Tejido blando (Z_eff ≈ 7.4, ρ = 1.00 g/cm³)</option>
+          </select>
+        </div>
+        <label class="slider-row">
+          Energía del fotón $E_\gamma$ (escala log): <span id="v_coeff_E" class="slider-val">1.00 MeV</span>
+          <input type="range" id="s_coeff_E" min="-1.5" max="1.3" step="0.02" value="0.0">
+        </label>
+      </div>
+      <div class="control-panel">
+        <h4>Desglose Cuantitativo en $E_\gamma$</h4>
+        <div id="stats_coeff" class="stats"></div>
+      </div>
+    </div>
+    <div class="guide-box">
+      <strong>Qué observar en la Figura 3.</strong>
+      <ol>
+        <li>La curva negra sólida representa el <strong>coeficiente de atenuación másico total ($\mu/\rho$)</strong>, suma de Fotoeléctrico ($\tau/\rho$, azul), Compton ($\sigma_C/\rho$, naranja) y Creación de Pares ($\kappa/\rho$, verde).</li>
+        <li>En el <strong>Plomo ($Z=82$)</strong>, observá el salto vertical a $0.088\ \text{MeV}$ ($88\ \text{keV}$): es el <strong>borde K (K-edge)</strong>. Justo por encima de $88\ \text{keV}$, el fotón tiene energía para arrancar electrones de la capa K y la atenuación se multiplica por 4.5.</li>
+        <li>La curva roja representa el <strong>coeficiente másico de absorción de energía ($\mu_{\text{en}}/\rho$)</strong>: siempre es inferior a $\mu/\rho$ porque descuenta los fotones dispersados y de Bremsstrahlung.</li>
+      </ol>
+    </div>
+    <div class="caption">
+      <strong>Epígrafe:</strong> Dependencia energética en escala doble logarítmica de los coeficientes másicos parciales y totales entre $0.03\ \text{MeV}$ y $20\ \text{MeV}$.
+    </div>
+  </div>
+
+  <!-- ============================================ -->
+  <h2 id="s5">5. Taxonomía completa de los coeficientes de atenuación, transferencia y absorción</h2>
+
+  <p>En protección radiológica, dosimetría y física nuclear se utilizan seis tipos de coeficientes estrechamente vinculados pero físicamente distintos. Confundir $\mu/\rho$ con $\mu_{\text{tr}}/\rho$ o con $\mu_{\text{en}}/\rho$ lleva a errores graves al calcular blindajes o dosis absorbidas:</p>
+
+  <h3>5.1 Coeficiente de Atenuación Lineal ($\mu$)</h3>
+  <p>Consideremos un haz estrecho y monoenergético de intensidad $I(x)$ que atraviesa una lámina infinitesimal $dx$. La fracción de fotones que sufre alguna interacción (y por tanto sale del haz primario colimado) es $dI / I = -\mu \, dx$. Integrando se obtiene la <strong>ley de Beer-Lambert</strong>:</p>
+
+  <div class="math-box">
+    $$ I(x) = I_0 \, e^{-\mu x}, \qquad \mu = N\,\sigma_{\text{tot}} = \left(\frac{\rho N_A}{A}\right)(\tau_a + \sigma_{R,a} + \sigma_{C,a} + \kappa_a) \quad [\text{cm}^{-1}]. $$
+  </div>
+
+  <p>donde $N$ es el número de átomos por $\text{cm}^3$, $N_A = 6.022 \times 10^{23}\ \text{mol}^{-1}$, $A$ es la masa molar ($\text{g/mol}$) y $\sigma_{\text{tot}}$ es la sección eficaz atómica total ($\text{cm}^2/\text{átomo}$).</p>
+
+  <h3>5.2 Coeficiente de Atenuación Másico ($\mu_m = \mu/\rho$) y Regla de Mezclas de Bragg</h3>
+  <p>Como $\mu$ es directamente proporcional a la densidad $\rho$, su valor cambia si el material se comprime, se calienta o cambia de fase (por ejemplo, agua líquida vs. vapor de agua). Dividiendo $\mu$ por la densidad $\rho$ se obtiene una propiedad puramente atómica e intrínseca:</p>
+
+  <div class="math-box">
+    $$ \frac{\mu}{\rho} = \frac{N_A}{A}\,\sigma_{\text{tot}} \quad [\text{cm}^2/\text{g}], \qquad I(x) = I_0 \, \exp\!\left[-\left(\frac{\mu}{\rho}\right) x_m\right], $$
+  </div>
+
+  <p>donde $x_m = \rho \, x$ es el <strong>espesor másico o densidad superficial</strong> expresado en $\text{g/cm}^2$. Para una mezcla homogénea, aleación o compuesto químico (como el hormigón, el vidrio plomado o el agua), el coeficiente másico total se calcula exactamente ponderando las fracciones en masa $w_i$ de cada elemento constituyente (<strong>Regla de aditividad de Bragg</strong>):</p>
+
+  <div class="math-box">
+    $$ \left(\frac{\mu}{\rho}\right)_{\text{compuesto}} = \sum_{i} w_i \left(\frac{\mu}{\rho}\right)_i, \qquad \text{con } \sum_i w_i = 1. $$
+  </div>
+
+  <h3>5.3 Coeficiente Másico de Transferencia de Energía ($\mu_{\text{tr}}/\rho$) y KERMA</h3>
+  <p>Cuando un fotón interactúa, <strong>no toda su energía $h\nu$ se transfiere a los electrones del medio</strong>. Una parte escapa como fotón dispersado en el efecto Compton ($h\nu'$), como fotón de fluorescencia ($h\nu_{\text{fluo}}$) en el efecto fotoeléctrico, o como los dos fotones de aniquilación ($2m_e c^2 = 1.022\ \text{MeV}$) en la creación de pares. Si ponderamos cada sección eficaz por la fracción media de energía $f_i$ que realmente se convierte en <strong>energía cinética inicial de partículas cargadas</strong> (electrones y positrones), obtenemos el <strong>coeficiente de transferencia de energía</strong>:</p>
+
+  <div class="math-box">
+    $$ \frac{\mu_{\text{tr}}}{\rho} = \frac{1}{\rho}\left[ \tau \left(1 - \frac{\overline{E}_{\text{fluo}}}{h\nu}\right) + \sigma_C \frac{\overline{E}_{e,\text{Compton}}}{h\nu} + \kappa \left(1 - \frac{2m_e c^2}{h\nu}\right) \right] \quad [\text{cm}^2/\text{g}]. $$
+  </div>
+
+  <p>Notá que la dispersión coherente Rayleigh ($\sigma_R$) no aparece porque no transfiere energía cinética ($f_R = 0$). El coeficiente $\mu_{\text{tr}}/\rho$ es el que define el <strong>KERMA</strong> (*Kinetic Energy Released per unit Mass*, medido en $\text{Gy} = \text{J/kg}$) para una fluencia energética de fotones $\Psi = \Phi \cdot E_\gamma$:</p>
+
+  <div class="math-box">
+    $$ K = \Psi \left(\frac{\mu_{\text{tr}}}{\rho}\right). $$
+  </div>
+
+  <h3>5.4 Coeficiente Másico de Absorción de Energía ($\mu_{\text{en}}/\rho$) y Dosis Absorbida</h3>
+  <p>Incluso después de que el fotón ha transferido su energía cinética a los electrones secundarios del medio, esos electrones rápidos pueden perder una fracción $g$ de su energía emitiendo fotones de <strong>Bremsstrahlung</strong> que escapan del volumen de interés sin depositar dosis local. Descontando esa fracción radiativa $g$ se define el <strong>coeficiente másico de absorción de energía</strong>:</p>
+
+  <div class="math-box">
+    $$ \frac{\mu_{\text{en}}}{\rho} = \frac{\mu_{\text{tr}}}{\rho}\,(1 - g) \quad [\text{cm}^2/\text{g}]. $$
+  </div>
+
+  <p>En materiales de bajo $Z$ y energías moderadas ($g \approx 0$), $\mu_{\text{en}}/\rho \approx \mu_{\text{tr}}/\rho$. En materiales pesados como el plomo a altas energías, $g$ es apreciable y $\mu_{\text{en}}/\rho < \mu_{\text{tr}}/\rho$. Bajo condiciones de <em>Equilibrio de Partículas Cargadas (CPE)</em>, la <strong>Dosis Absorbida ($D$)</strong> es exactamente:</p>
+
+  <div class="math-box">
+    $$ D \stackrel{\text{CPE}}{=} K_{\text{col}} = \Psi \left(\frac{\mu_{\text{en}}}{\rho}\right). $$
+  </div>
+
+  <div class="sm-box">
+    <strong>Regla nemotécnica fundamental:</strong>
+    $$ \frac{\mu}{\rho} \;>\; \frac{\mu_{\text{tr}}}{\rho} \;\ge\; \frac{\mu_{\text{en}}}{\rho}. $$
+    <ul>
+      <li>¿Querés saber cuántos fotones chocan o se desvían de un haz colimado? Usá <strong>$\mu/\rho$</strong>.</li>
+      <li>¿Querés calcular cuánta energía se transfiere a electrones (KERMA)? Usá <strong>$\mu_{\text{tr}}/\rho$</strong>.</li>
+      <li>¿Querés calcular la <strong>Dosis Absorbida</strong> real en un tejido o detector (o usar la constante específica $\Gamma$)? Usá <strong>$\mu_{\text{en}}/\rho$</strong>.</li>
+    </ul>
+  </div>
+
+  <h3>5.5 Parámetros Operativos: MFP, HVL y TVL</h3>
+  <div class="math-box">
+    $$ \lambda_{\text{MFP}} = \frac{1}{\mu}\;(36.8\%), \qquad \text{HVL} = \frac{\ln 2}{\mu} \approx \frac{0.6931}{\mu}\;(50\%), \qquad \text{TVL} = \frac{\ln 10}{\mu} \approx \frac{2.3026}{\mu}\;(10\%). $$
+  </div>
+
+  <!-- ============================================ -->
+  <h2 id="s6">6. Geometría de haz estrecho vs. haz ancho, Factor de Build-up ($B$) y Costo de Paredes</h2>
+
+  <p>En blindajes reales (muros, contenedores o pantallas, denominados <strong>geometría de haz ancho</strong>), los fotones que sufren dispersión Compton dentro del blindaje cambian de dirección pero logran emerger por la cara posterior y llegar al operario. Para contabilizar esta radiación dispersada acumulada se introduce el <strong>Factor de Acumulación (*Build-up Factor*, $B \ge 1$)</strong>:</p>
+
+  <div class="math-box">
+    $$ B(E_\gamma, \mu x) = \frac{I_{\text{primario}} + I_{\text{dispersado}}}{I_0 e^{-\mu x}} \qquad \Longrightarrow \qquad \boxed{\,I(x, r) = \frac{S_0}{4\pi r^2} \, B(E_\gamma, \mu x) \, e^{-\mu x}\,} $$
+  </div>
+
+  <table class="term-table">
+    <thead>
+      <tr>
+        <th>Modelo de Build-up</th>
+        <th>Expresión Matemática</th>
+        <th>Características y Rango de Uso</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Lineal</strong></td>
+        <td>$B(\mu x) = 1 + \alpha\,(\mu x)$</td>
+        <td>Estimaciones rápidas en espesores delgados ($\mu x \le 3$).</td>
+      </tr>
+      <tr>
+        <td><strong>Berger (2 parámetros)</strong></td>
+        <td>$B(\mu x) = 1 + a\,(\mu x)\,e^{\,b\,(\mu x)}$</td>
+        <td>Alta precisión hasta $\mu x \approx 20$. Captura el crecimiento exponencial por dispersión múltiple Compton en agua y hormigón.</td>
+      </tr>
+      <tr>
+        <td><strong>Taylor (Exponencial doble)</strong></td>
+        <td>$B(\mu x) = A\,e^{-\alpha_1(\mu x)} + (1 - A)\,e^{-\alpha_2(\mu x)}$</td>
+        <td>Transforma la atenuación total en suma de dos exponenciales simples.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>6.1 Ecuación de Costo Constructivo y Optimización Económica de Barreras</h3>
+  <p>Al diseñar un recinto radiológico o un búnker de teleterapia de área frontal $A_{\text{muro}}$ ($\text{m}^2$) y espesor $x$ ($\text{cm}$), el volumen total de material es $V = A_{\text{muro}} \cdot (x / 100)$ ($\text{m}^3$), su masa estructural es $M = \rho \cdot V$ y el <strong>costo directo de construcción ($C_{\text{total}}$)</strong> viene dado por:</p>
+
+  <div class="math-box">
+    $$ C_{\text{total}}(x) = A_{\text{muro}} \cdot \left(\frac{x}{100}\right) \cdot \rho_{\text{kg/m}^3} \cdot c_{\text{kg}}, $$
+  </div>
+
+  <p>donde $c_{\text{kg}}$ ($\text{USD/kg}$) es el costo unitario del material instalado. Como el hormigón ordinario cuesta apenas $\sim 0.15\ \text{USD/kg}$ ($\sim 350\ \text{USD/m}^3$ encofrado) frente a $\sim 3.80\ \text{USD/kg}$ del plomo laminado de alta pureza ($\sim 43\,000\ \text{USD/m}^3$), **lograr una misma reducción de dosis ($1\ \text{TVL}$) en una pared grande es entre 8 y 25 veces más barato usando hormigón que usando plomo**, reservándose el plomo o el hormigón baritado únicamente cuando el espacio físico es reducido o para puertas blindadas donde el peso total y el espesor deben minimizarse.</p>
+
+  <!-- FIGURA 4: SIMULADOR DE BLINDAJE Y COSTO ECONÓMICO -->
+  <div class="interactive-figure">
+    <div class="figure-title">Figura 4: Simulador de Blindaje Fotónico y Costo Constructivo de Paredes</div>
+    <div id="plot_gamma_shield" class="plot-area" style="height: 470px;"></div>
+    <div class="controls">
+      <div class="control-panel">
+        <h4>Configuración de Barrera y Obra</h4>
+        <div class="button-group" id="btns_fig4_mode">
+          <button type="button" data-fmode="transmission" class="active">Curva Transmisión T(x)</button>
+          <button type="button" data-fmode="buildup">Factor Build-up B(μx)</button>
+          <button type="button" data-fmode="cost">💰 Costo por 1 TVL</button>
+        </div>
+        <div class="select-row">
+          <label>Fuente / Energía Gamma:</label>
+          <select id="sel_gamma_src">
+            <option value="Tc99m">⁹⁹ᵐTc — Medicina Nuclear (0.140 MeV)</option>
+            <option value="I131">¹³¹I — Terapia Tiroidea (0.364 MeV)</option>
+            <option value="F18">¹⁸F — Aniquilación PET (0.511 MeV)</option>
+            <option value="Cs137">¹³⁷Cs — Industrial / Calibración (0.662 MeV)</option>
+            <option value="Co60" selected>⁶⁰Co — Teleterapia / Gammagrafía (1.25 MeV)</option>
+          </select>
+        </div>
+        <div class="select-row" id="row_gamma_mat">
+          <label>Material de la pared:</label>
+          <select id="sel_gamma_mat">
+            <option value="Pb" selected>Plomo Laminado (ρ=11.35 g/cm³, ~3.80 USD/kg)</option>
+            <option value="Fe">Acero Estructural (ρ=7.87 g/cm³, ~1.40 USD/kg)</option>
+            <option value="Baryte">Hormigón Baritado (ρ=3.35 g/cm³, ~0.42 USD/kg)</option>
+            <option value="Concrete">Hormigón Ordinario (ρ=2.35 g/cm³, ~0.15 USD/kg)</option>
+            <option value="H2O">Agua en Tanque (ρ=1.00 g/cm³, ~0.05 USD/kg)</option>
+          </select>
+        </div>
+        <label class="slider-row" id="row_gamma_x">
+          Espesor de pared instalado $x$: <span id="v_gamma_x" class="slider-val">2.40 cm</span>
+          <input type="range" id="s_gamma_x" min="0.0" max="10.0" step="0.05" value="2.40">
+        </label>
+        <label class="slider-row" id="row_gamma_area">
+          Área de pared a construir ($A_{\text{muro}}$): <span id="v_gamma_area" class="slider-val">10.0 m²</span>
+          <input type="range" id="s_gamma_area" min="1.0" max="50.0" step="1.0" value="10.0">
+        </label>
+        <label class="checkbox-row" id="row_gamma_log">
+          <input type="checkbox" id="cb_log_scale">
+          <span>Escala logarítmica en eje Y (ver rectas HVL y TVL)</span>
+        </label>
+      </div>
+      <div class="control-panel">
+        <h4>Resultados de Atenuación, Peso y Costo</h4>
+        <div id="stats_gamma" class="stats"></div>
+      </div>
+    </div>
+    <div class="guide-box">
+      <strong>Qué observar en la Figura 4.</strong>
+      <ol>
+        <li>En el modo <strong>Curva Transmisión T(x)</strong>, mové el espesor $x$ y el <strong>Área de la pared ($\text{m}^2$)</strong>: en el panel derecho verás en vivo cuántas toneladas pesa el muro y cuántos dólares cuesta construirlo.</li>
+        <li>Para $^{60}\text{Co}$ con una pared de $10\ \text{m}^2$, reducir la dosis al $10\%$ ($1\ \text{TVL}$) con <strong>Plomo</strong> requiere solo $4.0\ \text{cm}$ de espesor, pero pesa $4.54\ \text{toneladas}$ y cuesta <strong>$\sim \$17\,250\ \text{USD}$</strong>. Si cambias a <strong>Hormigón Ordinario</strong>, necesitas $17.6\ \text{cm}$ de espesor ($4.14\ \text{toneladas}$), pero cuesta apenas <strong>$\sim \$620\ \text{USD}$</strong> (¡28 veces más económico!).</li>
+        <li>Hacé clic en el tercer botón <strong>"💰 Costo por 1 TVL"</strong> para ver el gráfico comparativo de costo económico entre todos los materiales para la fuente seleccionada.</li>
+      </ol>
+    </div>
+    <div class="caption">
+      <strong>Epígrafe:</strong> Simulación conjunta físico-económica de barreras protectoras. Los costos unitarios representan promedios internacionales de materiales instalados en obra civil radiológica.
+    </div>
+  </div>
+
+  <!-- ============================================ -->
+  <h2 id="s7">7. Física del blindaje de neutrones: moderación elástica, sección eficaz de remoción ($\Sigma_R$) y captura</h2>
+
+  <p>Los neutrones libres carecen de carga eléctrica y tienen una masa ligeramente superior a la del protón ($m_n \approx 1.0087\ \text{u}$). Al no interactuar con los electrones atómicos, son extraordinariamente penetrantes. Su blindaje exige un proceso físico secuencial de <strong>tres etapas</strong>:</p>
+
+  <h3>7.1 Etapa 1: Moderación de neutrones rápidos por colisión elástica</h3>
+  <p>Por conservación clásica del momento lineal y la energía cinética en un choque elástico entre un neutrón de masa $1$ y un núcleo en reposo de número másico $A$, la energía mínima $E_{\min}$ tras una colisión frontal ($180^\circ$) es:</p>
+
+  <div class="math-box">
+    $$ \frac{E_{\min}}{E_0} = \alpha_{\text{col}} = \left(\frac{A - 1}{A + 1}\right)^2. $$
+  </div>
+
+  <p>Para el <strong>Hidrógeno ($^1\text{H}$, $A=1$)</strong>, $\alpha_{\text{col}} = 0$: un neutrón puede perder hasta el $100\%$ de su energía en un solo choque frontal contra un protón. Contra un núcleo de <strong>Plomo ($A=207$)</strong>, $\alpha_{\text{col}} = 0.981$: el neutrón pierde como máximo un $1.9\%$ de su energía. El <strong>decremento logarítmico medio de energía por colisión ($\xi$)</strong> y el número medio de choques para termalizar ($2\ \text{MeV} \to 0.025\ \text{eV}$) son:</p>
+
+  <div class="math-box">
+    $$ \xi = 1 + \frac{(A-1)^2}{2A}\ln\!\left(\frac{A-1}{A+1}\right) \approx \frac{2}{A + 2/3}, \qquad N_{\text{col}} = \frac{\ln(E_0 / E_{\text{th}})}{\xi} \approx \frac{18.2}{\xi}. $$
+  </div>
+
+  <h3>7.2 Sección Eficaz Macroscópica de Remoción ($\Sigma_R$) y Captura Térmica</h3>
+  <p>En medios hidrogenados, la atenuación del flujo de neutrones rápidos sigue la ley exponencial de Spinney gobernada por $\Sigma_R$ ($\text{cm}^{-1}$):</p>
+
+  <div class="math-box">
+    $$ \Phi_{\text{rápido}}(x) \approx \Phi_0 \, e^{-\Sigma_R \, x}. $$
+  </div>
+
+  <p>Una vez termalizados, se añade <strong>Boro-10 ($^{10}\text{B}$, $\sigma_{\text{th}} = 3840\ \text{b}$)</strong> en forma de polietileno borado para capturarlos vía $^{10}\text{B}(n,\alpha)^7\text{Li}^*$, evitando la captura en hidrógeno $^1\text{H}(n,\gamma)^2\text{H}$ que emitiría un rayo gamma muy duro de $2.22\ \text{MeV}$. Finalmente, una placa exterior de plomo atenúa el fotón blando de $0.478\ \text{MeV}$ emitido por el $^7\text{Li}^*$.</p>
+
+  <!-- FIGURA 5: MODERACIÓN Y REMOCIÓN DE NEUTRONES -->
+  <div class="interactive-figure">
+    <div class="figure-title">Figura 5: Blindaje de Neutrones Rápidos — Atenuación por Remoción ($\Sigma_R$) y Eficiencia de Moderación ($\xi$)</div>
+    <div id="plot_neutron" class="plot-area"></div>
+    <div class="controls">
+      <div class="control-panel">
+        <h4>Visualización Neutrónica</h4>
+        <div class="button-group" id="btns_neutron_view">
+          <button type="button" data-view="removal" class="active">Curvas de Remoción exp(-Σ_R·x)</button>
+          <button type="button" data-view="collisions">Colisiones para Termalizar (2 MeV → 0.025 eV)</button>
+        </div>
+        <label class="slider-row" id="row_neutron_x">
+          Espesor del blindaje neutrónico $x$ (cm): <span id="v_neutron_x" class="slider-val">15.0 cm</span>
+          <input type="range" id="s_neutron_x" min="0.0" max="50.0" step="1.0" value="15.0">
+        </label>
+      </div>
+      <div class="control-panel">
+        <h4>Comparativa de Materiales Neutrónicos</h4>
+        <div id="stats_neutron" class="stats"></div>
+      </div>
+    </div>
+    <div class="caption">
+      <strong>Epígrafe:</strong> Atenuación del flujo de neutrones rápidos de fisión según la sección eficaz macroscópica de remoción $\Sigma_R$ y número de choques necesarios para la termalización.
+    </div>
+  </div>
+
+  <!-- ============================================ -->
+  <h2 id="s8">8. Laboratorio 2D Interactivo: Mapa de Dosis, Diseño de Búnker y Presupuesto de Obra</h2>
+
+  <p>En este simulador bidimensional podés diseñar una instalación radiológica o nuclear en planta ($8.0\ \text{m} \times 4.6\ \text{m}$, con altura de muros estándar de $2.5\ \text{m}$), colocar distintos tipos de fuentes radiactivas y construir paredes de blindaje con el ratón. El motor calcula en tiempo real tanto el **mapa térmico de tasa de dosis** como el **peso total en toneladas y el presupuesto constructivo en dólares (USD)** de todas las paredes que dibujes en la sala.</p>
+
+  <!-- FIGURA 6: SIMULADOR 2D DE CAMPO DE RADIACIÓN, BLINDAJES Y COSTOS -->
+  <div class="interactive-figure">
+    <div class="figure-title">Figura 6: Laboratorio 2D en Tiempo Real — Propagación de Radiación, Blindajes y Costo de Construcción</div>
+
+    <div class="preset-bar">
+      <span style="font-size:0.85em; font-weight:bold; color:#2c3e50; align-self:center; margin-right:4px;">Escenarios:</span>
+      <button type="button" class="preset-btn" onclick="loadSim2DPreset('compare')">1. Comparativa 4 Materiales (⁶⁰Co)</button>
+      <button type="button" class="preset-btn" onclick="loadSim2DPreset('maze')">2. Búnker con Laberinto de Hormigón</button>
+      <button type="button" class="preset-btn" onclick="loadSim2DPreset('beta_brems')">3. Trampa Bremsstrahlung Beta (⁹⁰Sr)</button>
+      <button type="button" class="preset-btn" onclick="loadSim2DPreset('neutron')">4. Neutrones (²⁵²Cf: Plomo vs PE-Boro)</button>
+      <button type="button" class="preset-btn danger-btn" onclick="clearSim2DWalls()">🗑️ Limpiar Muros ($0 USD)</button>
+    </div>
+
+    <div class="sim2d-wrapper">
+      <canvas id="canvas_sim2d" width="800" height="460"></canvas>
+    </div>
+
+    <div class="sim2d-colorbar">
+      <span>&lt; 0.5 μSv/h (Fondo)</span>
+      <div class="sim2d-gradient"></div>
+      <span>&gt; 50 mSv/h (Zona Letal/Muy Alta)</span>
+    </div>
+
+    <div class="controls">
+      <div class="control-panel">
+        <h4>Herramienta de Construcción y Edición</h4>
+        <div class="button-group" id="btns_sim2d_tool">
+          <button type="button" data-tool="wall" class="active">🧱 Dibujar Muro</button>
+          <button type="button" data-tool="source">☢️ Agregar/Mover Fuente</button>
+          <button type="button" data-tool="probe">👤 Mover Operario</button>
+          <button type="button" data-tool="erase">🗑️ Borrar Bloque</button>
+        </div>
+
+        <div class="select-row" id="row_sim2d_mat">
+          <label>Material del muro a construir (incluye precio):</label>
+          <select id="sel_sim2d_mat">
+            <option value="Concrete">Hormigón Ordinario (ρ=2.35 g/cm³, $0.15/kg) — Muy Económico</option>
+            <option value="Fe">Acero Estructural (ρ=7.87 g/cm³, $1.40/kg) — Costo Medio</option>
+            <option value="Pb" selected>Plomo Laminado (ρ=11.35 g/cm³, $3.80/kg) — Compacto / Caro</option>
+            <option value="PMMA">Acrílico Transparente PMMA (ρ=1.18 g/cm³, $6.50/kg) — Ideal Beta</option>
+            <option value="BoratedPE">Polietileno Borado 5% (ρ=0.98 g/cm³, $14.00/kg) — Ideal Neutrones</option>
+            <option value="H2O">Agua en Contenedor (ρ=1.00 g/cm³, $0.05/kg) — Muy Barato</option>
+          </select>
+        </div>
+
+        <div class="select-row" id="row_sim2d_src">
+          <label>Tipo de fuente radiactiva:</label>
+          <select id="sel_sim2d_src">
+            <option value="Co60" selected>⁶⁰Co — Gamma Alta Energía (1.25 MeV)</option>
+            <option value="Cs137">¹³⁷Cs — Gamma Industrial (0.662 MeV)</option>
+            <option value="Tc99m">⁹⁹ᵐTc — Gamma Baja Energía (0.140 MeV)</option>
+            <option value="Sr90">⁹⁰Sr/⁹⁰Y — Beta Pura (2.28 MeV, genera RX en Plomo)</option>
+            <option value="Cf252">²⁵²Cf — Neutrones Rápidos de Fisión (2.1 MeV)</option>
+            <option value="Am241">²⁴¹Am — Partículas Alfa (5.5 MeV, corto alcance)</option>
+          </select>
+        </div>
+
+        <label class="slider-row">
+          Actividad de la fuente seleccionada: <span id="v_sim2d_act" class="slider-val">120 GBq</span>
+          <input type="range" id="s_sim2d_act" min="5" max="500" step="5" value="120">
+        </label>
+      </div>
+
+      <div class="control-panel">
+        <h4>Visualización, Dosis y Presupuesto de Obra</h4>
+        <label class="checkbox-row">
+          <input type="checkbox" id="cb_sim2d_contours" checked>
+          <span>Mostrar isolíneas (20 μSv/h Controlada y 2.5 μSv/h Público)</span>
+        </label>
+        <label class="checkbox-row">
+          <input type="checkbox" id="cb_sim2d_particles" checked>
+          <span>Mostrar partículas animadas emergiendo de las fuentes</span>
+        </label>
+        <label class="checkbox-row">
+          <input type="checkbox" id="cb_sim2d_buildup" checked>
+          <span>Incluir radiación dispersa (Factor Build-up B)</span>
+        </label>
+        <div id="stats_sim2d" class="stats" style="margin-top:8px;"></div>
+      </div>
+    </div>
+
+    <div class="guide-box">
+      <strong>Desafío de Ingeniería Económica en el Simulador 2D:</strong>
+      <ol>
+        <li>Hacé clic en el botón <strong>"🗑️ Limpiar Muros ($0 USD)"</strong> y tratá de proteger al operario 👤 para que reciba menos de <strong>$2.5\ \mu\text{Sv/h}$ (Zona Libre)</strong> frente a la fuente de $^{60}\text{Co}$ gastando la <strong>menor cantidad de dólares posible</strong>.</li>
+        <li>Si construís una pared de <strong>Plomo</strong>, verás que aunque sea delgada el presupuesto se dispara a decenas de miles de dólares por su altísima densidad ($11\,350\ \text{kg/m}^3$) y costo por kilo ($\sim \$3.80/\text{kg}$).</li>
+        <li>Si en cambio dibujás un muro grueso de <strong>Hormigón Ordinario</strong> cerca de la fuente (o cerca del operario), lograrás la misma reducción de dosis por una fracción mínima del costo.</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- ============================================ -->
+  <h2 id="s9">9. Tablas de referencia, costos unitarios y diccionario de magnitudes radiológicas</h2>
+
+  <h3>9.1 Diccionario comparativo de coeficientes de interacción</h3>
+  <table class="term-table">
+    <thead>
+      <tr>
+        <th>Símbolo</th>
+        <th>Nombre del Coeficiente</th>
+        <th>Unidades SI / CGS</th>
+        <th>Relación Matemática y Significado Físico</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="symbol">$\sigma_{\text{tot}}$</td>
+        <td>Sección eficaz atómica microscópica</td>
+        <td>$\text{barn}$ ($10^{-24}\ \text{cm}^2/\text{átomo}$)</td>
+        <td>$\sigma_{\text{tot}} = \tau_a + \sigma_{R,a} + \sigma_{C,a} + \kappa_a$. Área efectiva de interacción por átomo.</td>
+      </tr>
+      <tr>
+        <td class="symbol">$\mu$</td>
+        <td>Coeficiente de atenuación lineal</td>
+        <td>$\text{cm}^{-1}$</td>
+        <td>$\mu = N\sigma_{\text{tot}}$. Probabilidad de interacción por unidad de longitud en haz estrecho.</td>
+      </tr>
+      <tr>
+        <td class="symbol">$\mu / \rho$</td>
+        <td>Coeficiente de atenuación másico</td>
+        <td>$\text{cm}^2/\text{g}$</td>
+        <td>$\frac{\mu}{\rho} = \frac{N_A}{A}\sigma_{\text{tot}}$. Independiente de la densidad y del estado físico.</td>
+      </tr>
+      <tr>
+        <td class="symbol">$\mu_{\text{tr}} / \rho$</td>
+        <td>Coeficiente másico de transferencia</td>
+        <td>$\text{cm}^2/\text{g}$</td>
+        <td>Fracción convertida en energía cinética inicial de partículas cargadas. Define el <strong>KERMA</strong>.</td>
+      </tr>
+      <tr>
+        <td class="symbol">$\mu_{\text{en}} / \rho$</td>
+        <td>Coeficiente másico de absorción</td>
+        <td>$\text{cm}^2/\text{g}$</td>
+        <td>$\frac{\mu_{\text{en}}}{\rho} = \frac{\mu_{\text{tr}}}{\rho}(1-g)$. Descuenta pérdidas por Bremsstrahlung. Define la <strong>Dosis Absorbida</strong>.</td>
+      </tr>
+      <tr>
+        <td class="symbol">$\Sigma_R$</td>
+        <td>Sección eficaz macroscópica de remoción</td>
+        <td>$\text{cm}^{-1}$</td>
+        <td>Gobierna la atenuación exponencial efectiva de neutrones rápidos ($\Phi = \Phi_0 e^{-\Sigma_R x}$).</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>9.2 Propiedades físicas, HVL, TVL y costos de referencia de materiales de blindaje</h3>
+  <table class="generic">
+    <thead>
+      <tr>
+        <th>Material de Blindaje</th>
+        <th>Densidad $\rho$ ($\text{g/cm}^3$)</th>
+        <th>Costo Ref. ($\text{USD/kg}$)</th>
+        <th>Costo Volumétrico ($\text{USD/m}^3$)</th>
+        <th>HVL / TVL para $^{137}\text{Cs}$ ($\text{cm}$)</th>
+        <th>HVL / TVL para $^{60}\text{Co}$ ($\text{cm}$)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Plomo Laminado (Pb, $Z=82$)</strong></td>
+        <td>$11.35$</td>
+        <td>$\$3.80$</td>
+        <td>$\$43\,130$</td>
+        <td>$0.65\ /\ 2.16$</td>
+        <td>$1.20\ /\ 4.00$</td>
+      </tr>
+      <tr>
+        <td><strong>Acero Estructural (Fe, $Z=26$)</strong></td>
+        <td>$7.87$</td>
+        <td>$\$1.40$</td>
+        <td>$\$11\,018$</td>
+        <td>$1.35\ /\ 4.50$</td>
+        <td>$1.80\ /\ 6.00$</td>
+      </tr>
+      <tr>
+        <td><strong>Hormigón Baritado ($\rho=3.35$)</strong></td>
+        <td>$3.35$</td>
+        <td>$\$0.42$</td>
+        <td>$\$1\,407$</td>
+        <td>$2.35\ /\ 7.80$</td>
+        <td>$3.20\ /\ 10.6$</td>
+      </tr>
+      <tr>
+        <td><strong>Hormigón Ordinario ($\rho=2.35$)</strong></td>
+        <td>$2.35$</td>
+        <td>$\$0.15$</td>
+        <td>$\$352$</td>
+        <td>$4.10\ /\ 13.6$</td>
+        <td>$5.30\ /\ 17.6$</td>
+      </tr>
+      <tr>
+        <td><strong>Acrílico PMMA (Lucite)</strong></td>
+        <td>$1.18$</td>
+        <td>$\$6.50$</td>
+        <td>$\$7\,670$</td>
+        <td>$7.00\ /\ 23.2$</td>
+        <td>$9.20\ /\ 30.5$</td>
+      </tr>
+      <tr>
+        <td><strong>Polietileno Borado ($5\%\ \text{B}$)</strong></td>
+        <td>$0.98$</td>
+        <td>$\$14.00$</td>
+        <td>$\$13\,720$</td>
+        <td>$7.80\ /\ 25.9$</td>
+        <td>$10.4\ /\ 34.5$</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- ============================================ -->
+  <h2 id="s10">10. Ejemplos desarrollados paso a paso</h2>
+
+  <div class="worked-example">
+    <div class="we-header">Ejemplo desarrollado 10.1</div>
+    <div class="we-title">Coeficiente másico y HVL de un compuesto mediante la Regla de Aditividad de Bragg</div>
+    <p>Se desea calcular el coeficiente de atenuación lineal $\mu$ y la capa hemirreductora ($\text{HVL}$) del <strong>agua líquida ($\text{H}_2\text{O}$, $\rho = 1.00\ \text{g/cm}^3$)</strong> y del <strong>vapor de agua sobrecalentado ($\rho = 0.0020\ \text{g/cm}^3$)</strong> para fotones gamma de $1.0\ \text{MeV}$. A esa energía, las tablas del NIST indican $(\mu/\rho)_{\text{H}} = 0.1263\ \text{cm}^2/\text{g}$ y $(\mu/\rho)_{\text{O}} = 0.0636\ \text{cm}^2/\text{g}$.</p>
+
+    <div class="step">
+      <span class="step-label">Paso 1 — Fracciones másicas ($w_i$) en la molécula de $\text{H}_2\text{O}$</span>
+      <div class="step-body">
+        $$ w_{\text{H}} = \frac{2.016}{18.016} = 0.1119, \qquad w_{\text{O}} = \frac{16.000}{18.016} = 0.8881. $$
+      </div>
+    </div>
+    <div class="step">
+      <span class="step-label">Paso 2 — Regla de mezclas de Bragg para $(\mu/\rho)_{\text{H}_2\text{O}}$</span>
+      <div class="step-body">
+        $$ \left(\frac{\mu}{\rho}\right)_{\text{H}_2\text{O}} = (0.1119)(0.1263) + (0.8881)(0.0636) = 0.0706\ \text{cm}^2/\text{g}. $$
+      </div>
+    </div>
+    <div class="step">
+      <span class="step-label">Paso 3 — Coeficiente lineal $\mu$ y $\text{HVL}$ en cada fase</span>
+      <div class="step-body">
+        <ul>
+          <li><strong>Agua líquida:</strong> $\mu_{\text{líq}} = 0.0706\ \text{cm}^{-1} \implies \text{HVL}_{\text{líq}} = \frac{\ln 2}{0.0706} = 9.82\ \text{cm}$.</li>
+          <li><strong>Vapor de agua:</strong> $\mu_{\text{vap}} = 0.0706 \times 0.0020 = 1.412 \times 10^{-4}\ \text{cm}^{-1} \implies \text{HVL}_{\text{vap}} = 4909\ \text{cm} \approx 49.1\ \text{m}$.</li>
+        </ul>
+        <div class="result">El coeficiente másico es exactamente igual en ambas fases ($0.0706\ \text{cm}^2/\text{g}$), pero al ser el vapor $500$ veces menos denso, requiere $49.1\ \text{m}$ frente a $9.82\ \text{cm}$ para atenuar el $50\%$.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="worked-example">
+    <div class="we-header">Ejemplo desarrollado 10.2</div>
+    <div class="we-title">Diseño iterativo con Build-up y comparación de costo: Acero vs. Hormigón</div>
+    <p>Se debe construir una pared protectora de $A = 12\ \text{m}^2$ frente a una fuente de $^{60}\text{Co}$ para lograr una reducción de dosis de un factor $200$ ($T = 0.005$). Calcula el espesor requerido (incluyendo Build-up) y el costo total de la pared si se construye en <strong>Acero ($\mu = 0.385\ \text{cm}^{-1}$, $B \approx 1 + 0.90\mu x$)</strong> frente a si se construye en <strong>Hormigón Ordinario ($\mu = 0.131\ \text{cm}^{-1}$, $B \approx 1 + 1.15\mu x$)</strong>.</p>
+
+    <div class="step">
+      <span class="step-label">Paso 1 — Espesor óptico y físico en Acero vs. Hormigón</span>
+      <div class="step-body">
+        <p>Resolviendo iterativamente $\mu x = \ln(200 \cdot B(\mu x))$:</p>
+        <ul>
+          <li><strong>En Acero:</strong> $\mu x \approx 7.32\ \text{MFP} \implies x_{\text{Fe}} = \frac{7.32}{0.385} = 19.0\ \text{cm}$.</li>
+          <li><strong>En Hormigón:</strong> $\mu x \approx 7.58\ \text{MFP} \implies x_{\text{Horm}} = \frac{7.58}{0.131} = 57.9\ \text{cm}$.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="step">
+      <span class="step-label">Paso 2 — Masa estructural y Costo Total de Obra</span>
+      <div class="step-body">
+        <ul>
+          <li><strong>Opción Acero ($19.0\ \text{cm}$):</strong> Volumen $V = 12\ \text{m}^2 \times 0.19\ \text{m} = 2.28\ \text{m}^3$. Masa $M = 2.28 \times 7870 = 17\,944\ \text{kg}$. Costo $= 17\,944\ \text{kg} \times \$1.40/\text{kg} = \mathbf{\$25\,121\ \text{USD}}$.</li>
+          <li><strong>Opción Hormigón ($57.9\ \text{cm}$):</strong> Volumen $V = 12\ \text{m}^2 \times 0.579\ \text{m} = 6.95\ \text{m}^3$. Masa $M = 6.95 \times 2350 = 16\,328\ \text{kg}$. Costo $= 16\,328\ \text{kg} \times \$0.15/\text{kg} = \mathbf{\$2\,449\ \text{USD}}$.</li>
+        </ul>
+        <div class="result">Aunque el muro de hormigón es $3$ veces más grueso ($58\ \text{cm}$ vs $19\ \text{cm}$), pesa ligeramente menos y <strong>cuesta más de 10 veces menos dinero ($\$2\,449$ vs $\$25\,121\ \text{USD}$)</strong>.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================ -->
+  <h2 id="s11">11. Ejercicios propuestos para pensar</h2>
+
+  <div class="exercise-box">
+    <h4>Ejercicio 1 — La paradoja del "agujero de transmisión" por encima y por debajo del borde K</h4>
+    <p>¿Por qué el plomo atenúa <em>mucho mejor</em> un fotón de $90\ \text{keV}$ que uno de $85\ \text{keV}$, a pesar de que el de $90\ \text{keV}$ tiene más energía?</p>
+    <div class="hint"><strong>Pista:</strong> La energía de ligadura de la capa K ($n=1$) del plomo ($Z=82$) es $E_K = 88.0\ \text{keV}$.</div>
+    <button class="solution-toggle" onclick="toggleSolution(this)">Mostrar solución</button>
+    <div class="solution-content">
+      <p>Un fotón de $85\ \text{keV}$ no tiene energía suficiente para arrancar un electrón de la capa K del plomo ($85 < 88.0\ \text{keV}$), interactuando solo con las capas L y M ($\mu/\rho \approx 1.9\ \text{cm}^2/\text{g}$). Al superar los $88.0\ \text{keV}$, se abre el canal fotoeléctrico con la capa K y el coeficiente salta hasta $\mu/\rho \approx 7.3\ \text{cm}^2/\text{g}$.</p>
+    </div>
+  </div>
+
+  <div class="exercise-box">
+    <h4>Ejercicio 2 — Blindaje de una jeringa con Fósforo-32 vs. Flúor-18</h4>
+    <p>En un laboratorio hay dos jeringas: A con $^{32}\text{P}$ ($\beta^-$ puro, $1.71\ \text{MeV}$) y B con $^{18}\text{F}$ ($\beta^+$, $0.634\ \text{MeV}$). ¿Por qué un protector de acrílico de $10\ \text{mm}$ sirve para la jeringa A pero no para la B?</p>
+    <div class="hint"><strong>Pista:</strong> Recordá la aniquilación positrón-electrón ($e^+ + e^- \to 2\gamma$).</div>
+    <button class="solution-toggle" onclick="toggleSolution(this)">Mostrar solución</button>
+    <div class="solution-content">
+      <p>En el $^{32}\text{P}$, los electrones $\beta^-$ se detienen por completo en $6.7\ \text{mm}$ de acrílico sin emitir Bremsstrahlung apreciable. En cambio, en el $^{18}\text{F}$, cada positrón $\beta^+$ frenado se aniquila emitiendo dos fotones gamma de $511\ \text{keV}$ que atraviesan el acrílico casi sin atenuación, exigiendo un blindaje denso de tungsteno o plomo.</p>
+    </div>
+  </div>
+
+  <div class="exercise-box">
+    <h4>Ejercicio 3 — Optimización económica de una sala de Rayos X diagnósticos ($100\ \text{kVp}$) vs. Teleterapia ($^{60}\text{Co}$)</h4>
+    <p>¿Por qué las salas de radiología dental o convencional suelen blindarse pegando láminas delgadas de plomo de $1.5\ \text{mm}$ sobre paredes de ladrillo hueco o durlock, mientras que las salas de teleterapia con $^{60}\text{Co}$ o aceleradores lineales se construyen siempre con muros de hormigón macizo de $1$ a $2\ \text{metros}$ de espesor?</p>
+    <div class="hint"><strong>Pista:</strong> Compará el predominio del efecto fotoeléctrico ($\propto Z^{4.5}/E^{3.5}$) a bajas energías frente al efecto Compton a altas energías, y el costo por metro cuadrado.</div>
+    <button class="solution-toggle" onclick="toggleSolution(this)">Mostrar solución</button>
+    <div class="solution-content">
+      <p>A bajas energías (rayos X diagnósticos de $30\text{–}100\ \text{keV}$), en el plomo ($Z=82$) domina el <strong>efecto fotoeléctrico</strong> ($\propto Z^{4.5}$), por lo que basta una lámina finísima de $1.5\ \text{mm}$ de plomo ($17\ \text{kg/m}^2$, unos $\$65\ \text{USD/m}^2$) para bloquear el $99.9\%$ de los rayos X sin ocupar espacio útil del consultorio.</p>
+      <p>En cambio, para $^{60}\text{Co}$ ($1.25\ \text{MeV}$), domina el <strong>efecto Compton</strong>, donde el plomo ya no tiene ventaja atómica por gramo frente al hormigón. Blindar $5\ \text{TVL}$ con plomo requeriría $20\ \text{cm}$ de espesor ($2\,270\ \text{kg/m}^2$, más de $\$8\,600\ \text{USD/m}^2$), mientras que en hormigón requiere $88\ \text{cm}$ a un costo de solo $\sim \$310\ \text{USD/m}^2$ y además cumple función estructural portante.</p>
+    </div>
+  </div>
+
+  <!-- ============================================ -->
+  <h2 id="s12">12. Conclusiones y síntesis de ingeniería de blindajes</h2>
+
+  <ol>
+    <li><strong>Alcance finito vs. atenuación exponencial:</strong> Las partículas cargadas ($\alpha$, $\beta^\pm$, protones) sufren pérdidas cuasicontinuas gobernadas por la ecuación de Bethe-Bloch y poseen un alcance máximo finito $R_{\text{CSDA}}$. Los fotones y neutrones carecen de carga, interactúan probabilísticamente y se atenúan exponencialmente.</li>
+    <li><strong>Blindaje Beta multicapa:</strong> Los electrones rápidos deben frenarse siempre con materiales de bajo $Z$ (acrílico, plástico, aluminio) de espesor $x \ge R_m/\rho$ para minimizar el rendimiento radiativo de Bremsstrahlung ($Y \approx Z E_{\max}/3000$).</li>
+    <li><strong>No todos los coeficientes miden lo mismo:</strong> $\mu/\rho$ mide el total de fotones que interactúan; $\mu_{\text{tr}}/\rho$ mide la energía transferida a partículas cargadas (KERMA); y $\mu_{\text{en}}/\rho = (\mu_{\text{tr}}/\rho)(1-g)$ mide la energía realmente depositada en el medio (Dosis Absorbida).</li>
+    <li><strong>Compromiso Espacio vs. Costo Económico:</strong> En altas energías donde domina el efecto Compton, el hormigón ordinario es el rey indiscutido por costo por $\text{TVL}$ ($\sim 15\text{–}25$ veces más económico que el plomo), reservándose el plomo, el acero y el hormigón baritado para lugares con restricción severa de espacio o elementos móviles (puertas y contenedores).</li>
+  </ol>
+
+</div>
+
+<script>
+// ============================================================
+// UTILIDADES GENERALES
+// ============================================================
+function toggleSolution(btn) {
+  const content = btn.nextElementSibling;
+  content.classList.toggle('open');
+  btn.innerText = content.classList.contains('open') ? 'Ocultar solución' : 'Mostrar solución';
+  if (window.MathJax && window.MathJax.Hub) {
+    window.MathJax.Hub.Queue(["Typeset", window.MathJax.Hub, content]);
+  }
+}
+window.toggleSolution = toggleSolution;
+
+// ============================================================
+// FIGURA 1: CURVA DE BRAGG (ALFA Y PROTONES)
+// ============================================================
+function updateBraggSliderRange() {
+  const mode = document.getElementById('sel_bragg_mode').value;
+  const slider = document.getElementById('s_bragg_E');
+  if (mode === 'proton_water') {
+    slider.min = "70"; slider.max = "160"; slider.step = "5"; slider.value = "120";
+  } else {
+    slider.min = "4.0"; slider.max = "8.0"; slider.step = "0.1"; slider.value = "5.5";
+  }
+  drawBragg();
+}
+
+function drawBragg() {
+  if (typeof Plotly === 'undefined') return;
+  try {
+    const mode = document.getElementById('sel_bragg_mode').value;
+    const E0 = parseFloat(document.getElementById('s_bragg_E').value);
+    document.getElementById('v_bragg_E').innerText = (mode === 'proton_water' ? E0.toFixed(0) : E0.toFixed(1)) + ' MeV';
+
+    let R0 = 0, unitX = 'cm', unitY = 'MeV/cm', color = '#c0392b', labelTrace = '';
+    if (mode === 'alpha_air') {
+      R0 = (E0 < 4.0) ? 0.56 * E0 : (1.24 * E0 - 2.62);
+      unitX = 'cm'; unitY = 'MeV/cm'; color = '#c0392b'; labelTrace = `Partícula α (${E0.toFixed(1)} MeV) en Aire`;
+    } else if (mode === 'alpha_tissue') {
+      R0 = ((E0 < 4.0) ? 0.56 * E0 : (1.24 * E0 - 2.62)) * 10.2;
+      unitX = 'μm'; unitY = 'keV/μm (LET)'; color = '#d35400'; labelTrace = `Partícula α (${E0.toFixed(1)} MeV) en Tejido`;
+    } else {
+      R0 = 0.0022 * Math.pow(E0, 1.77);
+      unitX = 'cm'; unitY = 'MeV/cm'; color = '#2980b9'; labelTrace = `Haz de Protones (${E0.toFixed(0)} MeV) en Agua`;
+    }
+
+    const xMaxPlot = (mode === 'alpha_air') ? 8.5 : (mode === 'alpha_tissue' ? 88.0 : 20.0);
+    const N = 260, xArr = [], yArr = [];
+    const sigmaStrag = 0.028 * R0, peakPos = R0 * 0.965;
+    const plateauVal = (mode === 'alpha_air') ? 0.85 : (mode === 'alpha_tissue' ? 85.0 : 5.2);
+
+    for (let i = 0; i <= N; i++) {
+      const x = (xMaxPlot * i) / N;
+      xArr.push(x);
+      let val = 0;
+      if (x <= peakPos) {
+        val = plateauVal * Math.pow(Math.max(0.035, 1.0 - x / R0), -0.44);
+      } else {
+        val = (plateauVal * Math.pow(0.035, -0.44)) * Math.exp(-Math.pow(x - peakPos, 2) / (2 * sigmaStrag * sigmaStrag));
+      }
+      yArr.push(val);
+    }
+    const maxLET = Math.max(...yArr);
+
+    Plotly.react('plot_bragg', [{
+      x: xArr, y: yArr, type: 'scatter', mode: 'lines', name: labelTrace,
+      fill: 'tozeroy', fillcolor: mode === 'proton_water' ? 'rgba(41, 128, 185, 0.14)' : 'rgba(192, 57, 43, 0.14)',
+      line: { color: color, width: 3 }
+    }], {
+      xaxis: { title: `Profundidad de penetración x (${unitX})`, range: [0, xMaxPlot] },
+      yaxis: { title: `Poder de frenado -dE/dx (${unitY})`, range: [0, maxLET * 1.18] },
+      shapes: [{ type: 'line', x0: R0, x1: R0, y0: 0, y1: maxLET * 1.05, line: { color: '#2c3e50', width: 1.8, dash: 'dash' } }],
+      annotations: [
+        { x: R0, y: maxLET * 0.92, text: `Alcance R ≈ ${R0.toFixed(2)} ${unitX}`, showarrow: true, arrowhead: 2, ax: 45, ay: -20, font: { size: 11, color: '#2c3e50' } },
+        { x: peakPos, y: maxLET, text: 'Pico de Bragg', showarrow: true, arrowhead: 2, ax: -45, ay: -25, font: { size: 11, color: color } }
+      ],
+      margin: { l: 65, r: 25, t: 25, b: 50 }, plot_bgcolor: '#fafafa'
+    }, { responsive: true, displayModeBar: false });
+
+    document.getElementById('stats_bragg').innerHTML =
+      `<span class="stat-item"><span class="lbl">Energía inicial E₀:</span> <span class="val">${E0} MeV</span></span>` +
+      `<span class="stat-item"><span class="lbl">Alcance medio R:</span> <span class="val">${R0.toFixed(2)} ${unitX}</span></span>` +
+      `<br><span class="stat-item"><span class="lbl">LET Entrada:</span> <span class="val">${plateauVal.toFixed(1)} ${unitY}</span></span>` +
+      `<span class="stat-item"><span class="lbl">LET Pico de Bragg:</span> <span class="val">${maxLET.toFixed(1)} ${unitY}</span></span>`;
+  } catch(e) { console.error("Error en drawBragg:", e); }
+}
+
+// ============================================================
+// FIGURA 2: SIMULADOR DE BLINDAJE BETA
+// ============================================================
+let currentBetaMetric = 'brems';
+function katzPenfoldRm(Emax) {
+  return (Emax <= 2.5) ? 0.412 * Math.pow(Emax, 1.265 - 0.0954 * Math.log(Emax)) : 0.530 * Emax - 0.106;
+}
+
+function drawBetaShield() {
+  if (typeof Plotly === 'undefined') return;
+  try {
+    const Emax = parseFloat(document.getElementById('sel_beta_iso').value);
+    const Rm = katzPenfoldRm(Emax);
+    const materials = [
+      { name: 'Polietileno (Z≈5.5)', Z: 5.5, rho: 0.94, color: '#16a085' },
+      { name: 'Acrílico PMMA (Z≈6.5)', Z: 6.5, rho: 1.18, color: '#27ae60' },
+      { name: 'Aluminio (Z=13)', Z: 13.0, rho: 2.70, color: '#2980b9' },
+      { name: 'Acero (Z=26)', Z: 26.0, rho: 7.87, color: '#e67e22' },
+      { name: 'Plomo (Z=82)', Z: 82.0, rho: 11.35, color: '#c0392b' }
+    ];
+
+    const yVals = (currentBetaMetric === 'brems')
+      ? materials.map(m => (m.Z * Emax / 3000.0) * 100.0)
+      : materials.map(m => (10.0 * Rm) / m.rho);
+    const yTitle = (currentBetaMetric === 'brems') ? 'Fracción convertida en Bremsstrahlung (%)' : 'Espesor físico para frenar 100% Beta (mm)';
+    const unitTxt = (currentBetaMetric === 'brems') ? ' %' : ' mm';
+
+    Plotly.react('plot_beta_shield', [{
+      x: materials.map(m => m.name), y: yVals, type: 'bar',
+      marker: { color: materials.map(m => m.color) },
+      text: yVals.map(v => v.toFixed(2) + unitTxt), textposition: 'outside'
+    }], {
+      xaxis: { title: 'Material candidato para el blindaje primario' },
+      yaxis: { title: yTitle, range: [0, Math.max(...yVals) * 1.25] },
+      margin: { l: 65, r: 25, t: 25, b: 50 }, plot_bgcolor: '#fafafa'
+    }, { responsive: true, displayModeBar: false });
+
+    const isPositron = (Math.abs(Emax - 0.634) < 0.01);
+    document.getElementById('stats_beta').innerHTML =
+      `<span class="stat-item"><span class="lbl">Alcance másico R_m:</span> <span class="val">${Rm.toFixed(3)} g/cm²</span></span>` +
+      `<span class="stat-item"><span class="lbl">Espesor Acrílico:</span> <span class="val">${((10*Rm)/1.18).toFixed(2)} mm</span></span>` +
+      `<span class="stat-item"><span class="lbl">Espesor Aluminio:</span> <span class="val">${((10*Rm)/2.70).toFixed(2)} mm</span></span>` +
+      `<br><span class="stat-item"><span class="lbl">RX en Acrílico:</span> <span class="val" style="color:#16a085;">${((6.5*Emax/3000)*100).toFixed(2)}%</span></span>` +
+      `<span class="stat-item"><span class="lbl">RX en Plomo:</span> <span class="val" style="color:#c0392b;">${((82*Emax/3000)*100).toFixed(2)}%</span></span>` +
+      (isPositron ? `<br><span class="stat-item" style="background:#fdedec; border-color:#c0392b;"><span class="val">¡Emisor β⁺! Requiere Plomo exterior contra 2γ de 511 keV</span></span>` : '');
+  } catch(e) { console.error("Error en drawBetaShield:", e); }
+}
+
+// ============================================================
+// FIGURA 3: ESPECTRO DE COEFICIENTES MÁSICOS
+// ============================================================
+function calcPhotonCoeffs(matKey, E_MeV) {
+  const m = { Pb: { Z: 82, A: 207.2, K: 0.088 }, Fe: { Z: 26, A: 55.85, K: 0.0071 }, Concrete: { Z: 11, A: 22.0, K: 0.0018 }, H2O: { Z: 7.42, A: 14.9, K: 0.0005 } }[matKey];
+  let tau = 2.4e-6 * Math.pow(m.Z, 3.6) / Math.pow(E_MeV, 3.15);
+  if (matKey === 'Pb' && E_MeV < m.K) tau *= 0.21;
+  const k = E_MeV / 0.511;
+  const sigma_C = 0.4006 * (matKey === 'H2O' ? 0.555 : m.Z / m.A) * (1.0 / (1.0 + 0.56 * Math.pow(k, 0.78)));
+  const kappa = (E_MeV > 1.022) ? 5.2e-5 * (m.Z * m.Z / m.A) * Math.pow(Math.log(E_MeV / 1.022 + 1.0), 1.38) : 0.0;
+  const mu_tot = tau + sigma_C + kappa;
+  const f_C = (0.95 * k) / (1.0 + 1.45 * k);
+  const f_pe = (matKey === 'Pb' && E_MeV >= m.K) ? Math.max(0.2, 1.0 - (0.075 / E_MeV)) : 0.98;
+  const mu_tr = tau * f_pe + sigma_C * f_C + kappa * (E_MeV > 1.022 ? (1 - 1.022/E_MeV) : 0);
+  const mu_en = mu_tr * (1.0 - Math.min(0.35, (m.Z * E_MeV) / 1200.0));
+  return { tau, sigma_C, kappa, mu_tot, mu_tr, mu_en };
+}
+
+function drawMassCoeffs() {
+  if (typeof Plotly === 'undefined') return;
+  try {
+    const matKey = document.getElementById('sel_coeff_mat').value;
+    const E_insp = Math.pow(10, parseFloat(document.getElementById('s_coeff_E').value));
+    document.getElementById('v_coeff_E').innerText = E_insp.toFixed(3) + ' MeV';
+
+    const N = 220, eArr = [], totArr = [], enArr = [], tauArr = [], compArr = [], pairArr = [];
+    for (let i = 0; i <= N; i++) {
+      const E = Math.pow(10, -1.52 + (2.82 * i) / N);
+      const c = calcPhotonCoeffs(matKey, E);
+      eArr.push(E); totArr.push(c.mu_tot); enArr.push(c.mu_en);
+      tauArr.push(Math.max(1e-5, c.tau)); compArr.push(c.sigma_C);
+      pairArr.push(c.kappa > 1e-5 ? c.kappa : null);
+    }
+    const cI = calcPhotonCoeffs(matKey, E_insp);
+
+    Plotly.react('plot_mass_coeff', [
+      { x: eArr, y: tauArr, type: 'scatter', mode: 'lines', name: 'Fotoeléctrico (τ/ρ)', line: { color: '#2980b9', dash: 'dot' } },
+      { x: eArr, y: compArr, type: 'scatter', mode: 'lines', name: 'Compton (σ_C/ρ)', line: { color: '#e67e22', dash: 'dash' } },
+      { x: eArr, y: pairArr, type: 'scatter', mode: 'lines', name: 'Creación de Pares (κ/ρ)', line: { color: '#16a085', dash: 'dashdot' } },
+      { x: eArr, y: totArr, type: 'scatter', mode: 'lines', name: 'Atenuación Total (μ/ρ)', line: { color: '#1a252f', width: 3.2 } },
+      { x: eArr, y: enArr, type: 'scatter', mode: 'lines', name: 'Absorción Energía (μ_en/ρ)', line: { color: '#c0392b', width: 2.4 } },
+      { x: [E_insp, E_insp], y: [cI.mu_tot, cI.mu_en], type: 'scatter', mode: 'markers', showlegend: false, marker: { color: ['#1a252f', '#c0392b'], size: 9 } }
+    ], {
+      xaxis: { title: 'Energía del fotón E_γ (MeV) — Escala Log', type: 'log' },
+      yaxis: { title: 'Coeficiente másico (cm²/g) — Escala Log', type: 'log', range: [-2.8, 1.8] },
+      shapes: [{ type: 'line', x0: E_insp, x1: E_insp, y0: 0.002, y1: 50, line: { color: '#7f8c8d', width: 1.4, dash: 'dot' } }],
+      margin: { l: 65, r: 25, t: 20, b: 50 }, plot_bgcolor: '#fafafa'
+    }, { responsive: true, displayModeBar: false });
+
+    const pTau = (cI.tau / cI.mu_tot) * 100, pComp = (cI.sigma_C / cI.mu_tot) * 100, pPair = (cI.kappa / cI.mu_tot) * 100;
+    document.getElementById('stats_coeff').innerHTML =
+      `<span class="stat-item"><span class="lbl">μ/ρ Total:</span> <span class="val">${cI.mu_tot.toFixed(4)} cm²/g</span></span>` +
+      `<span class="stat-item"><span class="lbl">μ_tr/ρ:</span> <span class="val">${cI.mu_tr.toFixed(4)} cm²/g</span></span>` +
+      `<span class="stat-item"><span class="lbl">μ_en/ρ:</span> <span class="val">${cI.mu_en.toFixed(4)} cm²/g</span></span>` +
+      `<br><span class="stat-item"><span class="lbl">Fotoeléctrico:</span> <span class="val" style="color:#2980b9;">${pTau.toFixed(1)}%</span></span>` +
+      `<span class="stat-item"><span class="lbl">Compton:</span> <span class="val" style="color:#e67e22;">${pComp.toFixed(1)}%</span></span>` +
+      `<span class="stat-item"><span class="lbl">Pares:</span> <span class="val" style="color:#16a085;">${pPair.toFixed(1)}%</span></span>`;
+  } catch(e) { console.error("Error en drawMassCoeffs:", e); }
+}
+
+// ============================================================
+// FIGURA 4: SIMULADOR DE BLINDAJE FOTÓNICO Y COSTO ECONÓMICO
+// ============================================================
+let fig4Mode = 'transmission';
+const FIG4_DATA = {
+  Tc99m: { name: '⁹⁹ᵐTc (0.140 MeV)', HVL: { Pb: 0.027, Fe: 0.28, Baryte: 0.55, Concrete: 2.10, H2O: 4.50 }, b: { Pb: 0.08, Fe: 0.55, Baryte: 0.50, Concrete: 0.82, H2O: 0.88 } },
+  I131:  { name: '¹³¹I (0.364 MeV)',  HVL: { Pb: 0.23,  Fe: 0.95, Baryte: 1.65, Concrete: 3.10, H2O: 6.40 }, b: { Pb: 0.18, Fe: 0.68, Baryte: 0.65, Concrete: 0.85, H2O: 0.90 } },
+  F18:   { name: '¹⁸F (0.511 MeV)',   HVL: { Pb: 0.41,  Fe: 1.15, Baryte: 2.00, Concrete: 3.40, H2O: 7.20 }, b: { Pb: 0.24, Fe: 0.72, Baryte: 0.70, Concrete: 0.86, H2O: 0.92 } },
+  Cs137: { name: '¹³⁷Cs (0.662 MeV)', HVL: { Pb: 0.65,  Fe: 1.35, Baryte: 2.35, Concrete: 4.10, H2O: 8.10 }, b: { Pb: 0.28, Fe: 0.75, Baryte: 0.74, Concrete: 0.86, H2O: 0.92 } },
+  Co60:  { name: '⁶⁰Co (1.25 MeV)',   HVL: { Pb: 1.20,  Fe: 1.80, Baryte: 3.20, Concrete: 5.30, H2O: 10.80 }, b: { Pb: 0.34, Fe: 0.78, Baryte: 0.76, Concrete: 0.85, H2O: 0.90 } }
+};
+
+const MAT_ECONOMICS = {
+  Pb:       { name: 'Plomo (Pb)',         color: '#2c3e50', rho: 11.35, costKg: 3.80 },
+  Fe:       { name: 'Acero (Fe)',         color: '#d35400', rho: 7.87,  costKg: 1.40 },
+  Baryte:   { name: 'Hormigón Baritado',  color: '#8e44ad', rho: 3.35,  costKg: 0.42 },
+  Concrete: { name: 'Hormigón Ordinario', color: '#7f8c8d', rho: 2.35,  costKg: 0.15 },
+  H2O:      { name: 'Agua (H₂O)',         color: '#2980b9', rho: 1.00,  costKg: 0.05 }
+};
+
+function updateFig4SliderScale() {
+  const srcKey = document.getElementById('sel_gamma_src').value;
+  const matKey = document.getElementById('sel_gamma_mat').value;
+  const useLog = document.getElementById('cb_log_scale').checked;
+  const HVL = FIG4_DATA[srcKey].HVL[matKey];
+  const maxVal = HVL * (useLog ? 10.0 : 7.0);
+  const slider = document.getElementById('s_gamma_x');
+  slider.max = maxVal.toFixed(3);
+  slider.step = (maxVal / 200).toFixed(4);
+  slider.value = (HVL * 2.5).toFixed(3);
+  drawGammaShield();
+}
+
+function drawGammaShield() {
+  if (typeof Plotly === 'undefined') return;
+  try {
+    const srcKey = document.getElementById('sel_gamma_src').value;
+    const matKey = document.getElementById('sel_gamma_mat').value;
+    const useLog = document.getElementById('cb_log_scale').checked;
+    const slider = document.getElementById('s_gamma_x');
+    const xInst = parseFloat(slider.value) || 0.1;
+    const xMax = parseFloat(slider.max) || 5.0;
+    const wallArea = parseFloat(document.getElementById('s_gamma_area').value) || 10.0;
+
+    const HVL = FIG4_DATA[srcKey].HVL[matKey];
+    const mu = Math.LN2 / HVL;
+    const TVL = Math.LN10 / mu;
+    const dec = HVL < 0.1 ? 3 : 2;
+
+    document.getElementById('v_gamma_x').innerText = xInst.toFixed(dec) + ' cm';
+    document.getElementById('v_gamma_area').innerText = wallArea.toFixed(1) + ' m²';
+
+    const matEco = MAT_ECONOMICS[matKey];
+    // Cálculo de volumen (m³), masa (kg) y costo (USD) para la pared seleccionada
+    const vol_m3 = wallArea * (xInst / 100.0);
+    const mass_kg = vol_m3 * (matEco.rho * 1000.0);
+    const cost_usd = mass_kg * matEco.costKg;
+
+    if (fig4Mode === 'transmission') {
+      document.getElementById('row_gamma_mat').style.display = 'block';
+      document.getElementById('row_gamma_x').style.display = 'block';
+      document.getElementById('row_gamma_area').style.display = 'block';
+      document.getElementById('row_gamma_log').style.display = 'flex';
+
+      const N = 200, xArr = [], yN = [], yB = [];
+      const bCoeff = FIG4_DATA[srcKey].b[matKey];
+      for (let i = 0; i <= N; i++) {
+        const x = (xMax * i) / N;
+        const mfp = mu * x;
+        const tN = Math.exp(-mfp) * 100.0;
+        const B = 1.0 + bCoeff * mfp * Math.exp(0.04 * mfp);
+        xArr.push(x); yN.push(tN); yB.push(tN * B);
+      }
+
+      const mfpI = mu * xInst;
+      const BI = 1.0 + bCoeff * mfpI * Math.exp(0.04 * mfpI);
+      const tNI = Math.exp(-mfpI) * 100.0;
+      const tBI = tNI * BI;
+
+      Plotly.react('plot_gamma_shield', [
+        { x: xArr, y: yN, type: 'scatter', mode: 'lines', name: 'Haz Estrecho Ideal exp(-μx)', line: { color: '#7f8c8d', dash: 'dash' } },
+        { x: xArr, y: yB, type: 'scatter', mode: 'lines', name: 'Haz Ancho Real B·exp(-μx)', fill: useLog ? 'none' : 'tozeroy', fillcolor: 'rgba(41, 128, 185, 0.10)', line: { color: matEco.color, width: 3.2 } },
+        { x: [xInst], y: [tBI], type: 'scatter', mode: 'markers+text', name: 'Instalado', text: [`${tBI < 0.1 ? tBI.toExponential(1) : tBI.toFixed(1)}%`], textposition: 'top right', marker: { color: '#c0392b', size: 10 } }
+      ], {
+        xaxis: { title: `Espesor de ${matEco.name} x (cm)`, range: [0, xMax] },
+        yaxis: { title: 'Transmisión de Dosis T (%)', type: useLog ? 'log' : 'linear', range: useLog ? [-2.2, 2.05] : [0, 105] },
+        shapes: [
+          { type: 'line', x0: HVL, x1: HVL, y0: useLog ? 0.01 : 0, y1: 50, line: { color: '#2980b9', width: 1.2, dash: 'dot' } },
+          { type: 'line', x0: TVL, x1: TVL, y0: useLog ? 0.01 : 0, y1: 10, line: { color: '#16a085', width: 1.4, dash: 'dashdot' } }
+        ],
+        annotations: [
+          { x: HVL, y: useLog ? Math.log10(50) : 54, text: '1 HVL', showarrow: false, font: { size: 9.5, color: '#2980b9' } },
+          { x: TVL, y: useLog ? Math.log10(10) : 14, text: '1 TVL', showarrow: false, font: { size: 9.5, color: '#16a085' } }
+        ],
+        margin: { l: 65, r: 25, t: 20, b: 50 }, plot_bgcolor: '#fafafa'
+      }, { responsive: true, displayModeBar: false });
+
+      const massStr = mass_kg >= 1000 ? (mass_kg / 1000).toFixed(2) + ' ton' : mass_kg.toFixed(0) + ' kg';
+      document.getElementById('stats_gamma').innerHTML =
+        `<span class="stat-item"><span class="lbl">HVL / TVL:</span> <span class="val">${HVL.toFixed(dec)} / ${TVL.toFixed(dec)} cm</span></span>` +
+        `<span class="stat-item"><span class="lbl">Factor Build-up B:</span> <span class="val">${BI.toFixed(2)}</span></span>` +
+        `<br><span class="stat-item"><span class="lbl">T Ideal / Real:</span> <span class="val">${tNI.toFixed(1)}% / ${tBI.toFixed(1)}%</span></span>` +
+        `<span class="stat-item"><span class="lbl">Peso Pared (${wallArea} m²):</span> <span class="val">${massStr}</span></span>` +
+        `<br><span class="stat-item cost-badge"><span class="lbl">💰 Costo Construcción Pared:</span> <span class="val">$${Math.round(cost_usd).toLocaleString('en-US')} USD</span></span>`;
+
+    } else if (fig4Mode === 'buildup') {
+      document.getElementById('row_gamma_mat').style.display = 'none';
+      document.getElementById('row_gamma_x').style.display = 'none';
+      document.getElementById('row_gamma_area').style.display = 'none';
+      document.getElementById('row_gamma_log').style.display = 'none';
+
+      const traces = Object.keys(MAT_ECONOMICS).map(mKey => {
+        const mfpArr = [], bArr = [];
+        const bC = FIG4_DATA[srcKey].b[mKey];
+        for (let i = 0; i <= 100; i++) {
+          const mfp = (10.0 * i) / 100;
+          mfpArr.push(mfp); bArr.push(1.0 + bC * mfp * Math.exp(0.04 * mfp));
+        }
+        return { x: mfpArr, y: bArr, type: 'scatter', mode: 'lines', name: MAT_ECONOMICS[mKey].name, line: { color: MAT_ECONOMICS[mKey].color, width: 2.8 } };
+      });
+
+      Plotly.react('plot_gamma_shield', traces, {
+        xaxis: { title: 'Espesor óptico μx (Recorridos Libres Medios, MFP)', range: [0, 10] },
+        yaxis: { title: 'Factor de Acumulación Build-up B(E, μx)' },
+        margin: { l: 65, r: 25, t: 20, b: 50 }, plot_bgcolor: '#fafafa'
+      }, { responsive: true, displayModeBar: false });
+
+      document.getElementById('stats_gamma').innerHTML =
+        `<span class="stat-item"><span class="lbl">Fuente activa:</span> <span class="val">${FIG4_DATA[srcKey].name}</span></span>`;
+
+    } else {
+      // Modo Costo Económico Comparativo para lograr 1 TVL en el área seleccionada
+      document.getElementById('row_gamma_mat').style.display = 'none';
+      document.getElementById('row_gamma_x').style.display = 'none';
+      document.getElementById('row_gamma_area').style.display = 'block';
+      document.getElementById('row_gamma_log').style.display = 'none';
+
+      const keys = ['Pb', 'Fe', 'Baryte', 'Concrete'];
+      const labels = keys.map(k => MAT_ECONOMICS[k].name);
+      const costs = keys.map(k => {
+        const hvl_k = FIG4_DATA[srcKey].HVL[k];
+        const tvl_k = hvl_k * (Math.LN10 / Math.LN2); // cm para 1 TVL
+        const vol = wallArea * (tvl_k / 100.0);
+        const mass = vol * (MAT_ECONOMICS[k].rho * 1000.0);
+        return Math.round(mass * MAT_ECONOMICS[k].costKg);
+      });
+      const tvls = keys.map(k => (FIG4_DATA[srcKey].HVL[k] * (Math.LN10 / Math.LN2)).toFixed(2));
+
+      Plotly.react('plot_gamma_shield', [{
+        x: labels, y: costs, type: 'bar',
+        marker: { color: keys.map(k => MAT_ECONOMICS[k].color) },
+        text: costs.map((c, idx) => `$${c.toLocaleString('en-US')} USD (TVL=${tvls[idx]} cm)`),
+        textposition: 'outside'
+      }], {
+        xaxis: { title: `Material para construir ${wallArea} m² de pared con 1 TVL de atenuación` },
+        yaxis: { title: 'Costo Total Estimado (USD)', range: [0, Math.max(...costs) * 1.25] },
+        margin: { l: 70, r: 25, t: 25, b: 50 }, plot_bgcolor: '#fafafa'
+      }, { responsive: true, displayModeBar: false });
+
+      document.getElementById('stats_gamma').innerHTML =
+        `<span class="stat-item cost-badge"><span class="lbl">Plomo (1 TVL):</span> <span class="val">$${costs[0].toLocaleString('en-US')} USD</span></span>` +
+        `<span class="stat-item cost-badge"><span class="lbl">Hormigón (1 TVL):</span> <span class="val" style="color:#16a085;">$${costs[3].toLocaleString('en-US')} USD</span></span>` +
+        `<br><span class="stat-item"><span class="lbl">Ahorro usando Hormigón:</span> <span class="val">${(costs[0]/Math.max(1,costs[3])).toFixed(1)} veces más barato</span></span>`;
+    }
+  } catch(e) { console.error("Error en drawGammaShield:", e); }
+}
+
+// ============================================================
+// FIGURA 5: BLINDAJE DE NEUTRONES
+// ============================================================
+let currentNeutronView = 'removal';
+function drawNeutronPlot() {
+  if (typeof Plotly === 'undefined') return;
+  try {
+    const xInst = parseFloat(document.getElementById('s_neutron_x').value);
+    document.getElementById('v_neutron_x').innerText = xInst.toFixed(1) + ' cm';
+
+    if (currentNeutronView === 'removal') {
+      document.getElementById('row_neutron_x').style.display = 'block';
+      const mats = [
+        { name: 'Polietileno Borado (5% B)', sigmaR: 0.108, color: '#16a085' },
+        { name: 'Agua (H₂O)', sigmaR: 0.103, color: '#2980b9' },
+        { name: 'Hormigón Ordinario', sigmaR: 0.086, color: '#7f8c8d' },
+        { name: 'Plomo (Pésimo moderador elástico)', sigmaR: 0.032, color: '#c0392b', dash: 'dot' }
+      ];
+      const traces = mats.map(m => {
+        const xArr = [], yArr = [];
+        for (let i = 0; i <= 100; i++) {
+          const x = (50.0 * i) / 100;
+          xArr.push(x); yArr.push(Math.exp(-m.sigmaR * x) * 100.0);
+        }
+        return { x: xArr, y: yArr, type: 'scatter', mode: 'lines', name: m.name, line: { color: m.color, width: 2.8, dash: m.dash || 'solid' } };
+      });
+
+      Plotly.react('plot_neutron', traces, {
+        xaxis: { title: 'Espesor del blindaje x (cm)', range: [0, 50] },
+        yaxis: { title: 'Flujo de Neutrones Rápidos Transmitido (%)', range: [0, 105] },
+        shapes: [{ type: 'line', x0: xInst, x1: xInst, y0: 0, y1: 100, line: { color: '#2c3e50', width: 1.5, dash: 'dash' } }],
+        margin: { l: 65, r: 25, t: 20, b: 50 }, plot_bgcolor: '#fafafa'
+      }, { responsive: true, displayModeBar: false });
+
+      document.getElementById('stats_neutron').innerHTML =
+        `<span class="stat-item"><span class="lbl">HVL PE Borado:</span> <span class="val">${(Math.LN2/0.108).toFixed(2)} cm</span></span>` +
+        `<span class="stat-item"><span class="lbl">Transmisión PE Borado (${xInst} cm):</span> <span class="val" style="color:#16a085;">${(Math.exp(-0.108*xInst)*100).toFixed(2)}%</span></span>`;
+    } else {
+      document.getElementById('row_neutron_x').style.display = 'none';
+      const nuclei = [
+        { n: '¹H (Hidrógeno)', c: 18, col: '#16a085' },
+        { n: '²H (Deuterio)', c: 25, col: '#27ae60' },
+        { n: '⁹Be (Berilio)', c: 88, col: '#2980b9' },
+        { n: '¹²C (Carbono)', c: 115, col: '#8e44ad' },
+        { n: '⁵⁶Fe (Hierro)', c: 515, col: '#e67e22' },
+        { n: '²⁰⁷Pb (Plomo)', c: 1890, col: '#c0392b' }
+      ];
+      Plotly.react('plot_neutron', [{
+        x: nuclei.map(d => d.n), y: nuclei.map(d => d.c), type: 'bar', marker: { color: nuclei.map(d => d.col) },
+        text: nuclei.map(d => d.c + ' choques'), textposition: 'outside'
+      }], {
+        xaxis: { title: 'Núcleo moderador' },
+        yaxis: { title: 'Nº colisiones (2 MeV → 0.025 eV)', range: [0, 2150] },
+        margin: { l: 65, r: 25, t: 25, b: 50 }, plot_bgcolor: '#fafafa'
+      }, { responsive: true, displayModeBar: false });
+    }
+  } catch(e) { console.error("Error en drawNeutronPlot:", e); }
+}
+
+// ============================================================
+// FIGURA 6: SIMULADOR 2D CON PRESUPUESTO DE CONSTRUCCIÓN
+// ============================================================
+const SIM2D_W = 800, SIM2D_H = 460, GRID_W = 120, GRID_H = 70;
+const SIM2D_MATS = {
+  Pb:        { name: 'Plomo',      fill: '#5d6d7e', stroke: '#d6dbdf', Z: 82,  rho: 11.35, costKg: 3.80,  bFactor: 0.25 },
+  Fe:        { name: 'Acero',      fill: '#a04000', stroke: '#f5b041', Z: 26,  rho: 7.87,  costKg: 1.40,  bFactor: 0.65 },
+  Concrete:  { name: 'Hormigón',   fill: '#7f8c8d', stroke: '#bdc3c7', Z: 11,  rho: 2.35,  costKg: 0.15,  bFactor: 0.85 },
+  PMMA:      { name: 'Acrílico',   fill: '#2471a3', stroke: '#85c1e9', Z: 6.5, rho: 1.18,  costKg: 6.50,  bFactor: 0.90 },
+  BoratedPE: { name: 'PE Borado',  fill: '#117864', stroke: '#48c9b0', Z: 5.5, rho: 0.98,  costKg: 14.00, bFactor: 0.90 },
+  H2O:       { name: 'Agua',       fill: '#1f618d', stroke: '#5dade2', Z: 7.4, rho: 1.00,  costKg: 0.05,  bFactor: 0.95 }
+};
+
+const SIM2D_SOURCES_META = {
+  Co60:  { label: '⁶⁰Co (γ 1.25 MeV)', type: 'gamma', color: '#ff5252', gammaConst: 0.35, muPx: { Pb: 0.145, Fe: 0.096, Concrete: 0.032, PMMA: 0.016, BoratedPE: 0.015, H2O: 0.015 } },
+  Cs137: { label: '¹³⁷Cs (γ 0.662 MeV)', type: 'gamma', color: '#ff793f', gammaConst: 0.18, muPx: { Pb: 0.265, Fe: 0.128, Concrete: 0.042, PMMA: 0.021, BoratedPE: 0.020, H2O: 0.020 } },
+  Tc99m: { label: '⁹⁹ᵐTc (γ 0.140 MeV)', type: 'gamma', color: '#ffb142', gammaConst: 0.08, muPx: { Pb: 1.450, Fe: 0.350, Concrete: 0.082, PMMA: 0.042, BoratedPE: 0.038, H2O: 0.038 } },
+  Sr90:  { label: '⁹⁰Sr/⁹⁰Y (β⁻ 2.28 MeV)', type: 'beta', color: '#34ace0', gammaConst: 0.25, maxAirPx: 260, stopPx: { Pb: 8, Fe: 10, Concrete: 14, PMMA: 18, BoratedPE: 18, H2O: 18 }, muBremsPx: { Pb: 0.35, Fe: 0.15, Concrete: 0.05, PMMA: 0.025, BoratedPE: 0.025, H2O: 0.025 } },
+  Cf252: { label: '²⁵²Cf (Neutrones 2.1 MeV)', type: 'neutron', color: '#33d9b2', gammaConst: 0.32, muPx: { Pb: 0.014, Fe: 0.055, Concrete: 0.068, PMMA: 0.115, BoratedPE: 0.195, H2O: 0.145 } },
+  Am241: { label: '²⁴¹Am (Alfa 5.5 MeV)', type: 'alpha', color: '#ffda79', gammaConst: 0.15, maxAirPx: 55 }
+};
+
+let sim2dTool = 'wall', sim2dSources = [], sim2dWalls = [], sim2dProbe = { x: 640, y: 230 }, selectedSourceIdx = 0;
+let isDraggingSim = false, dragTarget = null;
+let heatmapCanvas = document.createElement('canvas');
+heatmapCanvas.width = GRID_W; heatmapCanvas.height = GRID_H;
+let heatmapDirty = true, simParticles = [];
+let doseGridCache = new Float32Array(GRID_W * GRID_H);
+
+function segmentBoxIntersection(x0, y0, x1, y1, rx, ry, rw, rh) {
+  const dx = x1 - x0, dy = y1 - y0;
+  let t0 = 0.0, t1 = 1.0;
+  const p = [-dx, dx, -dy, dy], q = [x0 - rx, (rx + rw) - x0, y0 - ry, (ry + rh) - y0];
+  for (let i = 0; i < 4; i++) {
+    if (Math.abs(p[i]) < 1e-8) { if (q[i] < 0) return null; }
+    else {
+      const t = q[i] / p[i];
+      if (p[i] < 0) { if (t > t1) return null; if (t > t0) t0 = t; }
+      else { if (t < t0) return null; if (t < t1) t1 = t; }
+    }
+  }
+  if (t0 >= t1) return null;
+  return { length: (t1 - t0) * Math.hypot(dx, dy), tEnter: t0 };
+}
+
+function computeDoseAtPoint(px, py, includeBuildup) {
+  let totalDose = 0.08;
+  for (let s = 0; s < sim2dSources.length; s++) {
+    const src = sim2dSources[s];
+    const meta = SIM2D_SOURCES_META[src.key];
+    const distPx = Math.max(8.0, Math.hypot(px - src.x, py - src.y));
+    const distM = distPx / 100.0;
+    const unshielded = (src.act * meta.gammaConst * 1000.0) / (distM * distM);
+
+    if (meta.type === 'alpha') {
+      if (distPx <= meta.maxAirPx) {
+        let blocked = false;
+        for (let w = 0; w < sim2dWalls.length; w++) {
+          const hit = segmentBoxIntersection(src.x, src.y, px, py, sim2dWalls[w].x, sim2dWalls[w].y, sim2dWalls[w].w, sim2dWalls[w].h);
+          if (hit && hit.length > 0.5) { blocked = true; break; }
+        }
+        if (!blocked) totalDose += unshielded * (1.0 - Math.pow(distPx / meta.maxAirPx, 2));
+      }
+    } else if (meta.type === 'beta') {
+      const hits = [];
+      for (let w = 0; w < sim2dWalls.length; w++) {
+        const hit = segmentBoxIntersection(src.x, src.y, px, py, sim2dWalls[w].x, sim2dWalls[w].y, sim2dWalls[w].w, sim2dWalls[w].h);
+        if (hit && hit.length > 0.1) hits.push({ wall: sim2dWalls[w], length: hit.length, tEnter: hit.tEnter });
+      }
+      hits.sort((a, b) => a.tEnter - b.tEnter);
+      let betaFrac = Math.max(0.0, 1.0 - distPx / meta.maxAirPx);
+      let bremsFlux = 0.0;
+      for (let h = 0; h < hits.length; h++) {
+        const matK = hits[h].wall.mat;
+        const len = hits[h].length;
+        if (betaFrac > 0) {
+          const fracStop = Math.min(betaFrac, len / meta.stopPx[matK]);
+          bremsFlux += unshielded * fracStop * ((SIM2D_MATS[matK].Z * 2.28) / 350.0);
+          betaFrac = Math.max(0.0, betaFrac - len / meta.stopPx[matK]);
+        }
+        bremsFlux *= Math.exp(-meta.muBremsPx[matK] * len * 0.6);
+      }
+      totalDose += unshielded * betaFrac + bremsFlux;
+    } else {
+      let opt = 0.0, wB = 0.0;
+      for (let w = 0; w < sim2dWalls.length; w++) {
+        const hit = segmentBoxIntersection(src.x, src.y, px, py, sim2dWalls[w].x, sim2dWalls[w].y, sim2dWalls[w].w, sim2dWalls[w].h);
+        if (hit && hit.length > 0.1) {
+          const mu = meta.muPx[sim2dWalls[w].mat];
+          opt += mu * hit.length;
+          wB += mu * hit.length * SIM2D_MATS[sim2dWalls[w].mat].bFactor;
+        }
+      }
+      let B = (includeBuildup && meta.type === 'gamma' && opt > 0) ? (1.0 + (wB / opt) * opt * Math.exp(0.03 * Math.min(opt, 12.0))) : 1.0;
+      totalDose += unshielded * B * Math.exp(-opt);
+    }
+  }
+  return totalDose;
+}
+
+function doseToRGB(dose_uSv) {
+  const logD = Math.log10(Math.max(0.3, dose_uSv));
+  const t = Math.max(0.0, Math.min(1.0, (logD - (-0.5)) / (4.7 - (-0.5))));
+  const stops = [
+    { p: 0.00, r: 8, g: 12, b: 22 }, { p: 0.18, r: 16, g: 42, b: 92 },
+    { p: 0.36, r: 0, g: 139, b: 139 }, { p: 0.52, r: 46, g: 204, b: 113 },
+    { p: 0.68, r: 241, g: 196, b: 15 }, { p: 0.82, r: 230, g: 126, b: 34 },
+    { p: 0.93, r: 231, g: 76, b: 60 }, { p: 1.00, r: 255, g: 255, b: 255 }
+  ];
+  for (let i = 0; i < stops.length - 1; i++) {
+    if (t >= stops[i].p && t <= stops[i+1].p) {
+      const f = (t - stops[i].p) / (stops[i+1].p - stops[i].p);
+      return [Math.round(stops[i].r + f * (stops[i+1].r - stops[i].r)), Math.round(stops[i].g + f * (stops[i+1].g - stops[i].g)), Math.round(stops[i].b + f * (stops[i+1].b - stops[i].b))];
+    }
+  }
+  return [255, 255, 255];
+}
+
+function updateHeatmapTexture() {
+  const ctxOff = heatmapCanvas.getContext('2d');
+  const imgData = ctxOff.createImageData(GRID_W, GRID_H);
+  const data = imgData.data;
+  const incB = document.getElementById('cb_sim2d_buildup').checked;
+  const showC = document.getElementById('cb_sim2d_contours').checked;
+  const sx = SIM2D_W / GRID_W, sy = SIM2D_H / GRID_H;
+
+  for (let gy = 0; gy < GRID_H; gy++) {
+    const py = (gy + 0.5) * sy;
+    for (let gx = 0; gx < GRID_W; gx++) {
+      const d = computeDoseAtPoint((gx + 0.5) * sx, py, incB);
+      doseGridCache[gy * GRID_W + gx] = d;
+      const rgb = doseToRGB(d);
+      const idx = (gy * GRID_W + gx) * 4;
+      data[idx] = rgb[0]; data[idx+1] = rgb[1]; data[idx+2] = rgb[2]; data[idx+3] = 255;
+    }
+  }
+  if (showC) {
+    const ths = [{ v: 20.0, r: 255, g: 255, b: 255 }, { v: 2.5, r: 120, g: 255, b: 214 }];
+    for (let gy = 1; gy < GRID_H - 1; gy++) {
+      for (let gx = 1; gx < GRID_W - 1; gx++) {
+        const cV = doseGridCache[gy * GRID_W + gx], rV = doseGridCache[gy * GRID_W + gx + 1], bV = doseGridCache[(gy+1) * GRID_W + gx];
+        for (let k = 0; k < ths.length; k++) {
+          if ((cV >= ths[k].v && rV < ths[k].v) || (cV < ths[k].v && rV >= ths[k].v) || (cV >= ths[k].v && bV < ths[k].v) || (cV < ths[k].v && bV >= ths[k].v)) {
+            const idx = (gy * GRID_W + gx) * 4;
+            data[idx] = ths[k].r; data[idx+1] = ths[k].g; data[idx+2] = ths[k].b;
+          }
+        }
+      }
+    }
+  }
+  ctxOff.putImageData(imgData, 0, 0);
+  heatmapDirty = false;
+}
+
+function updateAndDrawParticles(ctx) {
+  if (!document.getElementById('cb_sim2d_particles').checked) return;
+  sim2dSources.forEach(src => {
+    if (simParticles.length < 220) {
+      const a = Math.random() * Math.PI * 2, sp = 3.2 + Math.random();
+      simParticles.push({ x: src.x, y: src.y, vx: Math.cos(a)*sp, vy: Math.sin(a)*sp, srcKey: src.key, life: 0 });
+    }
+  });
+  for (let i = simParticles.length - 1; i >= 0; i--) {
+    const p = simParticles[i];
+    p.x += p.vx; p.y += p.vy; p.life++;
+    const meta = SIM2D_SOURCES_META[p.srcKey];
+    let rem = (p.x < 0 || p.x > SIM2D_W || p.y < 0 || p.y > SIM2D_H || p.life > 170);
+    if (!rem && (meta.type === 'alpha' || meta.type === 'beta') && p.life * 3.8 > meta.maxAirPx) rem = true;
+    if (!rem) {
+      for (let w = 0; w < sim2dWalls.length; w++) {
+        const wl = sim2dWalls[w];
+        if (p.x >= wl.x && p.x <= wl.x + wl.w && p.y >= wl.y && p.y <= wl.y + wl.h) {
+          if (meta.type === 'alpha') rem = true;
+          else if (meta.type === 'beta') {
+            if (SIM2D_MATS[wl.mat].Z > 20 && Math.random() < 0.15) p.srcKey = 'Tc99m';
+            else if (Math.random() < 0.35) rem = true;
+          } else if (Math.random() < (1.0 - Math.exp(-meta.muPx[wl.mat] * 3.5))) rem = true;
+          break;
+        }
+      }
+    }
+    if (rem) simParticles.splice(i, 1);
+    else {
+      ctx.fillStyle = meta.color;
+      ctx.beginPath(); ctx.arc(p.x, p.y, 2.0, 0, Math.PI * 2); ctx.fill();
+    }
+  }
+}
+
+function renderSim2D() {
+  const canvas = document.getElementById('canvas_sim2d');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  if (heatmapDirty) { updateHeatmapTexture(); updateSim2DStats(); }
+
+  ctx.drawImage(heatmapCanvas, 0, 0, SIM2D_W, SIM2D_H);
+
+  ctx.strokeStyle = 'rgba(255,255,255,0.07)'; ctx.lineWidth = 1;
+  for (let x = 100; x < SIM2D_W; x += 100) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, SIM2D_H); ctx.stroke(); }
+  for (let y = 100; y < SIM2D_H; y += 100) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(SIM2D_W, y); ctx.stroke(); }
+
+  updateAndDrawParticles(ctx);
+
+  sim2dWalls.forEach(w => {
+    ctx.fillStyle = SIM2D_MATS[w.mat].fill; ctx.strokeStyle = SIM2D_MATS[w.mat].stroke; ctx.lineWidth = 2;
+    ctx.fillRect(w.x, w.y, w.w, w.h); ctx.strokeRect(w.x, w.y, w.w, w.h);
+    if (w.w > 24 && w.h > 14) {
+      ctx.fillStyle = '#fff'; ctx.font = 'bold 10.5px Segoe UI'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      ctx.fillText(w.mat, w.x + w.w/2, w.y + w.h/2);
+    }
+  });
+
+  if (isDraggingSim && dragTarget && dragTarget.type === 'new_wall') {
+    ctx.strokeStyle = '#fff'; ctx.lineWidth = 2; ctx.setLineDash([5, 4]);
+    ctx.strokeRect(Math.min(dragTarget.sX, dragTarget.cX), Math.min(dragTarget.sY, dragTarget.cY), Math.abs(dragTarget.cX - dragTarget.sX), Math.abs(dragTarget.cY - dragTarget.sY));
+    ctx.setLineDash([]);
+  }
+
+  sim2dSources.forEach((src, idx) => {
+    ctx.beginPath(); ctx.arc(src.x, src.y, 13, 0, Math.PI * 2);
+    ctx.fillStyle = SIM2D_SOURCES_META[src.key].color; ctx.fill();
+    ctx.strokeStyle = (idx === selectedSourceIdx) ? '#fff' : '#1a252f'; ctx.lineWidth = 2; ctx.stroke();
+    ctx.fillStyle = '#1a252f'; ctx.font = 'bold 13px Segoe UI'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    ctx.fillText('☢', src.x, src.y + 1);
+  });
+
+  ctx.beginPath(); ctx.arc(sim2dProbe.x, sim2dProbe.y, 12, 0, Math.PI * 2);
+  ctx.fillStyle = '#fff'; ctx.fill(); ctx.strokeStyle = '#2980b9'; ctx.lineWidth = 2.5; ctx.stroke();
+  ctx.fillStyle = '#1a252f'; ctx.font = 'bold 12px Segoe UI'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+  ctx.fillText('👤', sim2dProbe.x, sim2dProbe.y);
+
+  requestAnimationFrame(renderSim2D);
+}
+
+// Calcula el peso total (toneladas) y costo total (USD) de los muros dibujados en el Mapa 2D
+function calcSim2DBudget() {
+  let totalMassKg = 0.0;
+  let totalCostUSD = 0.0;
+  const wallHeightMeters = 2.50; // Altura estándar de muro de búnker
+
+  sim2dWalls.forEach(w => {
+    // 100 px = 1 metro lineal en planta
+    const areaPlanta_m2 = (w.w / 100.0) * (w.h / 100.0);
+    const vol_m3 = areaPlanta_m2 * wallHeightMeters;
+    const mat = SIM2D_MATS[w.mat];
+    const massKg = vol_m3 * (mat.rho * 1000.0);
+    totalMassKg += massKg;
+    totalCostUSD += massKg * mat.costKg;
+  });
+
+  return { totalMassKg, totalCostUSD };
+}
+
+function updateSim2DStats() {
+  const d = computeDoseAtPoint(sim2dProbe.x, sim2dProbe.y, document.getElementById('cb_sim2d_buildup').checked);
+  const str = d >= 1000 ? (d/1000).toFixed(2) + ' mSv/h' : d.toFixed(2) + ' μSv/h';
+  let zColor = '#16a085', zText = 'Zona Libre (<2.5 μSv/h)';
+  if (d >= 1000) { zColor = '#c0392b'; zText = 'Zona Prohibida (>1 mSv/h)'; }
+  else if (d >= 20) { zColor = '#d35400'; zText = 'Zona Controlada (>20 μSv/h)'; }
+  else if (d >= 2.5) { zColor = '#2980b9'; zText = 'Zona Vigilada (2.5-20 μSv/h)'; }
+
+  const budget = calcSim2DBudget();
+  const massStr = (budget.totalMassKg / 1000.0).toFixed(1) + ' ton';
+
+  document.getElementById('stats_sim2d').innerHTML =
+    `<span class="stat-item"><span class="lbl">Dosis en 👤:</span> <span class="val" style="color:${zColor};">${str}</span></span>` +
+    `<span class="stat-item"><span class="lbl">Estado:</span> <span class="val" style="color:${zColor};">${zText}</span></span>` +
+    `<br><span class="stat-item"><span class="lbl">Peso Muros (h=2.5m):</span> <span class="val">${massStr}</span></span>` +
+    `<span class="stat-item cost-badge"><span class="lbl">💰 Costo Total Búnker:</span> <span class="val">$${Math.round(budget.totalCostUSD).toLocaleString('en-US')} USD</span></span>`;
+}
+
+function loadSim2DPreset(name) {
+  simParticles = [];
+  if (name === 'compare') {
+    sim2dSources = [{ x: 130, y: 230, key: 'Co60', act: 120 }];
+    sim2dWalls = [
+      { x: 310, y: 35, w: 28, h: 85, mat: 'Pb' }, { x: 310, y: 140, w: 28, h: 85, mat: 'Fe' },
+      { x: 310, y: 245, w: 28, h: 85, mat: 'Concrete' }, { x: 310, y: 350, w: 28, h: 85, mat: 'H2O' }
+    ];
+    sim2dProbe = { x: 480, y: 78 };
+  } else if (name === 'maze') {
+    sim2dSources = [{ x: 180, y: 230, key: 'Co60', act: 250 }];
+    sim2dWalls = [
+      { x: 80, y: 60, w: 360, h: 32, mat: 'Concrete' }, { x: 80, y: 60, w: 32, h: 340, mat: 'Concrete' },
+      { x: 80, y: 368, w: 480, h: 32, mat: 'Concrete' }, { x: 408, y: 60, w: 32, h: 215, mat: 'Concrete' },
+      { x: 528, y: 155, w: 32, h: 245, mat: 'Concrete' }, { x: 408, y: 60, w: 152, h: 32, mat: 'Concrete' },
+      { x: 528, y: 92, w: 14, h: 63, mat: 'Pb' }
+    ];
+    sim2dProbe = { x: 650, y: 125 };
+  } else if (name === 'beta_brems') {
+    sim2dSources = [{ x: 400, y: 230, key: 'Sr90', act: 180 }];
+    sim2dWalls = [
+      { x: 260, y: 130, w: 22, h: 200, mat: 'Pb' },
+      { x: 515, y: 130, w: 24, h: 200, mat: 'PMMA' }
+    ];
+    sim2dProbe = { x: 150, y: 230 };
+  } else if (name === 'neutron') {
+    sim2dSources = [{ x: 400, y: 230, key: 'Cf252', act: 160 }];
+    sim2dWalls = [
+      { x: 250, y: 120, w: 32, h: 220, mat: 'Pb' },
+      { x: 520, y: 120, w: 32, h: 220, mat: 'BoratedPE' }
+    ];
+    sim2dProbe = { x: 640, y: 230 };
+  }
+  selectedSourceIdx = 0;
+  if (sim2dSources[0]) {
+    document.getElementById('sel_sim2d_src').value = sim2dSources[0].key;
+    document.getElementById('s_sim2d_act').value = sim2dSources[0].act;
+    document.getElementById('v_sim2d_act').innerText = sim2dSources[0].act + ' GBq';
+  }
+  heatmapDirty = true;
+}
+window.loadSim2DPreset = loadSim2DPreset;
+
+function clearSim2DWalls() { sim2dWalls = []; heatmapDirty = true; }
+window.clearSim2DWalls = clearSim2DWalls;
+
+function setupSim2DEvents() {
+  const canvas = document.getElementById('canvas_sim2d');
+  function getC(evt) {
+    const r = canvas.getBoundingClientRect();
+    return { x: (evt.clientX - r.left) * (SIM2D_W / r.width), y: (evt.clientY - r.top) * (SIM2D_H / r.height) };
+  }
+
+  canvas.addEventListener('mousedown', (e) => {
+    const p = getC(e);
+    if (Math.hypot(p.x - sim2dProbe.x, p.y - sim2dProbe.y) <= 20) {
+      isDraggingSim = true; dragTarget = { type: 'probe' }; return;
+    }
+    for (let i = sim2dSources.length - 1; i >= 0; i--) {
+      if (Math.hypot(p.x - sim2dSources[i].x, p.y - sim2dSources[i].y) <= 18) {
+        if (sim2dTool === 'erase') {
+          if (sim2dSources.length > 1) { sim2dSources.splice(i, 1); selectedSourceIdx = 0; heatmapDirty = true; }
+          return;
+        }
+        selectedSourceIdx = i;
+        document.getElementById('sel_sim2d_src').value = sim2dSources[i].key;
+        document.getElementById('s_sim2d_act').value = sim2dSources[i].act;
+        document.getElementById('v_sim2d_act').innerText = sim2dSources[i].act + ' GBq';
+        isDraggingSim = true; dragTarget = { type: 'source', idx: i }; return;
+      }
+    }
+    if (sim2dTool === 'erase') {
+      for (let w = sim2dWalls.length - 1; w >= 0; w--) {
+        if (p.x >= sim2dWalls[w].x && p.x <= sim2dWalls[w].x + sim2dWalls[w].w && p.y >= sim2dWalls[w].y && p.y <= sim2dWalls[w].y + sim2dWalls[w].h) {
+          sim2dWalls.splice(w, 1); heatmapDirty = true; return;
+        }
+      }
+    } else if (sim2dTool === 'source') {
+      sim2dSources.push({ x: p.x, y: p.y, key: document.getElementById('sel_sim2d_src').value, act: parseFloat(document.getElementById('s_sim2d_act').value) });
+      selectedSourceIdx = sim2dSources.length - 1;
+      isDraggingSim = true; dragTarget = { type: 'source', idx: selectedSourceIdx }; heatmapDirty = true;
+    } else if (sim2dTool === 'probe') {
+      sim2dProbe.x = p.x; sim2dProbe.y = p.y; isDraggingSim = true; dragTarget = { type: 'probe' }; updateSim2DStats();
+    } else if (sim2dTool === 'wall') {
+      isDraggingSim = true; dragTarget = { type: 'new_wall', sX: p.x, sY: p.y, cX: p.x, cY: p.y };
+    }
+  });
+
+  window.addEventListener('mousemove', (e) => {
+    if (!isDraggingSim || !dragTarget) return;
+    const p = getC(e);
+    const cx = Math.max(8, Math.min(SIM2D_W - 8, p.x)), cy = Math.max(8, Math.min(SIM2D_H - 8, p.y));
+    if (dragTarget.type === 'probe') { sim2dProbe.x = cx; sim2dProbe.y = cy; updateSim2DStats(); }
+    else if (dragTarget.type === 'source') { sim2dSources[dragTarget.idx].x = cx; sim2dSources[dragTarget.idx].y = cy; heatmapDirty = true; }
+    else if (dragTarget.type === 'new_wall') { dragTarget.cX = cx; dragTarget.cY = cy; }
+  });
+
+  window.addEventListener('mouseup', () => {
+    if (!isDraggingSim || !dragTarget) return;
+    if (dragTarget.type === 'new_wall') {
+      const rx = Math.min(dragTarget.sX, dragTarget.cX), ry = Math.min(dragTarget.sY, dragTarget.cY);
+      const rw = Math.abs(dragTarget.cX - dragTarget.sX), rh = Math.abs(dragTarget.cY - dragTarget.sY);
+      if (rw >= 6 && rh >= 6) {
+        sim2dWalls.push({ x: rx, y: ry, w: rw, h: rh, mat: document.getElementById('sel_sim2d_mat').value });
+        heatmapDirty = true;
+      }
+    }
+    isDraggingSim = false; dragTarget = null;
+  });
+}
+
+// ============================================================
+// EVENTOS E INICIALIZACIÓN ROBUSTA
+// ============================================================
+function attachHandlers() {
+  document.getElementById('sel_bragg_mode').addEventListener('change', updateBraggSliderRange);
+  document.getElementById('s_bragg_E').addEventListener('input', drawBragg);
+
+  document.getElementById('sel_beta_iso').addEventListener('change', drawBetaShield);
+  document.querySelectorAll('#btns_beta_metric button').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('#btns_beta_metric button').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      currentBetaMetric = btn.dataset.mode;
+      drawBetaShield();
+    });
+  });
+
+  document.getElementById('sel_coeff_mat').addEventListener('change', drawMassCoeffs);
+  document.getElementById('s_coeff_E').addEventListener('input', drawMassCoeffs);
+
+  document.querySelectorAll('#btns_fig4_mode button').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('#btns_fig4_mode button').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      fig4Mode = btn.dataset.fmode;
+      drawGammaShield();
+    });
+  });
+  document.getElementById('sel_gamma_src').addEventListener('change', updateFig4SliderScale);
+  document.getElementById('sel_gamma_mat').addEventListener('change', updateFig4SliderScale);
+  document.getElementById('cb_log_scale').addEventListener('change', updateFig4SliderScale);
+  document.getElementById('s_gamma_x').addEventListener('input', drawGammaShield);
+  document.getElementById('s_gamma_area').addEventListener('input', drawGammaShield);
+
+  document.querySelectorAll('#btns_neutron_view button').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('#btns_neutron_view button').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      currentNeutronView = btn.dataset.view;
+      drawNeutronPlot();
+    });
+  });
+  document.getElementById('s_neutron_x').addEventListener('input', drawNeutronPlot);
+
+  document.querySelectorAll('#btns_sim2d_tool button').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('#btns_sim2d_tool button').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      sim2dTool = btn.dataset.tool;
+    });
+  });
+  document.getElementById('sel_sim2d_src').addEventListener('change', (e) => {
+    if (sim2dSources[selectedSourceIdx]) { sim2dSources[selectedSourceIdx].key = e.target.value; heatmapDirty = true; }
+  });
+  document.getElementById('s_sim2d_act').addEventListener('input', (e) => {
+    const val = parseFloat(e.target.value);
+    document.getElementById('v_sim2d_act').innerText = val + ' GBq';
+    if (sim2dSources[selectedSourceIdx]) { sim2dSources[selectedSourceIdx].act = val; heatmapDirty = true; }
+  });
+  document.getElementById('cb_sim2d_contours').addEventListener('change', () => { heatmapDirty = true; });
+  document.getElementById('cb_sim2d_buildup').addEventListener('change', () => { heatmapDirty = true; });
+
+  setupSim2DEvents();
+
+  window.addEventListener('resize', () => {
+    if (typeof Plotly !== 'undefined') {
+      ['plot_bragg', 'plot_beta_shield', 'plot_mass_coeff', 'plot_gamma_shield', 'plot_neutron'].forEach(id => {
+        try { Plotly.Plots.resize(id); } catch(e) {}
+      });
+    }
+  });
+}
+
+function initAll() {
+  attachHandlers();
+  loadSim2DPreset('compare');
+  requestAnimationFrame(renderSim2D);
+
+  function checkPlotly() {
+    if (typeof Plotly === 'undefined') {
+      setTimeout(checkPlotly, 100);
+      return;
+    }
+    drawBragg();
+    drawBetaShield();
+    drawMassCoeffs();
+    updateFig4SliderScale();
+    drawNeutronPlot();
+  }
+  checkPlotly();
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initAll);
+} else {
+  initAll();
+}
+</script>
+</body>
+</html>
