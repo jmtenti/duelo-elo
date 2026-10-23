@@ -174,6 +174,12 @@
   .master-table .n-cell { text-align: center; font-weight: bold; color: var(--secondary); }
   .master-table .angle-cell { font-family: Consolas, monospace; font-size: 0.95em; }
   .master-table .name-cell { font-weight: 600; color: var(--link); }
+  .master-table .center { text-align: center; }
+  .master-table .hybrid-cell {
+    font-family: Consolas, monospace;
+    font-weight: bold; color: var(--sm);
+    text-align: center;
+  }
 
   .repulsion-table {
     border-collapse: collapse; width: 100%; margin: 20px 0;
@@ -295,10 +301,207 @@
     border: 1px solid rgba(0,0,0,0.2);
   }
 
+  /* --- CALCULADORA DE PARES SOLITARIOS --- */
+  .lp-calculator {
+    background: #fafafa; border: 1px solid #e0e0e0;
+    border-radius: 10px; padding: 22px; margin: 28px 0;
+    font-family: 'Segoe UI', sans-serif;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+  }
+  .lp-calc-title {
+    text-align: center; color: var(--secondary);
+    font-weight: bold; font-size: 1.05em; margin: 0 0 16px 0;
+  }
+  .lp-calc-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 18px;
+    padding: 16px 18px; background: #fff;
+    border-radius: 8px; border: 1px solid #eee; margin-bottom: 14px;
+  }
+  .lp-calc-col label {
+    display: block; margin-bottom: 6px;
+    font-weight: 600; color: var(--secondary);
+    font-size: 0.9em;
+  }
+  .lp-calc-col select, .lp-calc-col input[type=range] {
+    width: 100%; padding: 8px 12px;
+    border-radius: 6px; border: 1.5px solid #ccc;
+    font-size: 0.95em; background: white;
+  }
+  .lp-calc-col input[type=range] {
+    padding: 0; accent-color: var(--accent); cursor: pointer;
+  }
+  .lp-calc-val {
+    font-family: Consolas, monospace;
+    color: var(--accent); font-weight: bold;
+    font-size: 1.05em;
+  }
+  .lp-calc-result {
+    padding: 14px 20px; border-radius: 8px;
+    background: #eafaf1; border-left: 4px solid var(--sm);
+    font-family: 'Consolas', monospace;
+    font-size: 1em; line-height: 1.9;
+  }
+  .lp-calc-result .lp-calc-formula {
+    color: var(--secondary);
+    font-family: 'Georgia', serif;
+    font-size: 1.05em;
+  }
+  .lp-calc-result .lp-calc-lp {
+    font-size: 1.6em; font-weight: bold; color: var(--sm);
+    vertical-align: middle;
+  }
+  .lp-calc-result.warn {
+    background: #fdedec; border-left-color: var(--warn);
+  }
+  .lp-calc-result.warn .lp-calc-lp {
+    color: var(--warn);
+  }
+  .lp-calc-result .lp-calc-note {
+    font-size: 0.88em; color: #666;
+    font-family: 'Segoe UI', sans-serif;
+    font-style: italic; line-height: 1.5;
+  }
+
+  /* --- EJEMPLO LEWIS SO2 --- */
+  .lewis-steps {
+    display: grid; grid-template-columns: 1fr;
+    gap: 12px; margin: 18px 0;
+  }
+  .lewis-step {
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-left: 4px solid var(--link);
+    border-radius: 8px;
+    padding: 12px 18px;
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 0.93em;
+    display: grid;
+    grid-template-columns: 40px 1fr;
+    gap: 14px;
+    align-items: start;
+  }
+  .lewis-step .step-num {
+    width: 32px; height: 32px;
+    background: var(--link); color: white;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: bold; font-size: 1em;
+  }
+  .lewis-step .step-body strong { color: var(--secondary); }
+  .lewis-step .step-body code {
+    background: #f4f6f7; padding: 2px 7px;
+    border-radius: 4px;
+    font-family: Consolas, monospace;
+    font-size: 0.92em;
+  }
+
+  /* --- HIBRIDACIÓN --- */
+  .hybrid-molecules {
+    margin: 18px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .hybrid-molecule {
+    display: grid;
+    grid-template-columns: 140px 1fr;
+    gap: 14px;
+    align-items: center;
+    padding: 12px 16px;
+    background: #fff;
+    border-radius: 8px;
+    border: 1px solid #e0e0e0;
+  }
+  .hybrid-molecule .hm-label {
+    font-family: 'Georgia', serif;
+    font-size: 1.1em;
+    font-weight: bold;
+    color: var(--secondary);
+    text-align: center;
+  }
+  .hybrid-molecule .hm-label small {
+    display: block;
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 0.72em;
+    font-weight: normal;
+    color: #888;
+    font-style: italic;
+    margin-top: 2px;
+  }
+  .hybrid-orbitals {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .hybrid-orbital {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-width: 68px;
+    padding: 8px 10px;
+    border-radius: 6px;
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 0.82em;
+    text-align: center;
+    line-height: 1.3;
+  }
+  .hybrid-orbital .ho-label {
+    font-family: 'Consolas', monospace;
+    font-weight: bold;
+    font-size: 0.95em;
+    margin-bottom: 2px;
+  }
+  .hybrid-orbital .ho-content {
+    font-size: 0.88em;
+  }
+  .hybrid-orbital.lp {
+    background: rgba(192,57,43,0.12);
+    border: 1.5px solid var(--accent);
+    color: #7b241c;
+  }
+  .hybrid-orbital.bp {
+    background: rgba(41,128,185,0.12);
+    border: 1.5px solid var(--link);
+    color: #1a5276;
+  }
+  .hybrid-legend {
+    display: flex;
+    gap: 22px;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 6px 0;
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 0.85em;
+    color: #555;
+    margin-top: 6px;
+  }
+  .hybrid-legend .item {
+    display: flex; align-items: center; gap: 6px;
+  }
+  .hybrid-legend .swatch {
+    display: inline-block;
+    width: 16px; height: 12px;
+    border-radius: 3px;
+    border: 1.5px solid;
+  }
+  .hybrid-legend .swatch.lp {
+    background: rgba(192,57,43,0.12);
+    border-color: var(--accent);
+  }
+  .hybrid-legend .swatch.bp {
+    background: rgba(41,128,185,0.12);
+    border-color: var(--link);
+  }
+
   @media (max-width: 800px) {
     .container { padding: 30px 20px; }
     .controls { grid-template-columns: 1fr; }
     .plot-area { height: 400px; }
+    .lp-calc-grid { grid-template-columns: 1fr; }
+    .lewis-step { grid-template-columns: 1fr; }
+    .hybrid-molecule { grid-template-columns: 1fr; }
+    .hybrid-molecule .hm-label { text-align: left; }
   }
 </style>
 </head>
@@ -309,7 +512,7 @@
   <div class="subtitle">Cómo los pares de electrones de valencia deciden la forma de las moléculas</div>
 
   <div class="math-box">
-    <strong>Notación.</strong> $A$: átomo central. $X$: átomo ligando (enlace). $E$: par solitario de electrones (<em>lone pair</em>). $n$: número estérico (dominios de electrones alrededor del átomo central). $AX_mE_n$: notación VSEPR, con $m$ ligandos y $n$ pares solitarios. VSEPR = <em>Valence Shell Electron Pair Repulsion</em> (repulsión de pares electrónicos de la capa de valencia).
+    <strong>Notación.</strong> $A$: átomo central. $X$: átomo ligando (enlace). $E$: par solitario de electrones (<em>lone pair</em>). $n$: número estérico (dominios de electrones alrededor del átomo central). $AX_mE_n$: notación VSEPR, con $m$ ligandos y $n$ pares solitarios. $V$: electrones de valencia del átomo central. $sp^k$: hibridación con $k$ orbitales $p$ involucrados ($sp$, $sp^2$, $sp^3$, $sp^3d$, $sp^3d^2$). VSEPR = <em>Valence Shell Electron Pair Repulsion</em> (repulsión de pares electrónicos de la capa de valencia).
   </div>
 
   <div class="analogy-box">
@@ -320,7 +523,12 @@
     <h3>Contenido</h3>
     <ol>
       <li><a href="#s1">La idea central: pares que se repelen</a></li>
-      <li><a href="#s2">Número estérico y notación AXE</a></li>
+      <li><a href="#s2">Número estérico y notación AXE</a>
+        <ul style="margin: 4px 0 0 0; padding-left: 18px; list-style: circle;">
+          <li><a href="#s2-2">Cómo contar los pares solitarios</a></li>
+          <li><a href="#s2-3">Configuración electrónica e hibridación: el porqué orbital</a></li>
+        </ul>
+      </li>
       <li><a href="#s3">Explorador 3D interactivo</a> <em>(Fig. 1)</em></li>
       <li><a href="#s4">Tabla maestra de geometrías</a></li>
       <li><a href="#s5">Pares solitarios comprimen ángulos</a> <em>(Fig. 2)</em></li>
@@ -425,6 +633,413 @@
   </div>
 
   <!-- ============================================ -->
+  <h3 id="s2-2">2.2 Cómo contar los pares solitarios de una fórmula</h3>
+
+  <p>Ya sabemos que para VSEPR todo depende de $m$ (ligandos) y $e$ (pares solitarios). El problema práctico es: <strong>dada una fórmula química, ¿cómo sé cuántos pares solitarios tiene el átomo central?</strong> Antes de nada, una aclaración fundamental:</p>
+
+  <div class="warn-box">
+    <strong>Solo cuentan los LP del átomo central.</strong> Los pares solitarios de los ligandos (como los 3 de cada O en H₂O, o los 3 de cada F en XeF₄) <strong>no afectan la geometría VSEPR</strong>. Se "esconden" dentro del ligando. VSEPR solo mira los dominios alrededor del <em>átomo central</em>. Cuando decimos "contar pares solitarios", nos referimos a los del central.
+  </div>
+
+  <p>Hay dos caminos: uno rápido (para enlaces simples) y uno general (siempre funciona).</p>
+
+  <h4>Método rápido: para enlaces simples y central neutro</h4>
+
+  <p>Si el átomo central está unido por <strong>enlaces simples</strong> y no tiene carga formal, la cuenta es directa:</p>
+
+  <div class="math-box">
+    $$ \boxed{\; e = \dfrac{V - m}{2} \;} $$
+  </div>
+
+  <p>donde $V$ es el número de electrones de valencia del átomo central (su grupo de la tabla periódica) y $m$ es el número de enlaces simples. La lógica es simple: de los $V$ electrones de valencia del central, cada enlace simple "consume" 1 (el otro lo aporta el ligando). Lo que sobra se agrupa en pares solitarios.</p>
+
+  <table class="master-table">
+    <thead>
+      <tr>
+        <th>Molécula</th>
+        <th class="center">$V$ (central)</th>
+        <th class="center">$m$ (enlaces simples)</th>
+        <th class="center">$(V-m)/2$</th>
+        <th class="center">Pares solitarios $e$</th>
+        <th>AXE</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>CH₄</strong></td><td class="center">4</td><td class="center">4</td><td class="center">0</td><td class="center" style="color:var(--accent);font-weight:bold;">0</td><td>AX₄</td></tr>
+      <tr><td><strong>NH₃</strong></td><td class="center">5</td><td class="center">3</td><td class="center">1</td><td class="center" style="color:var(--accent);font-weight:bold;">1</td><td>AX₃E</td></tr>
+      <tr><td><strong>H₂O</strong></td><td class="center">6</td><td class="center">2</td><td class="center">2</td><td class="center" style="color:var(--accent);font-weight:bold;">2</td><td>AX₂E₂</td></tr>
+      <tr><td><strong>BF₃</strong></td><td class="center">3</td><td class="center">3</td><td class="center">0</td><td class="center" style="color:var(--accent);font-weight:bold;">0</td><td>AX₃</td></tr>
+      <tr><td><strong>SiH₄</strong></td><td class="center">4</td><td class="center">4</td><td class="center">0</td><td class="center" style="color:var(--accent);font-weight:bold;">0</td><td>AX₄</td></tr>
+      <tr><td><strong>PH₃</strong></td><td class="center">5</td><td class="center">3</td><td class="center">1</td><td class="center" style="color:var(--accent);font-weight:bold;">1</td><td>AX₃E</td></tr>
+      <tr><td><strong>H₂S</strong></td><td class="center">6</td><td class="center">2</td><td class="center">2</td><td class="center" style="color:var(--accent);font-weight:bold;">2</td><td>AX₂E₂</td></tr>
+      <tr><td><strong>PCl₅</strong></td><td class="center">5</td><td class="center">5</td><td class="center">0</td><td class="center" style="color:var(--accent);font-weight:bold;">0</td><td>AX₅</td></tr>
+      <tr><td><strong>SF₆</strong></td><td class="center">6</td><td class="center">6</td><td class="center">0</td><td class="center" style="color:var(--accent);font-weight:bold;">0</td><td>AX₆</td></tr>
+      <tr><td><strong>XeF₄</strong></td><td class="center">8</td><td class="center">4</td><td class="center">2</td><td class="center" style="color:var(--accent);font-weight:bold;">2</td><td>AX₄E₂</td></tr>
+      <tr><td><strong>XeF₂</strong></td><td class="center">8</td><td class="center">2</td><td class="center">3</td><td class="center" style="color:var(--accent);font-weight:bold;">3</td><td>AX₂E₃</td></tr>
+    </tbody>
+  </table>
+
+  <div class="sm-box">
+    <strong>Electrones de valencia de los grupos más comunes.</strong>
+    <ul style="margin: 6px 0 0 0; columns: 2; column-gap: 30px;">
+      <li><strong>Grupo 1</strong> (Li, Na, K): $V=1$</li>
+      <li><strong>Grupo 2</strong> (Be, Mg, Ca): $V=2$</li>
+      <li><strong>Grupo 13</strong> (B, Al): $V=3$</li>
+      <li><strong>Grupo 14</strong> (C, Si, Ge): $V=4$</li>
+      <li><strong>Grupo 15</strong> (N, P, As): $V=5$</li>
+      <li><strong>Grupo 16</strong> (O, S, Se): $V=6$</li>
+      <li><strong>Grupo 17</strong> (F, Cl, Br, I): $V=7$</li>
+      <li><strong>Grupo 18</strong> (He, Ne, Ar, Kr, Xe): $V=8$ (excepto He)</li>
+    </ul>
+  </div>
+
+  <h4>Calculadora rápida de pares solitarios</h4>
+
+  <p>Probá el método con la calculadora siguiente. Elegí el átomo central y cuántos enlaces simples tiene. La calculadora aplica directamente $e = (V-m)/2$.</p>
+
+  <div class="lp-calculator">
+    <div class="lp-calc-title">Calculadora: pares solitarios del átomo central (enlaces simples)</div>
+
+    <div class="lp-calc-grid">
+      <div class="lp-calc-col">
+        <label for="lp-element">Átomo central</label>
+        <select id="lp-element">
+          <option value="1">Grupo 1 — Li, Na, K (V = 1)</option>
+          <option value="2">Grupo 2 — Be, Mg, Ca (V = 2)</option>
+          <option value="3">Grupo 13 — B, Al (V = 3)</option>
+          <option value="4" selected>Grupo 14 — C, Si (V = 4)</option>
+          <option value="5">Grupo 15 — N, P, As (V = 5)</option>
+          <option value="6">Grupo 16 — O, S, Se (V = 6)</option>
+          <option value="7">Grupo 17 — F, Cl, Br, I (V = 7)</option>
+          <option value="8">Grupo 18 — Xe (V = 8)</option>
+        </select>
+      </div>
+      <div class="lp-calc-col">
+        <label for="lp-bonds">Número de enlaces simples (m): <span id="lp-bonds-val" class="lp-calc-val">4</span></label>
+        <input type="range" id="lp-bonds" min="1" max="8" step="1" value="4">
+      </div>
+    </div>
+
+    <div id="lp-result" class="lp-calc-result">
+      <!-- se rellena por JS -->
+    </div>
+  </div>
+
+  <h4>Método general: los 5 pasos de Lewis (siempre funciona)</h4>
+
+  <p>Cuando hay enlaces múltiples, iones o hipervalencia, hay que hacer la estructura de Lewis. Es infalible:</p>
+
+  <ol class="step-by-step" style="counter-reset: none; list-style: none; padding-left: 0; margin: 18px 0;">
+    <li style="position: relative; padding: 12px 18px 12px 60px; margin: 8px 0; background: #f8f9fa; border-radius: 6px; border-left: 3px solid var(--link);">
+      <span style="position: absolute; left: 14px; top: 50%; transform: translateY(-50%); width: 32px; height: 32px; background: var(--link); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Segoe UI', sans-serif; font-weight: bold;">1</span>
+      <strong>Sumar electrones de valencia</strong> (grupo × átomo, ajustando carga si es ion).
+    </li>
+    <li style="position: relative; padding: 12px 18px 12px 60px; margin: 8px 0; background: #f8f9fa; border-radius: 6px; border-left: 3px solid var(--link);">
+      <span style="position: absolute; left: 14px; top: 50%; transform: translateY(-50%); width: 32px; height: 32px; background: var(--link); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Segoe UI', sans-serif; font-weight: bold;">2</span>
+      <strong>Dibujar el esqueleto</strong> con enlaces simples (2 e⁻ por enlace).
+    </li>
+    <li style="position: relative; padding: 12px 18px 12px 60px; margin: 8px 0; background: #f8f9fa; border-radius: 6px; border-left: 3px solid var(--link);">
+      <span style="position: absolute; left: 14px; top: 50%; transform: translateY(-50%); width: 32px; height: 32px; background: var(--link); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Segoe UI', sans-serif; font-weight: bold;">3</span>
+      <strong>Repartir los e⁻ restantes como LP</strong>, primero en los terminales hasta octeto, luego en el central.
+    </li>
+    <li style="position: relative; padding: 12px 18px 12px 60px; margin: 8px 0; background: #f8f9fa; border-radius: 6px; border-left: 3px solid var(--link);">
+      <span style="position: absolute; left: 14px; top: 50%; transform: translateY(-50%); width: 32px; height: 32px; background: var(--link); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Segoe UI', sans-serif; font-weight: bold;">4</span>
+      <strong>Si el central no tiene octeto</strong>, mover LP de un terminal para formar enlace múltiple.
+    </li>
+    <li style="position: relative; padding: 12px 18px 12px 60px; margin: 8px 0; background: #f8f9fa; border-radius: 6px; border-left: 3px solid var(--link);">
+      <span style="position: absolute; left: 14px; top: 50%; transform: translateY(-50%); width: 32px; height: 32px; background: var(--link); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Segoe UI', sans-serif; font-weight: bold;">5</span>
+      <strong>Contar los LP que quedaron en el central.</strong>
+    </li>
+  </ol>
+
+  <h4>Ejemplo resuelto: SO₂ (donde el atajo falla)</h4>
+
+  <p>La molécula de SO₂ tiene un enlace doble y uno simple (por resonancia), así que el método rápido <strong>no</strong> aplica. Vamos paso a paso con Lewis:</p>
+
+  <div class="lewis-steps">
+    <div class="lewis-step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <strong>Electrones de valencia:</strong> S (6) + 2·O (12) = <code>18 e⁻</code>.
+      </div>
+    </div>
+    <div class="lewis-step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <strong>Esqueleto O−S−O:</strong> 2 enlaces simples = <code>4 e⁻</code> usados. Quedan <code>14 e⁻</code> = 7 pares.
+      </div>
+    </div>
+    <div class="lewis-step">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <strong>Repartir como LP:</strong> cada O necesita 6 e⁻ (3 pares) para su octeto → <code>12 e⁻</code> en los O. Sobran <code>2 e⁻</code> = <strong>1 par solitario en el S</strong>.
+      </div>
+    </div>
+    <div class="lewis-step">
+      <div class="step-num">4</div>
+      <div class="step-body">
+        <strong>¿Octeto del central?</strong> El S tiene 4 (enlaces) + 2 (LP) = 6 e⁻. Le faltan 2 para octeto. Se toma un LP de un O y se forma un doble enlace S=O.
+      </div>
+    </div>
+    <div class="lewis-step">
+      <div class="step-num">5</div>
+      <div class="step-body">
+        <strong>Resultado:</strong> S con <strong>1 par solitario</strong> (y un doble enlace). Geometría: AX₂E → <strong>angular, ~119°</strong>. El atajo $(6-2)/2=2$ habría sido <em>incorrecto</em>.
+      </div>
+    </div>
+  </div>
+
+  <div class="warn-box">
+    <strong>Cuándo falla el método rápido $(V-m)/2$.</strong> Falla siempre que haya:
+    <ul style="margin: 6px 0 0 0;">
+      <li><strong>Enlaces múltiples</strong> (SO₂, CO₂, HCN, O₃, NO₂⁻...). En esos casos hay que contar los electrones compartidos correctamente.</li>
+      <li><strong>Cargas formales</strong> en el átomo central (cationes como NH₄⁺, aniones como NO₃⁻).</li>
+      <li><strong>Radicales</strong> (NO, NO₂), donde el número total de electrones es impar.</li>
+      <li><strong>Hipervalencia no trivial</strong> (XeF₄ y XeF₂ sí funcionan con el atajo porque no hay enlaces múltiples, pero no siempre es así).</li>
+    </ul>
+    En todos esos casos, hacer Lewis es el camino seguro.
+  </div>
+
+  <h4>Una fórmula más general (cuando el central es neutro)</h4>
+
+  <p>Si querés una sola expresión que cubra también enlaces múltiples (mientras el central no tenga carga formal):</p>
+
+  <div class="math-box">
+    $$ e = \dfrac{2V - B}{4} $$
+  </div>
+
+  <p>donde $B$ es el total de electrones <strong>en los enlaces</strong> alrededor del central (un enlace simple = 2, doble = 4, triple = 6).</p>
+
+  <ul>
+    <li>H₂O: $B=4$, $V=6$ → $(12-4)/4 = 2$ ✓</li>
+    <li>CO₂: $B=8$, $V=4$ → $(8-8)/4 = 0$ ✓</li>
+    <li>HCN: $B=2+6=8$, $V=4$ → $0$ ✓</li>
+    <li>SO₂: $B=6$, $V=6$ → $1.5$ ✗ (falla por la carga formal en S)</li>
+  </ul>
+
+  <p>Es útil, pero <strong>no es universal</strong>. Para SO₂, NO₂, O₃ y otros con resonancia, hay que hacer Lewis.</p>
+
+  <h4>Tabla resumen: ¿qué método uso?</h4>
+
+  <table class="master-table">
+    <thead>
+      <tr>
+        <th>Situación</th>
+        <th>Método recomendado</th>
+        <th>Ejemplos</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Enlaces simples, central neutro</td>
+        <td><strong>Atajo</strong> $(V-m)/2$</td>
+        <td>CH₄, NH₃, H₂O, BF₃, SF₆, XeF₄</td>
+      </tr>
+      <tr>
+        <td>Hay enlaces múltiples</td>
+        <td><strong>Lewis</strong> (5 pasos) o fórmula general</td>
+        <td>CO₂, SO₂, HCN, O₃, NO₂⁻</td>
+      </tr>
+      <tr>
+        <td>Iones (cationes/aniones)</td>
+        <td><strong>Lewis</strong> con ajuste de carga</td>
+        <td>NH₄⁺, NO₃⁻, SO₄²⁻, ClO₄⁻</td>
+      </tr>
+      <tr>
+        <td>Radicales (electrones impares)</td>
+        <td><strong>Lewis</strong> con electrón desapareado</td>
+        <td>NO, NO₂, ClO₂</td>
+      </tr>
+      <tr>
+        <td>Resonancia</td>
+        <td><strong>Lewis</strong> + contar cada enlace como 1 dominio</td>
+        <td>CO₃²⁻, NO₃⁻, O₃, SO₂</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="sm-box">
+    <strong>Reglas prácticas que conviene memorizar.</strong>
+    <ul style="margin: 6px 0 0 0;">
+      <li><strong>H y halógenos terminales</strong> nunca son el átomo central.</li>
+      <li><strong>El central suele ser el menos electronegativo</strong> (o el que tiene más átomos unidos).</li>
+      <li><strong>Un enlace múltiple cuenta como un solo dominio</strong> para VSEPR, pero para <em>contar LP</em> hay que contar los electrones compartidos correctamente (un doble = 4 e⁻, un triple = 6 e⁻).</li>
+      <li><strong>Los elementos del 2° período (C, N, O, F) nunca expanden octeto.</strong> Si te aparece un LP "de más" que rompe el octeto, hiciste algo mal.</li>
+      <li><strong>Los del 3° período en adelante (P, S, Cl, Br, Xe)</strong> sí pueden expandir octeto: por eso PCl₅, SF₆, XeF₄ existen.</li>
+      <li>Si el resultado de $(V-m)$ es <strong>impar</strong>, el método rápido no aplica: hay un radical, una carga, o un enlace múltiple que estás ignorando.</li>
+    </ul>
+  </div>
+
+  <div class="analogy-box">
+    <strong>Una conexión con VSEPR.</strong> El atajo $(V-m)/2$ es exactamente lo que hicimos en la sección 2.1 para escribir la notación AXE. Por ejemplo, en NH₃: $V=5$, $m=3$, $e=(5-3)/2=1$ → AX₃E. En H₂O: $V=6$, $m=2$, $e=(6-2)/2=2$ → AX₂E₂. Para moléculas sencillas, ya lo estabas usando sin darte cuenta. Ahora sabés de dónde sale y cuándo no confiar en él.
+  </div>
+
+  <!-- ============================================ -->
+  <h3 id="s2-3">2.3 Configuración electrónica e hibridación: el porqué orbital</h3>
+
+  <p>Ya sabemos <em>cómo</em> contar pares solitarios y armar la notación AXE. Pero quedan dos preguntas de fondo, que hasta ahora quedaron implícitas:</p>
+
+  <ul>
+    <li>¿De dónde sale <strong>$V$</strong>, el número de electrones de valencia? (Sección 2.2 lo usa pero no lo deriva.)</li>
+    <li>¿Por qué <strong>$n$</strong> determina la geometría? ¿Qué hay detrás de la tabla de la sección 4?</li>
+  </ul>
+
+  <p>Las respuestas están en la <strong>configuración electrónica</strong> y en la <strong>hibridación de orbitales</strong>. Esta sección cierra el círculo entre VSEPR y la química cuántica, y explica por qué la tabla de geometrías no es una regla mágica sino una consecuencia de cómo se organizan los electrones.</p>
+
+  <h4>Paso 1 — De la configuración electrónica sale $V$</h4>
+
+  <p>El $V$ de la fórmula $e = (V-m)/2$ no es un número mágico: es simplemente el <strong>número de electrones en la capa de valencia</strong> del átomo central, que sale directo de su configuración electrónica. Es el mismo número que ya conocés del grupo de la tabla periódica.</p>
+
+  <table class="master-table">
+    <thead>
+      <tr>
+        <th>Átomo</th>
+        <th>Configuración (valencia)</th>
+        <th class="center">$V$</th>
+        <th>Grupo</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>Li</strong></td><td>$2s^1$</td><td class="center">1</td><td>1</td></tr>
+      <tr><td><strong>Be</strong></td><td>$2s^2$</td><td class="center">2</td><td>2</td></tr>
+      <tr><td><strong>B</strong></td><td>$2s^2\,2p^1$</td><td class="center">3</td><td>13</td></tr>
+      <tr><td><strong>C</strong></td><td>$2s^2\,2p^2$</td><td class="center">4</td><td>14</td></tr>
+      <tr><td><strong>N</strong></td><td>$2s^2\,2p^3$</td><td class="center">5</td><td>15</td></tr>
+      <tr><td><strong>O</strong></td><td>$2s^2\,2p^4$</td><td class="center">6</td><td>16</td></tr>
+      <tr><td><strong>F</strong></td><td>$2s^2\,2p^5$</td><td class="center">7</td><td>17</td></tr>
+      <tr><td><strong>P</strong></td><td>$3s^2\,3p^3$</td><td class="center">5</td><td>15</td></tr>
+      <tr><td><strong>S</strong></td><td>$3s^2\,3p^4$</td><td class="center">6</td><td>16</td></tr>
+      <tr><td><strong>Cl</strong></td><td>$3s^2\,3p^5$</td><td class="center">7</td><td>17</td></tr>
+      <tr><td><strong>Xe</strong></td><td>$5s^2\,5p^6$</td><td class="center">8</td><td>18</td></tr>
+    </tbody>
+  </table>
+
+  <p>Moraleja: cuando en la sección 2.2 decíamos "el central es del grupo 15, entonces $V=5$", estábamos leyendo la configuración electrónica sin darnos cuenta.</p>
+
+  <h4>Paso 2 — Del número estérico sale la hibridación</h4>
+
+  <p>El número estérico $n$ (total de dominios = enlaces + pares solitarios) no solo predice la geometría: también predice qué <strong>orbitales híbridos</strong> usa el átomo central. La coincidencia entre ambas tablas es exacta:</p>
+
+  <table class="master-table">
+    <thead>
+      <tr>
+        <th class="n-cell">$n$</th>
+        <th class="hybrid-cell">Hibridación</th>
+        <th class="center">N.º de orbitales híbridos</th>
+        <th>Geometría de los dominios</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td class="n-cell">2</td><td class="hybrid-cell">$sp$</td><td class="center">2</td><td>Lineal (180°)</td></tr>
+      <tr><td class="n-cell">3</td><td class="hybrid-cell">$sp^2$</td><td class="center">3</td><td>Trigonal plana (120°)</td></tr>
+      <tr><td class="n-cell">4</td><td class="hybrid-cell">$sp^3$</td><td class="center">4</td><td>Tetraédrica (109.5°)</td></tr>
+      <tr><td class="n-cell">5</td><td class="hybrid-cell">$sp^3d$</td><td class="center">5</td><td>Bipiramidal trigonal</td></tr>
+      <tr><td class="n-cell">6</td><td class="hybrid-cell">$sp^3d^2$</td><td class="center">6</td><td>Octaédrica</td></tr>
+    </tbody>
+  </table>
+
+  <div class="sm-box">
+    <strong>¿Por qué coinciden?</strong> Los orbitales híbridos están construidos matemáticamente para apuntar en las direcciones de máxima separación angular. Un conjunto de $n$ híbridos $sp^{n-1}$ apunta justo a los vértices de la figura de $n$ lados correspondiente. Por eso la geometría de los dominios (que VSEPR deduce empíricamente de la repulsión de pares) coincide con la dirección de los híbridos (que sale de la mecánica cuántica). Son dos descripciones del mismo hecho.
+  </div>
+
+  <h4>Paso 3 — Los pares solitarios también ocupan híbridos</h4>
+
+  <p>Este es el punto que conecta todo. Los LP <strong>no son electrones "sobrantes" que flotan por ahí</strong>: ocupan orbitales híbridos igual que los enlaces, y por lo tanto son <strong>direccionales</strong>. La única diferencia con un enlace es que el par enlazante se comparte con un ligando, mientras que el par solitario se queda "entero" en el híbrido del central.</p>
+
+  <p>La forma de contar es simple: cada híbrido aloja 2 electrones, todos del átomo central. Si el híbrido tiene <strong>1 electrón</strong>, forma un enlace (el otro electrón lo aporta el ligando) → <strong>BP</strong>. Si el híbrido tiene <strong>2 electrones</strong>, se queda como par solitario → <strong>LP</strong>.</p>
+
+  <div class="hybrid-legend">
+    <div class="item"><span class="swatch bp"></span> Híbrido con 1 e⁻ → enlace (BP)</div>
+    <div class="item"><span class="swatch lp"></span> Híbrido con 2 e⁻ → par solitario (LP)</div>
+  </div>
+
+  <div class="hybrid-molecules">
+
+    <div class="hybrid-molecule">
+      <div class="hm-label">CH₄<small>$n = 4$, $sp^3$</small></div>
+      <div class="hybrid-orbitals">
+        <div class="hybrid-orbital bp"><span class="ho-label">$sp^3_1$</span><span class="ho-content">1 e⁻<br>C–H</span></div>
+        <div class="hybrid-orbital bp"><span class="ho-label">$sp^3_2$</span><span class="ho-content">1 e⁻<br>C–H</span></div>
+        <div class="hybrid-orbital bp"><span class="ho-label">$sp^3_3$</span><span class="ho-content">1 e⁻<br>C–H</span></div>
+        <div class="hybrid-orbital bp"><span class="ho-label">$sp^3_4$</span><span class="ho-content">1 e⁻<br>C–H</span></div>
+      </div>
+    </div>
+
+    <div class="hybrid-molecule">
+      <div class="hm-label">NH₃<small>$n = 4$, $sp^3$</small></div>
+      <div class="hybrid-orbitals">
+        <div class="hybrid-orbital lp"><span class="ho-label">$sp^3_1$</span><span class="ho-content">2 e⁻<br>LP</span></div>
+        <div class="hybrid-orbital bp"><span class="ho-label">$sp^3_2$</span><span class="ho-content">1 e⁻<br>N–H</span></div>
+        <div class="hybrid-orbital bp"><span class="ho-label">$sp^3_3$</span><span class="ho-content">1 e⁻<br>N–H</span></div>
+        <div class="hybrid-orbital bp"><span class="ho-label">$sp^3_4$</span><span class="ho-content">1 e⁻<br>N–H</span></div>
+      </div>
+    </div>
+
+    <div class="hybrid-molecule">
+      <div class="hm-label">H₂O<small>$n = 4$, $sp^3$</small></div>
+      <div class="hybrid-orbitals">
+        <div class="hybrid-orbital lp"><span class="ho-label">$sp^3_1$</span><span class="ho-content">2 e⁻<br>LP</span></div>
+        <div class="hybrid-orbital lp"><span class="ho-label">$sp^3_2$</span><span class="ho-content">2 e⁻<br>LP</span></div>
+        <div class="hybrid-orbital bp"><span class="ho-label">$sp^3_3$</span><span class="ho-content">1 e⁻<br>O–H</span></div>
+        <div class="hybrid-orbital bp"><span class="ho-label">$sp^3_4$</span><span class="ho-content">1 e⁻<br>O–H</span></div>
+      </div>
+    </div>
+
+  </div>
+
+  <p>En los tres casos el átomo central usa la misma hibridación ($sp^3$) y tiene cuatro híbridos tetraédricos. Lo que cambia es cómo se ocupan: CH₄ tiene 4 híbridos con 1 e⁻ (4 enlaces), NH₃ tiene 3 con 1 e⁻ y 1 con 2 e⁻ (3 enlaces + 1 LP), H₂O tiene 2 con 1 e⁻ y 2 con 2 e⁻ (2 enlaces + 2 LP). La <strong>misma hibridación</strong> produce <strong>tres geometrías moleculares distintas</strong> (tetraédrica, piramidal, angular) según cuántos LP haya. Eso es exactamente lo que vimos en la sección 5.</p>
+
+  <h4>Paso 4 — Esto explica la compresión de ángulos</h4>
+
+  <p>Los híbridos $sp^3$ apuntan a los vértices de un tetraedro <em>ideal</em> (109.5°). Pero el par solitario, al no compartirse con un ligando, ocupa <strong>más espacio angular en el híbrido</strong>: la densidad electrónica se concentra más cerca del núcleo, "abultando" más. Eso empuja a los híbridos vecinos y comprime los ángulos reales.</p>
+
+  <p>De ahí el orden de la sección 1:</p>
+
+  <div class="math-box">
+    $$ \underbrace{\text{LP–LP}}_{\text{máx. compresión}} \;>\; \underbrace{\text{LP–BP}}_{\text{compresión media}} \;>\; \underbrace{\text{BP–BP}}_{\text{sin compresión}} $$
+  </div>
+
+  <p>Y de ahí los valores reales de la sección 5: CH₄ (109.5°, sin LP), NH₃ (107°, 1 LP), H₂O (104.5°, 2 LP). La compresión no es una regla empírica suelta: es la consecuencia de que los LP ocupan híbridos direccionales con más densidad angular que los BP.</p>
+
+  <div class="history-box">
+    <strong>Un modelo con historia.</strong> La hibridación fue propuesta por Linus Pauling en 1931, antes de que existiera la teoría de orbitales moleculares moderna. Fue un intento de explicar la geometría tetraédrica del carbono, que ya se conocía experimentalmente desde el siglo XIX. Durante décadas fue la explicación estándar en los libros de texto, y sigue siendo una herramienta pedagógica invaluable. Pero conviene saber que es un modelo, no una descripción literal de lo que "hacen" los orbitales.
+  </div>
+
+  <h4>Caveat: la hibridación es un modelo</h4>
+
+  <p>Antes de cerrar esta sección, un aviso importante. La hibridación es una <strong>construcción matemática</strong> que reproduce la geometría observada, no un fenómeno físico que ocurra en el tiempo. Los orbitales atómicos no se "mezclan" durante un instante y luego forman enlaces: la hibridación es una forma de escribir la función de onda del átomo en la molécula como combinación lineal de orbitales atómicos, para que sea más fácil de interpretar.</p>
+
+  <p>Para moléculas de los grupos principales (C, N, O, F, etc.), la hibridación funciona muy bien. Para moléculas hipervalentes (PCl₅, SF₆), la situación es más delicada:</p>
+
+  <div class="warn-box">
+    <strong>La controversia de la hipervalencia.</strong>
+    <ul style="margin: 6px 0 0 0;">
+      <li><strong>Visión clásica:</strong> PCl₅ es $sp^3d$ (5 híbridos), SF₆ es $sp^3d^2$ (6 híbridos). Los orbitales $d$ del fósforo y el azufre "participan" en la hibridación.</li>
+      <li><strong>Visión moderna:</strong> los orbitales $d$ del P y el S están demasiado altos en energía para participar significativamente. La hipervalencia se explica mejor con <strong>enlaces 3-centro-4-electrón</strong> (3c-4e), un concepto de la teoría de orbitales moleculares.</li>
+      <li><strong>Lo que sí es seguro:</strong> VSEPR predice correctamente las geometrías de PCl₅, SF₆, XeF₄, etc. sin necesidad de invocar orbitales $d$. La geometría no depende de la hibridación: depende de la repulsión de pares.</li>
+    </ul>
+    En este curso usamos la visión clásica ($sp^3d$, $sp^3d^2$) por simplicidad, pero conviene saber que es un modelo discutido.
+  </div>
+
+  <h4>Conexión con la teoría de orbitales moleculares (TOM)</h4>
+
+  <p>La hibridación es un paso intermedio entre la VSEPR y la TOM. La jerarquía completa es:</p>
+
+  <ol>
+    <li><strong>VSEPR:</strong> predice la <em>geometría</em> a partir de la repulsión de pares. No necesita orbitales.</li>
+    <li><strong>Hibridación:</strong> explica <em>por qué</em> esa geometría, mostrando que los híbridos apuntan en las direcciones correctas. Es un modelo local, centrado en un átomo.</li>
+    <li><strong>TOM:</strong> describe los electrones como orbitales moleculares deslocalizados sobre toda la molécula. Es la descripción cuántica completa, pero más compleja.</li>
+  </ol>
+
+  <p>Para predecir geometrías, VSEPR es suficiente. Para entender los enlaces y las propiedades electrónicas, la hibridación es un puente útil. Para cálculos precisos y fenómenos como el color o la reactividad, hace falta la TOM. Las tres se complementan.</p>
+
+  <div class="sm-box">
+    <strong>La cadena completa, en una línea.</strong>
+    $$ \text{Configuración electrónica} \;\to\; V \;\to\; e \;\to\; n \;\to\; \text{hibridación} \;\to\; \text{geometría de dominios} \;\to\; \text{geometría molecular} $$
+    Cada eslabón lo vimos en algún lugar del HTML: la configuración en esta sección, $V$ en 2.2, $e$ en 2.2, $n$ en 2, la hibridación acá, y las geometrías en las secciones 4 y 5.
+  </div>
+
+  <!-- ============================================ -->
   <h2 id="s3">3. Explorador 3D interactivo</h2>
 
   <p>La Figura 1 te permite explorar todas las geometrías VSEPR. Elegí el número estérico (2 a 6) con los botones de arriba, y después los pares solitarios con los de abajo. La molécula se muestra en 3D: arrastrá para rotar, usá la rueda para hacer zoom.</p>
@@ -483,7 +1098,7 @@
   <!-- ============================================ -->
   <h2 id="s4">4. Tabla maestra de geometrías</h2>
 
-  <p>Esta es la tabla de referencia de VSEPR. Con el número estérico y la cantidad de pares solitarios, se identifica la geometría molecular y sus ángulos ideales.</p>
+  <p>Esta es la tabla de referencia de VSEPR. Con el número estérico y la cantidad de pares solitarios, se identifica la geometría molecular y sus ángulos ideales. La última columna muestra la hibridación correspondiente (sección 2.3).</p>
 
   <table class="master-table">
     <thead>
@@ -493,28 +1108,31 @@
         <th>Geometría de los dominios</th>
         <th>Geometría molecular</th>
         <th>Ángulo ideal</th>
+        <th>Hibridación</th>
         <th>Ejemplo</th>
       </tr>
     </thead>
     <tbody>
-      <tr><td class="n-cell">2</td><td class="axe-cell">AX₂</td><td>Lineal</td><td class="name-cell">Lineal</td><td class="angle-cell">180°</td><td>CO₂, BeCl₂, HCN</td></tr>
-      <tr><td class="n-cell">3</td><td class="axe-cell">AX₃</td><td>Trigonal plana</td><td class="name-cell">Trigonal plana</td><td class="angle-cell">120°</td><td>BF₃, SO₃, CO₃²⁻</td></tr>
-      <tr><td class="n-cell">3</td><td class="axe-cell">AX₂E</td><td>Trigonal plana</td><td class="name-cell">Angular (codos)</td><td class="angle-cell">~120° (real ~119°)</td><td>SO₂, O₃, NO₂⁻</td></tr>
-      <tr><td class="n-cell">4</td><td class="axe-cell">AX₄</td><td>Tetraédrica</td><td class="name-cell">Tetraédrica</td><td class="angle-cell">109.5°</td><td>CH₄, NH₄⁺, SO₄²⁻</td></tr>
-      <tr><td class="n-cell">4</td><td class="axe-cell">AX₃E</td><td>Tetraédrica</td><td class="name-cell">Piramidal trigonal</td><td class="angle-cell">109.5° (real ~107°)</td><td>NH₃, PCl₃, H₃O⁺</td></tr>
-      <tr><td class="n-cell">4</td><td class="axe-cell">AX₂E₂</td><td>Tetraédrica</td><td class="name-cell">Angular (codos)</td><td class="angle-cell">109.5° (real ~104.5°)</td><td>H₂O, H₂S, OF₂</td></tr>
-      <tr><td class="n-cell">5</td><td class="axe-cell">AX₅</td><td>Bipiramidal trigonal</td><td class="name-cell">Bipiramidal trigonal</td><td class="angle-cell">90°, 120°, 180°</td><td>PCl₅, PF₅, AsF₅</td></tr>
-      <tr><td class="n-cell">5</td><td class="axe-cell">AX₄E</td><td>Bipiramidal trigonal</td><td class="name-cell">Balancín (seesaw)</td><td class="angle-cell">~87° axial, ~102° ecuatorial</td><td>SF₄, SeF₄, TeCl₄</td></tr>
-      <tr><td class="n-cell">5</td><td class="axe-cell">AX₃E₂</td><td>Bipiramidal trigonal</td><td class="name-cell">Forma de T</td><td class="angle-cell">~87.5°</td><td>ClF₃, BrF₃, ICl₃</td></tr>
-      <tr><td class="n-cell">5</td><td class="axe-cell">AX₂E₃</td><td>Bipiramidal trigonal</td><td class="name-cell">Lineal</td><td class="angle-cell">180°</td><td>XeF₂, I₃⁻, ICl₂⁻</td></tr>
-      <tr><td class="n-cell">6</td><td class="axe-cell">AX₆</td><td>Octaédrica</td><td class="name-cell">Octaédrica</td><td class="angle-cell">90°, 180°</td><td>SF₆, PF₆⁻, SiF₆²⁻</td></tr>
-      <tr><td class="n-cell">6</td><td class="axe-cell">AX₅E</td><td>Octaédrica</td><td class="name-cell">Piramidal cuadrada</td><td class="angle-cell">90° (real ~85°)</td><td>BrF₅, IF₅, XeOF₄</td></tr>
-      <tr><td class="n-cell">6</td><td class="axe-cell">AX₄E₂</td><td>Octaédrica</td><td class="name-cell">Cuadrada plana</td><td class="angle-cell">90°</td><td>XeF₄, [PtCl₄]²⁻</td></tr>
+      <tr><td class="n-cell">2</td><td class="axe-cell">AX₂</td><td>Lineal</td><td class="name-cell">Lineal</td><td class="angle-cell">180°</td><td class="hybrid-cell">$sp$</td><td>CO₂, BeCl₂, HCN</td></tr>
+      <tr><td class="n-cell">3</td><td class="axe-cell">AX₃</td><td>Trigonal plana</td><td class="name-cell">Trigonal plana</td><td class="angle-cell">120°</td><td class="hybrid-cell">$sp^2$</td><td>BF₃, SO₃, CO₃²⁻</td></tr>
+      <tr><td class="n-cell">3</td><td class="axe-cell">AX₂E</td><td>Trigonal plana</td><td class="name-cell">Angular (codos)</td><td class="angle-cell">~120° (real ~119°)</td><td class="hybrid-cell">$sp^2$</td><td>SO₂, O₃, NO₂⁻</td></tr>
+      <tr><td class="n-cell">4</td><td class="axe-cell">AX₄</td><td>Tetraédrica</td><td class="name-cell">Tetraédrica</td><td class="angle-cell">109.5°</td><td class="hybrid-cell">$sp^3$</td><td>CH₄, NH₄⁺, SO₄²⁻</td></tr>
+      <tr><td class="n-cell">4</td><td class="axe-cell">AX₃E</td><td>Tetraédrica</td><td class="name-cell">Piramidal trigonal</td><td class="angle-cell">109.5° (real ~107°)</td><td class="hybrid-cell">$sp^3$</td><td>NH₃, PCl₃, H₃O⁺</td></tr>
+      <tr><td class="n-cell">4</td><td class="axe-cell">AX₂E₂</td><td>Tetraédrica</td><td class="name-cell">Angular (codos)</td><td class="angle-cell">109.5° (real ~104.5°)</td><td class="hybrid-cell">$sp^3$</td><td>H₂O, H₂S, OF₂</td></tr>
+      <tr><td class="n-cell">5</td><td class="axe-cell">AX₅</td><td>Bipiramidal trigonal</td><td class="name-cell">Bipiramidal trigonal</td><td class="angle-cell">90°, 120°, 180°</td><td class="hybrid-cell">$sp^3d$*</td><td>PCl₅, PF₅, AsF₅</td></tr>
+      <tr><td class="n-cell">5</td><td class="axe-cell">AX₄E</td><td>Bipiramidal trigonal</td><td class="name-cell">Balancín (seesaw)</td><td class="angle-cell">~87° axial, ~102° ecuatorial</td><td class="hybrid-cell">$sp^3d$*</td><td>SF₄, SeF₄, TeCl₄</td></tr>
+      <tr><td class="n-cell">5</td><td class="axe-cell">AX₃E₂</td><td>Bipiramidal trigonal</td><td class="name-cell">Forma de T</td><td class="angle-cell">~87.5°</td><td class="hybrid-cell">$sp^3d$*</td><td>ClF₃, BrF₃, ICl₃</td></tr>
+      <tr><td class="n-cell">5</td><td class="axe-cell">AX₂E₃</td><td>Bipiramidal trigonal</td><td class="name-cell">Lineal</td><td class="angle-cell">180°</td><td class="hybrid-cell">$sp^3d$*</td><td>XeF₂, I₃⁻, ICl₂⁻</td></tr>
+      <tr><td class="n-cell">6</td><td class="axe-cell">AX₆</td><td>Octaédrica</td><td class="name-cell">Octaédrica</td><td class="angle-cell">90°, 180°</td><td class="hybrid-cell">$sp^3d^2$*</td><td>SF₆, PF₆⁻, SiF₆²⁻</td></tr>
+      <tr><td class="n-cell">6</td><td class="axe-cell">AX₅E</td><td>Octaédrica</td><td class="name-cell">Piramidal cuadrada</td><td class="angle-cell">90° (real ~85°)</td><td class="hybrid-cell">$sp^3d^2$*</td><td>BrF₅, IF₅, XeOF₄</td></tr>
+      <tr><td class="n-cell">6</td><td class="axe-cell">AX₄E₂</td><td>Octaédrica</td><td class="name-cell">Cuadrada plana</td><td class="angle-cell">90°</td><td class="hybrid-cell">$sp^3d^2$*</td><td>XeF₄, [PtCl₄]²⁻</td></tr>
     </tbody>
   </table>
 
+  <p style="font-size:0.88em; color:#666; font-style:italic;">* La hibridación con orbitales $d$ ($sp^3d$, $sp^3d^2$) es la visión clásica, útil pedagógicamente pero discutida en la actualidad. Ver el aviso de la sección 2.3.</p>
+
   <div class="sm-box">
-    <strong>Regla mnemotécnica.</strong> La <em>geometría de los dominios</em> (todos los pares, X y E) depende solo del número estérico $n$: 2 → lineal, 3 → trigonal plana, 4 → tetraédrica, 5 → bipiramidal trigonal, 6 → octaédrica. La <em>geometría molecular</em> (solo los átomos X) depende de $n$ <strong>y</strong> de $e$. Cuando $e = 0$, ambas coinciden. Cuando $e > 0$, la geometría molecular es una versión "recortada" de la de los dominios.
+    <strong>Regla mnemotécnica.</strong> La <em>geometría de los dominios</em> (todos los pares, X y E) depende solo del número estérico $n$: 2 → lineal, 3 → trigonal plana, 4 → tetraédrica, 5 → bipiramidal trigonal, 6 → octaédrica. La <em>geometría molecular</em> (solo los átomos X) depende de $n$ <strong>y</strong> de $e$. Cuando $e = 0$, ambas coinciden. Cuando $e > 0$, la geometría molecular es una versión "recortada" de la de los dominios. Y la hibridación depende solo de $n$ (sección 2.3).
   </div>
 
   <!-- ============================================ -->
@@ -541,6 +1159,10 @@
     <div class="caption">
       <strong>Epígrafe.</strong> Ángulo de enlace real en moléculas tetraédricas (n = 4) con distinto número de pares solitarios. Los datos son valores experimentales típicos: CH₄ (109.5°), NH₃ (107.0°), H₂O (104.5°). La tendencia es clara: más pares solitarios, mayor compresión del ángulo.
     </div>
+  </div>
+
+  <div class="sm-box">
+    <strong>¿Por qué comprimen los pares solitarios?</strong> La explicación orbital está en la <a href="#s2-3" style="color:var(--link);">sección 2.3</a>. En resumen: los LP ocupan orbitales híbridos (como los enlaces) pero, al no compartirse con un ligando, ocupan más espacio angular y empujan a los híbridos vecinos.
   </div>
 
   <h3>5.1 Otras geometrías con compresión</h3>
@@ -655,7 +1277,7 @@
   </table>
 
   <div class="sm-box">
-    <strong>Moléculas con hipervalencia.</strong> Los ejemplos con $n = 5$ y $n = 6$ (PCl₅, SF₆, XeF₄, BrF₅) involucran elementos del tercer período o posteriores (P, S, Br, Xe), que pueden acomodar más de 8 electrones en su capa de valencia. El C, N y O (segundo período) no forman este tipo de compuestos porque no tienen orbitales $d$ disponibles (o, más precisamente, porque su energía es demasiado alta). VSEPR, en su versión moderna, no necesita orbitales $d$: los pares solitarios y los enlaces son los que definen la geometría, independientemente de la configuración electrónica formal.
+    <strong>Moléculas con hipervalencia.</strong> Los ejemplos con $n = 5$ y $n = 6$ (PCl₅, SF₆, XeF₄, BrF₅) involucran elementos del tercer período o posteriores (P, S, Br, Xe), que pueden acomodar más de 8 electrones en su capa de valencia. El C, N y O (segundo período) no forman este tipo de compuestos. VSEPR predice sus geometrías sin necesidad de orbitales $d$; la hibridación $sp^3d$/$sp^3d^2$ es la visión clásica, discutida en la actualidad (ver sección 2.3).
   </div>
 
   <!-- ============================================ -->
@@ -681,6 +1303,10 @@
 
   <p>La VSEPR funciona mejor para moléculas de elementos de los grupos principales (s y p). Para complejos de metales de transición, la teoría del campo cristalino y la teoría de orbitales moleculares son más adecuadas. Por ejemplo, la geometría cuadrada plana del [PtCl₄]²⁻ no se predice bien con VSEPR (que daría tetraédrica), sino que se explica por la configuración electrónica del Pt(II) ($d^8$).</p>
 
+  <h3>8.5 La hibridación como modelo</h3>
+
+  <p>La hibridación (sección 2.3) es un modelo matemático útil, no una descripción literal. Para moléculas hipervalentes, la participación de orbitales $d$ está discutida: la visión moderna usa enlaces 3-centro-4-electrón en lugar de $sp^3d$/$sp^3d^2$. Sin embargo, para predecir geometrías y para la mayoría de moléculas de los grupos principales, la hibridación sigue siendo una herramienta pedagógica invaluable.</p>
+
   <div class="warn-box">
     <strong>Cuándo NO usar VSEPR.</strong>
     <ul style="margin: 6px 0 0 0;">
@@ -699,62 +1325,84 @@
   <h2 id="s9">9. Ejercicios para pensar</h2>
 
   <div class="exercise-box">
-    <h4>Ejercicio 1 — Predecir geometrías</h4>
-    <p>Para cada molécula, determiná el número estérico, la notación AXE, la geometría molecular y el ángulo aproximado: (a) SiH₄, (b) PH₃, (c) H₂S, (d) CS₂, (e) BCl₃.</p>
-    <div class="hint"><strong>Pista:</strong> contá los enlaces (cada enlace, simple o múltiple, es un dominio) y los pares solitarios del átomo central.</div>
+    <h4>Ejercicio 1 — Contar pares solitarios con el atajo</h4>
+    <p>Usando el método rápido $e = (V-m)/2$, calculá los pares solitarios del átomo central en: (a) SiH₄, (b) PH₃, (c) H₂S, (d) BF₃, (e) XeF₂. Indicá también la notación AXE y la geometría.</p>
+    <div class="hint"><strong>Pista:</strong> identificá el átomo central, su grupo (V), y contá los enlaces simples (m). Todos estos casos tienen enlaces simples, así que el atajo funciona.</div>
     <button class="solution-toggle" onclick="toggleSolution(this)">Mostrar solución</button>
     <div class="solution-content">
       <ul>
-        <li><strong>(a) SiH₄:</strong> Si forma 4 enlaces con H, sin pares solitarios. $n = 4$, AX₄. <strong>Tetraédrica, 109.5°</strong>.</li>
-        <li><strong>(b) PH₃:</strong> P forma 3 enlaces con H y tiene 1 par solitario (config. $3s^2 3p^3$: 5 electrones de valencia, 3 en enlaces + 2 en un par solitario). $n = 4$, AX₃E. <strong>Piramidal trigonal, ~93°</strong> (el ángulo real es menor que el de NH₃ porque el P es más grande y el par solitario está más difuso).</li>
-        <li><strong>(c) H₂S:</strong> S forma 2 enlaces y tiene 2 pares solitarios. $n = 4$, AX₂E₂. <strong>Angular, ~92°</strong> (menor que H₂O por la misma razón: S es más grande, el par solitario está más difuso).</li>
-        <li><strong>(d) CS₂:</strong> C forma 2 enlaces dobles con S, sin pares solitarios. $n = 2$, AX₂. <strong>Lineal, 180°</strong>.</li>
-        <li><strong>(e) BCl₃:</strong> B forma 3 enlaces con Cl, sin pares solitarios (el B tiene solo 3 electrones de valencia). $n = 3$, AX₃. <strong>Trigonal plana, 120°</strong>.</li>
+        <li><strong>(a) SiH₄:</strong> Si ($V=4$), $m=4$ → $e=0$. AX₄, <strong>tetraédrica</strong>.</li>
+        <li><strong>(b) PH₃:</strong> P ($V=5$), $m=3$ → $e=1$. AX₃E, <strong>piramidal trigonal</strong>.</li>
+        <li><strong>(c) H₂S:</strong> S ($V=6$), $m=2$ → $e=2$. AX₂E₂, <strong>angular</strong>.</li>
+        <li><strong>(d) BF₃:</strong> B ($V=3$), $m=3$ → $e=0$. AX₃, <strong>trigonal plana</strong>.</li>
+        <li><strong>(e) XeF₂:</strong> Xe ($V=8$), $m=2$ → $e=3$. AX₂E₃, <strong>lineal</strong>.</li>
       </ul>
+      <p>Todos los casos tienen enlaces simples y central neutro, así que el atajo $(V-m)/2$ es válido.</p>
     </div>
   </div>
 
   <div class="exercise-box">
-    <h4>Ejercicio 2 — ¿Por qué el agua es angular y el CO₂ lineal?</h4>
-    <p>Ambas moléculas tienen tres átomos. Sin embargo, H₂O es angular (104.5°) y CO₂ es lineal (180°). Explicá la diferencia usando VSEPR.</p>
-    <div class="hint"><strong>Pista:</strong> contá los dominios alrededor del átomo central en cada caso. ¿Cuántos son enlaces y cuántos pares solitarios?</div>
+    <h4>Ejercicio 2 — Cuando el atajo falla: CO₂</h4>
+    <p>La molécula de CO₂ tiene dos enlaces dobles. Aplicá el atajo $(V-m)/2$ con $m=2$ y mostrá que da un resultado incorrecto. Después, hacé Lewis paso a paso y encontrá el número correcto de pares solitarios en el carbono.</p>
+    <div class="hint"><strong>Pista:</strong> el carbono tiene $V=4$ electrones de valencia. Cada doble enlace aporta 4 e⁻ al central. Contá los electrones de enlace totales (B) y usá la fórmula general $e = (2V-B)/4$.</div>
     <button class="solution-toggle" onclick="toggleSolution(this)">Mostrar solución</button>
     <div class="solution-content">
-      <p>En el <strong>CO₂</strong>, el carbono forma dos enlaces dobles con los oxígenos y no tiene pares solitarios. $n = 2$, AX₂. La geometría de dos dominios es lineal, y como ambos son enlaces, la molécula es lineal (180°).</p>
-      <p>En el <strong>H₂O</strong>, el oxígeno forma dos enlaces con los hidrógenos y tiene dos pares solitarios. $n = 4$, AX₂E₂. La geometría de los dominios es tetraédrica, pero solo dos de los cuatro dominios son enlaces. La geometría molecular (la que forman los átomos) es angular, con un ángulo comprimido por los pares solitarios (~104.5°).</p>
+      <p><strong>Atajo (incorrecto):</strong> $e = (V-m)/2 = (4-2)/2 = 1$. Pero el carbono <strong>no tiene</strong> ningún par solitario. El atajo falla porque hay enlaces dobles.</p>
+      <p><strong>Fórmula general (correcta):</strong> $B = 8$ e⁻ en enlaces (dos dobles = 4+4). $e = (2 \cdot 4 - 8)/4 = 0$. ✓</p>
+      <p><strong>Lewis:</strong> 16 e⁻ totales. O=C=O. El C tiene 2 enlaces dobles y 0 LP. Geometría AX₂ → <strong>lineal</strong>.</p>
+      <p>Moraleja: cuando hay enlaces múltiples, el atajo $(V-m)/2$ <strong>no funciona</strong>. Hay que contar los electrones compartidos o hacer Lewis.</p>
+    </div>
+  </div>
+
+  <div class="exercise-box">
+    <h4>Ejercicio 3 — ¿Por qué el agua es angular y el CO₂ lineal?</h4>
+    <p>Ambas moléculas tienen tres átomos. Sin embargo, H₂O es angular (104.5°) y CO₂ es lineal (180°). Explicá la diferencia usando VSEPR y el conteo de pares solitarios.</p>
+    <div class="hint"><strong>Pista:</strong> contá los dominios alrededor del átomo central en cada caso. ¿Cuántos son enlaces y cuántos pares solitarios? Usá el método de conteo de la sección 2.2.</div>
+    <button class="solution-toggle" onclick="toggleSolution(this)">Mostrar solución</button>
+    <div class="solution-content">
+      <p>En el <strong>CO₂</strong>, el carbono forma dos enlaces dobles con los oxígenos y no tiene pares solitarios. Usando la fórmula general: $B=8$, $V=4$ → $e=0$. $n = 2$, AX₂. La geometría de dos dominios es lineal, y como ambos son enlaces, la molécula es lineal (180°).</p>
+      <p>En el <strong>H₂O</strong>, el oxígeno forma dos enlaces con los hidrógenos y tiene dos pares solitarios. Usando el atajo: $V=6$, $m=2$ → $e=2$. $n = 4$, AX₂E₂. La geometría de los dominios es tetraédrica, pero solo dos de los cuatro dominios son enlaces. La geometría molecular (la que forman los átomos) es angular, con un ángulo comprimido por los pares solitarios (~104.5°).</p>
       <p>La diferencia clave es que el O tiene dos pares solitarios y el C no tiene ninguno. El número estérico es distinto (4 vs 2), y eso cambia la geometría de los dominios y, por lo tanto, la molecular.</p>
     </div>
   </div>
 
   <div class="exercise-box">
-    <h4>Ejercicio 3 — Un enlace triple</h4>
-    <p>La molécula de HCN tiene un enlace simple (H–C) y un enlace triple (C≡N). ¿Cuántos dominios hay alrededor del carbono? ¿Cuál es la geometría molecular y el ángulo H–C–N?</p>
-    <div class="hint"><strong>Pista:</strong> recordá que un enlace triple cuenta como <em>un solo</em> dominio.</div>
+    <h4>Ejercicio 4 — Un enlace triple</h4>
+    <p>La molécula de HCN tiene un enlace simple (H–C) y un enlace triple (C≡N). ¿Cuántos dominios hay alrededor del carbono? ¿Cuál es la geometría molecular y el ángulo H–C–N? ¿Cuántos pares solitarios tiene el carbono?</p>
+    <div class="hint"><strong>Pista:</strong> recordá que un enlace triple cuenta como <em>un solo</em> dominio, pero para contar LP hay que usar la fórmula general con $B$ = electrones en enlaces.</div>
     <button class="solution-toggle" onclick="toggleSolution(this)">Mostrar solución</button>
     <div class="solution-content">
-      <p>El carbono forma dos enlaces: uno simple con H y uno triple con N. Cada uno cuenta como un dominio. No hay pares solitarios. $n = 2$, AX₂. La geometría es <strong>lineal</strong>, con ángulo H–C–N = <strong>180°</strong>.</p>
+      <p>El carbono forma dos enlaces: uno simple con H y uno triple con N. Cada uno cuenta como un dominio. $n = 2$, AX₂. La geometría es <strong>lineal</strong>, con ángulo H–C–N = <strong>180°</strong>.</p>
+      <p><strong>Pares solitarios del C:</strong> $B = 2 + 6 = 8$ e⁻ (un simple = 2, un triple = 6). $V=4$. $e = (2 \cdot 4 - 8)/4 = 0$. El carbono no tiene pares solitarios.</p>
       <p>Aunque el enlace triple tiene más electrones, todos están concentrados en la misma región del espacio (a lo largo del eje C–N), así que cuentan como un solo dominio.</p>
     </div>
   </div>
 
   <div class="exercise-box">
-    <h4>Ejercicio 4 — La geometría del XeF₄</h4>
-    <p>El XeF₄ es una molécula de xenón con cuatro enlaces Xe–F. ¿Por qué es cuadrada plana y no tetraédrica? ¿Cuántos pares solitarios tiene el xenón?</p>
-    <div class="hint"><strong>Pista:</strong> el Xe tiene 8 electrones de valencia. Cuatro forman enlaces con F; ¿qué pasa con los otros cuatro?</div>
+    <h4>Ejercicio 5 — La geometría del XeF₄</h4>
+    <p>El XeF₄ es una molécula de xenón con cuatro enlaces Xe–F. ¿Por qué es cuadrada plana y no tetraédrica? ¿Cuántos pares solitarios tiene el xenón? Usá el método de conteo de la sección 2.2.</p>
+    <div class="hint"><strong>Pista:</strong> el Xe tiene 8 electrones de valencia. Cuatro forman enlaces con F; el resto, ¿qué pasa? Usá el atajo $(V-m)/2$ (enlaces simples).</div>
     <button class="solution-toggle" onclick="toggleSolution(this)">Mostrar solución</button>
     <div class="solution-content">
-      <p>El Xe tiene 8 electrones de valencia. Cuatro se usan en los cuatro enlaces con F. Los otros cuatro forman <strong>dos pares solitarios</strong>. $n = 4 + 2 = 6$. La geometría de los dominios es octaédrica.</p>
+      <p>El Xe tiene $V=8$ electrones de valencia. Forma $m=4$ enlaces simples con F. Usando el atajo: $e = (8-4)/2 = 2$ pares solitarios. $n = 4 + 2 = 6$. La geometría de los dominios es octaédrica.</p>
       <p>Los dos pares solitarios se ubican en posiciones <strong>opuestas</strong> (trans) del octaedro, donde se repelen menos. Los cuatro enlaces ocupan el plano ecuatorial, formando un cuadrado. Resultado: <strong>geometría cuadrada plana</strong>.</p>
       <p>Esta es la misma geometría que el [PtCl₄]²⁻, pero en ese caso la razón es distinta: el Pt(II) tiene configuración $d^8$ y la teoría del campo cristalino explica la planaridad cuadrada. VSEPR no lo predice bien porque el Pt es un metal de transición.</p>
     </div>
   </div>
 
   <div class="exercise-box">
-    <h4>Ejercicio 5 — Comparación de ángulos</h4>
+    <h4>Ejercicio 6 — Comparación de ángulos</h4>
     <p>Ordená de menor a mayor los ángulos de enlace de H₂O (104.5°), NH₃ (107°), CH₄ (109.5°) y OF₂ (~103°). Explicá el orden usando VSEPR y la electronegatividad.</p>
-    <div class="hint"><strong>Pista:</strong> los pares solitarios comprimen; los ligandos electronegativos también reducen la compresión.</div>
+    <div class="hint"><strong>Pista:</strong> los pares solitarios comprimen; los ligandos electronegativos también reducen la compresión. Contá primero los LP de cada central con el método de la sección 2.2.</div>
     <button class="solution-toggle" onclick="toggleSolution(this)">Mostrar solución</button>
     <div class="solution-content">
+      <p>Primero, los LP de cada central:</p>
+      <ul>
+        <li><strong>CH₄:</strong> $V=4$, $m=4$ → $e=0$.</li>
+        <li><strong>NH₃:</strong> $V=5$, $m=3$ → $e=1$.</li>
+        <li><strong>H₂O:</strong> $V=6$, $m=2$ → $e=2$.</li>
+        <li><strong>OF₂:</strong> $V=6$, $m=2$ → $e=2$ (mismo que H₂O).</li>
+      </ul>
       <p>Orden: <strong>OF₂ (~103°) < H₂O (104.5°) < NH₃ (107°) < CH₄ (109.5°)</strong>.</p>
       <ul>
         <li><strong>CH₄</strong> no tiene pares solitarios: el ángulo es el ideal tetraédrico (109.5°).</li>
@@ -767,37 +1415,57 @@
   </div>
 
   <div class="exercise-box">
-    <h4>Ejercicio 6 — Molécula con dos enlaces y un par solitario</h4>
-    <p>La molécula de SO₂ tiene dos enlaces (que pueden considerarse uno doble y uno simple por resonancia) y un par solitario en el azufre. ¿Cuál es su geometría molecular? ¿Por qué el ángulo S–O–S es ~119° y no 120°?</p>
-    <div class="hint"><strong>Pista:</strong> $n = 3$, AX₂E. La geometría de los dominios es trigonal plana, pero solo dos son enlaces.</div>
+    <h4>Ejercicio 7 — Molécula con dos enlaces y un par solitario</h4>
+    <p>La molécula de SO₂ tiene dos enlaces (que pueden considerarse uno doble y uno simple por resonancia) y un par solitario en el azufre. ¿Cuál es su geometría molecular? ¿Por qué el ángulo S–O–S es ~119° y no 120°? ¿Por qué <em>no</em> funciona el atajo $(V-m)/2$ aquí?</p>
+    <div class="hint"><strong>Pista:</strong> $n = 3$, AX₂E. La geometría de los dominios es trigonal plana, pero solo dos son enlaces. El atajo falla porque hay un enlace doble.</div>
     <button class="solution-toggle" onclick="toggleSolution(this)">Mostrar solución</button>
     <div class="solution-content">
       <p>$n = 2 + 1 = 3$. La notación es AX₂E. La geometría de los dominios es trigonal plana (120°), pero como uno de los tres dominios es un par solitario, la geometría molecular (la que forman los dos O y el S) es <strong>angular</strong>.</p>
+      <p><strong>Por qué falla el atajo:</strong> si aplicáramos $(V-m)/2 = (6-2)/2 = 2$, obtendríamos 2 LP, que es incorrecto (el S tiene solo 1). El atajo falla porque hay un enlace doble (el S=O), y en ese caso hay que contar los electrones compartidos correctamente. Con Lewis (sección 2.2) se obtiene $e=1$.</p>
       <p>El par solitario comprime el ángulo de 120° a ~119°. La compresión es pequeña porque el azufre es grande y el par solitario está más difuso. En el O₃ (ozono), que también es AX₂E, el ángulo es ~117°, ligeramente más comprimido porque el oxígeno central es más pequeño.</p>
     </div>
   </div>
 
   <div class="exercise-box">
-    <h4>Ejercicio 7 — Del átomo central al número estérico</h4>
-    <p>La molécula de PCl₅ tiene fósforo como átomo central y 5 enlaces P–Cl. ¿Cuántos electrones de valencia tiene el fósforo? ¿Todos forman enlaces? ¿Cuál es la geometría?</p>
-    <div class="hint"><strong>Pista:</strong> el P está en el grupo 15, con configuración $3s^2 3p^3$ (5 electrones de valencia).</div>
+    <h4>Ejercicio 8 — Del átomo central al número estérico</h4>
+    <p>La molécula de PCl₅ tiene fósforo como átomo central y 5 enlaces P–Cl. ¿Cuántos electrones de valencia tiene el fósforo? ¿Todos forman enlaces? ¿Cuál es la geometría? ¿Cuántos pares solitarios tiene?</p>
+    <div class="hint"><strong>Pista:</strong> el P está en el grupo 15, con configuración $3s^2 3p^3$ (5 electrones de valencia). Usá el atajo $(V-m)/2$.</div>
     <button class="solution-toggle" onclick="toggleSolution(this)">Mostrar solución</button>
     <div class="solution-content">
-      <p>El fósforo tiene 5 electrones de valencia. En el PCl₅, los 5 forman enlaces con los 5 cloros. No hay pares solitarios. $n = 5$, AX₅.</p>
+      <p>El fósforo tiene $V=5$ electrones de valencia. En el PCl₅, los 5 forman enlaces simples con los 5 cloros. $m=5$. Usando el atajo: $e = (5-5)/2 = 0$. No hay pares solitarios. $n = 5$, AX₅.</p>
       <p>La geometría de los dominios es <strong>bipiramidal trigonal</strong>. Tres cloros están en el plano ecuatorial (ángulos de 120° entre sí) y dos en posiciones axiales (perpendiculares al plano, 180° entre ellos, 90° con los ecuatoriales). Es la única geometría de VSEPR donde los ligandos no son todos equivalentes.</p>
       <p>Esta hipervalencia es posible porque el P está en el tercer período y puede acomodar más de 8 electrones en su capa de valencia.</p>
     </div>
   </div>
 
   <div class="exercise-box">
-    <h4>Ejercicio 8 — El caso del XeF₂</h4>
-    <p>El XeF₂ es lineal (180°), aunque el xenón tiene 3 pares solitarios. ¿Por qué los pares solitarios no comprimen el ángulo?</p>
+    <h4>Ejercicio 9 — El caso del XeF₂</h4>
+    <p>El XeF₂ es lineal (180°), aunque el xenón tiene 3 pares solitarios. ¿Por qué los pares solitarios no comprimen el ángulo? Verificá primero el número de LP con el atajo.</p>
     <div class="hint"><strong>Pista:</strong> pensá en la geometría de los dominios (bipiramidal trigonal). ¿Dónde se ubican los pares solitarios para minimizar la repulsión?</div>
     <button class="solution-toggle" onclick="toggleSolution(this)">Mostrar solución</button>
     <div class="solution-content">
-      <p>El Xe tiene 8 electrones de valencia. Dos forman enlaces con F, y los otros seis forman <strong>tres pares solitarios</strong>. $n = 2 + 3 = 5$. La geometría de los dominios es bipiramidal trigonal.</p>
+      <p>El Xe tiene $V=8$ electrones de valencia. Dos forman enlaces simples con F ($m=2$). Atajo: $e = (8-2)/2 = 3$ pares solitarios. $n = 2 + 3 = 5$. La geometría de los dominios es bipiramidal trigonal.</p>
       <p>Los tres pares solitarios se ubican en el plano <strong>ecuatorial</strong>, donde están a 120° entre sí, minimizando la repulsión LP–LP. Los dos enlaces ocupan las posiciones <strong>axiales</strong>, que quedan a 90° de cada par solitario pero a 180° entre sí.</p>
       <p>Como los enlaces están en el eje axial y los pares solitarios en el ecuatorial, no hay compresión del ángulo F–Xe–F: el ángulo sigue siendo 180°. La molécula es lineal.</p>
+    </div>
+  </div>
+
+  <div class="exercise-box">
+    <h4>Ejercicio 10 — Configuración electrónica e hibridación</h4>
+    <p>Para cada molécula, determiná: (i) la configuración electrónica del átomo central, (ii) su $V$, (iii) el número estérico $n$, (iv) la hibridación, (v) la geometría. Moléculas: (a) CH₄, (b) NH₃, (c) H₂O, (d) BF₃, (e) PCl₅, (f) SF₆.</p>
+    <div class="hint"><strong>Pista:</strong> usá las tablas de las secciones 2.2 y 2.3. Para (e) y (f), recordá el aviso sobre la hipervalencia.</div>
+    <button class="solution-toggle" onclick="toggleSolution(this)">Mostrar solución</button>
+    <div class="solution-content">
+      <ul>
+        <li><strong>(a) CH₄:</strong> C $2s^2\,2p^2$ → $V=4$; $m=4$, $e=0$ → $n=4$; <strong>$sp^3$</strong>; <strong>tetraédrica</strong>.</li>
+        <li><strong>(b) NH₃:</strong> N $2s^2\,2p^3$ → $V=5$; $m=3$, $e=1$ → $n=4$; <strong>$sp^3$</strong>; <strong>piramidal trigonal</strong>.</li>
+        <li><strong>(c) H₂O:</strong> O $2s^2\,2p^4$ → $V=6$; $m=2$, $e=2$ → $n=4$; <strong>$sp^3$</strong>; <strong>angular</strong>.</li>
+        <li><strong>(d) BF₃:</strong> B $2s^2\,2p^1$ → $V=3$; $m=3$, $e=0$ → $n=3$; <strong>$sp^2$</strong>; <strong>trigonal plana</strong>.</li>
+        <li><strong>(e) PCl₅:</strong> P $3s^2\,3p^3$ → $V=5$; $m=5$, $e=0$ → $n=5$; <strong>$sp^3d$</strong> (visión clásica); <strong>bipiramidal trigonal</strong>.</li>
+        <li><strong>(f) SF₆:</strong> S $3s^2\,3p^4$ → $V=6$; $m=6$, $e=0$ → $n=6$; <strong>$sp^3d^2$</strong> (visión clásica); <strong>octaédrica</strong>.</li>
+      </ul>
+      <p><strong>Conexión con VSEPR:</strong> el número estérico $n$ determina <em>simultáneamente</em> la hibridación y la geometría de los dominios, porque los híbridos $sp^{n-1}$ apuntan en las mismas direcciones que VSEPR predice por repulsión de pares. Las dos descripciones coinciden.</p>
+      <p><strong>Para (e) y (f):</strong> la hibridación $sp^3d$ y $sp^3d^2$ es la visión clásica. La visión moderna cuestiona la participación de orbitales $d$ (están demasiado altos en energía) y prefiere describir la hipervalencia con enlaces 3-centro-4-electrón. Pero VSEPR predice las geometrías correctamente sin necesidad de orbitales $d$: la geometría depende de la repulsión de pares, no de la hibridación.</p>
     </div>
   </div>
 
@@ -806,20 +1474,28 @@
 
   <p>La teoría VSEPR es una de esas ideas simples que funcionan sorprendentemente bien. No requiere resolver la ecuación de Schrödinger ni conocer los orbitales moleculares: basta con contar dominios de electrones y aplicar una tabla de geometrías. Y acierta en la gran mayoría de los casos.</p>
 
-  <p>Los tres conceptos clave que hay que llevarse:</p>
+  <p>Los conceptos clave que hay que llevarse:</p>
 
   <ol>
     <li><strong>Los dominios de electrones se repelen.</strong> Cada enlace (simple, doble o triple) y cada par solitario cuentan como un dominio. La geometría molecular es la distribución espacial de esos dominios.</li>
     <li><strong>La repulsión tiene un orden.</strong> LP–LP > LP–BP > BP–BP. Los pares solitarios comprimen los ángulos; los enlaces no.</li>
     <li><strong>La geometría molecular no siempre coincide con la de los dominios.</strong> Cuando hay pares solitarios, la molécula "pierde" átomos y su forma cambia (de tetraédrica a piramidal, de tetraédrica a angular, de octaédrica a cuadrada plana, etc.).</li>
+    <li><strong>Para aplicar todo esto, primero hay que saber cuántos pares solitarios tiene el átomo central.</strong> El atajo $e = (V-m)/2$ resuelve el caso simple (enlaces simples, central neutro); para enlaces múltiples, iones y radicales, hay que hacer Lewis.</li>
+    <li><strong>La hibridación explica el porqué orbital.</strong> El número estérico $n$ determina no solo la geometría sino también qué orbitales híbridos ($sp$, $sp^2$, $sp^3$, ...) usa el átomo central. Los pares solitarios ocupan híbridos igual que los enlaces, y por eso son direccionales y comprimen los ángulos. Es el puente entre VSEPR y la química cuántica.</li>
   </ol>
 
-  <p>Con estas tres reglas, se pueden predecir las geometrías de la gran mayoría de las moléculas de los grupos principales. La tabla de la sección 4 resume todo. Y la Figura 1 permite visualizarlo en 3D.</p>
+  <p>La cadena completa, que ahora podés recorrer de punta a punta:</p>
+
+  <div class="math-box" style="text-align:center; font-size:1.05em;">
+    $$ \text{Configuración electrónica} \;\to\; V \;\to\; e \;\to\; n \;\to\; \text{hibridación} \;\to\; \text{geometría} $$
+  </div>
+
+  <p>Con estas reglas, se pueden predecir las geometrías de la gran mayoría de las moléculas de los grupos principales. La tabla de la sección 4 resume todo. Y la Figura 1 permite visualizarlo en 3D.</p>
 
   <p>Como cualquier modelo, la VSEPR tiene límites (sección 8): falla en complejos de metales de transición, en moléculas con fuerte resonancia o en casos donde los efectos electrónicos finos dominan. Pero para lo que fue diseñada —predecir la forma de moléculas de los grupos principales— es insuperable en simplicidad y efectividad.</p>
 
   <div class="sm-box">
-    <strong>Una conexión con el resto del curso.</strong> La VSEPR es el paso previo a la teoría de orbitales moleculares (TOM). La VSEPR predice la <em>geometría</em> (dónde están los átomos), pero no explica <em>por qué</em> los electrones se distribuyen así. Para eso hace falta la TOM, que describe los enlaces como combinaciones lineales de orbitales atómicos. La VSEPR es la "forma"; la TOM es el "porqué". Juntas dan una imagen completa.
+    <strong>Una conexión con el resto del curso.</strong> La VSEPR es el paso previo a la teoría de orbitales moleculares (TOM). La VSEPR predice la <em>geometría</em> (dónde están los átomos), y la hibridación explica <em>por qué</em> esa geometría (los híbridos apuntan en las direcciones correctas). Para una descripción cuántica completa de los enlaces, hace falta la TOM, que describe los electrones como orbitales moleculares deslocalizados. Las tres descripciones son complementarias: VSEPR es la "forma", la hibridación es el "porqué local", y la TOM es el "porqué cuántico completo". Juntas dan una imagen completa.
   </div>
 
 </div>
@@ -837,6 +1513,47 @@ function toggleSolution(btn) {
   }
 }
 window.toggleSolution = toggleSolution;
+
+// ============================================================
+// CALCULADORA DE PARES SOLITARIOS
+// ============================================================
+function updateLonePairCalculator() {
+  const V = parseInt(document.getElementById('lp-element').value);
+  const m = parseInt(document.getElementById('lp-bonds').value);
+  document.getElementById('lp-bonds-val').innerText = m;
+
+  const diff = V - m;
+  const resultBox = document.getElementById('lp-result');
+
+  if (diff < 0) {
+    resultBox.className = 'lp-calc-result warn';
+    resultBox.innerHTML =
+      `<div class="lp-calc-formula">e = (V − m) / 2 = (${V} − ${m}) / 2 = <strong style="color:#c0392b;">no aplicable</strong></div>
+       <div class="lp-calc-note">El átomo central no tiene suficientes electrones de valencia para formar ${m} enlaces simples sin cargas formales. Revisá el número de enlaces (o hacé Lewis completo).</div>`;
+    return;
+  }
+
+  if (diff % 2 !== 0) {
+    resultBox.className = 'lp-calc-result warn';
+    resultBox.innerHTML =
+      `<div class="lp-calc-formula">e = (V − m) / 2 = (${V} − ${m}) / 2 = ${diff}/2</div>
+       <div class="lp-calc-note">El resultado <strong>no es entero</strong>. Eso significa que el atajo no aplica: hay un radical, una carga formal, o un enlace múltiple que estás ignorando. Hacé Lewis completo (sección 2.2).</div>`;
+    return;
+  }
+
+  const e = diff / 2;
+  resultBox.className = 'lp-calc-result';
+  resultBox.innerHTML =
+    `<div class="lp-calc-formula">
+       e = (V − m) / 2 = (${V} − ${m}) / 2 = ${diff}/2 =
+       <span class="lp-calc-lp">${e}</span> par${e === 1 ? '' : 'es'} solitario${e === 1 ? '' : 's'}
+     </div>
+     <div class="lp-calc-note">
+       Notación AXE: <strong>AX<sub>${m}</sub>E<sub>${e}</sub></strong> &nbsp;·&nbsp;
+       Número estérico: <strong>n = ${m + e}</strong>
+       ${e === 0 ? '&nbsp;·&nbsp; Geometría molecular = geometría de dominios.' : '&nbsp;·&nbsp; La geometría molecular es una versión "recortada" de la de dominios.'}
+     </div>`;
+}
 
 // ============================================================
 // DATOS VSEPR
@@ -973,7 +1690,6 @@ let currentLone = 0;
 function drawVSEPRPlot(config) {
   const traces = [];
 
-  // Átomo central
   traces.push({
     x: [0], y: [0], z: [0],
     type: 'scatter3d',
@@ -989,7 +1705,6 @@ function drawVSEPRPlot(config) {
     hoverinfo: 'skip'
   });
 
-  // Líneas de enlace (A → X)
   config.bonds.forEach(pos => {
     traces.push({
       x: [0, pos[0]], y: [0, pos[1]], z: [0, pos[2]],
@@ -1001,7 +1716,6 @@ function drawVSEPRPlot(config) {
     });
   });
 
-  // Átomos X
   if (config.bonds.length > 0) {
     traces.push({
       x: config.bonds.map(p => p[0]),
@@ -1021,7 +1735,6 @@ function drawVSEPRPlot(config) {
     });
   }
 
-  // Líneas de par solitario (A → E)
   config.lone.forEach(pos => {
     traces.push({
       x: [0, pos[0]], y: [0, pos[1]], z: [0, pos[2]],
@@ -1033,7 +1746,6 @@ function drawVSEPRPlot(config) {
     });
   });
 
-  // Pares solitarios E
   if (config.lone.length > 0) {
     traces.push({
       x: config.lone.map(p => p[0]),
@@ -1106,12 +1818,10 @@ function updateAll() {
   const maxLone = Math.max(0, currentSteric - 2);
   if (currentLone > maxLone) currentLone = maxLone;
 
-  // Botones de steric
   document.querySelectorAll('#steric-buttons button').forEach(b => {
     b.classList.toggle('active', parseInt(b.dataset.steric) === currentSteric);
   });
 
-  // Botones de lone
   document.querySelectorAll('#lone-buttons button').forEach(b => {
     const l = parseInt(b.dataset.lone);
     b.disabled = l > maxLone;
@@ -1227,6 +1937,9 @@ function attachHandlers() {
     });
   });
 
+  document.getElementById('lp-element').addEventListener('change', updateLonePairCalculator);
+  document.getElementById('lp-bonds').addEventListener('input', updateLonePairCalculator);
+
   window.addEventListener('resize', () => {
     if (typeof Plotly !== 'undefined') {
       ['plot_vsepr', 'plot_compression'].forEach(id => {
@@ -1243,6 +1956,7 @@ function initAll() {
   }
   updateAll();
   drawCompression();
+  updateLonePairCalculator();
   attachHandlers();
 }
 
