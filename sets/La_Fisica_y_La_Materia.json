@@ -452,8 +452,8 @@
     },
     {
       "id": 25,
-      "elo": 1000,
       "tema": "Física nuclear",
+      "elo": 1000,
       "q": "El modelo de la gota líquida del núcleo describe:",
       "opts": [
         "Niveles individuales de los nucleones y números mágicos",
@@ -461,11 +461,15 @@
         "Núcleo como gota incompresible y fórmula de Weizsäcker",
         "Fuerzas débiles entre nucleones y desintegración beta"
       ],
-      "a": 2,
       "sol": "El modelo de la gota líquida describe el núcleo como una gota de líquido incompresible, donde los nucleones interactúan fuertemente con sus vecinos más cercanos. La energía de enlace se expresa mediante la fórmula semiempírica de Weizsäcker, que incluye términos de volumen, superficie, Coulomb, asimetría y apareamiento.",
+      "a": 2,
       "teoria": {
         "titulo": "Modelo de la gota líquida",
         "texto": "El modelo de la gota líquida, propuesto por Niels Bohr en 1936, describe el núcleo atómico como una gota de líquido incompresible, en la que los nucleones interactúan fuertemente con sus vecinos más cercanos, de manera análoga a las moléculas de un líquido. Este modelo permite entender muchas propiedades globales de los núcleos, como la energía de enlace y la fisión.\n\nLa energía de enlace se expresa mediante la fórmula semiempírica de Weizsäcker:\n\n$$B(A,Z) = a_V A - a_S A^{2/3} - a_C \\frac{Z^2}{A^{1/3}} - a_A \\frac{(A-2Z)^2}{A} + \\delta(A,Z)$$\n\nLos términos son:\n\n- $a_V A$: término de volumen, proporcional al número de nucleones. Refleja la saturación de la fuerza nuclear: cada nucleón en el interior contribuye con una energía constante.\n\n- $-a_S A^{2/3}$: término de superficie, que resta energía porque los nucleones en la superficie tienen menos vecinos y están menos ligados.\n\n- $-a_C Z^2/A^{1/3}$: término de Coulomb, que resta energía debido a la repulsión entre protones.\n\n- $-a_A (A-2Z)^2/A$: término de asimetría, que penaliza las diferencias entre $N$ y $Z$.\n\n- $\\delta(A,Z)$: término de apareamiento, que favorece el apareamiento de nucleones del mismo tipo.\n\nEl modelo de la gota líquida explica cualitativamente la fisión nuclear: cuando la gota se deforma, la repulsión de Coulomb puede vencer la tensión superficial y dividir la gota en dos gotas más pequeñas."
+      },
+      "link": {
+        "url": "interactivos/modelos-nucleares.html",
+        "texto": "🔗 Abrir recurso"
       }
     },
     {
@@ -1708,8 +1712,8 @@
     },
     {
       "id": 93,
-      "elo": 660,
       "tema": "Química cuántica",
+      "elo": 660,
       "q": "La geometría molecular según la teoría VSEPR se determina principalmente por:",
       "opts": [
         "La masa molecular total",
@@ -1717,11 +1721,15 @@
         "El número de neutrones del átomo central",
         "La repulsión entre pares enlazantes y no enlazantes"
       ],
-      "a": 3,
       "sol": "La teoría VSEPR (Valence Shell Electron Pair Repulsion) predice la geometría molecular a partir de la repulsión entre pares de electrones alrededor del átomo central. Los pares no enlazantes repelen más que los enlazantes, lo que distorsiona los ángulos ideales. Por ejemplo, el $H_2O$ tiene geometría angular debido a los dos pares no enlazantes del oxígeno.",
+      "a": 3,
       "teoria": {
         "titulo": "Teoría VSEPR",
         "texto": "La teoría VSEPR (Valence Shell Electron Pair Repulsion, repulsión de pares de electrones de la capa de valencia) es un modelo sencillo y muy útil para predecir la geometría de las moléculas. Fue desarrollada por Ronald Gillespie y Ronald Nyholm en 1957.\n\nLa idea básica es que los pares de electrones (tanto enlazantes como no enlazantes) alrededor del átomo central se repelen entre sí y adoptan la disposición espacial que minimiza esta repulsión. Como los electrones tienen carga negativa, tienden a estar lo más separados posible.\n\nLas geometrías predichas dependen del número de pares de electrones (enlazantes + no enlazantes) alrededor del átomo central:\n\n- 2 pares: geometría lineal ($180^\\circ$), como en $CO_2$.\n- 3 pares: geometría trigonal plana ($120^\\circ$), como en $BF_3$.\n- 4 pares: geometría tetraédrica ($109{,}5^\\circ$), como en $CH_4$.\n- 5 pares: geometría bipiramidal trigonal, como en $PCl_5$.\n- 6 pares: geometría octaédrica ($90^\\circ$), como en $SF_6$.\n\nLos pares no enlazantes (también llamados pares libres o solitarios) repelen más que los pares enlazantes, porque están más cerca del átomo central y ocupan más espacio angular. Esto distorsiona la geometría ideal. Por ejemplo, en el agua ($H_2O$), el oxígeno tiene 4 pares (2 enlazantes con H y 2 no enlazantes), lo que da una geometría electrónica tetraédrica. Pero los dos pares no enlazantes repelen más, comprimiendo el ángulo H-O-H de $109{,}5^\\circ$ a $104{,}5^\\circ$, dando una geometría molecular angular.\n\nLa VSEPR es una teoría cualitativa, basada en la repulsión electrostática, pero ha sido muy exitosa en la predicción de geometrías moleculares. Se enseña en los cursos introductorios de química y es una herramienta fundamental para entender la forma de las moléculas y sus propiedades."
+      },
+      "link": {
+        "url": "interactivos/teoria-vsepr.html",
+        "texto": "🔗 Abrir recurso"
       }
     },
     {
