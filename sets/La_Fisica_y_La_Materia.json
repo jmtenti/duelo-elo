@@ -1636,8 +1636,8 @@
     },
     {
       "id": 89,
-      "elo": 620,
       "tema": "Química cuántica",
+      "elo": 620,
       "q": "La hibridación $sp^2$ del carbono da lugar a una geometría:",
       "opts": [
         "Trigonal plana, con ángulos cercanos a 120 grados",
@@ -1645,11 +1645,15 @@
         "Lineal, con ángulos cercanos a 180 grados",
         "Tetraédrica, con ángulos cercanos a 109,5 grados"
       ],
-      "a": 0,
       "sol": "La hibridación $sp^2$ combina un orbital $s$ y dos $p$ para formar tres orbitales híbridos coplanares, separados por $120^\\circ$. El orbital $p$ restante forma el enlace π. Es la hibridación del eteno ($C_2H_4$), el benceno y los carbonos con doble enlace.",
+      "a": 0,
       "teoria": {
         "titulo": "Hibridación sp²",
         "texto": "La hibridación $sp^2$ es la combinación de un orbital $s$ y dos orbitales $p$ para formar tres orbitales híbridos equivalentes, coplanares, separados por $120^\\circ$. El orbital $p$ restante, perpendicular al plano de los híbridos, forma el enlace π.\n\nEn el caso del carbono, los orbitales $2s$, $2p_x$ y $2p_y$ se combinan para formar tres híbridos $sp^2$:\n\n$$\\psi_1 = \\frac{1}{\\sqrt{3}}s + \\sqrt{\\frac{2}{3}}p_x$$\n$$\\psi_2 = \\frac{1}{\\sqrt{3}}s - \\frac{1}{\\sqrt{6}}p_x + \\frac{1}{\\sqrt{2}}p_y$$\n$$\\psi_3 = \\frac{1}{\\sqrt{3}}s - \\frac{1}{\\sqrt{6}}p_x - \\frac{1}{\\sqrt{2}}p_y$$\n\nLos tres híbridos se orientan a $120^\\circ$ entre sí, formando una geometría trigonal plana. El orbital $2p_z$ no hibridizado queda perpendicular al plano y forma el enlace π con otro átomo.\n\nLa hibridación $sp^2$ es la que presentan los átomos de carbono en el eteno ($C_2H_4$) y en el benceno ($C_6H_6$). En el eteno, cada carbono forma tres enlaces σ (dos con hidrógenos, uno con el otro carbono) y un enlace π. El enlace doble C=C consta de un enlace σ (solapamiento frontal de híbridos $sp^2$) y un enlace π (solapamiento lateral de orbitales $p$).\n\nEn el benceno, los seis carbonos están hibridados $sp^2$ y forman un anillo hexagonal plano. Los orbitales $p_z$ de cada carbono se combinan para formar un sistema de electrones π deslocalizados por todo el anillo, lo que confiere al benceno su estabilidad aromática.\n\nLa hibridación $sp^2$ también aparece en el grafeno y en los fullerenos. Los materiales con carbono $sp^2$ tienen propiedades electrónicas y ópticas muy interesantes, que son objeto de intensa investigación."
+      },
+      "link": {
+        "url": "interactivos/teoria-vsepr.html",
+        "texto": "🔗 Abrir recurso"
       }
     },
     {
