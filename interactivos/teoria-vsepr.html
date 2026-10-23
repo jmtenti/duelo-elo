@@ -1,0 +1,1256 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Teoría VSEPR — Geometría Molecular desde la Repulsión de Pares</title>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']], displayMath: [['$$','$$'], ['\\[','\\]']]},
+    messageStyle: "none"
+  });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script src="https://cdn.plot.ly/plotly-2.24.1.min.js"></script>
+
+<style>
+  :root {
+    --primary: #1a252f;
+    --secondary: #2c3e50;
+    --accent: #c0392b;
+    --link: #2980b9;
+    --bg: #f8f9fa;
+    --sm: #16a085;
+    --warn: #c0392b;
+    --hist: #b7791f;
+    --bp: #2980b9;
+    --lp: #c0392b;
+    --central: #2c3e50;
+  }
+  body {
+    font-family: 'Georgia', serif;
+    background: var(--bg); color: #333;
+    line-height: 1.75; margin: 0; padding: 40px 0; font-size: 16px;
+  }
+  .container {
+    max-width: 980px; margin: auto; background: white;
+    padding: 48px 70px; border-radius: 12px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.06);
+  }
+  h1 { color: var(--primary); text-align: center; font-size: 2em; font-family: 'Segoe UI', sans-serif; margin-bottom: 6px;}
+  .subtitle { text-align: center; color: #7f8c8d; font-style: italic; margin-bottom: 32px; }
+  h2 { color: var(--secondary); margin-top: 46px; border-bottom: 2px solid #ecf0f1; padding-bottom: 5px; font-family: 'Segoe UI', sans-serif;}
+  h3 { color: var(--secondary); margin-top: 26px; font-family: 'Segoe UI', sans-serif; font-size: 1.1em;}
+  h4 { color: var(--sm); margin-top: 22px; font-family: 'Segoe UI', sans-serif; font-size: 1em; font-style: italic;}
+  p { text-align: justify; margin-bottom: 16px; }
+  ul, ol { text-align: justify; }
+  li { margin-bottom: 6px; }
+  .math-box {
+    background: #fdfefe; border-left: 4px solid var(--link);
+    padding: 12px 20px; margin: 18px 0; overflow-x: auto; font-size: 1.05em;
+  }
+  .analogy-box {
+    background: #fef9e7; border-left: 4px solid #f39c12;
+    padding: 14px 20px; margin: 20px 0; font-size: 0.96em;
+  }
+  .analogy-box strong:first-child { color: #b7791f; }
+  .sm-box { background: #eafaf1; border-left: 4px solid var(--sm); padding: 14px 20px; margin: 20px 0; font-size: 0.96em; }
+  .sm-box strong:first-child { color: var(--sm); }
+  .warn-box { background: #fdedec; border-left: 4px solid var(--warn); padding: 14px 20px; margin: 20px 0; font-size: 0.96em; }
+  .warn-box strong:first-child { color: var(--warn); }
+  .guide-box { background: #eef6fc; border-left: 4px solid var(--link); padding: 14px 20px; margin: 20px 0; font-size: 0.95em; }
+  .guide-box strong:first-child { color: var(--link); }
+  .guide-box ol { margin: 6px 0 0 0; padding-left: 20px; }
+  .history-box { background: #fbf6e9; border-left: 4px solid var(--hist); padding: 14px 20px; margin: 20px 0; font-size: 0.94em; font-style: italic; color: #5b4a1e; }
+  .history-box strong { font-style: normal; }
+  .interactive-figure {
+    background: #fafafa; border: 1px solid #e0e0e0;
+    border-radius: 10px; padding: 22px; margin: 32px 0;
+    font-family: 'Segoe UI', sans-serif;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+  }
+  .figure-title {
+    text-align: center; color: var(--secondary);
+    font-weight: bold; font-size: 1.1em; margin-top: 0; margin-bottom: 12px;
+  }
+  .plot-area { width: 100%; height: 460px; margin-bottom: 12px; }
+  .controls {
+    display: grid; grid-template-columns: 1.2fr 1fr; gap: 18px;
+    padding: 14px 18px; background: #fff;
+    border-radius: 8px; border: 1px solid #eee; margin-bottom: 12px;
+  }
+  .control-panel h4 {
+    margin-top: 0; color: var(--secondary);
+    font-size: 0.86em; text-transform: uppercase;
+    letter-spacing: 0.08em; font-style: normal;
+    margin-bottom: 8px;
+  }
+  .button-group {
+    display: flex; gap: 6px; flex-wrap: wrap; margin: 6px 0 14px 0;
+  }
+  .button-group button {
+    flex: 1; min-width: 42px;
+    padding: 8px 12px;
+    border: 2px solid #ddd;
+    background: white;
+    border-radius: 6px;
+    cursor: pointer;
+    font-family: 'Segoe UI', sans-serif;
+    font-weight: 600; font-size: 0.92em;
+    color: #555;
+    transition: all 0.15s;
+  }
+  .button-group button:hover:not(:disabled) {
+    border-color: var(--link); color: var(--link);
+  }
+  .button-group button.active {
+    background: var(--link); color: white; border-color: var(--link);
+  }
+  .button-group button:disabled {
+    opacity: 0.3; cursor: not-allowed;
+  }
+  .stats {
+    margin-top: 10px; padding: 10px 14px;
+    background: #f4f6f7; border-radius: 6px;
+    font-family: Consolas, monospace; font-size: 0.85em;
+    line-height: 1.7; text-align: center;
+  }
+  .stats .stat-item {
+    display: inline-block; margin: 3px 6px;
+    padding: 3px 10px; background: white;
+    border-radius: 4px; border: 1px solid #e0e0e0;
+  }
+  .stats .stat-item .lbl { color: #888; }
+  .stats .stat-item .val { color: var(--accent); font-weight: bold; }
+  .info-panel {
+    background: #fff;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    padding: 14px 18px;
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 0.92em;
+    line-height: 1.7;
+  }
+  .info-panel .info-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 4px 0;
+    border-bottom: 1px dashed #eee;
+  }
+  .info-panel .info-row:last-child { border-bottom: none; }
+  .info-panel .info-lbl { color: #666; font-size: 0.88em; }
+  .info-panel .info-val { font-weight: bold; color: var(--secondary); font-family: Consolas, monospace; }
+  .info-panel .info-val.axe { color: var(--accent); font-family: 'Georgia', serif; font-size: 1.05em; }
+  .info-panel .info-val.name { color: var(--link); font-family: 'Segoe UI', sans-serif; font-size: 1em; }
+  .caption {
+    font-size: 0.93em; color: #555; text-align: justify;
+    padding: 10px 18px; border-left: 3px solid var(--accent);
+    background: #fff;
+  }
+  .toc {
+    background: #f4f6f7; border-radius: 8px;
+    padding: 16px 26px; margin: 24px 0;
+    font-family: 'Segoe UI', sans-serif; font-size: 0.93em;
+  }
+  .toc h3 { margin-top: 0; color: var(--secondary); font-size: 0.98em;}
+  .toc ol { margin: 0; padding-left: 20px;}
+  .toc a { color: var(--link); text-decoration: none;}
+  .toc a:hover { text-decoration: underline;}
+
+  .master-table {
+    border-collapse: collapse; width: 100%; margin: 20px 0;
+    font-size: 0.9em; font-family: 'Segoe UI', sans-serif;
+  }
+  .master-table th {
+    background: #ecf0f1; padding: 10px 12px; text-align: left;
+    border-bottom: 2px solid #bdc3c7;
+  }
+  .master-table td {
+    padding: 9px 12px; border-bottom: 1px solid #e0e0e0;
+    vertical-align: top;
+  }
+  .master-table tr:hover td { background: #f9fbfc; }
+  .master-table .axe-cell { font-family: 'Georgia', serif; font-size: 1.05em; color: var(--accent); font-weight: bold; }
+  .master-table .n-cell { text-align: center; font-weight: bold; color: var(--secondary); }
+  .master-table .angle-cell { font-family: Consolas, monospace; font-size: 0.95em; }
+  .master-table .name-cell { font-weight: 600; color: var(--link); }
+
+  .repulsion-table {
+    border-collapse: collapse; width: 100%; margin: 20px 0;
+    font-size: 0.93em; font-family: 'Segoe UI', sans-serif;
+  }
+  .repulsion-table th {
+    background: #ecf0f1; padding: 10px 12px; text-align: left;
+    border-bottom: 2px solid #bdc3c7;
+  }
+  .repulsion-table td {
+    padding: 10px 12px; border-bottom: 1px solid #e0e0e0;
+    vertical-align: middle;
+  }
+  .repulsion-table .sym-cell {
+    font-family: 'Georgia', serif; font-size: 1.1em;
+    text-align: center; font-weight: bold;
+  }
+  .repulsion-table .force-cell {
+    font-weight: bold; text-align: center;
+  }
+  .dot-bp {
+    display: inline-block; width: 12px; height: 12px;
+    background: var(--bp); border-radius: 50%;
+    vertical-align: middle; margin: 0 2px;
+  }
+  .dot-lp {
+    display: inline-block; width: 12px; height: 12px;
+    background: var(--lp); border-radius: 50%;
+    vertical-align: middle; margin: 0 2px;
+    opacity: 0.6;
+  }
+  .dot-central {
+    display: inline-block; width: 14px; height: 14px;
+    background: var(--central); border-radius: 50%;
+    vertical-align: middle; margin: 0 2px;
+  }
+
+  .exercise-box {
+    background: #fdf2f2; border: 1px solid #f5c6c6;
+    border-radius: 8px; padding: 18px 24px; margin: 24px 0;
+  }
+  .exercise-box h4 {
+    color: var(--accent); margin-top: 0;
+    font-style: normal; font-size: 1em;
+  }
+  .hint {
+    background: #fff8e1; border-radius: 4px;
+    padding: 8px 14px; margin: 10px 0;
+    font-size: 0.9em; color: #6d4c00;
+    border-left: 3px solid #f39c12;
+  }
+  .solution-toggle {
+    background: var(--accent); color: white;
+    border: none; padding: 6px 14px; border-radius: 4px;
+    cursor: pointer; font-family: 'Segoe UI', sans-serif;
+    font-size: 0.88em; margin-top: 10px;
+  }
+  .solution-toggle:hover { background: #a02828; }
+  .solution-content {
+    max-height: 0; overflow: hidden;
+    transition: max-height 0.5s ease, margin 0.3s ease;
+  }
+  .solution-content.open { max-height: 4000px; margin-top: 14px; }
+
+  .molecule-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 12px;
+    margin: 18px 0;
+  }
+  .molecule-card {
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 12px 14px;
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 0.9em;
+  }
+  .molecule-card .mol-formula {
+    font-family: 'Georgia', serif;
+    font-size: 1.15em;
+    font-weight: bold;
+    color: var(--secondary);
+    margin-bottom: 4px;
+  }
+  .molecule-card .mol-info {
+    color: #666;
+    font-size: 0.85em;
+    line-height: 1.5;
+  }
+  .molecule-card .mol-info .tag {
+    display: inline-block;
+    padding: 1px 7px;
+    background: #eef6fc;
+    border-radius: 3px;
+    color: var(--link);
+    font-family: Consolas, monospace;
+    font-size: 0.9em;
+    margin-right: 4px;
+  }
+
+  .color-legend {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    padding: 8px 0;
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 0.88em;
+    color: #444;
+  }
+  .color-legend .item {
+    display: flex; align-items: center; gap: 6px;
+  }
+  .color-legend .swatch {
+    display: inline-block;
+    width: 16px; height: 16px;
+    border-radius: 50%;
+    border: 1px solid rgba(0,0,0,0.2);
+  }
+
+  @media (max-width: 800px) {
+    .container { padding: 30px 20px; }
+    .controls { grid-template-columns: 1fr; }
+    .plot-area { height: 400px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h1>Teoría VSEPR</h1>
+  <div class="subtitle">Cómo los pares de electrones de valencia deciden la forma de las moléculas</div>
+
+  <div class="math-box">
+    <strong>Notación.</strong> $A$: átomo central. $X$: átomo ligando (enlace). $E$: par solitario de electrones (<em>lone pair</em>). $n$: número estérico (dominios de electrones alrededor del átomo central). $AX_mE_n$: notación VSEPR, con $m$ ligandos y $n$ pares solitarios. VSEPR = <em>Valence Shell Electron Pair Repulsion</em> (repulsión de pares electrónicos de la capa de valencia).
+  </div>
+
+  <div class="analogy-box">
+    <strong>La idea en una frase.</strong> Alrededor del átomo central, los pares de electrones (enlazantes o solitarios) se repelen entre sí y se acomodan lo más lejos posible unos de otros. La geometría molecular es simplemente el resultado geométrico de esa repulsión. No hace falta resolver la ecuación de Schrödinger para predecir la forma de una molécula: alcanza con contar dominios de electrones.
+  </div>
+
+  <div class="toc">
+    <h3>Contenido</h3>
+    <ol>
+      <li><a href="#s1">La idea central: pares que se repelen</a></li>
+      <li><a href="#s2">Número estérico y notación AXE</a></li>
+      <li><a href="#s3">Explorador 3D interactivo</a> <em>(Fig. 1)</em></li>
+      <li><a href="#s4">Tabla maestra de geometrías</a></li>
+      <li><a href="#s5">Pares solitarios comprimen ángulos</a> <em>(Fig. 2)</em></li>
+      <li><a href="#s6">Enlaces múltiples = un solo dominio</a></li>
+      <li><a href="#s7">Moléculas reales</a></li>
+      <li><a href="#s8">Limitaciones y refinamientos</a></li>
+      <li><a href="#s9">Ejercicios para pensar</a></li>
+      <li><a href="#s10">Cierre</a></li>
+    </ol>
+  </div>
+
+  <!-- ============================================ -->
+  <h2 id="s1">1. La idea central: pares que se repelen</h2>
+
+  <p>La teoría VSEPR fue formulada por Ronald Gillespie y Ronald Nyholm en 1957. Su premisa es simple: <strong>los pares de electrones de la capa de valencia del átomo central se repelen electrostáticamente y adoptan la disposición espacial que minimiza esa repulsión</strong>. Cada par —sea un enlace (par enlazante, BP) o un par solitario (LP)— ocupa una región del espacio alrededor del núcleo, y esas regiones se distribuyen lo más separadas posible.</p>
+
+  <p>El punto clave es que <strong>no importa si el par forma un enlace o no: cuenta como un dominio</strong>. Un enlace simple, un enlace doble, un enlace triple y un par solitario cuentan todos como <em>un</em> dominio. Lo que cambia es cuánto "abulta" cada tipo de par, y por lo tanto cuánto comprime a sus vecinos.</p>
+
+  <div class="sm-box">
+    <strong>¿Por qué funciona?</strong> La VSEPR no es una teoría cuántica rigurosa: es un modelo heurístico. Pero captura la esencia del problema: en la capa de valencia, los electrones se organizan en pares (por el principio de Pauli y el apareamiento de espines), y esos pares se repelen. La geometría que minimiza la repulsión es, casi siempre, la que se observa experimentalmente. Es una de las herramientas más exitosas de la química estructural.
+  </div>
+
+  <p>La fuerza de repulsión entre dos dominios depende de su naturaleza, en el orden:</p>
+
+  <div class="math-box">
+    $$ \text{LP–LP} \;>\; \text{LP–BP} \;>\; \text{BP–BP} $$
+  </div>
+
+  <p>Es decir: dos pares solitarios se repelen más que un par solitario y uno enlazante, y estos más que dos pares enlazantes. La razón es que el par solitario está más "cerca" del núcleo y ocupa más espacio angular (el par enlazante está compartido con el ligando y se extiende menos).</p>
+
+  <table class="repulsion-table">
+    <thead>
+      <tr>
+        <th>Interacción</th>
+        <th style="text-align:center;">Símbolo</th>
+        <th style="text-align:center;">Fuerza</th>
+        <th>Efecto sobre los ángulos</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Par solitario ↔ par solitario</td>
+        <td class="sym-cell"><span class="dot-lp"></span><span class="dot-lp"></span></td>
+        <td class="force-cell" style="color: #c0392b;">Muy fuerte</td>
+        <td>Máxima compresión de ángulos. Ejemplo: H₂O (104.5° vs 109.5°).</td>
+      </tr>
+      <tr>
+        <td>Par solitario ↔ par enlazante</td>
+        <td class="sym-cell"><span class="dot-lp"></span><span class="dot-bp"></span></td>
+        <td class="force-cell" style="color: #e67e22;">Fuerte</td>
+        <td>Compresión moderada. Ejemplo: NH₃ (107° vs 109.5°).</td>
+      </tr>
+      <tr>
+        <td>Par enlazante ↔ par enlazante</td>
+        <td class="sym-cell"><span class="dot-bp"></span><span class="dot-bp"></span></td>
+        <td class="force-cell" style="color: #16a085;">Débil</td>
+        <td>Ángulo ideal, sin compresión. Ejemplo: CH₄ (109.5°).</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="analogy-box">
+    <strong>La analogía de los globos.</strong> Imaginá que atás varios globos por el nudo y los soltás: los globos se empujan unos a otros hasta adoptar una disposición simétrica. Dos globos quedan opuestos (lineal); tres, en triángulo (trigonal plana); cuatro, en tetraedro; cinco, en bipirámide trigonal; seis, en octaedro. Los pares de electrones hacen exactamente eso: son los globos, y la geometría molecular es el resultado de cómo se acomodan.
+  </div>
+
+  <!-- ============================================ -->
+  <h2 id="s2">2. Número estérico y notación AXE</h2>
+
+  <p>Para aplicar VSEPR, el primer paso es contar cuántos <strong>dominios de electrones</strong> rodean al átomo central. Ese número se llama <strong>número estérico</strong> ($n$). Se calcula así:</p>
+
+  <div class="math-box">
+    $$ n = \underbrace{m}_{\text{ligandos (enlaces)}} + \underbrace{e}_{\text{pares solitarios}} $$
+  </div>
+
+  <p>Cada enlace (simple, doble o triple) cuenta como <em>un</em> dominio. Cada par solitario cuenta como <em>un</em> dominio. Los electrones del átomo central que forman parte de la capa de valencia se reparten en pares, y algunos de esos pares forman enlaces (uno por ligando) mientras que otros quedan solitarios.</p>
+
+  <h3>2.1 Notación AX<sub>m</sub>E<sub>e</sub></h3>
+
+  <p>La notación VSEPR resume la situación con una fórmula compacta:</p>
+
+  <div class="math-box">
+    $$ \text{A} \underbrace{\text{X}_m}_{\text{enlaces}} \underbrace{\text{E}_e}_{\text{pares solitarios}} $$
+  </div>
+
+  <ul>
+    <li><strong>A</strong>: átomo central.</li>
+    <li><strong>X</strong>: cada ligando (un átomo unido al central). El subíndice $m$ cuenta cuántos hay.</li>
+    <li><strong>E</strong>: cada par solitario. El subíndice $e$ cuenta cuántos hay.</li>
+  </ul>
+
+  <p>Ejemplos:</p>
+  <ul>
+    <li>CH₄: A = C, m = 4 (cuatro enlaces C–H), e = 0 → <strong>AX₄</strong>. n = 4.</li>
+    <li>NH₃: A = N, m = 3 (tres enlaces N–H), e = 1 (un par solitario) → <strong>AX₃E</strong>. n = 4.</li>
+    <li>H₂O: A = O, m = 2 (dos enlaces O–H), e = 2 (dos pares solitarios) → <strong>AX₂E₂</strong>. n = 4.</li>
+    <li>PCl₅: A = P, m = 5, e = 0 → <strong>AX₅</strong>. n = 5.</li>
+    <li>XeF₄: A = Xe, m = 4, e = 2 → <strong>AX₄E₂</strong>. n = 6.</li>
+  </ul>
+
+  <div class="history-box">
+    <strong>Un detalle importante.</strong> La notación AXE no siempre coincide con la configuración electrónica formal del átomo central. Por ejemplo, el Xe tiene configuración $5s^2 5p^6$ (8 electrones de valencia). En XeF₄, el Xe forma 4 enlaces con F y le quedan 2 pares solitarios: 4 + 4 = 8 electrones, ✓. En XeF₂, forma 2 enlaces y le quedan 3 pares solitarios: 2 + 6 = 8, ✓. La regla práctica es que cada átomo central usa todos sus electrones de valencia en dominios (enlaces + pares solitarios).
+  </div>
+
+  <!-- ============================================ -->
+  <h2 id="s3">3. Explorador 3D interactivo</h2>
+
+  <p>La Figura 1 te permite explorar todas las geometrías VSEPR. Elegí el número estérico (2 a 6) con los botones de arriba, y después los pares solitarios con los de abajo. La molécula se muestra en 3D: arrastrá para rotar, usá la rueda para hacer zoom.</p>
+
+  <div class="interactive-figure">
+    <div class="figure-title">Figura 1: Explorador 3D de geometrías VSEPR</div>
+
+    <div id="plot_vsepr" class="plot-area" style="height: 480px;"></div>
+
+    <div class="color-legend">
+      <div class="item"><span class="swatch" style="background: #2c3e50;"></span> Átomo central (A)</div>
+      <div class="item"><span class="swatch" style="background: #2980b9;"></span> Ligando (X, enlace)</div>
+      <div class="item"><span class="swatch" style="background: rgba(192,57,43,0.75);"></span> Par solitario (E)</div>
+    </div>
+
+    <div class="controls">
+      <div class="control-panel">
+        <h4>Número estérico (dominios)</h4>
+        <div class="button-group" id="steric-buttons">
+          <button data-steric="2">2</button>
+          <button data-steric="3">3</button>
+          <button data-steric="4" class="active">4</button>
+          <button data-steric="5">5</button>
+          <button data-steric="6">6</button>
+        </div>
+        <h4>Pares solitarios (E)</h4>
+        <div class="button-group" id="lone-buttons">
+          <button data-lone="0" class="active">0</button>
+          <button data-lone="1">1</button>
+          <button data-lone="2">2</button>
+          <button data-lone="3">3</button>
+        </div>
+      </div>
+      <div class="control-panel">
+        <h4>Información de la geometría</h4>
+        <div id="info_vsepr" class="info-panel"></div>
+      </div>
+    </div>
+
+    <div class="guide-box">
+      <strong>Cómo usar el explorador.</strong>
+      <ol>
+        <li>Elegí el <strong>número estérico</strong> con los botones de arriba (2 = lineal, 3 = trigonal, 4 = tetraédrico, 5 = bipiramidal trigonal, 6 = octaédrico).</li>
+        <li>Elegí cuántos <strong>pares solitarios</strong> tiene el átomo central. Los botones que no corresponden a ninguna geometría estable se desactivan automáticamente.</li>
+        <li>Observá la <strong>geometría molecular</strong> (la que forman los átomos X) y comparala con la <strong>geometría de los dominios</strong> (la que forman todos los pares, X y E).</li>
+        <li>Leé el panel de información para ver el nombre, la notación AXE, los ángulos ideales y un ejemplo real.</li>
+        <li>Rotá con el mouse para ver la molécula desde distintos ángulos. La vista inicial muestra la estructura en perspectiva.</li>
+      </ol>
+    </div>
+
+    <div class="caption">
+      <strong>Epígrafe.</strong> Explorador interactivo de geometrías VSEPR. Los botones permiten elegir el número estérico (total de dominios alrededor del átomo central) y la cantidad de pares solitarios. La geometría molecular es la que forman los átomos X; los pares solitarios E se muestran como esferas rojas translúcidas. Solo se muestran combinaciones que corresponden a geometrías reales. Los ángulos indicados son los ideales; los pares solitarios comprimen los ángulos reales (ver Fig. 2).
+    </div>
+  </div>
+
+  <!-- ============================================ -->
+  <h2 id="s4">4. Tabla maestra de geometrías</h2>
+
+  <p>Esta es la tabla de referencia de VSEPR. Con el número estérico y la cantidad de pares solitarios, se identifica la geometría molecular y sus ángulos ideales.</p>
+
+  <table class="master-table">
+    <thead>
+      <tr>
+        <th class="n-cell">n</th>
+        <th>Notación</th>
+        <th>Geometría de los dominios</th>
+        <th>Geometría molecular</th>
+        <th>Ángulo ideal</th>
+        <th>Ejemplo</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td class="n-cell">2</td><td class="axe-cell">AX₂</td><td>Lineal</td><td class="name-cell">Lineal</td><td class="angle-cell">180°</td><td>CO₂, BeCl₂, HCN</td></tr>
+      <tr><td class="n-cell">3</td><td class="axe-cell">AX₃</td><td>Trigonal plana</td><td class="name-cell">Trigonal plana</td><td class="angle-cell">120°</td><td>BF₃, SO₃, CO₃²⁻</td></tr>
+      <tr><td class="n-cell">3</td><td class="axe-cell">AX₂E</td><td>Trigonal plana</td><td class="name-cell">Angular (codos)</td><td class="angle-cell">~120° (real ~119°)</td><td>SO₂, O₃, NO₂⁻</td></tr>
+      <tr><td class="n-cell">4</td><td class="axe-cell">AX₄</td><td>Tetraédrica</td><td class="name-cell">Tetraédrica</td><td class="angle-cell">109.5°</td><td>CH₄, NH₄⁺, SO₄²⁻</td></tr>
+      <tr><td class="n-cell">4</td><td class="axe-cell">AX₃E</td><td>Tetraédrica</td><td class="name-cell">Piramidal trigonal</td><td class="angle-cell">109.5° (real ~107°)</td><td>NH₃, PCl₃, H₃O⁺</td></tr>
+      <tr><td class="n-cell">4</td><td class="axe-cell">AX₂E₂</td><td>Tetraédrica</td><td class="name-cell">Angular (codos)</td><td class="angle-cell">109.5° (real ~104.5°)</td><td>H₂O, H₂S, OF₂</td></tr>
+      <tr><td class="n-cell">5</td><td class="axe-cell">AX₅</td><td>Bipiramidal trigonal</td><td class="name-cell">Bipiramidal trigonal</td><td class="angle-cell">90°, 120°, 180°</td><td>PCl₅, PF₅, AsF₅</td></tr>
+      <tr><td class="n-cell">5</td><td class="axe-cell">AX₄E</td><td>Bipiramidal trigonal</td><td class="name-cell">Balancín (seesaw)</td><td class="angle-cell">~87° axial, ~102° ecuatorial</td><td>SF₄, SeF₄, TeCl₄</td></tr>
+      <tr><td class="n-cell">5</td><td class="axe-cell">AX₃E₂</td><td>Bipiramidal trigonal</td><td class="name-cell">Forma de T</td><td class="angle-cell">~87.5°</td><td>ClF₃, BrF₃, ICl₃</td></tr>
+      <tr><td class="n-cell">5</td><td class="axe-cell">AX₂E₃</td><td>Bipiramidal trigonal</td><td class="name-cell">Lineal</td><td class="angle-cell">180°</td><td>XeF₂, I₃⁻, ICl₂⁻</td></tr>
+      <tr><td class="n-cell">6</td><td class="axe-cell">AX₆</td><td>Octaédrica</td><td class="name-cell">Octaédrica</td><td class="angle-cell">90°, 180°</td><td>SF₆, PF₆⁻, SiF₆²⁻</td></tr>
+      <tr><td class="n-cell">6</td><td class="axe-cell">AX₅E</td><td>Octaédrica</td><td class="name-cell">Piramidal cuadrada</td><td class="angle-cell">90° (real ~85°)</td><td>BrF₅, IF₅, XeOF₄</td></tr>
+      <tr><td class="n-cell">6</td><td class="axe-cell">AX₄E₂</td><td>Octaédrica</td><td class="name-cell">Cuadrada plana</td><td class="angle-cell">90°</td><td>XeF₄, [PtCl₄]²⁻</td></tr>
+    </tbody>
+  </table>
+
+  <div class="sm-box">
+    <strong>Regla mnemotécnica.</strong> La <em>geometría de los dominios</em> (todos los pares, X y E) depende solo del número estérico $n$: 2 → lineal, 3 → trigonal plana, 4 → tetraédrica, 5 → bipiramidal trigonal, 6 → octaédrica. La <em>geometría molecular</em> (solo los átomos X) depende de $n$ <strong>y</strong> de $e$. Cuando $e = 0$, ambas coinciden. Cuando $e > 0$, la geometría molecular es una versión "recortada" de la de los dominios.
+  </div>
+
+  <!-- ============================================ -->
+  <h2 id="s5">5. Pares solitarios comprimen ángulos</h2>
+
+  <p>Los pares solitarios ocupan más espacio angular que los enlazantes, así que empujan a los enlaces y <strong>reducen los ángulos X–A–X</strong>. Esta es la razón por la que H₂O tiene un ángulo de 104.5° en lugar de 109.5°, y NH₃ tiene 107° en lugar de 109.5°.</p>
+
+  <p>La Figura 2 compara los ángulos reales de tres moléculas de la familia tetraédrica, todas con $n = 4$ pero distinto número de pares solitarios.</p>
+
+  <div class="interactive-figure">
+    <div class="figure-title">Figura 2: Cómo los pares solitarios comprimen los ángulos</div>
+    <div id="plot_compression" class="plot-area" style="height: 380px;"></div>
+    <div class="guide-box">
+      <strong>Qué observar.</strong>
+      <ol>
+        <li>Las tres moléculas tienen el mismo número estérico ($n = 4$): la geometría de los dominios es tetraédrica.</li>
+        <li>En <strong>CH₄</strong> no hay pares solitarios: el ángulo es el ideal de 109.5°.</li>
+        <li>En <strong>NH₃</strong> hay un par solitario: el ángulo baja a ~107°.</li>
+        <li>En <strong>H₂O</strong> hay dos pares solitarios: el ángulo baja a ~104.5°.</li>
+        <li>El par solitario ocupa más espacio angular que el enlace (el par enlazante se comparte con el ligando y se extiende menos), así que empuja a los enlaces y los junta.</li>
+        <li>La línea punteada marca el ángulo ideal tetraédrico (109.5°). Cuanto más lejos está la barra de la línea, mayor es la compresión.</li>
+      </ol>
+    </div>
+    <div class="caption">
+      <strong>Epígrafe.</strong> Ángulo de enlace real en moléculas tetraédricas (n = 4) con distinto número de pares solitarios. Los datos son valores experimentales típicos: CH₄ (109.5°), NH₃ (107.0°), H₂O (104.5°). La tendencia es clara: más pares solitarios, mayor compresión del ángulo.
+    </div>
+  </div>
+
+  <h3>5.1 Otras geometrías con compresión</h3>
+
+  <p>La compresión también ocurre en geometrías con $n = 5$ y $n = 6$:</p>
+
+  <ul>
+    <li><strong>SF₄ (AX₄E, n = 5):</strong> el par solitario se ubica en posición ecuatorial (donde tiene más espacio) y comprime los ángulos. El ángulo axial-ecuatorial baja de 90° a ~87.8°, y el ecuatorial-ecuatorial baja de 120° a ~101.6°.</li>
+    <li><strong>ClF₃ (AX₃E₂, n = 5):</strong> dos pares solitarios ecuatoriales comprimen el ángulo axial-ecuatorial de 90° a ~87.5°. La molécula adopta forma de T.</li>
+    <li><strong>BrF₅ (AX₅E, n = 6):</strong> el par solitario comprime el ángulo base-axial de 90° a ~84.8°.</li>
+  </ul>
+
+  <div class="warn-box">
+    <strong>Error común.</strong> "En el agua, el ángulo es 109.5° porque el oxígeno es tetraédrico." Falso: el <em>átomo</em> de oxígeno tiene una disposición tetraédrica de sus <em>dominios</em> (dos enlaces + dos pares solitarios), pero la <em>molécula</em> H₂O no es tetraédrica: es angular. Y el ángulo H–O–H es 104.5°, no 109.5°, porque los pares solitarios comprimen.
+  </div>
+
+  <!-- ============================================ -->
+  <h2 id="s6">6. Enlaces múltiples = un solo dominio</h2>
+
+  <p>Un aspecto crucial de VSEPR que a veces se pasa por alto: <strong>un enlace doble o triple cuenta como un solo dominio</strong>, no como dos o tres. Aunque haya más electrones en ese enlace, todos se concentran en la misma región del espacio y se repelen como una sola unidad.</p>
+
+  <p>Ejemplos:</p>
+
+  <div class="molecule-grid">
+    <div class="molecule-card">
+      <div class="mol-formula">CO₂</div>
+      <div class="mol-info">
+        O=C=O. Dos enlaces dobles. Cada uno cuenta como <strong>un</strong> dominio.
+        <br><span class="tag">AX₂</span> Lineal, 180°.
+      </div>
+    </div>
+    <div class="molecule-card">
+      <div class="mol-formula">SO₂</div>
+      <div class="mol-info">
+        Dos enlaces dobles (o uno doble y uno simple, según la estructura de resonancia). Cada uno es un dominio; el azufre tiene además un par solitario.
+        <br><span class="tag">AX₂E</span> Angular, ~119°.
+      </div>
+    </div>
+    <div class="molecule-card">
+      <div class="mol-formula">HCN</div>
+      <div class="mol-info">
+        H–C≡N. Un enlace simple y uno triple. Cada uno cuenta como un dominio.
+        <br><span class="tag">AX₂</span> Lineal, 180°.
+      </div>
+    </div>
+    <div class="molecule-card">
+      <div class="mol-formula">CO₃²⁻</div>
+      <div class="mol-info">
+        Tres enlaces (uno doble y dos simples, o todos equivalentes por resonancia). Cada uno cuenta como un dominio; el carbono no tiene pares solitarios.
+        <br><span class="tag">AX₃</span> Trigonal plana, 120°.
+      </div>
+    </div>
+    <div class="molecule-card">
+      <div class="mol-formula">NO₂⁻</div>
+      <div class="mol-info">
+        Dos enlaces (uno doble y uno simple por resonancia). Cada uno es un dominio; el nitrógeno tiene un par solitario.
+        <br><span class="tag">AX₂E</span> Angular, ~115°.
+      </div>
+    </div>
+    <div class="molecule-card">
+      <div class="mol-formula">NO₃⁻</div>
+      <div class="mol-info">
+        Tres enlaces (uno doble y dos simples por resonancia). Cada uno es un dominio; el nitrógeno no tiene pares solitarios.
+        <br><span class="tag">AX₃</span> Trigonal plana, 120°.
+      </div>
+    </div>
+  </div>
+
+  <div class="sm-box">
+    <strong>Resonancia y VSEPR.</strong> Cuando una molécula tiene resonancia (como CO₃²⁻ o NO₃⁻), los enlaces no son ni simples ni dobles: son intermedios. Pero para VSEPR eso no importa: cada enlace, sea cual sea su orden, cuenta como <em>un dominio</em>. La geometría se predice igual.
+  </div>
+
+  <div class="analogy-box">
+    <strong>¿Por qué un enlace doble cuenta como uno?</strong> Porque los cuatro electrones del enlace doble están concentrados en la misma dirección (a lo largo del eje que une los dos núcleos). Aunque hay más electrones, la "nube" electrónica ocupa una sola región angular. VSEPR no cuenta electrones, cuenta <em>regiones de densidad electrónica</em>. Un enlace simple, doble o triple es una sola región.
+  </div>
+
+  <!-- ============================================ -->
+  <h2 id="s7">7. Moléculas reales: galería de ejemplos</h2>
+
+  <p>Esta tabla muestra moléculas reales representativas de cada geometría. Todos los ejemplos siguen las reglas VSEPR y han sido verificados experimentalmente.</p>
+
+  <table class="master-table">
+    <thead>
+      <tr>
+        <th>Molécula</th>
+        <th>AXE</th>
+        <th>Geometría molecular</th>
+        <th>Ángulo real</th>
+        <th>Notas</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>BeCl₂</strong></td><td class="axe-cell">AX₂</td><td class="name-cell">Lineal</td><td class="angle-cell">180°</td><td>Berilio con 2 enlaces, sin pares solitarios</td></tr>
+      <tr><td><strong>CO₂</strong></td><td class="axe-cell">AX₂</td><td class="name-cell">Lineal</td><td class="angle-cell">180°</td><td>Dos enlaces dobles, cada uno un dominio</td></tr>
+      <tr><td><strong>HCN</strong></td><td class="axe-cell">AX₂</td><td class="name-cell">Lineal</td><td class="angle-cell">180°</td><td>Enlace triple + simple, ambos un dominio</td></tr>
+      <tr><td><strong>BF₃</strong></td><td class="axe-cell">AX₃</td><td class="name-cell">Trigonal plana</td><td class="angle-cell">120°</td><td>Boro con 3 enlaces, sin pares solitarios (capa incompleta)</td></tr>
+      <tr><td><strong>SO₃</strong></td><td class="axe-cell">AX₃</td><td class="name-cell">Trigonal plana</td><td class="angle-cell">120°</td><td>Azufre con 3 enlaces dobles (resonancia)</td></tr>
+      <tr><td><strong>SO₂</strong></td><td class="axe-cell">AX₂E</td><td class="name-cell">Angular</td><td class="angle-cell">~119°</td><td>Un par solitario en el azufre</td></tr>
+      <tr><td><strong>O₃</strong></td><td class="axe-cell">AX₂E</td><td class="name-cell">Angular</td><td class="angle-cell">~117°</td><td>Ozono; un par solitario en el oxígeno central</td></tr>
+      <tr><td><strong>CH₄</strong></td><td class="axe-cell">AX₄</td><td class="name-cell">Tetraédrica</td><td class="angle-cell">109.5°</td><td>El ejemplo canónico de tetraedro perfecto</td></tr>
+      <tr><td><strong>NH₄⁺</strong></td><td class="axe-cell">AX₄</td><td class="name-cell">Tetraédrica</td><td class="angle-cell">109.5°</td><td>Nitrógeno con 4 enlaces (catión)</td></tr>
+      <tr><td><strong>NH₃</strong></td><td class="axe-cell">AX₃E</td><td class="name-cell">Piramidal trigonal</td><td class="angle-cell">~107°</td><td>Un par solitario comprime el ángulo</td></tr>
+      <tr><td><strong>H₂O</strong></td><td class="axe-cell">AX₂E₂</td><td class="name-cell">Angular</td><td class="angle-cell">~104.5°</td><td>Dos pares solitarios comprimen más</td></tr>
+      <tr><td><strong>PCl₅</strong></td><td class="axe-cell">AX₅</td><td class="name-cell">Bipiramidal trigonal</td><td class="angle-cell">90°, 120°, 180°</td><td>Fósforo con 5 enlaces; dos axiales, tres ecuatoriales</td></tr>
+      <tr><td><strong>SF₄</strong></td><td class="axe-cell">AX₄E</td><td class="name-cell">Balancín</td><td class="angle-cell">~87°/102°</td><td>Un par solitario ecuatorial; la molécula se ve como un balancín</td></tr>
+      <tr><td><strong>ClF₃</strong></td><td class="axe-cell">AX₃E₂</td><td class="name-cell">Forma de T</td><td class="angle-cell">~87.5°</td><td>Dos pares solitarios ecuatoriales</td></tr>
+      <tr><td><strong>XeF₂</strong></td><td class="axe-cell">AX₂E₃</td><td class="name-cell">Lineal</td><td class="angle-cell">180°</td><td>Xenón con 3 pares solitarios ecuatoriales</td></tr>
+      <tr><td><strong>SF₆</strong></td><td class="axe-cell">AX₆</td><td class="name-cell">Octaédrica</td><td class="angle-cell">90°, 180°</td><td>Azufre hexavalente con 6 enlaces</td></tr>
+      <tr><td><strong>BrF₅</strong></td><td class="axe-cell">AX₅E</td><td class="name-cell">Piramidal cuadrada</td><td class="angle-cell">~85°</td><td>Un par solitario en un vértice del octaedro</td></tr>
+      <tr><td><strong>XeF₄</strong></td><td class="axe-cell">AX₄E₂</td><td class="name-cell">Cuadrada plana</td><td class="angle-cell">90°</td><td>Dos pares solitarios trans, opuestos entre sí</td></tr>
+    </tbody>
+  </table>
+
+  <div class="sm-box">
+    <strong>Moléculas con hipervalencia.</strong> Los ejemplos con $n = 5$ y $n = 6$ (PCl₅, SF₆, XeF₄, BrF₅) involucran elementos del tercer período o posteriores (P, S, Br, Xe), que pueden acomodar más de 8 electrones en su capa de valencia. El C, N y O (segundo período) no forman este tipo de compuestos porque no tienen orbitales $d$ disponibles (o, más precisamente, porque su energía es demasiado alta). VSEPR, en su versión moderna, no necesita orbitales $d$: los pares solitarios y los enlaces son los que definen la geometría, independientemente de la configuración electrónica formal.
+  </div>
+
+  <!-- ============================================ -->
+  <h2 id="s8">8. Limitaciones y refinamientos</h2>
+
+  <p>La VSEPR es una herramienta poderosa pero no infalible. Su éxito se debe a que captura la esencia del problema (repulsión de pares), pero no es una teoría cuántica rigurosa. Algunas limitaciones y refinamientos:</p>
+
+  <h3>8.1 Electronegatividad de los ligandos</h3>
+
+  <p>Cuando los ligandos son muy electronegativos, atraen hacia sí los electrones del enlace, reduciendo la densidad electrónica cerca del átomo central. Eso hace que el par enlazante "abulta" menos y comprima menos los ángulos. Por ejemplo, el ángulo F–O–F en OF₂ es de ~103°, mientras que el H–O–H en H₂O es de 104.5°. La diferencia (1.5°) se debe a que el F es más electronegativo que el H: los pares enlazantes del OF₂ están más cerca del F y ocupan menos espacio angular cerca del O.</p>
+
+  <p>Regla general: <strong>a mayor electronegatividad del ligando, menor compresión del ángulo</strong> (el ligando "tira" del par enlazante hacia sí).</p>
+
+  <h3>8.2 Moléculas con pares solitarios estéricamente inactivos</h3>
+
+  <p>En algunos casos, los pares solitarios no comprimen los ángulos de manera significativa. Por ejemplo, en XeF₂ (AX₂E₃), los tres pares solitarios están en posiciones ecuatoriales, y los dos enlaces en posiciones axiales: el ángulo F–Xe–F es exactamente 180°, sin compresión. Esto se debe a que los pares solitarios ecuatoriales no están en el mismo plano que los enlaces axiales.</p>
+
+  <h3>8.3 Moléculas con resonancia</h3>
+
+  <p>En moléculas con resonancia, como el ozono (O₃), el ángulo real (~117°) no coincide exactamente con la predicción simple de VSEPR (~120° para AX₂E). La resonancia distribuye la densidad electrónica de manera no trivial, y la VSEPR no siempre captura ese detalle. Sin embargo, la geometría cualitativa (angular) sí se predice correctamente.</p>
+
+  <h3>8.4 Metales de transición y complejos</h3>
+
+  <p>La VSEPR funciona mejor para moléculas de elementos de los grupos principales (s y p). Para complejos de metales de transición, la teoría del campo cristalino y la teoría de orbitales moleculares son más adecuadas. Por ejemplo, la geometría cuadrada plana del [PtCl₄]²⁻ no se predice bien con VSEPR (que daría tetraédrica), sino que se explica por la configuración electrónica del Pt(II) ($d^8$).</p>
+
+  <div class="warn-box">
+    <strong>Cuándo NO usar VSEPR.</strong>
+    <ul style="margin: 6px 0 0 0;">
+      <li>Complejos de metales de transición (usar teoría de campo cristalino o de orbitales moleculares).</li>
+      <li>Moléculas con enlaces metálicos (cluster, etc.).</li>
+      <li>Moléculas muy grandes o con fuertes efectos estéricos entre ligandos voluminosos (VSEPR no considera el tamaño de los ligandos).</li>
+      <li>Casos donde la resonancia o los efectos electrónicos finos dominan (aunque la geometría cualitativa suele acertar).</li>
+    </ul>
+  </div>
+
+  <div class="sm-box">
+    <strong>¿Por qué sigue siendo útil?</strong> A pesar de sus limitaciones, la VSEPR es la herramienta más rápida y sencilla para predecir geometrías moleculares. No requiere cálculo numérico, solo contar dominios y aplicar la tabla. Para la gran mayoría de moléculas de los grupos principales (que son la mayoría de las que se ven en química orgánica e inorgánica básica), acierta. Es una excelente primera aproximación, y a menudo la única necesaria.
+  </div>
+
+  <!-- ============================================ -->
+  <h2 id="s9">9. Ejercicios para pensar</h2>
+
+  <div class="exercise-box">
+    <h4>Ejercicio 1 — Predecir geometrías</h4>
+    <p>Para cada molécula, determiná el número estérico, la notación AXE, la geometría molecular y el ángulo aproximado: (a) SiH₄, (b) PH₃, (c) H₂S, (d) CS₂, (e) BCl₃.</p>
+    <div class="hint"><strong>Pista:</strong> contá los enlaces (cada enlace, simple o múltiple, es un dominio) y los pares solitarios del átomo central.</div>
+    <button class="solution-toggle" onclick="toggleSolution(this)">Mostrar solución</button>
+    <div class="solution-content">
+      <ul>
+        <li><strong>(a) SiH₄:</strong> Si forma 4 enlaces con H, sin pares solitarios. $n = 4$, AX₄. <strong>Tetraédrica, 109.5°</strong>.</li>
+        <li><strong>(b) PH₃:</strong> P forma 3 enlaces con H y tiene 1 par solitario (config. $3s^2 3p^3$: 5 electrones de valencia, 3 en enlaces + 2 en un par solitario). $n = 4$, AX₃E. <strong>Piramidal trigonal, ~93°</strong> (el ángulo real es menor que el de NH₃ porque el P es más grande y el par solitario está más difuso).</li>
+        <li><strong>(c) H₂S:</strong> S forma 2 enlaces y tiene 2 pares solitarios. $n = 4$, AX₂E₂. <strong>Angular, ~92°</strong> (menor que H₂O por la misma razón: S es más grande, el par solitario está más difuso).</li>
+        <li><strong>(d) CS₂:</strong> C forma 2 enlaces dobles con S, sin pares solitarios. $n = 2$, AX₂. <strong>Lineal, 180°</strong>.</li>
+        <li><strong>(e) BCl₃:</strong> B forma 3 enlaces con Cl, sin pares solitarios (el B tiene solo 3 electrones de valencia). $n = 3$, AX₃. <strong>Trigonal plana, 120°</strong>.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="exercise-box">
+    <h4>Ejercicio 2 — ¿Por qué el agua es angular y el CO₂ lineal?</h4>
+    <p>Ambas moléculas tienen tres átomos. Sin embargo, H₂O es angular (104.5°) y CO₂ es lineal (180°). Explicá la diferencia usando VSEPR.</p>
+    <div class="hint"><strong>Pista:</strong> contá los dominios alrededor del átomo central en cada caso. ¿Cuántos son enlaces y cuántos pares solitarios?</div>
+    <button class="solution-toggle" onclick="toggleSolution(this)">Mostrar solución</button>
+    <div class="solution-content">
+      <p>En el <strong>CO₂</strong>, el carbono forma dos enlaces dobles con los oxígenos y no tiene pares solitarios. $n = 2$, AX₂. La geometría de dos dominios es lineal, y como ambos son enlaces, la molécula es lineal (180°).</p>
+      <p>En el <strong>H₂O</strong>, el oxígeno forma dos enlaces con los hidrógenos y tiene dos pares solitarios. $n = 4$, AX₂E₂. La geometría de los dominios es tetraédrica, pero solo dos de los cuatro dominios son enlaces. La geometría molecular (la que forman los átomos) es angular, con un ángulo comprimido por los pares solitarios (~104.5°).</p>
+      <p>La diferencia clave es que el O tiene dos pares solitarios y el C no tiene ninguno. El número estérico es distinto (4 vs 2), y eso cambia la geometría de los dominios y, por lo tanto, la molecular.</p>
+    </div>
+  </div>
+
+  <div class="exercise-box">
+    <h4>Ejercicio 3 — Un enlace triple</h4>
+    <p>La molécula de HCN tiene un enlace simple (H–C) y un enlace triple (C≡N). ¿Cuántos dominios hay alrededor del carbono? ¿Cuál es la geometría molecular y el ángulo H–C–N?</p>
+    <div class="hint"><strong>Pista:</strong> recordá que un enlace triple cuenta como <em>un solo</em> dominio.</div>
+    <button class="solution-toggle" onclick="toggleSolution(this)">Mostrar solución</button>
+    <div class="solution-content">
+      <p>El carbono forma dos enlaces: uno simple con H y uno triple con N. Cada uno cuenta como un dominio. No hay pares solitarios. $n = 2$, AX₂. La geometría es <strong>lineal</strong>, con ángulo H–C–N = <strong>180°</strong>.</p>
+      <p>Aunque el enlace triple tiene más electrones, todos están concentrados en la misma región del espacio (a lo largo del eje C–N), así que cuentan como un solo dominio.</p>
+    </div>
+  </div>
+
+  <div class="exercise-box">
+    <h4>Ejercicio 4 — La geometría del XeF₄</h4>
+    <p>El XeF₄ es una molécula de xenón con cuatro enlaces Xe–F. ¿Por qué es cuadrada plana y no tetraédrica? ¿Cuántos pares solitarios tiene el xenón?</p>
+    <div class="hint"><strong>Pista:</strong> el Xe tiene 8 electrones de valencia. Cuatro forman enlaces con F; ¿qué pasa con los otros cuatro?</div>
+    <button class="solution-toggle" onclick="toggleSolution(this)">Mostrar solución</button>
+    <div class="solution-content">
+      <p>El Xe tiene 8 electrones de valencia. Cuatro se usan en los cuatro enlaces con F. Los otros cuatro forman <strong>dos pares solitarios</strong>. $n = 4 + 2 = 6$. La geometría de los dominios es octaédrica.</p>
+      <p>Los dos pares solitarios se ubican en posiciones <strong>opuestas</strong> (trans) del octaedro, donde se repelen menos. Los cuatro enlaces ocupan el plano ecuatorial, formando un cuadrado. Resultado: <strong>geometría cuadrada plana</strong>.</p>
+      <p>Esta es la misma geometría que el [PtCl₄]²⁻, pero en ese caso la razón es distinta: el Pt(II) tiene configuración $d^8$ y la teoría del campo cristalino explica la planaridad cuadrada. VSEPR no lo predice bien porque el Pt es un metal de transición.</p>
+    </div>
+  </div>
+
+  <div class="exercise-box">
+    <h4>Ejercicio 5 — Comparación de ángulos</h4>
+    <p>Ordená de menor a mayor los ángulos de enlace de H₂O (104.5°), NH₃ (107°), CH₄ (109.5°) y OF₂ (~103°). Explicá el orden usando VSEPR y la electronegatividad.</p>
+    <div class="hint"><strong>Pista:</strong> los pares solitarios comprimen; los ligandos electronegativos también reducen la compresión.</div>
+    <button class="solution-toggle" onclick="toggleSolution(this)">Mostrar solución</button>
+    <div class="solution-content">
+      <p>Orden: <strong>OF₂ (~103°) < H₂O (104.5°) < NH₃ (107°) < CH₄ (109.5°)</strong>.</p>
+      <ul>
+        <li><strong>CH₄</strong> no tiene pares solitarios: el ángulo es el ideal tetraédrico (109.5°).</li>
+        <li><strong>NH₃</strong> tiene un par solitario: comprime el ángulo a ~107°.</li>
+        <li><strong>H₂O</strong> tiene dos pares solitarios: comprime más, a ~104.5°.</li>
+        <li><strong>OF₂</strong> tiene dos pares solitarios como H₂O, pero el F es más electronegativo que el H. Atrae más los electrones del enlace, reduciendo la densidad electrónica cerca del O y, por lo tanto, la repulsión entre los pares enlazantes. El ángulo baja ligeramente a ~103°.</li>
+      </ul>
+      <p>La diferencia H₂O vs OF₂ (~1.5°) es un efecto secundario de electronegatividad, pero está bien documentado experimentalmente.</p>
+    </div>
+  </div>
+
+  <div class="exercise-box">
+    <h4>Ejercicio 6 — Molécula con dos enlaces y un par solitario</h4>
+    <p>La molécula de SO₂ tiene dos enlaces (que pueden considerarse uno doble y uno simple por resonancia) y un par solitario en el azufre. ¿Cuál es su geometría molecular? ¿Por qué el ángulo S–O–S es ~119° y no 120°?</p>
+    <div class="hint"><strong>Pista:</strong> $n = 3$, AX₂E. La geometría de los dominios es trigonal plana, pero solo dos son enlaces.</div>
+    <button class="solution-toggle" onclick="toggleSolution(this)">Mostrar solución</button>
+    <div class="solution-content">
+      <p>$n = 2 + 1 = 3$. La notación es AX₂E. La geometría de los dominios es trigonal plana (120°), pero como uno de los tres dominios es un par solitario, la geometría molecular (la que forman los dos O y el S) es <strong>angular</strong>.</p>
+      <p>El par solitario comprime el ángulo de 120° a ~119°. La compresión es pequeña porque el azufre es grande y el par solitario está más difuso. En el O₃ (ozono), que también es AX₂E, el ángulo es ~117°, ligeramente más comprimido porque el oxígeno central es más pequeño.</p>
+    </div>
+  </div>
+
+  <div class="exercise-box">
+    <h4>Ejercicio 7 — Del átomo central al número estérico</h4>
+    <p>La molécula de PCl₅ tiene fósforo como átomo central y 5 enlaces P–Cl. ¿Cuántos electrones de valencia tiene el fósforo? ¿Todos forman enlaces? ¿Cuál es la geometría?</p>
+    <div class="hint"><strong>Pista:</strong> el P está en el grupo 15, con configuración $3s^2 3p^3$ (5 electrones de valencia).</div>
+    <button class="solution-toggle" onclick="toggleSolution(this)">Mostrar solución</button>
+    <div class="solution-content">
+      <p>El fósforo tiene 5 electrones de valencia. En el PCl₅, los 5 forman enlaces con los 5 cloros. No hay pares solitarios. $n = 5$, AX₅.</p>
+      <p>La geometría de los dominios es <strong>bipiramidal trigonal</strong>. Tres cloros están en el plano ecuatorial (ángulos de 120° entre sí) y dos en posiciones axiales (perpendiculares al plano, 180° entre ellos, 90° con los ecuatoriales). Es la única geometría de VSEPR donde los ligandos no son todos equivalentes.</p>
+      <p>Esta hipervalencia es posible porque el P está en el tercer período y puede acomodar más de 8 electrones en su capa de valencia.</p>
+    </div>
+  </div>
+
+  <div class="exercise-box">
+    <h4>Ejercicio 8 — El caso del XeF₂</h4>
+    <p>El XeF₂ es lineal (180°), aunque el xenón tiene 3 pares solitarios. ¿Por qué los pares solitarios no comprimen el ángulo?</p>
+    <div class="hint"><strong>Pista:</strong> pensá en la geometría de los dominios (bipiramidal trigonal). ¿Dónde se ubican los pares solitarios para minimizar la repulsión?</div>
+    <button class="solution-toggle" onclick="toggleSolution(this)">Mostrar solución</button>
+    <div class="solution-content">
+      <p>El Xe tiene 8 electrones de valencia. Dos forman enlaces con F, y los otros seis forman <strong>tres pares solitarios</strong>. $n = 2 + 3 = 5$. La geometría de los dominios es bipiramidal trigonal.</p>
+      <p>Los tres pares solitarios se ubican en el plano <strong>ecuatorial</strong>, donde están a 120° entre sí, minimizando la repulsión LP–LP. Los dos enlaces ocupan las posiciones <strong>axiales</strong>, que quedan a 90° de cada par solitario pero a 180° entre sí.</p>
+      <p>Como los enlaces están en el eje axial y los pares solitarios en el ecuatorial, no hay compresión del ángulo F–Xe–F: el ángulo sigue siendo 180°. La molécula es lineal.</p>
+    </div>
+  </div>
+
+  <!-- ============================================ -->
+  <h2 id="s10">10. Cierre</h2>
+
+  <p>La teoría VSEPR es una de esas ideas simples que funcionan sorprendentemente bien. No requiere resolver la ecuación de Schrödinger ni conocer los orbitales moleculares: basta con contar dominios de electrones y aplicar una tabla de geometrías. Y acierta en la gran mayoría de los casos.</p>
+
+  <p>Los tres conceptos clave que hay que llevarse:</p>
+
+  <ol>
+    <li><strong>Los dominios de electrones se repelen.</strong> Cada enlace (simple, doble o triple) y cada par solitario cuentan como un dominio. La geometría molecular es la distribución espacial de esos dominios.</li>
+    <li><strong>La repulsión tiene un orden.</strong> LP–LP > LP–BP > BP–BP. Los pares solitarios comprimen los ángulos; los enlaces no.</li>
+    <li><strong>La geometría molecular no siempre coincide con la de los dominios.</strong> Cuando hay pares solitarios, la molécula "pierde" átomos y su forma cambia (de tetraédrica a piramidal, de tetraédrica a angular, de octaédrica a cuadrada plana, etc.).</li>
+  </ol>
+
+  <p>Con estas tres reglas, se pueden predecir las geometrías de la gran mayoría de las moléculas de los grupos principales. La tabla de la sección 4 resume todo. Y la Figura 1 permite visualizarlo en 3D.</p>
+
+  <p>Como cualquier modelo, la VSEPR tiene límites (sección 8): falla en complejos de metales de transición, en moléculas con fuerte resonancia o en casos donde los efectos electrónicos finos dominan. Pero para lo que fue diseñada —predecir la forma de moléculas de los grupos principales— es insuperable en simplicidad y efectividad.</p>
+
+  <div class="sm-box">
+    <strong>Una conexión con el resto del curso.</strong> La VSEPR es el paso previo a la teoría de orbitales moleculares (TOM). La VSEPR predice la <em>geometría</em> (dónde están los átomos), pero no explica <em>por qué</em> los electrones se distribuyen así. Para eso hace falta la TOM, que describe los enlaces como combinaciones lineales de orbitales atómicos. La VSEPR es la "forma"; la TOM es el "porqué". Juntas dan una imagen completa.
+  </div>
+
+</div>
+
+<script>
+// ============================================================
+// UTILIDADES
+// ============================================================
+function toggleSolution(btn) {
+  const content = btn.nextElementSibling;
+  content.classList.toggle('open');
+  btn.innerText = content.classList.contains('open') ? 'Ocultar solución' : 'Mostrar solución';
+  if (window.MathJax && window.MathJax.Hub) {
+    window.MathJax.Hub.Queue(["Typeset", window.MathJax.Hub, content]);
+  }
+}
+window.toggleSolution = toggleSolution;
+
+// ============================================================
+// DATOS VSEPR
+// ============================================================
+const VSEPR = {
+  '2-0': {
+    name: 'Lineal',
+    axe: 'AX₂',
+    ideal: '180°',
+    realNote: '—',
+    bonds: [[1,0,0],[-1,0,0]],
+    lone: [],
+    example: 'CO₂, BeCl₂, HCN, HgCl₂'
+  },
+  '3-0': {
+    name: 'Trigonal plana',
+    axe: 'AX₃',
+    ideal: '120°',
+    realNote: '—',
+    bonds: [[1,0,0],[-0.5,0.866,0],[-0.5,-0.866,0]],
+    lone: [],
+    example: 'BF₃, SO₃, CO₃²⁻, NO₃⁻'
+  },
+  '3-1': {
+    name: 'Angular (codos)',
+    axe: 'AX₂E',
+    ideal: '120°',
+    realNote: '~119° (compresión leve)',
+    bonds: [[1,0,0],[-0.5,0.866,0]],
+    lone: [[-0.5,-0.866,0]],
+    example: 'SO₂, O₃, NO₂⁻'
+  },
+  '4-0': {
+    name: 'Tetraédrica',
+    axe: 'AX₄',
+    ideal: '109.5°',
+    realNote: '—',
+    bonds: [[0.577,0.577,0.577],[0.577,-0.577,-0.577],[-0.577,0.577,-0.577],[-0.577,-0.577,0.577]],
+    lone: [],
+    example: 'CH₄, NH₄⁺, SO₄²⁻, SiH₄'
+  },
+  '4-1': {
+    name: 'Piramidal trigonal',
+    axe: 'AX₃E',
+    ideal: '109.5°',
+    realNote: '~107° (NH₃)',
+    bonds: [[0.577,0.577,0.577],[-0.577,-0.577,0.577],[-0.577,0.577,-0.577]],
+    lone: [[0.577,-0.577,-0.577]],
+    example: 'NH₃, PCl₃, H₃O⁺, PH₃'
+  },
+  '4-2': {
+    name: 'Angular (codos)',
+    axe: 'AX₂E₂',
+    ideal: '109.5°',
+    realNote: '~104.5° (H₂O)',
+    bonds: [[0.577,0.577,0.577],[-0.577,-0.577,0.577]],
+    lone: [[0.577,-0.577,-0.577],[-0.577,0.577,-0.577]],
+    example: 'H₂O, H₂S, OF₂, SCl₂'
+  },
+  '5-0': {
+    name: 'Bipiramidal trigonal',
+    axe: 'AX₅',
+    ideal: '90°, 120°, 180°',
+    realNote: '—',
+    bonds: [[1,0,0],[-0.5,0.866,0],[-0.5,-0.866,0],[0,0,1],[0,0,-1]],
+    lone: [],
+    example: 'PCl₅, PF₅, AsF₅'
+  },
+  '5-1': {
+    name: 'Balancín (seesaw)',
+    axe: 'AX₄E',
+    ideal: '90°, 120°, 180°',
+    realNote: '~87.8° axial-ec., ~101.6° ec-ec. (SF₄)',
+    bonds: [[1,0,0],[-0.5,0.866,0],[0,0,1],[0,0,-1]],
+    lone: [[-0.5,-0.866,0]],
+    example: 'SF₄, SeF₄, TeCl₄'
+  },
+  '5-2': {
+    name: 'Forma de T',
+    axe: 'AX₃E₂',
+    ideal: '90°',
+    realNote: '~87.5° (ClF₃)',
+    bonds: [[1,0,0],[0,0,1],[0,0,-1]],
+    lone: [[-0.5,0.866,0],[-0.5,-0.866,0]],
+    example: 'ClF₃, BrF₃, ICl₃'
+  },
+  '5-3': {
+    name: 'Lineal',
+    axe: 'AX₂E₃',
+    ideal: '180°',
+    realNote: '—',
+    bonds: [[0,0,1],[0,0,-1]],
+    lone: [[1,0,0],[-0.5,0.866,0],[-0.5,-0.866,0]],
+    example: 'XeF₂, I₃⁻, ICl₂⁻, BrF₂⁻'
+  },
+  '6-0': {
+    name: 'Octaédrica',
+    axe: 'AX₆',
+    ideal: '90°, 180°',
+    realNote: '—',
+    bonds: [[1,0,0],[-1,0,0],[0,1,0],[0,-1,0],[0,0,1],[0,0,-1]],
+    lone: [],
+    example: 'SF₆, PF₆⁻, SiF₆²⁻'
+  },
+  '6-1': {
+    name: 'Piramidal cuadrada',
+    axe: 'AX₅E',
+    ideal: '90°, 180°',
+    realNote: '~84.8° (BrF₅)',
+    bonds: [[1,0,0],[-1,0,0],[0,1,0],[0,-1,0],[0,0,1]],
+    lone: [[0,0,-1]],
+    example: 'BrF₅, IF₅, XeOF₄'
+  },
+  '6-2': {
+    name: 'Cuadrada plana',
+    axe: 'AX₄E₂',
+    ideal: '90°',
+    realNote: '— (trans, sin compresión)',
+    bonds: [[1,0,0],[-1,0,0],[0,1,0],[0,-1,0]],
+    lone: [[0,0,1],[0,0,-1]],
+    example: 'XeF₄, [PtCl₄]²⁻, [AuCl₄]⁻'
+  }
+};
+
+// ============================================================
+// ESTADO
+// ============================================================
+let currentSteric = 4;
+let currentLone = 0;
+
+// ============================================================
+// FIGURA 1: EXPLORADOR 3D
+// ============================================================
+function drawVSEPRPlot(config) {
+  const traces = [];
+
+  // Átomo central
+  traces.push({
+    x: [0], y: [0], z: [0],
+    type: 'scatter3d',
+    mode: 'markers+text',
+    marker: {
+      size: 22,
+      color: '#2c3e50',
+      line: { color: 'white', width: 2 }
+    },
+    text: ['A'],
+    textfont: { size: 13, color: '#fff', family: 'Segoe UI, sans-serif' },
+    showlegend: false,
+    hoverinfo: 'skip'
+  });
+
+  // Líneas de enlace (A → X)
+  config.bonds.forEach(pos => {
+    traces.push({
+      x: [0, pos[0]], y: [0, pos[1]], z: [0, pos[2]],
+      type: 'scatter3d',
+      mode: 'lines',
+      line: { color: '#7f8c8d', width: 5 },
+      showlegend: false,
+      hoverinfo: 'skip'
+    });
+  });
+
+  // Átomos X
+  if (config.bonds.length > 0) {
+    traces.push({
+      x: config.bonds.map(p => p[0]),
+      y: config.bonds.map(p => p[1]),
+      z: config.bonds.map(p => p[2]),
+      type: 'scatter3d',
+      mode: 'markers+text',
+      marker: {
+        size: 16,
+        color: '#2980b9',
+        line: { color: 'white', width: 2 }
+      },
+      text: config.bonds.map((_, i) => 'X' + (i + 1)),
+      textfont: { size: 12, color: '#1a5276', family: 'Segoe UI, sans-serif' },
+      showlegend: false,
+      hoverinfo: 'skip'
+    });
+  }
+
+  // Líneas de par solitario (A → E)
+  config.lone.forEach(pos => {
+    traces.push({
+      x: [0, pos[0]], y: [0, pos[1]], z: [0, pos[2]],
+      type: 'scatter3d',
+      mode: 'lines',
+      line: { color: '#c0392b', width: 2, dash: 'dot' },
+      showlegend: false,
+      hoverinfo: 'skip'
+    });
+  });
+
+  // Pares solitarios E
+  if (config.lone.length > 0) {
+    traces.push({
+      x: config.lone.map(p => p[0]),
+      y: config.lone.map(p => p[1]),
+      z: config.lone.map(p => p[2]),
+      type: 'scatter3d',
+      mode: 'markers+text',
+      marker: {
+        size: 14,
+        color: 'rgba(192,57,43,0.75)',
+        line: { color: '#7b241c', width: 2 }
+      },
+      text: config.lone.map((_, i) => 'E' + (i + 1)),
+      textfont: { size: 12, color: '#7b241c', family: 'Segoe UI, sans-serif' },
+      showlegend: false,
+      hoverinfo: 'skip'
+    });
+  }
+
+  const layout = {
+    scene: {
+      xaxis: { range: [-1.5, 1.5], showgrid: false, zeroline: false, showticklabels: false, visible: false },
+      yaxis: { range: [-1.5, 1.5], showgrid: false, zeroline: false, showticklabels: false, visible: false },
+      zaxis: { range: [-1.5, 1.5], showgrid: false, zeroline: false, showticklabels: false, visible: false },
+      aspectmode: 'cube',
+      camera: { eye: { x: 1.6, y: 1.3, z: 1.0 } }
+    },
+    margin: { l: 0, r: 0, t: 10, b: 10 },
+    showlegend: false,
+    paper_bgcolor: 'rgba(0,0,0,0)',
+    plot_bgcolor: 'rgba(0,0,0,0)'
+  };
+
+  Plotly.react('plot_vsepr', traces, layout, { responsive: true, displayModeBar: false });
+}
+
+// ============================================================
+// PANEL DE INFORMACIÓN
+// ============================================================
+function updateInfoPanel(config) {
+  const html = `
+    <div class="info-row">
+      <span class="info-lbl">Notación:</span>
+      <span class="info-val axe">${config.axe}</span>
+    </div>
+    <div class="info-row">
+      <span class="info-lbl">Geometría molecular:</span>
+      <span class="info-val name">${config.name}</span>
+    </div>
+    <div class="info-row">
+      <span class="info-lbl">Ángulo ideal:</span>
+      <span class="info-val">${config.ideal}</span>
+    </div>
+    <div class="info-row">
+      <span class="info-lbl">Ángulo real:</span>
+      <span class="info-val" style="color: #c0392b;">${config.realNote}</span>
+    </div>
+    <div class="info-row">
+      <span class="info-lbl">Ejemplos:</span>
+      <span class="info-val" style="font-family: Georgia, serif; font-size: 0.95em;">${config.example}</span>
+    </div>
+  `;
+  document.getElementById('info_vsepr').innerHTML = html;
+}
+
+// ============================================================
+// ACTUALIZAR ESTADO Y BOTONES
+// ============================================================
+function updateAll() {
+  const maxLone = Math.max(0, currentSteric - 2);
+  if (currentLone > maxLone) currentLone = maxLone;
+
+  // Botones de steric
+  document.querySelectorAll('#steric-buttons button').forEach(b => {
+    b.classList.toggle('active', parseInt(b.dataset.steric) === currentSteric);
+  });
+
+  // Botones de lone
+  document.querySelectorAll('#lone-buttons button').forEach(b => {
+    const l = parseInt(b.dataset.lone);
+    b.disabled = l > maxLone;
+    b.classList.toggle('active', l === currentLone);
+  });
+
+  const key = `${currentSteric}-${currentLone}`;
+  const config = VSEPR[key];
+  if (!config) return;
+
+  drawVSEPRPlot(config);
+  updateInfoPanel(config);
+}
+
+// ============================================================
+// FIGURA 2: COMPRESIÓN DE ÁNGULOS
+// ============================================================
+function drawCompression() {
+  const molecules = ['CH₄<br><span style="font-size:0.85em;color:#888;">AX₄</span>',
+                     'NH₃<br><span style="font-size:0.85em;color:#888;">AX₃E</span>',
+                     'H₂O<br><span style="font-size:0.85em;color:#888;">AX₂E₂</span>'];
+  const realAngles = [109.5, 107.0, 104.5];
+  const colors = ['#2980b9', '#16a085', '#c0392b'];
+
+  const trace = {
+    x: realAngles,
+    y: molecules,
+    type: 'bar',
+    orientation: 'h',
+    marker: {
+      color: colors,
+      line: { color: 'rgba(0,0,0,0.15)', width: 1 }
+    },
+    text: realAngles.map(a => a.toFixed(1) + '°'),
+    textposition: 'outside',
+    textfont: { size: 13, color: '#333', family: 'Segoe UI', weight: 'bold' },
+    hovertemplate: '<b>%{y}</b><br>Ángulo: %{x:.1f}°<extra></extra>'
+  };
+
+  const shapes = [
+    {
+      type: 'line',
+      x0: 109.5, x1: 109.5,
+      y0: -0.5, y1: 2.5,
+      line: { color: '#888', width: 2, dash: 'dash' }
+    }
+  ];
+
+  const annotations = [
+    {
+      x: 109.5, y: 2.55,
+      text: 'ideal tetraédrico 109.5°',
+      showarrow: false,
+      xanchor: 'center',
+      font: { size: 11, color: '#666', family: 'Segoe UI', style: 'italic' }
+    },
+    {
+      x: 104.0, y: 2,
+      text: '−5.0°',
+      showarrow: true,
+      arrowhead: 2,
+      ax: 40, ay: 0,
+      font: { size: 11, color: '#c0392b', family: 'Segoe UI', weight: 'bold' }
+    },
+    {
+      x: 106.7, y: 1,
+      text: '−2.5°',
+      showarrow: true,
+      arrowhead: 2,
+      ax: 30, ay: 0,
+      font: { size: 11, color: '#16a085', family: 'Segoe UI', weight: 'bold' }
+    }
+  ];
+
+  Plotly.react('plot_compression', [trace], {
+    xaxis: {
+      title: 'Ángulo de enlace X–A–X (°)',
+      range: [90, 115],
+      zeroline: false,
+      gridcolor: '#eee',
+      fixedrange: true
+    },
+    yaxis: {
+      automargin: true,
+      tickfont: { size: 13, family: 'Segoe UI' },
+      fixedrange: true
+    },
+    margin: { l: 90, r: 40, t: 30, b: 55 },
+    shapes: shapes,
+    annotations: annotations,
+    showlegend: false,
+    plot_bgcolor: '#fafafa',
+    paper_bgcolor: 'rgba(0,0,0,0)'
+  }, { responsive: true, displayModeBar: false });
+}
+
+// ============================================================
+// EVENTOS E INICIALIZACIÓN
+// ============================================================
+function attachHandlers() {
+  document.querySelectorAll('#steric-buttons button').forEach(btn => {
+    btn.addEventListener('click', () => {
+      currentSteric = parseInt(btn.dataset.steric);
+      updateAll();
+    });
+  });
+
+  document.querySelectorAll('#lone-buttons button').forEach(btn => {
+    btn.addEventListener('click', () => {
+      if (btn.disabled) return;
+      currentLone = parseInt(btn.dataset.lone);
+      updateAll();
+    });
+  });
+
+  window.addEventListener('resize', () => {
+    if (typeof Plotly !== 'undefined') {
+      ['plot_vsepr', 'plot_compression'].forEach(id => {
+        try { Plotly.Plots.resize(id); } catch (e) {}
+      });
+    }
+  });
+}
+
+function initAll() {
+  if (typeof Plotly === 'undefined') {
+    setTimeout(initAll, 100);
+    return;
+  }
+  updateAll();
+  drawCompression();
+  attachHandlers();
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initAll);
+} else {
+  initAll();
+}
+</script>
+</body>
+</html>
