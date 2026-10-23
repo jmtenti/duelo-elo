@@ -4142,8 +4142,8 @@
     },
     {
       "id": 226,
-      "elo": 850,
       "tema": "Interacción radiación-materia",
+      "elo": 850,
       "q": "¿Por qué la ventaja de utilizar materiales de alto número atómico $Z$ (como el plomo, $Z=82$) frente a materiales de igual masa superficial de bajo $Z$ es enorme para blindar rayos X de baja energía ($< 100\\,\\text{keV}$) y para fotones de muy alta energía ($> 10\\,\\text{MeV}$), pero es mucho más modesta para fotones de energía intermedia ($0{,}5\\text{–}3\\,\\text{MeV}$, como el $^{60}\\text{Co}$)?",
       "opts": [
         "Porque entre $0{,}5$ y $3\\,\\text{MeV}$ el plomo se vuelve transparente debido a una resonancia nuclear dipolar gigante",
@@ -4151,11 +4151,15 @@
         "Porque la producción de pares domina por debajo de $100\\,\\text{keV}$ y es inversamente proporcional a $Z^2$",
         "Porque en ese rango domina el efecto Compton, cuyo coeficiente másico $\\mu_C/\\rho \\propto Z/A$ es casi independiente de $Z$"
       ],
-      "a": 3,
       "sol": "El coeficiente de atenuación másico $\\mu/\\rho = (N_A/A)\\sigma_{\\text{átomo}}$ depende de cómo escala la sección eficaz atómica con $Z$: en el fotoeléctrico $\\sigma_{\\tau} \\propto Z^{4\\text{–}5} \\implies \\tau/\\rho \\propto Z^{3\\text{–}4}$; en producción de pares $\\sigma_{\\kappa} \\propto Z^2 \\implies \\kappa/\\rho \\propto Z$. Pero en el efecto Compton (dominante en $0{,}5\\text{–}3\\,\\text{MeV}$) los electrones actúan como libres: $\\sigma_C \\propto Z \\implies \\sigma_C/\\rho \\propto Z/A \\approx \\text{cte}$ para todos los elementos (salvo el H, donde $Z/A=1$).",
+      "a": 3,
       "teoria": {
         "titulo": "Dependencia en Z y energía de los coeficientes de atenuación másicos",
         "texto": "Para comparar la capacidad atenuadora por gramo por centímetro cuadrado de distintos materiales independientemente de su densidad o estado físico, se utiliza el **coeficiente de atenuación másico** $\\mu/\\rho$ (medido en $\\text{cm}^2/\\text{g}$), que se relaciona con la sección eficaz por átomo $\\sigma_{\\text{at}}$ mediante $\\frac{\\mu}{\\rho} = \\frac{N_A}{A}\\,\\sigma_{\\text{at}}$:\n\n1. **Región de baja energía ($E < 100\\,\\text{keV}$, domina Efecto Fotoeléctrico $\\tau$)**:\n$$\\sigma_\\tau \\propto \\frac{Z^{4\\text{ a }5}}{E^3} \\implies \\frac{\\tau}{\\rho} \\propto \\frac{Z^{3\\text{ a }4}}{E^3}$$\nUn gramo de plomo absorbe cientos de veces más rayos X diagnósticos que un gramo de agua o aluminio.\n\n2. **Región de energía intermedia ($0{,}5\\,\\text{MeV} \\lesssim E \\lesssim 3\\,\\text{MeV}$, domina Efecto Compton $\\sigma_C$)**:\n$$\\sigma_C = Z\\,\\sigma_e \\implies \\frac{\\sigma_C}{\\rho} = \\frac{N_A Z}{A}\\,\\sigma_e$$\nComo $Z/A \\approx 0{,}4\\text{–}0{,}5$ para casi todos los elementos (excepto el hidrógeno, donde $Z/A = 1$), **gramo por gramo todos los materiales atenúan casi igual en la región Compton** (el plomo solo gana en espesor lineal por su alta densidad $\\rho = 11{,}35\\,\\text{g/cm}^3$).\n\n3. **Región de alta energía ($E > 5\\text{–}10\\,\\text{MeV}$, domina Producción de Pares $\\kappa$)**: $\\sigma_\\kappa \\propto Z^2 \\implies \\kappa/\\rho \\propto Z$."
+      },
+      "link": {
+        "url": "interactivos/blindajes-y-atenuacion.html",
+        "texto": "🔗 Abrir recurso"
       }
     },
     {
