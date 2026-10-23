@@ -1668,8 +1668,8 @@
     },
     {
       "id": 91,
-      "elo": 640,
       "tema": "Química cuántica",
+      "elo": 640,
       "q": "En la teoría de bandas, un material es un conductor eléctrico cuando:",
       "opts": [
         "La banda de conducción está completamente vacía",
@@ -1677,11 +1677,15 @@
         "El gap de energía es mayor que 3 eV",
         "La banda de valencia está llena y hay un gap grande"
       ],
-      "a": 1,
       "sol": "En la teoría de bandas, un material es conductor cuando la banda de valencia está parcialmente llena (como en los metales) o cuando se solapa con la banda de conducción, permitiendo que los electrones se muevan libremente. Si hay un gap grande ($> 3\\,$eV), el material es aislante; si el gap es pequeño ($\\sim 1\\,$eV), es semiconductor.",
+      "a": 1,
       "teoria": {
         "titulo": "Teoría de bandas",
         "texto": "La teoría de bandas describe la estructura electrónica de los sólidos, especialmente de los cristales. Surge de la combinación de la mecánica cuántica con la periodicidad de la red cristalina, y fue desarrollada en la década de 1930 por Bloch, Wilson y otros.\n\nCuando los átomos se agrupan para formar un sólido, sus orbitales atómicos se solapan y combinan, dando lugar a un número enorme de orbitales moleculares. Como hay $N$ átomos y cada uno contribuye con un orbital, el resultado son $N$ orbitales moleculares muy próximos en energía, que forman una banda continua.\n\nLa estructura de bandas de un sólido tiene tres elementos clave:\n\n1. Banda de valencia: la banda de mayor energía que está ocupada por electrones a $T = 0$.\n\n2. Banda de conducción: la banda de menor energía que está vacía (o parcialmente ocupada) a $T = 0$.\n\n3. Gap de energía (band gap): la diferencia de energía entre el tope de la banda de valencia y el fondo de la banda de conducción.\n\nSegún el tamaño del gap y la ocupación de las bandas, los sólidos se clasifican en:\n\n- Conductores (metales): la banda de valencia está parcialmente llena o se solapa con la de conducción. Los electrones pueden moverse libremente y conducir electricidad.\n- Semiconductores: la banda de valencia está llena y la de conducción vacía, pero el gap es pequeño ($\\sim 1\\,$eV). A temperatura ambiente, algunos electrones se excitan a la banda de conducción, permitiendo la conducción.\n- Aislantes: la banda de valencia está llena y el gap es grande ($> 3\\,$eV). Casi no hay electrones en la banda de conducción, y la conductividad es muy baja.\n\nLa teoría de bandas explica muchas propiedades de los sólidos: la conductividad eléctrica y térmica, el color (los semiconductores con gap en el visible absorben ciertas frecuencias), el efecto Hall y las propiedades ópticas. También es la base de la electrónica moderna: transistores, diodos, celdas solares y LEDs se basan en las propiedades de las bandas de los semiconductores."
+      },
+      "link": {
+        "url": "interactivos/teoria-de-bandas.html",
+        "texto": "🔗 Abrir recurso"
       }
     },
     {
@@ -1794,8 +1798,8 @@
     },
     {
       "id": 98,
-      "elo": 682.5697703643976,
       "tema": "Química cuántica",
+      "elo": 682.5697703643976,
       "q": "El puente de hidrógeno es:",
       "opts": [
         "Atracción entre H unido a O, N o F y otro átomo electronegativo",
@@ -1803,11 +1807,15 @@
         "Enlace covalente entre dos átomos de hidrógeno",
         "Enlace metálico entre átomos de hidrógeno"
       ],
-      "a": 0,
       "sol": "El puente de hidrógeno es una interacción intermolecular relativamente fuerte (aunque más débil que un enlace covalente) entre un H unido a O, N o F y un par solitario de otro átomo electronegativo. Es responsable de las propiedades anómalas del agua (alto punto de ebullición, hielo menos denso que el líquido) y de la estructura del ADN.",
+      "a": 0,
       "teoria": {
         "titulo": "Puente de hidrógeno",
         "texto": "El puente de hidrógeno es una interacción atractiva relativamente fuerte entre un átomo de hidrógeno unido covalentemente a un átomo electronegativo (O, N, F) y un par de electrones solitario de otro átomo electronegativo cercano. Su energía típica es de 10-40 kJ/mol, mucho mayor que las fuerzas de Van der Waals (1-10 kJ/mol) pero menor que un enlace covalente (200-400 kJ/mol).\n\nEl ejemplo más conocido es el agua. En el agua líquida, cada molécula de H$_2$O puede formar hasta cuatro puentes de hidrógeno: dos como donante (a través de sus hidrógenos) y dos como aceptora (a través de sus pares libres del oxígeno). Esta red de puentes de hidrógeno es la responsable de las propiedades anómalas del agua:\n\n- Alto punto de ebullición (100 °C) comparado con moléculas similares (H$_2$S hierve a -60 °C).\n- Alto calor específico, que permite al agua regular la temperatura de los océanos y los organismos.\n- Alta tensión superficial.\n- Menor densidad del hielo que del agua líquida (el hielo flota), porque la red de puentes de hidrógeno en el hielo es más abierta que en el líquido.\n- Alto punto de fusión y de ebullición.\n\nEl puente de hidrógeno es fundamental en biología:\n\n- En el ADN, los puentes de hidrógeno entre las bases complementarias (A-T, G-C) mantienen unidas las dos hebras de la doble hélice y permiten la replicación y la transcripción.\n- En las proteínas, los puentes de hidrógeno estabilizan la estructura secundaria (hélices α, láminas β).\n- En el agua, la red de puentes de hidrógeno es esencial para la vida.\n\nTambién aparece en muchos compuestos orgánicos (alcoholes, ácidos carboxílicos, aminas) y en materiales como la celulosa y el nailon. Es una interacción clave en química, biología y ciencia de materiales."
+      },
+      "link": {
+        "url": "interactivos/enlaces-y-fuerzas.html",
+        "texto": "🔗 Abrir recurso"
       }
     },
     {
